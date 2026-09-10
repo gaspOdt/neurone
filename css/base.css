@@ -182,9 +182,15 @@ html.reduce-motion *::after {
    visible ; c'est le JavaScript qui, une fois chargé, prend la main pour
    animer les apparitions. */
 
-.reveal { opacity: 1; }
-html.js .reveal { opacity: 0; }
-html.js.reduce-motion .reveal { opacity: 1; }
+.temps, .defiler { opacity: 1; }
+html.js .temps, html.js .defiler { opacity: 0; }
+html.js.reduce-motion .temps { opacity: 1; }
+
+/* Le filet du mode réduit : la classe js est posée avant le premier rendu,
+   donc si js/main.js échoue au chargement, tout le contenu resterait
+   invisible. La balise <script> de index.html retire alors la classe js
+   elle-même, sur son événement error. La protection couvre ainsi les DEUX
+   cas, JavaScript désactivé et JavaScript cassé. */
 
 /* ==========================================================================
    Composants
@@ -195,41 +201,30 @@ html.js.reduce-motion .reveal { opacity: 1; }
    qui doit rester atteignable à tout moment (WCAG 2.2.2). */
 
 .barre {
+  /* Fixe, et pas simplement en haut du document. Deux raisons, et la première
+     est une exigence, pas un confort :
+
+     1. WCAG 2.2.2 et le critère 3.2.6 « Consistent Help » demandent que ce
+        réglage soit atteignable À TOUT MOMENT. En flux normal, la barre
+        sortait de l'écran dès le premier écran de défilement : il fallait
+        remonter tout en haut de la page pour couper les animations, ce qui
+        est exactement ce que ne peut pas faire quelqu'un que le mouvement
+        indispose.
+     2. Hors du flux, la scène collée de l'ouverture commence à zéro et
+        occupe l'écran exactement, au lieu d'être décalée de la hauteur de la
+        barre et de déborder d'autant sous le pli.
+
+     Le bouton garde son fond papier et son trait : il reste lisible quand du
+     texte défile dessous. */
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 20;
   display: flex;
   justify-content: flex-end;
   padding: var(--sp-2) var(--sp-3);
 }
 .barre button { font-size: var(--fs-caption); }
-
-/* --- Section 0, l'ouverture -------------------------------------------- */
-
-.ouverture {
-  min-height: 100svh;          /* svh : évite le saut dû à la barre d'URL mobile */
-  display: flex;
-  align-items: center;
-}
-@supports not (height: 100svh) {
-  .ouverture { min-height: 100vh; }   /* repli pour les navigateurs anciens */
-}
-
-.ouverture h1 { max-width: 18ch; }
-
-.figure { margin: var(--sp-5) 0 0; }
-.figure .schema { width: 100%; max-width: 40rem; }
-.figure figcaption { margin-top: var(--sp-3); max-width: var(--measure); }
-
-.defiler {
-  margin-top: var(--sp-5);
-  color: var(--ink-soft);
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-}
-.defiler::after {
-  content: '';
-  width: 1px; height: 2rem;
-  background: var(--ink-faint);
-}
 
 /* --- Titre de schéma ----------------------------------------------------
    Tout schéma porte un titre visible. Un dessin sans titre oblige le lecteur
@@ -245,24 +240,47 @@ html.js.reduce-motion .reveal { opacity: 1; }
   margin: 0 0 var(--sp-2);
 }
 
-/* --- L'ouverture : un temps par écran -----------------------------------
-   Chaque temps occupe presque toute la hauteur, donc il faut FAIRE DÉFILER
-   pour atteindre le suivant. C'est la condition pour que le défilement soit
-   le seul déclencheur : si deux temps tenaient ensemble à l'écran, ils
-   apparaîtraient ensemble, quel que soit le code. */
+/* --- L'ouverture : le texte s'empile dans une scène collée --------------
+   Le texte ne se remplace plus, il s'ajoute. Chaque temps arrive sous les
+   précédents, qui restent à l'écran, et le visiteur voit son paragraphe se
+   construire au défilement.
 
-.ouverture { padding-block: 0; }
+   LE POINT IMPORTANT, et c'est ce qui rend le tout gratuit pour un vieux
+   téléphone : les temps encore invisibles OCCUPENT DÉJÀ LEUR PLACE. Seule
+   leur opacité change. Rien ne pousse rien, aucune ligne ne se recalcule,
+   le texte déjà lu ne bouge pas d'un pixel quand le suivant arrive. On
+   n'anime que transform et opacity, comme l'exige la règle du projet. */
 
-.temps {
-  min-height: 90svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0;
+.ouverture {
+  padding-block: 0;
+  position: relative;
+
+  /* Cette hauteur n'est QUE de la distance de défilement : rien n'est
+     affiché ici. Tout ce qui se voit est dans .ouverture-scene, qui est
+     collée et ne bouge pas. Un écran par temps, plus un dernier écran pour
+     laisser le paragraphe complet sous les yeux avant de passer au neurone. */
+  height: 600svh;
 }
 @supports not (height: 100svh) {
-  .temps { min-height: 90vh; }
+  .ouverture { height: 600vh; }   /* repli pour les navigateurs anciens */
 }
+
+.ouverture-scene {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+}
+@supports not (height: 100svh) {
+  .ouverture-scene { height: 100vh; }
+}
+
+/* La colonne où le texte s'empile. */
+.pile > * { margin-bottom: var(--sp-4); }
+.pile > *:last-child { margin-bottom: 0; }
+
+.temps { margin-top: 0; }
 
 .ouverture h1.temps { max-width: 16ch; }
 
@@ -273,16 +291,25 @@ html.js.reduce-motion .reveal { opacity: 1; }
   letter-spacing: -0.02em;
 }
 
-.figure-courbe { align-items: flex-start; }
+.figure-courbe { margin-inline: 0; }
 .figure-courbe .courbe { width: 100%; max-width: 22rem; height: auto; }
-.figure-courbe figcaption { margin-top: var(--sp-3); max-width: var(--measure); }
+.figure-courbe figcaption { margin-top: var(--sp-2); max-width: var(--measure); }
 
+/* L'invite à défiler, en bas de la scène. Elle s'efface dès le premier
+   geste : elle a dit ce qu'elle avait à dire. */
 .defiler {
-  padding-bottom: var(--sp-5);
+  position: absolute;
+  left: 0; right: 0;
+  bottom: var(--sp-4);
+  margin: 0;
+  padding-inline: var(--sp-3);
   color: var(--ink-soft);
   display: flex;
   align-items: center;
   gap: var(--sp-2);
+}
+@media (min-width: 40em) {
+  .defiler { padding-inline: var(--sp-5); }
 }
 .defiler::after { content: ''; width: 1px; height: 2rem; background: var(--ink-faint); }
 

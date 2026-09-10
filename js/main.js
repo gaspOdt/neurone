@@ -18,8 +18,14 @@ initA11y();
 
 /* GSAP est chargé par des balises <script> classiques, donc disponible en
    variable globale. S'il manquait, rien ne casse : le site reste lisible,
-   simplement sans animation. */
-if (typeof gsap !== 'undefined') {
+   simplement sans animation.
+
+   Les DEUX noms sont vérifiés, et ce n'est pas de la prudence gratuite : si
+   gsap se chargeait mais pas son greffon, DrawSVGPlugin serait un identifiant
+   inconnu, cette ligne lèverait une ReferenceError, et le module s'arrêterait
+   là. Ni les apparitions ni le parcours ne seraient initialisés, alors que la
+   classe js est déjà posée : la page resterait vide. */
+if (typeof gsap !== 'undefined' && typeof DrawSVGPlugin !== 'undefined') {
   gsap.registerPlugin(DrawSVGPlugin);
 }
 

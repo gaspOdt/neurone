@@ -126,42 +126,71 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
 
 
 # ---------------------------------------------------------------------------
-# L'ouverture, en quatre temps
+# L'ouverture : le texte s'empile, il ne se remplace pas
 # ---------------------------------------------------------------------------
+# CHANGEMENT DE PRINCIPE, demande de l'utilisateur.
+#
+# Avant : chaque temps occupait presque tout l'écran, donc un seul était
+# visible à la fois et les précédents étaient sortis par le haut. On lisait
+# une suite de cartons, pas un texte.
+#
+# Maintenant : l'ouverture est une SCÈNE COLLÉE en haut de l'écran, dans
+# laquelle les temps s'ajoutent les uns sous les autres et RESTENT. Le
+# défilement ne déplace plus le texte, il en fait arriver un morceau de plus.
+# Le visiteur voit son paragraphe se construire.
+#
+# Ce que ça ne change pas, et qui reste la règle du projet :
+#   le défilement est le SEUL déclencheur, rien n'arrive après un délai ;
+#   remonter retire les temps dans l'ordre inverse ;
+#   sans JavaScript ou en mouvement réduit, tout est là d'emblée.
+#
+# La section est haute de plusieurs écrans, mais ce n'est QUE de la distance
+# de défilement : rien n'y est affiché. Tout ce qui se voit est dans la scène
+# collée, qui ne bouge pas.
 
 OUVERTURE = '''  <!-- ==================================================================
-       L'ouverture, en quatre temps.
-       Un seul temps apparaît par mouvement de défilement. Le site s'ouvre sur
-       un CONSTAT, pas sur un titre : le geste que le visiteur vient
+       L'ouverture. Le texte s'EMPILE dans une scène collée : chaque temps
+       s'ajoute aux précédents, qui restent visibles. Le site s'ouvre sur un
+       CONSTAT, pas sur un titre : le geste que le visiteur vient
        littéralement de faire. Aucun vocabulaire scientifique avant la
        question finale.
+
+       La hauteur de la section ne sert QU'À donner de la distance de
+       défilement. Rien n'y est affiché hors de la scène collée.
        =================================================================== -->
   <section class="section ouverture" id="ouverture">
-    <div class="wrap">
 
-      <h1 class="temps reveal">Tu viens d'appuyer sur cette page.</h1>
+    <div class="ouverture-scene">
+      <div class="wrap">
+        <div class="pile">
 
-      <p class="temps lead reveal">
-        Ton cerveau a commandé le mouvement de ton doigt.
-      </p>
+          <h1 class="temps" data-temps="1">Tu viens d'appuyer sur cette page.</h1>
 
-      <figure class="temps figure-courbe reveal">
-        {courbe}
-        <figcaption class="caption">
-          Voilà à quoi ressemble l'ordre qu'il a envoyé.
-          Une impulsion électrique, et une seule.
-        </figcaption>
-      </figure>
+          <p class="temps lead" data-temps="2">
+            Ton cerveau a commandé le mouvement de ton doigt.
+          </p>
 
-      <p class="temps lead reveal">
-        Ça a pris moins d'un centième de seconde.
-      </p>
+          <figure class="temps figure-courbe" data-temps="3">
+            {courbe}
+            <figcaption class="caption">
+              Voilà à quoi ressemble l'ordre qu'il a envoyé.
+              Une impulsion électrique, et une seule.
+            </figcaption>
+          </figure>
 
-      <p class="temps question reveal">Sais-tu comment&nbsp;?</p>
+          <p class="temps lead" data-temps="4">
+            Ça a pris moins d'un centième de seconde.
+          </p>
 
-      <p class="defiler caption reveal" aria-hidden="true">Continue à défiler</p>
+          <p class="temps question" data-temps="5">Sais-tu comment&nbsp;?</p>
+
+        </div>
+      </div>
+
+      <p class="defiler caption" aria-hidden="true">Continue à défiler</p>
 
     </div>
+
   </section>
 '''.replace('{courbe}', COURBE)
 
