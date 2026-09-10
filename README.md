@@ -123,11 +123,12 @@ information parce qu'il lisait trop lentement.
 
 ## Tester
 
-Le serveur doit tourner sur le port 8001, dans un autre terminal :
+Le serveur doit tourner, dans un autre terminal, sur le **même port 8000** que
+pour le développement :
 
 ```bash
-python3 -m http.server 8001        # python sur Windows
-python3 outils-test-navigateur.py  # python sur Windows
+python3 -m http.server 8000 --bind 127.0.0.1   # python sur Windows
+python3 outils-test-navigateur.py              # python sur Windows
 ```
 
 Lance un vrai Chrome, lui envoie de vrais mouvements de molette, et vérifie

@@ -241,10 +241,23 @@ de VRAIS événements de molette par le protocole DevTools. Les événements
 le doigt d'un visiteur. Plus rien n'échappe au test.
 
 ```bash
-python3 -m http.server 8001 &          # dans un terminal normal
-python3 outils-test-navigateur.py      # la batterie complète
-python3 outils-test-navigateur.py --montrer   # avec la fenêtre visible
+python3 -m http.server 8000 --bind 127.0.0.1 &   # dans un terminal normal
+python3 outils-test-navigateur.py                # la batterie complète
+python3 outils-test-navigateur.py --montrer      # avec la fenêtre visible
+python3 outils-test-navigateur.py --url=http://127.0.0.1:8123   # autre port
 ```
+
+**Un seul numéro de port dans tout le projet : 8000.** La batterie visait le
+8001 alors que le README et `launch.json` servaient le 8000, si bien que
+suivre la procédure documentée ne testait rien : Chrome chargeait une page
+d'erreur et les vérifications échouaient avec des détails illisibles, sans
+qu'aucun message ne parle de port.
+
+`--bind 127.0.0.1` n'est pas cosmétique non plus. Sans lui, le serveur écoute
+sur toutes les interfaces : le pare-feu de Windows ouvre alors une fenêtre
+modale au premier lancement, ce qui, le jour de la démonstration, se
+superpose au site devant le jury, et la pièce de candidature est exposée à
+tout le réseau local.
 
 **Aucune dépendance à installer** : le client WebSocket tient en une
 soixantaine de lignes de bibliothèque standard, ce qui respecte la règle du

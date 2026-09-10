@@ -21,9 +21,16 @@ de lignes de bibliothèque standard, ce qui respecte la règle du projet.
 
 USAGE
 -----
+Le serveur doit tourner, dans un autre terminal, sur le port 8000 :
+
+    python3 -m http.server 8000 --bind 127.0.0.1   # python sur Windows
+
+Puis :
+
     python3 outils-test-navigateur.py            # macOS et Linux
     python outils-test-navigateur.py             # Windows
     ... --montrer                                # avec la fenêtre visible
+    ... --url=http://127.0.0.1:8123              # si le port 8000 est pris
 
 Le chemin de Chrome est trouvé tout seul sur les trois systèmes. Pour imposer
 un autre navigateur, définir la variable d'environnement CHROME.
@@ -31,6 +38,34 @@ un autre navigateur, définir la variable d'environnement CHROME.
 
 import base64, json, os, shutil, socket, struct, subprocess, sys, tempfile, time
 import urllib.request
+
+# Windows : imposer l'UTF-8 sur la sortie.
+#
+# Dès que la sortie est redirigée vers un fichier, Python n'écrit plus dans la
+# console mais dans la page de codes locale, cp1252 en France. Les accents
+# partent alors en cp1252 dans un dépôt entièrement UTF-8, et surtout le
+# moindre caractère absent de cp1252, une flèche ou une coche, lève
+# UnicodeEncodeError et termine le processus avec le code 1.
+#
+# Or c'est précisément ce code de retour qui dit si la batterie a réussi : une
+# simple flèche ajoutée un jour dans un message ferait passer une exécution
+# parfaitement réussie pour un échec. errors="replace" garantit qu'un affichage
+# ne peut plus faire tomber l'outil. Sans aucun effet sur macOS et Linux.
+for _flux in (sys.stdout, sys.stderr):
+    if hasattr(_flux, "reconfigure"):
+        _flux.reconfigure(encoding="utf-8", errors="replace")
+
+# Un ouvreur HTTP qui ignore le proxy du système.
+#
+# urllib fabrique son proxy tout seul à partir des réglages du poste. Sur
+# Windows il les lit dans la base de registre, sans qu'aucune variable
+# d'environnement soit posée, et `urllib.request.proxy_bypass("127.0.0.1")`
+# répond False : la requête vers notre PROPRE Chrome partirait donc au proxy.
+# Avec un proxy déclaré (établissement, entreprise, client VPN), l'échec est
+# un `URLError getaddrinfo failed` sur le nom du proxy, et l'outil affiche
+# « Chrome n'a pas répondu sur le port », ce qui envoie chercher le problème
+# au mauvais endroit pendant une heure. Un dictionnaire vide coupe court.
+OUVREUR = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
 
 # ---------------------------------------------------------------------------
@@ -245,7 +280,7 @@ class Navigateur:
         derniere = None
         while time.time() < fin:
             try:
-                brut = urllib.request.urlopen(
+                brut = OUVREUR.open(
                     "http://127.0.0.1:%d/json/list" % self.port, timeout=2).read()
                 cibles = json.loads(brut)
                 pages = [c for c in cibles if c.get("type") == "page"]
@@ -343,10 +378,19 @@ class Navigateur:
         except Exception: pass
         try: self.proc.terminate(); self.proc.wait(timeout=5)
         except Exception: pass
-        # Le profil temporaire pèse plusieurs mégaoctets. Il n'était jamais
-        # supprimé : chaque exécution en laissait un dans le dossier temporaire
-        # du système, sur macOS comme sur Windows.
-        shutil.rmtree(self.profil, ignore_errors=True)
+        # Le profil temporaire pèse plusieurs mégaoctets, et il n'était jamais
+        # supprimé. Sur Windows, terminate() est TerminateProcess, une mise à
+        # mort immédiate : Chrome ne relâche pas ses fichiers proprement, et la
+        # suppression peut encore échouer une à deux secondes, le temps que les
+        # processus enfants lâchent leurs descripteurs. Un ignore_errors seul
+        # masquerait cet échec et le profil resterait là pour toujours, ce qui
+        # est exactement la fuite qu'on croyait avoir bouchée. On réessaie donc,
+        # au lieu d'abandonner en silence.
+        for _ in range(20):
+            shutil.rmtree(self.profil, ignore_errors=True)
+            if not os.path.exists(self.profil):
+                return
+            time.sleep(0.25)
 
 
 # ---------------------------------------------------------------------------
@@ -359,7 +403,14 @@ def opacites(nav):
         ".map(e=>Math.round(getComputedStyle(e).opacity*100))")
 
 
-def lancer(url="http://127.0.0.1:8001", montrer=False):
+def lancer(url="http://127.0.0.1:8000", montrer=False):
+    # 8000, et pas 8001 : c'est le port du README, de docs/04-ARCHITECTURE.md
+    # et de .claude/launch.json. La batterie visait le 8001, si bien que suivre
+    # la procédure documentée, lancer le serveur puis lancer les tests, ne
+    # testait rien du tout : Chrome chargeait une page d'erreur et les six
+    # vérifications échouaient avec des détails illisibles, sans que rien
+    # n'indique qu'il s'agissait d'un numéro de port. Un seul chiffre à
+    # retenir, le même sur les deux machines.
     nav = Navigateur(montrer=montrer)
     resultats = []
 
@@ -429,5 +480,13 @@ def lancer(url="http://127.0.0.1:8001", montrer=False):
 
 
 if __name__ == "__main__":
-    ok = lancer(montrer="--montrer" in sys.argv)
+    # --url= permet de viser un autre serveur sans toucher au code, par exemple
+    # si le port 8000 est déjà pris par un autre outil. Le défaut reste celui
+    # de launch.json et de la documentation : rien à retenir dans le cas normal.
+    adresse = "http://127.0.0.1:8000"
+    for argument in sys.argv[1:]:
+        if argument.startswith("--url="):
+            adresse = argument.split("=", 1)[1]
+
+    ok = lancer(url=adresse, montrer="--montrer" in sys.argv)
     sys.exit(0 if ok else 1)

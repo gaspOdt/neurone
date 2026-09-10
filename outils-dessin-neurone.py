@@ -7,7 +7,18 @@ l'écran pendant que le texte défile, la caméra se déplaçant sur chaque part
 Lancer :  python3 outils-dessin-neurone.py     (macOS, Linux)
           python outils-dessin-neurone.py      (Windows)
 """
-import io, os
+import io, os, sys
+
+# Windows : imposer l'UTF-8 sur la sortie.
+#
+# Dès que la sortie est redirigée vers un fichier, Python n'écrit plus dans la
+# console mais dans la page de codes locale, cp1252 en France. Le message de
+# fin partirait en cp1252 alors que tout le dépôt est en UTF-8, et un
+# caractère absent de cp1252 lèverait UnicodeEncodeError au lieu de régénérer
+# la page. Sans aucun effet sur macOS et Linux.
+for _flux in (sys.stdout, sys.stderr):
+    if hasattr(_flux, "reconfigure"):
+        _flux.reconfigure(encoding="utf-8", errors="replace")
 
 # Le dossier du dépôt, déduit de l'emplacement de CE fichier.
 #
@@ -275,17 +286,35 @@ RESTE = '''  <!-- Sections restantes, jours 3 à 5. Ordre imposé : rien n'appar
 
 # ---------------------------------------------------------------------------
 
-chemin = os.path.join(RACINE, "index.html")
-s = io.open(chemin, encoding="utf-8").read()
+def regenerer():
+    chemin = os.path.join(RACINE, "index.html")
+    with io.open(chemin, encoding="utf-8") as f:
+        s = f.read()
 
-debut = s.index('<main id="contenu">') + len('<main id="contenu">')
-fin = s.index('</main>')
-s = s[:debut] + "\n\n" + OUVERTURE + "\n" + PARCOURS + "\n" + RESTE + "\n" + s[fin:]
+    debut = s.index('<main id="contenu">') + len('<main id="contenu">')
+    fin = s.index('</main>')
+    s = s[:debut] + "\n\n" + OUVERTURE + "\n" + PARCOURS + "\n" + RESTE + "\n" + s[fin:]
 
-# newline="\n" est OBLIGATOIRE, ce n'est pas un détail de style.
-# Sans lui, Python traduit chaque saut de ligne en CRLF sur Windows. Le
-# fichier serait alors réécrit en entier, et le moindre passage de l'outil
-# produirait un diff de plusieurs centaines de lignes, illisible, sur une
-# machine et pas sur l'autre. Le dépôt reste en LF partout.
-io.open(chemin, "w", encoding="utf-8", newline="\n").write(s)
-print("index.html régénéré :", len(s.splitlines()), "lignes")
+    # newline="\n" est OBLIGATOIRE, ce n'est pas un détail de style.
+    # Sans lui, Python traduit chaque saut de ligne en CRLF sur Windows. Le
+    # fichier serait alors réécrit en entier, et le moindre passage de l'outil
+    # produirait un diff de plusieurs centaines de lignes, illisible, sur une
+    # machine et pas sur l'autre. Le dépôt reste en LF partout.
+    #
+    # `with`, et pas io.open(...).write(...) : sans lui, la fermeture est
+    # laissée au ramasse-miettes. Sur Windows le descripteur reste ouvert le
+    # temps qu'il passe, et rien ne garantit que l'écriture soit vidée sur le
+    # disque si le processus s'arrête entre temps. index.html est LE fichier
+    # du site : il ne doit jamais pouvoir rester à moitié écrit.
+    with io.open(chemin, "w", encoding="utf-8", newline="\n") as f:
+        f.write(s)
+
+    print("index.html régénéré :", len(s.splitlines()), "lignes")
+
+
+# Un garde-fou, pour que le simple fait d'IMPORTER ce module ne réécrive pas
+# index.html. Sans lui, tout le travail se faisait à l'import : un outil
+# d'analyse, un test, ou n'importe quel `import` de ce fichier réécrivait la
+# page du site sans que personne ne l'ait demandé.
+if __name__ == "__main__":
+    regenerer()
