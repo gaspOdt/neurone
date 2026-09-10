@@ -17,7 +17,7 @@
    honnête vis-à-vis d'un lecteur d'écran.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js';
+import { mouvementReduit } from './a11y.js?v=1200e850';
 
 const DUREE_SURBRILLANCE = 1800;   /* millisecondes */
 
@@ -127,39 +127,51 @@ export function initParcours() {
      collé. Le bloc qui s'y trouve commande la caméra. En remontant, le bloc
      précédent y revient et la caméra revient avec lui. */
 
-  const observateur = new IntersectionObserver((entrees) => {
-    entrees.forEach(e => { if (e.isIntersecting) allerA(e.target.dataset.vue); });
-  }, { rootMargin: '-48% 0px -22% 0px', threshold: 0 });
+  /* Bande étroite, sous le dessin collé, pour la même raison que dans
+     apparitions.js : deux blocs ne doivent jamais s'y trouver ensemble, sinon
+     la caméra sauterait toute seule d'une partie à l'autre.
 
-  blocs.forEach(b => observateur.observe(b));
+     Comme pour les apparitions, on n'utilise pas IntersectionObserver : ses
+     rappels ne partent pas quand la page n'est pas peinte, donc le
+     comportement serait invérifiable. Ici tout se recalcule à partir de la
+     position de défilement, au plus une fois par image. */
+  const HAUT = 0.62, BAS = 0.70;
 
-  /* Même précaution que pour les apparitions : l'état de départ est calculé
-     directement, sans dépendre d'un rappel asynchrone. Si le visiteur arrive
-     au milieu du parcours, par un rechargement ou une ancre, la caméra est
-     tout de suite au bon endroit. */
-  (function etatInitial() {
+  function blocCourant() {
     const h = window.innerHeight || 800;
-    const dedans = blocs.find(b => {
+    return blocs.find(b => {
       const r = b.getBoundingClientRect();
-      return r.bottom > h * 0.48 && r.top < h * 0.78;
+      return r.bottom > h * HAUT && r.top < h * BAS;
     });
-    if (dedans) allerA(dedans.dataset.vue);
-  })();
-
-  /* Le dessin se trace quand la figure entre à l'écran. */
-  const figure = document.querySelector('.parcours-figure');
-  if (figure) {
-    const visible = () => {
-      const r = figure.getBoundingClientRect();
-      return r.bottom > 0 && r.top < (window.innerHeight || 800);
-    };
-    if (visible()) dessiner();
-    else {
-      new IntersectionObserver((entrees, obs) => {
-        entrees.forEach(e => { if (e.isIntersecting) { dessiner(); obs.disconnect(); } });
-      }, { threshold: 0.1 }).observe(figure);
-    }
   }
+
+  function majParcours() {
+    const b = blocCourant();
+    if (b) allerA(b.dataset.vue);
+  }
+
+  majParcours();
+
+  /* Synchrone, pour la même raison que dans apparitions.js : requestAnimationFrame
+     ne part pas quand la page n'est pas peinte, ce qui rend le comportement
+     invérifiable et peut le figer. */
+  window.addEventListener('scroll', () => {
+    majParcours();
+    verifierDessin();
+  }, { passive: true });
+
+  /* Exposé pour les tests automatisés. */
+  window.__parcours = { majParcours, blocCourant, vueActuelle: () => cle };
+
+  /* Le dessin se trace quand la figure entre à l'écran, vérifié au défilement
+     comme le reste. */
+  const figure = document.querySelector('.parcours-figure');
+  function verifierDessin() {
+    if (dejaDessine || !figure) return;
+    const r = figure.getBoundingClientRect();
+    if (r.bottom > 0 && r.top < (window.innerHeight || 800)) dessiner();
+  }
+  verifierDessin();
 
   /* --- Les boutons ne font que déplacer le défilement ---------------------
      Ils ne changent pas l'état eux-mêmes. C'est ce qui garantit que ce qu'on
