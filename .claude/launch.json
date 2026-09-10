@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "neurone",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/private/tmp/claude-501/-Users-gaspard-Desktop-Work-BDS-Projet-site/3428994b-38bd-407e-ae07-6239c4c73248/scratchpad/serve.py", "8000"],
+      "port": 8000
+    }
+  ]
+}

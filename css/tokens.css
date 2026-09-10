@@ -1,0 +1,104 @@
+/* ==========================================================================
+   tokens.css — les valeurs de base du design
+   --------------------------------------------------------------------------
+   C'est le SEUL fichier à modifier pour changer l'apparence globale du site.
+   Aucune couleur ni aucune taille ne doit être écrite en dur ailleurs.
+   Voir docs/01-DIRECTION-ARTISTIQUE.md pour le raisonnement.
+   ========================================================================== */
+
+:root {
+
+  /* --- Le papier et l'encre -------------------------------------------- */
+
+  --paper:        #FFFFFF;   /* fond, décision de l'utilisateur : blanc pur   */
+  --ink:          #1A1A1A;   /* traits, texte           17.4:1 sur blanc  OK  */
+  --ink-soft:     #5A5A5A;   /* texte secondaire         7.0:1 sur blanc  OK  */
+  --ink-faint:    #C9C9C9;   /* filets, séparateurs — décoratif uniquement    */
+
+  /* --- La palette sémantique -------------------------------------------
+     Une couleur = un concept, tenue du début à la fin, jamais réattribuée.
+     Base Okabe-Ito, le standard scientifique du daltonisme.
+
+     ATTENTION — chaque concept a DEUX valeurs, et ce n'est pas un détail :
+       --c-X       la couleur graphique (aplats, traits épais, icônes)
+       --c-X-text  la variante assombrie, seule utilisable pour du TEXTE
+
+     Raison : sur fond blanc, trois des quatre couleurs Okabe-Ito n'atteignent
+     pas le rapport de 4.5:1 exigé pour du texte. Les ratios mesurés sont
+     indiqués ci-dessous. Ne jamais utiliser --c-X pour un mot lisible.
+     --------------------------------------------------------------------- */
+
+  /* L'impulsion et le sodium — ce qui déclenche.
+     Une seule couleur pour les deux : l'entrée de Na+ EST l'impulsion. */
+  --c-impulse:       #0072B2;   /* 5.1:1  OK même pour du texte               */
+  --c-impulse-text:  #0072B2;   /* identique, pas besoin d'assombrir          */
+
+  /* Le potassium — le retour au repos. */
+  --c-potassium:      #D55E00;  /* 3.9:1  graphiques seulement                */
+  --c-potassium-text: #A34700;  /* 6.0:1  OK pour du texte                    */
+
+  /* La myéline — ce qui accélère. Couleur suggérée par l'utilisateur. */
+  --c-myelin:      #009E73;     /* 3.4:1  graphiques seulement                */
+  --c-myelin-text: #007054;     /* 6.0:1  OK pour du texte                    */
+
+  /* Les neurotransmetteurs — ce qui franchit la synapse. */
+  --c-neuro:       #A64D79;     /* 5.2:1  assombri dès le graphique, car la
+                                   valeur Okabe-Ito d'origine (#CC79A7) tombe
+                                   à 3.0:1, trop juste même pour un trait     */
+  --c-neuro-text:  #A64D79;     /* identique                                  */
+
+  /* Retour visuel du quiz. Jamais seuls : toujours doublés d'un mot
+     et d'une icône, car « vert = bon, rouge = faux » est précisément le
+     couple que ne distinguent pas les daltonismes rouge-vert. */
+  --c-ok:    #007054;
+  --c-nope:  #A34700;
+
+  /* --- Typographie ------------------------------------------------------
+     Corps à 21px, repris de la référence infrastructures-terrestres.com.
+     C'est nettement au-dessus de l'usage courant, et c'est voulu :
+     ça se lit beaucoup mieux sur un téléphone. */
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+
+  --fs-body:    21px;
+  --fs-small:   17px;
+  --fs-caption: 15px;
+  --fs-h1: clamp(2.25rem, 9vw,   4.5rem);
+  --fs-h2: clamp(1.75rem, 6vw,   2.75rem);
+  --fs-h3: clamp(1.25rem, 3.5vw, 1.5rem);
+
+  --lh-body:  1.55;
+  --lh-tight: 1.1;
+
+  --measure: 34rem;   /* largeur de lecture confortable, ~62 caractères */
+
+  /* --- Espacements ------------------------------------------------------ */
+
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 1rem;
+  --sp-4: 1.5rem;
+  --sp-5: 2.5rem;
+  --sp-6: 4rem;
+  --sp-7: 6rem;
+
+  --stroke:      1.5px;  /* épaisseur de trait par défaut des schémas */
+  --stroke-bold: 3px;
+
+  /* --- Mouvement --------------------------------------------------------
+     Ces durées sont mises à 0.01ms par js/a11y.js quand le visiteur demande
+     moins d'animation, ou quand l'appareil est trop lent. Ne jamais écrire
+     une durée en dur dans une transition CSS : toujours passer par ces
+     variables, sinon le mode réduit ne les atteindra pas. */
+
+  --dur-fast: 200ms;
+  --dur-base: 450ms;
+  --dur-slow: 900ms;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- Divers ----------------------------------------------------------- */
+
+  --tap-min: 44px;   /* taille tactile minimale, exigence d'accessibilité */
+  --radius: 6px;
+}

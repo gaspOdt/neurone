@@ -19,16 +19,16 @@
 - [x] `docs/00-CONTEXTE.md` — brief initial mot pour mot + journal des décisions
 - [x] `README.md`
 - [x] `docs/05-JOURNAL.md` (ce fichier)
+- [x] Inter (48 Ko) et GSAP + ScrollTrigger + DrawSVG + MorphSVG (137 Ko) en local
+- [x] `css/tokens.css` — palette sémantique, contrastes mesurés et documentés
+- [x] `css/base.css` — typographie, mise en page, socle d'accessibilité
+- [x] `js/a11y.js` — mouvement réduit + détection d'appareil lent
+- [x] `js/main.js` — point d'entrée, animation de l'ouverture
+- [x] `index.html` — squelette + section 0 (la question d'ouverture)
+- [x] Vérifié dans le navigateur : Inter se charge, aucune erreur console
 
 ### En cours
 
-_(les lignes cochées ci-dessous sont passées dans « Fait » au fil de l eau)_
-
-- [x] Inter (48 Ko) et GSAP + ScrollTrigger + DrawSVG + MorphSVG (137 Ko) copiés en local
-- [ ] `css/tokens.css` — palette et échelles
-- [ ] `css/base.css` — typographie et mise en page
-- [ ] `js/a11y.js` — mouvement réduit + détection d'appareil lent
-- [ ] `index.html` — squelette
 - [ ] `docs/01-DIRECTION-ARTISTIQUE.md`
 - [ ] `docs/03-ACCESSIBILITE.md`
 - [ ] `docs/04-ARCHITECTURE.md`
@@ -37,13 +37,28 @@ _(les lignes cochées ci-dessous sont passées dans « Fait » au fil de l eau)_
 
 ### Bloqué / en attente de l'utilisateur
 
-- **Création du dépôt distant GitHub.** L'outil `gh` n'est pas installé sur la machine.
-  Deux options : l'installer via Homebrew, ou que l'utilisateur crée le dépôt à la main
-  sur github.com. Sa clé SSH existe déjà (`~/.ssh/id_ed25519.pub`).
+- **Création du dépôt distant GitHub.** `gh` n'est pas installé et GitHub ne
+  permet pas de créer un dépôt via SSH. L'authentification SSH fonctionne
+  (identité `gaspOdt`), donc le push marchera dès que le dépôt vide existera.
+  L'utilisateur doit le créer sur <https://github.com/new>, nom `neurone`,
+  **sans README ni .gitignore ni licence**.
+
+### Deux pièges rencontrés, à connaître pour la suite
+
+1. **Le lanceur de serveur du navigateur intégré n'a pas accès au Bureau**
+   (protection macOS). `python3 -m http.server` échoue avec `PermissionError`
+   sur `os.getcwd()`. Contournement : lancer le serveur depuis un terminal
+   normal, et pointer le navigateur dessus.
+2. **Le panneau navigateur masqué bride `requestAnimationFrame`**, donc les
+   animations GSAP avancent au ralenti et les captures d'écran paraissent
+   figées à mi-course. Ce n'est PAS un bug du site. Pour juger l'état final :
+   `gsap.globalTimeline.getChildren(true,true,true).forEach(t=>t.progress(1))`.
 
 ### Prochaine étape immédiate
 
-Récupérer les polices et GSAP en local, puis écrire le système de design.
+Pousser sur GitHub dès que le dépôt distant existe, activer GitHub Pages,
+puis rédiger les documents de direction artistique, d'accessibilité et
+d'architecture.
 
 ---
 
