@@ -1,0 +1,22 @@
+# Fins de ligne : LF partout, sur les deux systèmes.
+#
+# Le dépôt se développe à la fois sur macOS et sur Windows. Sans cette règle,
+# git livre les fichiers en CRLF sur Windows et en LF sur macOS. Le moindre
+# enregistrement produit alors un diff de fichier ENTIER, sur une machine et
+# pas sur l'autre, et les vraies modifications deviennent introuvables.
+#
+# eol=lf impose le LF dans le dépôt ET dans la copie de travail, quel que soit
+# le réglage core.autocrlf de la machine. C'est volontairement plus strict que
+# text=auto seul, qui laisserait la copie de travail à la main du poste.
+
+* text=auto eol=lf
+
+# Le binaire, auquel git ne doit jamais toucher.
+*.woff2 binary
+*.woff  binary
+*.ttf   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.ico   binary

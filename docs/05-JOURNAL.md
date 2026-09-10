@@ -8,9 +8,13 @@
 
 ## État actuel
 
-**Dernière mise à jour :** 10 septembre 2026, fin du jour 2.
+**Dernière mise à jour :** 10 septembre 2026, jour 3.
 
 **En ligne :** <https://gaspodt.github.io/neurone/>
+
+**Le projet se développe désormais sur deux machines**, un Mac et un PC
+Windows, et tourne à l'identique sur les deux. Voir la section « Deux machines »
+de [`04-ARCHITECTURE.md`](04-ARCHITECTURE.md).
 
 ### Ce qui existe
 
@@ -62,15 +66,21 @@ Il produit `09-AUDIT-SCIENTIFIQUE.md` et **ne corrige rien lui-même** : il
 signale, et les corrections sont décidées ensuite. Sa sortie doit distinguer
 clairement les erreurs à corriger des choix de vulgarisation assumés.
 
-### Deux limites de l'environnement de développement
+### Trois limites de l'environnement de développement
 
 1. **Le lanceur de serveur du navigateur intégré n'a pas accès au Bureau**
-   (protection macOS). Lancer le serveur depuis un terminal normal.
+   (protection macOS, sans objet sur Windows). Lancer le serveur depuis un
+   terminal normal.
 2. **Le panneau navigateur masqué ne peint pas la page, et `IntersectionObserver`
    n'y déclenche jamais ses rappels.** Les captures reviennent blanches et le
    comportement au défilement est invérifiable depuis ici. **Le test sur
-   téléphone réel est donc le seul contrôle valable pour tout ce qui dépend du
-   défilement.** Ce n'est pas un bug du site.
+   téléphone réel reste le seul contrôle vraiment valable.** Ce n'est pas un
+   bug du site.
+3. **Chrome en mode headless annonce de lui-même `prefers-reduced-motion:
+   reduce`.** Le site coupait donc le mouvement pendant les tests, et la
+   batterie l'accusait d'afficher tout d'un coup. Corrigé le jour 3 : l'outil
+   impose la préférence au lieu de la subir. Détail dans
+   [`04-ARCHITECTURE.md`](04-ARCHITECTURE.md).
 
 ### Prochaine étape
 
@@ -106,3 +116,43 @@ le canal fiable.**
 ### 10 septembre 2026 — Session 1 (suite) : jour 1 du sprint
 
 Démarrage de l'implémentation. Voir « État actuel » ci-dessus.
+
+### 10 septembre 2026 — Session 2 : jour 3, portage sur une deuxième machine
+
+Le travail reprend depuis un **PC Windows 11**, le dépôt venant d'y être cloné.
+Aucune ligne du site lui même n'a changé : il est en HTML, CSS et JavaScript,
+il n'a jamais rien eu de spécifique à un système. **C'est l'outillage qui ne
+tournait pas**, et il ne tournait donc plus qu'à moitié sur le Mac non plus.
+
+Quatre corrections, toutes valables des deux côtés :
+
+| Ce qui bloquait | Correction |
+|---|---|
+| `outils-dessin-neurone.py` contenait `RACINE = "/Users/gaspard/..."` | La racine se déduit de `__file__` |
+| `outils-test-navigateur.py` contenait le chemin du Chrome de macOS | `trouver_chrome()` balaie les trois systèmes, `CHROME` a le dernier mot |
+| `.claude/launch.json` pointait sur un dossier temporaire du Mac, disparu | `python3 -m http.server 8000` |
+| Les fins de ligne divergeaient entre les deux postes | `.gitattributes` fige le LF partout |
+
+**Deux bugs de l'outil de test découverts au passage, et c'est le vrai
+apport de la session.** Le premier faisait échouer un test sur un site qui
+avait raison, le second faisait passer un test qui ne mesurait rien :
+
+1. Chrome headless annonce `prefers-reduced-motion: reduce`. Le site coupait
+   donc le mouvement, et le contrôle « un seul temps visible au chargement »
+   échouait forcément. La préférence est maintenant imposée par
+   `Emulation.setEmulatedMedia`.
+2. Le contrôle « aucune erreur de console » lisait `window.__erreurs`, que
+   **rien ne remplissait**. Il était vert quoi qu'il arrive. Un collecteur est
+   désormais injecté avant le premier script de la page.
+
+Deux améliorations de robustesse : le port de débogage est demandé au système
+au lieu d'être figé à 9222, ce qui évitait de se connecter à un Chrome resté
+d'un essai précédent, et le profil temporaire de Chrome est enfin supprimé.
+
+**Résultat : 9 contrôles sur 9 au vert**, sous Windows, pour la première fois.
+
+Détail à noter pour qui reprend : le `.gitconfig` du PC contenait
+`gaspard.oudinotàgmail.com`, le `à` de la touche 0 d'un clavier AZERTY à la
+place du `@`. Les commits faits depuis ce poste n'auraient pas été rattachés
+au compte GitHub. L'identité est corrigée **au niveau du dépôt**, donc le
+`.gitconfig` global de la machine reste à corriger pour les autres projets.

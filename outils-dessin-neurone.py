@@ -4,11 +4,18 @@
 UN SEUL neurone pour tout le site. Il apparaît en vue large, puis reste à
 l'écran pendant que le texte défile, la caméra se déplaçant sur chaque partie.
 
-Lancer :  python3 outils-dessin-neurone.py
+Lancer :  python3 outils-dessin-neurone.py     (macOS, Linux)
+          python outils-dessin-neurone.py      (Windows)
 """
-import io
+import io, os
 
-RACINE = "/Users/gaspard/Desktop/Work/BDS/Projet site"
+# Le dossier du dépôt, déduit de l'emplacement de CE fichier.
+#
+# Surtout pas un chemin absolu écrit en dur : le projet se développe à la fois
+# sur macOS et sur Windows, et un chemin en dur ne survit pas au changement de
+# machine. Déduit ainsi, l'outil fonctionne depuis n'importe quel dossier
+# courant, sur n'importe quel système.
+RACINE = os.path.dirname(os.path.abspath(__file__))
 
 
 # ---------------------------------------------------------------------------
@@ -268,12 +275,17 @@ RESTE = '''  <!-- Sections restantes, jours 3 à 5. Ordre imposé : rien n'appar
 
 # ---------------------------------------------------------------------------
 
-chemin = RACINE + "/index.html"
+chemin = os.path.join(RACINE, "index.html")
 s = io.open(chemin, encoding="utf-8").read()
 
 debut = s.index('<main id="contenu">') + len('<main id="contenu">')
 fin = s.index('</main>')
 s = s[:debut] + "\n\n" + OUVERTURE + "\n" + PARCOURS + "\n" + RESTE + "\n" + s[fin:]
 
-io.open(chemin, "w", encoding="utf-8").write(s)
+# newline="\n" est OBLIGATOIRE, ce n'est pas un détail de style.
+# Sans lui, Python traduit chaque saut de ligne en CRLF sur Windows. Le
+# fichier serait alors réécrit en entier, et le moindre passage de l'outil
+# produirait un diff de plusieurs centaines de lignes, illisible, sur une
+# machine et pas sur l'autre. Le dépôt reste en LF partout.
+io.open(chemin, "w", encoding="utf-8", newline="\n").write(s)
 print("index.html régénéré :", len(s.splitlines()), "lignes")

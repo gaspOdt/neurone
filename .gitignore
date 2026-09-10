@@ -2,3 +2,7 @@
 *.log
 .vscode/
 .idea/
+
+# Python, quand les outils du dépôt sont lancés
+__pycache__/
+*.pyc

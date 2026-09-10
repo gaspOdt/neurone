@@ -19,16 +19,27 @@ scientifiques, le quiz, et les deux audits de fin de projet.
 
 ## Démarrer en 30 secondes
 
-Aucune installation. Python 3 suffit — il est déjà présent sur macOS.
+Aucune installation. Python 3 suffit, et il est déjà présent sur macOS.
 
 ```bash
 python3 -m http.server 8000
+```
+
+Sur Windows, la commande s'appelle `python` :
+
+```bash
+python -m http.server 8000
 ```
 
 Puis ouvrir <http://localhost:8000>.
 
 C'est tout. Pas de `npm install`, pas de build, pas de dépendances à mettre à jour.
 Ce que vous voyez dans les fichiers est exactement ce qui part en ligne.
+
+**Le projet se développe indifféremment sur macOS et sur Windows.** Rien n'est
+à configurer en changeant de machine : les outils trouvent seuls le dépôt et le
+navigateur, et `.gitattributes` garde les fins de ligne identiques des deux
+côtés. Le détail est dans [`docs/04-ARCHITECTURE.md`](docs/04-ARCHITECTURE.md).
 
 ---
 
@@ -59,7 +70,7 @@ Il n'existe qu'un neurone dans tout le site, produit par
 `index.html`** : modifier le script, puis le relancer.
 
 ```bash
-python3 outils-dessin-neurone.py
+python3 outils-dessin-neurone.py    # python sur Windows
 ```
 
 ---
@@ -112,13 +123,19 @@ information parce qu'il lisait trop lentement.
 
 ## Tester
 
+Le serveur doit tourner sur le port 8001, dans un autre terminal :
+
 ```bash
-python3 outils-test-navigateur.py
+python3 -m http.server 8001        # python sur Windows
+python3 outils-test-navigateur.py  # python sur Windows
 ```
 
 Lance un vrai Chrome, lui envoie de vrais mouvements de molette, et vérifie
 que les apparitions suivent le défilement dans les deux sens. Aucune
 dépendance à installer. Ajouter `--montrer` pour voir la fenêtre.
+
+Chrome est trouvé tout seul sur macOS, Windows et Linux. Pour en imposer un
+autre, définir la variable d'environnement `CHROME`.
 
 ## Mettre en ligne
 

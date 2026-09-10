@@ -19,8 +19,63 @@ Quatre raisons, dans l'ordre d'importance :
 Développer :
 
 ```bash
-python3 -m http.server 8000
+python3 -m http.server 8000    # python -m http.server 8000 sur Windows
 ```
+
+---
+
+## Deux machines : macOS et Windows
+
+Le projet a démarré sur macOS et se poursuit aussi sur un PC Windows. Il doit
+tourner **à l'identique** sur les deux, sans réglage à refaire en changeant de
+poste. Trois choses le garantissent, et il faut les préserver.
+
+### 1. Aucun chemin absolu, jamais
+
+`outils-dessin-neurone.py` déduit la racine du dépôt de sa propre position :
+
+```python
+RACINE = os.path.dirname(os.path.abspath(__file__))
+```
+
+Un chemin écrit en dur, comme le `/Users/...` qui s'y trouvait, rend l'outil
+inutilisable dès qu'on change de machine, de compte ou de dossier. Les chemins
+se composent avec `os.path.join`, jamais par concaténation de `/`.
+
+### 2. Le navigateur se cherche, il ne se suppose pas
+
+`outils-test-navigateur.py` appelle `trouver_chrome()`, qui balaie les
+emplacements habituels de macOS, de Windows et de Linux, puis le `PATH`. La
+variable d'environnement `CHROME` a toujours le dernier mot.
+
+### 3. Les fins de ligne sont figées en LF par `.gitattributes`
+
+```
+* text=auto eol=lf
+```
+
+Sans cette règle, git livre les fichiers en CRLF sur Windows et en LF sur
+macOS. Le moindre enregistrement produit alors un diff de fichier **entier**,
+sur une machine et pas sur l'autre, et les vraies modifications deviennent
+introuvables. `eol=lf` impose le LF dans le dépôt **et** dans la copie de
+travail, quel que soit le réglage `core.autocrlf` du poste.
+
+Corollaire côté Python : tout fichier du dépôt réécrit par un outil doit
+l'être avec `newline="\n"`, sinon Python remet du CRLF sur Windows.
+
+```python
+io.open(chemin, "w", encoding="utf-8", newline="\n").write(s)
+```
+
+### Ce qui change quand même d'une machine à l'autre
+
+| | macOS | Windows |
+|---|---|---|
+| La commande Python | `python3` | `python` |
+| Le lanceur de serveur intégré | **n'a pas accès au Bureau**, voir plus bas | fonctionne |
+
+Rien d'autre. Aucune commande du projet n'a de variante par système au delà
+du nom de l'interpréteur.
 
 ---
 
@@ -161,7 +216,7 @@ au mouvement, et la survie sur matériel ancien.
 
 ---
 
-## Deux pièges d'environnement, déjà rencontrés
+## Trois pièges d'environnement, déjà rencontrés
 
 **1. Le lanceur de serveur intégré n'a pas accès au dossier Bureau**
 (protection macOS). `python3 -m http.server` y échoue avec `PermissionError` sur
@@ -196,7 +251,7 @@ soixantaine de lignes de bibliothèque standard, ce qui respecte la règle du
 projet. Il sert aussi à prendre de vraies captures d'écran, ce que le panneau
 intégré ne sait pas faire.
 
-Ce qu'il vérifie aujourd'hui :
+Ce qu'il vérifie aujourd'hui, **9 contrôles, tous verts** :
 
 1. Au chargement, un seul temps est visible
 2. Après 4 secondes sans toucher à rien, rien n'a bougé
@@ -204,6 +259,38 @@ Ce qu'il vérifie aujourd'hui :
 4. Remonter les fait disparaître un par un, et l'état revient exactement au départ
 5. La caméra visite les parties dans l'ordre, symétriquement
 6. Aucune erreur de console
+
+**3. Chrome en mode headless annonce de lui-même
+`prefers-reduced-motion: reduce`.**
+
+Le site fait alors exactement ce qu'on lui demande : il coupe le mouvement et
+affiche tout. La batterie de tests concluait donc « échec, les cinq temps sont
+visibles au chargement », en croyant mesurer un visiteur ordinaire. **Le site
+était juste, c'est la mesure qui était fausse.** Le contrôle numéro 1 ne
+pouvait pas passer, et les contrôles 3 et 4 passaient sans rien vérifier.
+
+L'outil impose désormais la préférence, au lieu de la subir :
+
+```python
+self.commande("Emulation.setEmulatedMedia", {
+    "features": [{"name": "prefers-reduced-motion",
+                  "value": "reduce" if reduire_mouvement else "no-preference"}]})
+```
+
+Le paramètre `reduire_mouvement` de `Navigateur` permet du même coup de tester
+le mode réduit **pour de vrai**, ce qui est une ligne de la liste de
+vérification d'accessibilité.
+
+**Leçon générale, la même que pour `element.hidden` : ne jamais faire confiance
+à l'environnement de test sur ce qu'il déclare être.** Un test qui échoue peut
+accuser un site qui a raison, et un test qui passe peut ne rien mesurer du
+tout. Ici les deux se produisaient en même temps.
+
+Corollaire, découvert au même moment : le contrôle « aucune erreur de console »
+interrogeait `window.__erreurs`, **que rien ne remplissait jamais**. Il était
+donc vert sur une page entièrement cassée. L'outil installe maintenant son
+propre collecteur avec `Page.addScriptToEvaluateOnNewDocument`, avant que le
+premier script de la page ne s'exécute.
 
 `js/apparitions.js` et `js/parcours.js` exposent en plus leurs fonctions de
 calcul sur `window`, ce qui permet de tester la logique seule sans dépendre du

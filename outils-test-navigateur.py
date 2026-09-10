@@ -21,15 +21,93 @@ de lignes de bibliothèque standard, ce qui respecte la règle du projet.
 
 USAGE
 -----
-    python3 outils-test-navigateur.py            # lance la batterie de tests
-    python3 outils-test-navigateur.py --montrer  # avec fenêtre visible
+    python3 outils-test-navigateur.py            # macOS et Linux
+    python outils-test-navigateur.py             # Windows
+    ... --montrer                                # avec la fenêtre visible
+
+Le chemin de Chrome est trouvé tout seul sur les trois systèmes. Pour imposer
+un autre navigateur, définir la variable d'environnement CHROME.
 """
 
-import base64, json, os, socket, struct, subprocess, sys, tempfile, time
+import base64, json, os, shutil, socket, struct, subprocess, sys, tempfile, time
 import urllib.request
 
-CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-PORT = 9222
+
+# ---------------------------------------------------------------------------
+# Trouver le navigateur, quel que soit le système
+# ---------------------------------------------------------------------------
+# Le projet se développe sur macOS ET sur Windows. Un chemin écrit en dur ne
+# survit pas au changement de machine, donc on cherche aux emplacements
+# habituels des deux systèmes, puis sur Linux, et la variable d'environnement
+# CHROME a toujours le dernier mot.
+
+def trouver_chrome():
+    force = os.environ.get("CHROME")
+    if force:
+        if not os.path.exists(force):
+            raise SystemExit(
+                "La variable CHROME pointe sur un fichier qui n'existe pas :\n  %s"
+                % force)
+        return force
+
+    candidats = []
+
+    if sys.platform == "darwin":
+        candidats += [
+            "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+            os.path.expanduser(
+                "~/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"),
+            "/Applications/Chromium.app/Contents/MacOS/Chromium",
+            "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+        ]
+    elif os.name == "nt":
+        dossiers = [os.environ.get("PROGRAMFILES"),
+                    os.environ.get("PROGRAMFILES(X86)"),
+                    os.environ.get("LOCALAPPDATA")]
+        relatifs = [("Google", "Chrome", "Application", "chrome.exe"),
+                    ("Chromium", "Application", "chrome.exe"),
+                    ("Microsoft", "Edge", "Application", "msedge.exe")]
+        for relatif in relatifs:
+            for base in dossiers:
+                if base:
+                    candidats.append(os.path.join(base, *relatif))
+    else:
+        candidats += ["/usr/bin/google-chrome", "/usr/bin/google-chrome-stable",
+                      "/usr/bin/chromium", "/usr/bin/chromium-browser",
+                      "/snap/bin/chromium"]
+
+    for chemin in candidats:
+        if os.path.exists(chemin):
+            return chemin
+
+    # Dernier recours : un navigateur accessible depuis le PATH.
+    for nom in ("google-chrome", "chromium", "chrome", "msedge"):
+        trouve = shutil.which(nom)
+        if trouve:
+            return trouve
+
+    raise SystemExit(
+        "Chrome est introuvable sur cette machine.\n"
+        "Installer Google Chrome, ou indiquer son chemin :\n"
+        "  macOS, Linux  CHROME=/chemin/vers/chrome python3 outils-test-navigateur.py\n"
+        "  Windows       $env:CHROME='C:\\chemin\\vers\\chrome.exe'"
+        " ; python outils-test-navigateur.py")
+
+
+def port_libre():
+    """Demande au système un port dont il garantit qu'il est libre.
+
+    Le port de débogage était écrit en dur à 9222, ce qui exposait à deux
+    ennuis silencieux. Si un Chrome de test traîne encore d'une exécution
+    précédente, l'outil se connecte à CELUI LÀ et teste une page qui n'est pas
+    la nôtre, sans rien signaler. Et deux exécutions lancées en parallèle se
+    marchent dessus. Un port attribué par le système supprime les deux cas.
+    """
+    s = socket.socket()
+    s.bind(("127.0.0.1", 0))
+    port = s.getsockname()[1]
+    s.close()
+    return port
 
 
 # ---------------------------------------------------------------------------
@@ -115,11 +193,13 @@ class WebSocket:
 # ---------------------------------------------------------------------------
 
 class Navigateur:
-    def __init__(self, largeur=390, hauteur=844, montrer=False):
+    def __init__(self, largeur=390, hauteur=844, montrer=False,
+                 reduire_mouvement=False):
+        self.port = port_libre()
         self.profil = tempfile.mkdtemp(prefix="chrome-test-")
         args = [
-            CHROME,
-            "--remote-debugging-port=%d" % PORT,
+            trouver_chrome(),
+            "--remote-debugging-port=%d" % self.port,
             "--user-data-dir=" + self.profil,
             "--no-first-run", "--no-default-browser-check",
             "--disable-background-timer-throttling",
@@ -129,7 +209,9 @@ class Navigateur:
             "about:blank",
         ]
         if not montrer:
-            args.insert(1, "--headless=new")
+            # --disable-gpu n'est plus nécessaire au headless récent, sauf sur
+            # Windows où il évite encore des démarrages qui n'aboutissent pas.
+            args[1:1] = ["--headless=new", "--disable-gpu"]
         self.proc = subprocess.Popen(args, stdout=subprocess.DEVNULL,
                                      stderr=subprocess.DEVNULL)
         self.ws = self._attendre_connexion()
@@ -140,13 +222,31 @@ class Navigateur:
             "width": largeur, "height": hauteur,
             "deviceScaleFactor": 2, "mobile": True})
 
+        # Imposer la préférence de mouvement, et ne jamais la laisser au hasard.
+        #
+        # PIÈGE COÛTEUX, à ne pas repayer : Chrome en mode headless annonce de
+        # lui-même `prefers-reduced-motion: reduce`. Le site fait alors
+        # exactement ce qu'on lui demande, il coupe le mouvement et affiche
+        # tout, et la batterie de tests concluait « échec, les cinq temps sont
+        # visibles au chargement » en croyant tester un visiteur ordinaire.
+        # Le site était juste, c'est la mesure qui était fausse.
+        #
+        # On émule donc explicitement la valeur voulue. Cela permet aussi de
+        # tester le mode réduit POUR DE VRAI, en le demandant.
+        self.reduire_mouvement = reduire_mouvement
+        self.commande("Emulation.setEmulatedMedia", {
+            "features": [{
+                "name": "prefers-reduced-motion",
+                "value": "reduce" if reduire_mouvement else "no-preference"
+            }]})
+
     def _attendre_connexion(self, delai=25):
         fin = time.time() + delai
         derniere = None
         while time.time() < fin:
             try:
                 brut = urllib.request.urlopen(
-                    "http://127.0.0.1:%d/json/list" % PORT, timeout=2).read()
+                    "http://127.0.0.1:%d/json/list" % self.port, timeout=2).read()
                 cibles = json.loads(brut)
                 pages = [c for c in cibles if c.get("type") == "page"]
                 if pages:
@@ -154,7 +254,8 @@ class Navigateur:
             except Exception as e:
                 derniere = e
             time.sleep(0.3)
-        raise RuntimeError("Chrome n'a pas répondu sur le port %d (%s)" % (PORT, derniere))
+        raise RuntimeError("Chrome n'a pas répondu sur le port %d (%s)"
+                           % (self.port, derniere))
 
     def commande(self, methode, params=None):
         self.id += 1
@@ -170,8 +271,34 @@ class Navigateur:
 
     # --- les gestes ---------------------------------------------------------
 
+    # Le collecteur d'erreurs, posé AVANT que la page ne s'exécute.
+    #
+    # La batterie interrogeait `window.__erreurs`, que rien ne remplissait
+    # jamais : le test « aucune erreur de console » était donc toujours vert,
+    # y compris sur une page entièrement cassée. On installe le collecteur
+    # nous-mêmes, et il doit être en place avant le premier script de la page,
+    # sans quoi une erreur au chargement lui échapperait.
+    COLLECTEUR = (
+        "window.__erreurs = [];"
+        "addEventListener('error', function (e) {"
+        "  window.__erreurs.push(String(e.message || e.type));"
+        "});"
+        "addEventListener('unhandledrejection', function (e) {"
+        "  window.__erreurs.push('promesse rejetee : ' + e.reason);"
+        "});"
+        "(function () {"
+        "  var origine = console.error;"
+        "  console.error = function () {"
+        "    window.__erreurs.push(Array.prototype.join.call(arguments, ' '));"
+        "    return origine.apply(console, arguments);"
+        "  };"
+        "})();"
+    )
+
     def ouvrir(self, url, attente=2.5):
         self.commande("Page.enable")
+        self.commande("Page.addScriptToEvaluateOnNewDocument",
+                      {"source": self.COLLECTEUR})
         self.commande("Page.navigate", {"url": url})
         time.sleep(attente)
 
@@ -216,6 +343,10 @@ class Navigateur:
         except Exception: pass
         try: self.proc.terminate(); self.proc.wait(timeout=5)
         except Exception: pass
+        # Le profil temporaire pèse plusieurs mégaoctets. Il n'était jamais
+        # supprimé : chaque exécution en laissait un dans le dossier temporaire
+        # du système, sur macOS comme sur Windows.
+        shutil.rmtree(self.profil, ignore_errors=True)
 
 
 # ---------------------------------------------------------------------------
@@ -286,9 +417,8 @@ def lancer(url="http://127.0.0.1:8001", montrer=False):
                  " > ".join(ordre))
 
         print("\n6. Erreurs de console")
-        erreurs = nav.evaluer(
-            "return (window.__erreurs||[]).length")
-        verifier("aucune erreur", not erreurs, str(erreurs))
+        erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
+        verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 
     finally:
         nav.fermer()
