@@ -26,39 +26,49 @@
 - [x] `js/main.js` — point d'entrée, animation de l'ouverture
 - [x] `index.html` — squelette + section 0 (la question d'ouverture)
 - [x] Vérifié dans le navigateur : Inter se charge, aucune erreur console
+- [x] `docs/01-DIRECTION-ARTISTIQUE.md`
+- [x] `docs/03-ACCESSIBILITE.md`
+- [x] `docs/04-ARCHITECTURE.md`
+- [x] `docs/07-BENCHMARK.md` — avec relevés de poids réels
+- [x] Dépôt distant GitHub créé et code poussé (dépôt public)
 
 ### En cours
 
-- [ ] `docs/01-DIRECTION-ARTISTIQUE.md`
-- [ ] `docs/03-ACCESSIBILITE.md`
-- [ ] `docs/04-ARCHITECTURE.md`
-- [ ] `docs/07-BENCHMARK.md` — étude de l'existant approfondie
-- [ ] Dépôt distant GitHub + mise en ligne GitHub Pages
+- [ ] Activer GitHub Pages (action utilisateur, voir ci-dessous)
+- [ ] `docs/02-CONTENU.md` — le texte scientifique, avec sources
+- [ ] `docs/06-DEMO-3MIN.md` — le parcours de démonstration
+- [ ] Remplacer le schéma provisoire du neurone (section 0) par un vrai dessin
 
 ### Bloqué / en attente de l'utilisateur
 
-- **Création du dépôt distant GitHub.** `gh` n'est pas installé et GitHub ne
-  permet pas de créer un dépôt via SSH. L'authentification SSH fonctionne
-  (identité `gaspOdt`), donc le push marchera dès que le dépôt vide existera.
-  L'utilisateur doit le créer sur <https://github.com/new>, nom `neurone`,
-  **sans README ni .gitignore ni licence**.
+- **Activer GitHub Pages.** Le dépôt <https://github.com/gaspOdt/neurone> est
+  public, le code est poussé. Il reste à faire, dans `Settings` > `Pages` :
+  source `Deploy from a branch`, branche `main`, dossier `/ (root)`, puis `Save`.
+  L'adresse sera alors <https://gaspodt.github.io/neurone/>.
 
-### Deux pièges rencontrés, à connaître pour la suite
+### Budget de poids — mesuré
+
+Relevé sur les références réelles plutôt que supposé. Ciechanowski tient en
+51 Ko, Parable of the Polygons en 25 Ko, TensorFlow Playground en 111 Ko.
+**Notre site au jour 1 : 104 Ko transférés**, dont 91 % de tiers (police 47 Ko,
+GSAP 47 Ko) et seulement 7 Ko de code propre. Budget retenu : **150 Ko**.
+Décision de l'utilisateur : **le vrai juge est son téléphone**, on ajustera
+seulement si ça rame. Détail dans `07-BENCHMARK.md`.
+
+### Deux pièges d'environnement, à connaître
 
 1. **Le lanceur de serveur du navigateur intégré n'a pas accès au Bureau**
-   (protection macOS). `python3 -m http.server` échoue avec `PermissionError`
-   sur `os.getcwd()`. Contournement : lancer le serveur depuis un terminal
-   normal, et pointer le navigateur dessus.
-2. **Le panneau navigateur masqué bride `requestAnimationFrame`**, donc les
-   animations GSAP avancent au ralenti et les captures d'écran paraissent
-   figées à mi-course. Ce n'est PAS un bug du site. Pour juger l'état final :
-   `gsap.globalTimeline.getChildren(true,true,true).forEach(t=>t.progress(1))`.
+   (protection macOS) : `python3 -m http.server` échoue sur `os.getcwd()`.
+   Lancer le serveur depuis un terminal normal.
+2. **Un panneau navigateur masqué bride `requestAnimationFrame`** : les
+   animations GSAP rampent et les captures semblent figées. Ce n'est PAS un
+   bug du site. Pour juger l'état final :
+   `gsap.globalTimeline.getChildren(true,true,true).forEach(t=>t.progress(1))`
 
 ### Prochaine étape immédiate
 
-Pousser sur GitHub dès que le dépôt distant existe, activer GitHub Pages,
-puis rédiger les documents de direction artistique, d'accessibilité et
-d'architecture.
+Jour 2 : section 1 (anatomie révélée une partie à la fois) et section 2
+(les charges de part et d'autre de la membrane).
 
 ---
 

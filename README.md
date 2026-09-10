@@ -72,7 +72,7 @@ dépôt** au lieu d'être chargées depuis un CDN.
 **2. Le site doit tourner sur un vieux téléphone.**
 Un membre du jury peut l'ouvrir sur son propre appareil. Pas de WebGL, pas d'API récentes,
 uniquement des animations de `transform` et `opacity`, et une bascule automatique en mode
-allégé si l'appareil peine. Budget total visé : **moins de 1 Mo**.
+allégé si l'appareil peine. Budget total : **150 Ko transférés**, mesuré contre les références réelles (voir `docs/07-BENCHMARK.md`). Au jour 1 nous sommes à 104 Ko.
 
 **3. Le site doit rester utilisable par tout le monde.**
 Palette sûre pour le daltonisme, aucune information portée par la couleur seule, alternatives
