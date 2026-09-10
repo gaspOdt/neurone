@@ -251,38 +251,134 @@ html.js.reduce-motion .temps { opacity: 1; }
    le texte déjà lu ne bouge pas d'un pixel quand le suivant arrive. On
    n'anime que transform et opacity, comme l'exige la règle du projet. */
 
-.ouverture {
-  padding-block: 0;
-  position: relative;
+.recit { padding-block: 0; }
 
-  /* Cette hauteur n'est QUE de la distance de défilement : rien n'est
-     affiché ici. Tout ce qui se voit est dans .ouverture-scene, qui est
-     collée et ne bouge pas. Un écran par temps, plus un dernier écran pour
-     laisser le paragraphe complet sous les yeux avant de passer au neurone. */
-  height: 600svh;
-}
-@supports not (height: 100svh) {
-  .ouverture { height: 600vh; }   /* repli pour les navigateurs anciens */
-}
+/* LA SCÈNE. Collée en haut de l'écran du premier écran jusqu'à la fin du
+   parcours, elle contient tout ce qui se voit : le texte de l'ouverture, et
+   LE neurone, qui est le même du début à la fin.
 
-.ouverture-scene {
+   Elle est volontairement transparente et ne bloque pas la souris : sous sa
+   moitié basse, le texte du parcours défile et doit rester sélectionnable.
+   Seuls le neurone et son fond papier sont opaques. */
+.recit-scene {
   position: sticky;
   top: 0;
   height: 100svh;
+  z-index: 2;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  pointer-events: none;
+
+  /* La place du bouton flottant. Sans elle, le titre de l'ouverture passait
+     dessous et devenait illisible : un bouton posé par dessus du texte n'est
+     pas un réglage discret, c'est un défaut. */
+  padding-top: 3.6rem;
 }
 @supports not (height: 100svh) {
-  .ouverture-scene { height: 100vh; }
+  .recit-scene { height: 100vh; }
+}
+.recit-scene .pile,
+.recit-scene .porte-neurone { pointer-events: auto; }
+
+/* Une fois la bascule engagée, le texte de l'ouverture est effacé : il ne
+   doit plus intercepter la souris à la place du texte du parcours qui défile
+   dessous. */
+.recit-scene.bascule .pile { pointer-events: none; }
+
+/* LES RAILS. Ils n'affichent rien : leur seule hauteur donne au défilement la
+   distance nécessaire pour faire arriver un temps après l'autre, puis pour la
+   bascule vers le parcours. Un écran par temps, un pour lire le paragraphe
+   entier, un pour la bascule. */
+.rails { height: 700svh; }
+@supports not (height: 100svh) {
+  .rails { height: 700vh; }
 }
 
-/* La colonne où le texte s'empile. */
+/* Les deux blocs de texte de l'ouverture, de part et d'autre du neurone. */
 .pile > * { margin-bottom: var(--sp-4); }
 .pile > *:last-child { margin-bottom: 0; }
 
 .temps { margin-top: 0; }
 
-.ouverture h1.temps { max-width: 16ch; }
+.recit h1.temps { max-width: 16ch; }
+
+/* LE PORTE-NEURONE. En pleine largeur, hors du .wrap, pour que son fond
+   papier couvre tout l'écran quand le texte du parcours défile dessous.
+
+   Les marges hautes et basses sont réservées EN PERMANENCE, même pendant
+   l'ouverture où le titre et les boutons sont invisibles : sans ça, leur
+   arrivée ferait sauter toute la mise en page au moment précis de la
+   bascule. Ils sont positionnés en absolu, donc ils ne coûtent aucune
+   hauteur de leur côté. */
+.porte-neurone {
+  position: relative;
+  z-index: 0;
+  background: var(--paper);
+  padding-top: 2rem;          /* la place du titre, réservée en permanence */
+  margin-bottom: var(--sp-4);
+}
+
+/* Le fond papier déborde vers le HAUT, jusqu'au bord de l'écran.
+   Une fois le dessin remonté, il reste au dessus de lui la marge réservée au
+   bouton flottant, qui n'appartient à personne : le texte du parcours y
+   défilait à découvert et on voyait passer des bouts de phrases au ras du
+   titre. Ce débordement bouche le trou.
+   Pendant l'ouverture, il se déploie derrière le titre et la première phrase,
+   sans rien changer : c'est du papier sur du papier. */
+.porte-neurone::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 100%;
+  height: 60vh;
+  background: var(--paper);
+  pointer-events: none;
+}
+
+/* Le texte de l'ouverture passe DEVANT ce débordement. Sans cette pile
+   d'ordre, le fond du porte-neurone, qui vient plus loin dans le document,
+   recouvrirait le titre. */
+.recit-scene .pile { position: relative; z-index: 1; }
+.porte-neurone .figure-titre {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  padding-inline: var(--sp-3);
+  margin: 0;
+}
+@media (min-width: 40em) {
+  .porte-neurone .figure-titre { padding-inline: var(--sp-5); }
+}
+
+/* Les boutons du parcours sont accrochés SOUS le dessin, et pas réservés
+   dans sa hauteur. Sur un téléphone ils tiennent sur deux rangs, soit plus de
+   cent pixels : les réserver en permanence aurait mangé la moitié du neurone
+   d'introduction, alors qu'ils y sont invisibles. Accrochés en dessous, ils
+   ne coûtent rien tant qu'ils ne servent pas. */
+.porte-neurone .etapes {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  margin: 0;
+  padding: var(--sp-2) var(--sp-3) var(--sp-3);
+  background: var(--paper);
+}
+@media (min-width: 40em) {
+  .porte-neurone .etapes { padding-inline: var(--sp-5); }
+}
+
+/* Le texte du parcours passait sous le dessin en étant tranché net au milieu
+   d'une ligne, ce qui ressemblait à un défaut d'affichage. Un fondu court le
+   fait disparaître progressivement. Un simple dégradé, sans filtre ni flou :
+   rien qui coûte cher à un vieux processeur graphique. */
+.porte-neurone .etapes::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 100%;
+  height: var(--sp-5);
+  background: linear-gradient(var(--paper), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
 
 .question {
   font-size: var(--fs-h2);
@@ -313,47 +409,67 @@ html.js.reduce-motion .temps { opacity: 1; }
 }
 .defiler::after { content: ''; width: 1px; height: 2rem; background: var(--ink-faint); }
 
-/* --- Le parcours : un seul neurone, qui reste à l'écran -----------------
-   Le dessin est collé en haut pendant que le texte défile dessous. La caméra
-   se déplace vers la partie dont parle le bloc de texte en cours. */
+/* --- Les deux replis : sans JavaScript, et en mouvement réduit ----------
+   Quand tout doit être visible d'un coup, la scène collée n'a plus de sens :
+   elle enfermerait six temps et un dessin dans la hauteur d'un écran, et tout
+   se chevaucherait. Les boutons du parcours tombaient sur la courbe, l'invite
+   à défiler sur le texte, et le titre sous le bouton flottant. Le contenu
+   était bien là, mais illisible, ce qui ne vaut guère mieux qu'absent.
 
-.parcours { padding-block: 0; }
+   Elle redevient donc un simple bloc de page, qui coule normalement. Deux
+   chemins mènent ici et demandent exactement la même chose : le visiteur sans
+   JavaScript, et le visiteur en mouvement réduit. */
 
-.parcours-figure {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background: var(--paper);
-  padding-block: var(--sp-3);
+html.no-js .recit-scene,
+html.reduce-motion .recit-scene {
+  position: static;
+  height: auto;
+  padding-bottom: var(--sp-5);
 }
 
-/* Le texte qui passe sous le dessin collé était tranché net au milieu d'une
-   ligne, ce qui ressemblait à un défaut d'affichage. Un fondu court le fait
-   disparaître progressivement. Un simple dégradé, sans filtre ni flou : rien
-   qui coûte cher à un vieux GPU. */
-.parcours-figure::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  height: var(--sp-5);
-  background: linear-gradient(var(--paper), rgba(255, 255, 255, 0));
-  pointer-events: none;
+html.no-js .porte-neurone,
+html.reduce-motion .porte-neurone { padding-top: 0; }
+
+html.no-js .porte-neurone .figure-titre,
+html.reduce-motion .porte-neurone .figure-titre,
+html.no-js .porte-neurone .etapes,
+html.reduce-motion .porte-neurone .etapes {
+  position: static;
+  margin-bottom: var(--sp-3);
 }
+
+/* Le débordement de papier et le fondu ne servent qu'au dessin collé. */
+html.no-js .porte-neurone::before,
+html.reduce-motion .porte-neurone::before,
+html.no-js .porte-neurone .etapes::after,
+html.reduce-motion .porte-neurone .etapes::after { display: none; }
+
+/* Plus rien à révéler, donc plus rien à annoncer, et plus besoin de distance
+   de défilement. */
+html.no-js .defiler,
+html.reduce-motion .defiler,
+html.no-js .rails,
+html.reduce-motion .rails { display: none; }
+
+/* --- Le parcours : le MÊME neurone, arrivé pendant l'ouverture -----------
+   Il n'y a rien à recréer ici. Le dessin est déjà à l'écran, dans la scène
+   collée, et la caméra se contente de se déplacer vers la partie dont parle
+   le bloc de texte en cours. */
 
 .scene { display: flex; justify-content: center; }
 
+/* La taille du neurone est posée en pixels par js/recit.js, parce qu'elle
+   change de façon continue pendant la bascule : il grandit de sa taille
+   d'introduction à celle du parcours au fil du défilement. Les valeurs ici ne
+   servent qu'AVANT que le JavaScript n'ait la main, et au visiteur qui n'en a
+   pas du tout. Elles sont exprimées en vh et non en svh, parce que ce repli
+   doit précisément fonctionner sur les navigateurs qui ignorent svh. */
 .neurone {
   display: block;
   width: auto;
   max-width: 100%;
-  aspect-ratio: 4 / 5;
-  height: 38svh;
-  max-height: 380px;
-}
-@supports not (aspect-ratio: 1) {
-  .neurone { width: 30svh; }
+  height: 34vh;
+  max-height: 340px;
 }
 
 /* La surbrillance est MOMENTANÉE : on désigne la partie, puis le dessin
@@ -398,4 +514,4 @@ html.js.reduce-motion .temps { opacity: 1; }
 .etape-contenu h3 { margin-bottom: var(--sp-3); }
 .etape-contenu p:last-child { margin-bottom: 0; }
 
-.parcours .alt-text { padding-bottom: var(--sp-6); }
+.recit .alt-text { padding-bottom: var(--sp-6); }

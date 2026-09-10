@@ -425,7 +425,12 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
 
         print("\n1. Au chargement, sans rien toucher")
         depart = opacites(nav)
-        verifier("un seul temps est visible", depart == [100, 0, 0, 0, 0], str(depart))
+        # Déduit du DOM, et surtout pas écrit en dur : la batterie était codée
+        # sur cinq temps, et l'arrivée d'un sixième la faisait échouer alors
+        # que le site marchait. Un test qui dépend du nombre de paragraphes
+        # n'a pas de valeur, il ne fait que réclamer une mise à jour.
+        attendu = [100] + [0] * (len(depart) - 1)
+        verifier("un seul temps est visible", depart == attendu, str(depart))
 
         print("\n2. On attend 4 secondes sans defiler")
         time.sleep(4)
@@ -440,7 +445,9 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
         n = lambda o: sum(1 for v in o if v > 50)
         verifier("le defilement fait apparaitre", max(n(o) for _, o in vus) > 1,
                  "max %d temps visibles" % max(n(o) for _, o in vus))
-        verifier("les cinq temps apparaissent", max(n(o) for _, o in vus) == 5)
+        verifier("tous les temps apparaissent",
+                 max(n(o) for _, o in vus) == len(depart),
+                 "%d sur %d" % (max(n(o) for _, o in vus), len(depart)))
         verifier("la descente ne fait qu'ajouter",
                  all(n(vus[i][1]) >= n(vus[i - 1][1]) for i in range(1, len(vus))))
         for y, o in vus[:8]:
@@ -467,7 +474,31 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
                  ordre == ["ensemble", "dendrites", "soma", "axone", "terminaisons"],
                  " > ".join(ordre))
 
-        print("\n6. Erreurs de console")
+        print("\n6. Un seul neurone, du debut a la fin")
+        # La promesse tenue par tout le projet : il n'existe qu'UN neurone,
+        # il arrive pendant l'ouverture et il ne quitte plus l'ecran. Le test
+        # verifie les trois choses, parce que la continuite ne se voit pas sur
+        # une capture : elle ne se prouve qu'en suivant le MEME element.
+        verifier("il n'y en a qu'un dans la page",
+                 nav.evaluer("return document.querySelectorAll('.neurone').length") == 1)
+
+        nav.evaluer("window.scrollTo(0,0); return 1")
+        for _ in range(9):
+            nav.molette(500, pause=0.12)
+        intro = nav.evaluer(
+            "var s=document.querySelector('.neurone');"
+            "return Math.round(s.getBoundingClientRect().height)")
+        verifier("il est deja visible pendant l'ouverture", intro > 0, "%d px" % intro)
+
+        for _ in range(22):
+            nav.molette(500, pause=0.12)
+        parcours = nav.evaluer(
+            "var s=document.querySelector('.neurone');"
+            "return Math.round(s.getBoundingClientRect().height)")
+        verifier("il a grandi pour le parcours, sans etre remplace",
+                 parcours > intro, "%d px puis %d px" % (intro, parcours))
+
+        print("\n7. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
         verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 

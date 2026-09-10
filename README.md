@@ -54,8 +54,8 @@ css/
   base.css                  Typographie, mise en page, accessibilité, composants
 js/
   a11y.js                   Mouvement réduit et détection d'appareil lent
-  apparitions.js            Le défilement fait apparaître, et remonter rembobine
-  parcours.js               Le neurone collé à l'écran, la caméra qui le visite
+  recit.js                  Tout le récit : le texte qui s'empile, les tracés,
+                            le neurone qui grandit, la caméra qui le visite
   main.js                   Point d'entrée
 assets/
   fonts/                    Inter, copiée localement pour fonctionner hors connexion
@@ -63,15 +63,32 @@ assets/
 docs/                       La documentation. Voir ci-dessous
 ```
 
-### Un seul dessin de neurone
+### Un seul neurone, et il n'est jamais coupé
 
-Il n'existe qu'un neurone dans tout le site, produit par
-`outils-dessin-neurone.py`. **Ne pas modifier le SVG directement dans
-`index.html`** : modifier le script, puis le relancer.
+Il n'existe qu'un neurone dans tout le site. Il **apparaît au milieu de
+l'ouverture**, juste après la phrase sur le cerveau, se dessine trait par
+trait, puis ne quitte plus l'écran : c'est lui qui grandit et remonte pour
+devenir l'objet du parcours. Le visiteur ne voit jamais deux dessins, et il
+n'y a aucune coupure entre les deux moments.
+
+C'est pour cette raison que l'ouverture et le parcours sont **une seule
+section**, avec une seule scène collée.
+
+### `index.html` est un fichier GÉNÉRÉ
+
+**Tout ce qui se trouve entre `<main id="contenu">` et `</main>` est réécrit
+intégralement à chaque exécution de `outils-dessin-neurone.py`.** Une section
+ajoutée à la main dans `index.html` sera détruite au prochain lancement, sans
+le moindre avertissement.
+
+Pour modifier le contenu du site, **modifier le script, puis le relancer** :
 
 ```bash
 python3 outils-dessin-neurone.py    # python sur Windows
 ```
+
+Le `<head>`, le `<footer>` et les balises `<script>` ne sont pas touchés : eux
+s'éditent bien dans `index.html`.
 
 ---
 

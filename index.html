@@ -42,69 +42,32 @@
        La hauteur de la section ne sert QU'À donner de la distance de
        défilement. Rien n'y est affiché hors de la scène collée.
        =================================================================== -->
-  <section class="section ouverture" id="ouverture">
+  <section class="section recit" id="recit" aria-labelledby="recit-titre">
 
-    <div class="ouverture-scene">
-      <div class="wrap">
-        <div class="pile">
+    <h2 id="recit-titre" class="sr-only">Le neurone, et par où passe le message</h2>
 
-          <h1 class="temps" data-temps="1">Tu viens d'appuyer sur cette page.</h1>
+    <div class="recit-scene">
 
-          <p class="temps lead" data-temps="2">
-            Ton cerveau a commandé le mouvement de ton doigt.
-          </p>
+      <div class="wrap pile pile-haut">
 
-          <figure class="temps figure-courbe" data-temps="3">
-            <svg class="courbe" viewBox="0 0 320 130"
-             preserveAspectRatio="xMidYMid meet"
-             role="img" aria-labelledby="c-titre c-desc">
-          <title id="c-titre">La forme d'une impulsion nerveuse</title>
-          <desc id="c-desc">Une ligne horizontale et calme, qui monte
-            brutalement en une pointe étroite, redescend en dessous de son
-            niveau de départ, puis revient tranquillement à l'horizontale.</desc>
-          <g fill="none" stroke="var(--ink)" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round"
-             vector-effect="non-scaling-stroke">
-            <path class="t" d="M10 92 L104 92 C118 92 121 62 130 36
-                               C134 24 138 20 143 20 C149 20 153 32 158 52
-                               C164 76 169 96 177 103 C184 109 191 106 198 102
-                               C212 94 218 92 232 92 L310 92"/>
-          </g>
-        </svg>
-            <figcaption class="caption">
-              Voilà à quoi ressemble l'ordre qu'il a envoyé.
-              Une impulsion électrique, et une seule.
-            </figcaption>
-          </figure>
+        <h1 class="temps" data-temps="1">Tu viens d'appuyer sur cette page.</h1>
 
-          <p class="temps lead" data-temps="4">
-            Ça a pris moins d'un centième de seconde.
-          </p>
+        <p class="temps lead" data-temps="2">
+          Ton cerveau a commandé le mouvement de ton doigt.
+        </p>
 
-          <p class="temps question" data-temps="5">Sais-tu comment&nbsp;?</p>
-
-        </div>
       </div>
 
-      <p class="defiler caption" aria-hidden="true">Continue à défiler</p>
+      <!-- LE NEURONE, et il n'y en a qu'un dans tout le site.
+           Il apparaît ici, au milieu de l'ouverture, puis il ne quitte plus
+           l'écran : c'est LUI qui grandit et remonte pour devenir l'objet du
+           parcours. Le visiteur ne voit jamais deux neurones, et il n'y a
+           jamais de coupure entre les deux moments.
 
-    </div>
-
-  </section>
-
-  <!-- ==================================================================
-       Le parcours. UN SEUL neurone pour tout le site.
-       Il reste à l'écran pendant que le texte défile, et la caméra se déplace
-       vers la partie dont on parle. Le défilement est la source de vérité :
-       les boutons ne font que faire défiler jusqu'au bon bloc, donc l'état ne
-       peut jamais se désynchroniser.
-       =================================================================== -->
-  <section class="section parcours" id="parcours" aria-labelledby="parcours-titre">
-
-    <h2 id="parcours-titre" class="sr-only">Les parties d'un neurone</h2>
-
-    <div class="parcours-figure">
-      <div class="wrap">
+           Ce bloc est hors du .wrap, en pleine largeur, pour que son fond
+           papier couvre tout l'écran quand le texte du parcours défile
+           dessous. -->
+      <div class="porte-neurone temps" data-temps="3">
         <p class="figure-titre" id="figure-titre">Le messager</p>
         <div class="scene">
 <svg class="neurone" viewBox="0 0 400 1000"
@@ -169,7 +132,7 @@
               </g>
             </svg>
         </div>
-        <nav class="etapes" aria-label="Aller à une partie du neurone">
+        <nav class="etapes wrap" aria-label="Aller à une partie du neurone">
           <button type="button" data-vers="ensemble" aria-current="false">Vue entière</button>
           <button type="button" data-vers="dendrites" aria-current="false">1. Dendrites</button>
           <button type="button" data-vers="soma" aria-current="false">2. Corps</button>
@@ -178,8 +141,58 @@
         </nav>
         <p class="sr-only" aria-live="polite" data-annonce></p>
       </div>
+
+      <div class="wrap pile pile-bas">
+
+        <figure class="temps figure-courbe" data-temps="4">
+          <svg class="courbe" viewBox="0 0 320 130"
+             preserveAspectRatio="xMidYMid meet"
+             role="img" aria-labelledby="c-titre c-desc">
+          <title id="c-titre">La forme d'une impulsion nerveuse</title>
+          <desc id="c-desc">Une ligne horizontale et calme, qui monte
+            brutalement en une pointe étroite, redescend en dessous de son
+            niveau de départ, puis revient tranquillement à l'horizontale.</desc>
+          <g fill="none" stroke="var(--ink)" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             vector-effect="non-scaling-stroke">
+            <path class="t" d="M10 92 L104 92 C118 92 121 62 130 36
+                               C134 24 138 20 143 20 C149 20 153 32 158 52
+                               C164 76 169 96 177 103 C184 109 191 106 198 102
+                               C212 94 218 92 232 92 L310 92"/>
+          </g>
+        </svg>
+          <figcaption class="caption">
+            Voilà à quoi ressemble l'ordre qu'il a envoyé.
+            Une impulsion électrique, et une seule.
+          </figcaption>
+        </figure>
+
+        <p class="temps lead" data-temps="5">
+          Ça a pris moins d'un centième de seconde.
+        </p>
+
+        <p class="temps question" data-temps="6">Sais-tu comment&nbsp;?</p>
+
+      </div>
+
+      <p class="defiler caption" aria-hidden="true">Continue à défiler</p>
+
     </div>
 
+    <!-- Les rails. Ils n'affichent RIEN : leur seule fonction est de donner
+         au défilement la distance nécessaire pour faire arriver un temps
+         après l'autre, puis pour la bascule vers le parcours. -->
+    <div class="rails" aria-hidden="true"></div>
+
+    <!-- ==================================================================
+         Le parcours. Le neurone est DÉJÀ à l'écran, arrivé pendant
+         l'ouverture : ces blocs de texte défilent sous lui et commandent la
+         caméra, qui se déplace vers la partie dont on parle.
+
+         Le défilement est la source de vérité : les boutons ne font que
+         faire défiler jusqu'au bon bloc, donc l'état ne peut jamais se
+         désynchroniser de ce que le visiteur a sous les yeux.
+         =============================================================== -->
     <div class="wrap parcours-textes">
       <div class="etape-texte" id="etape-ensemble" data-vue="ensemble">
         <div class="etape-contenu">

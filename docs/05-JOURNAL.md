@@ -20,12 +20,14 @@ de [`04-ARCHITECTURE.md`](04-ARCHITECTURE.md).
 
 | | |
 |---|---|
-| Ouverture | **Quatre temps**, un par écran. Constat, cause, temps écoulé, question |
-| Accent graphique | La **courbe du potentiel d'action**, la vraie forme du signal. Elle annonce la section « Tout ou rien », où le visiteur la déclenchera lui-même |
-| Le parcours | **Un seul neurone** pour tout le site, collé en haut de l'écran pendant que le texte défile. La caméra se déplace vers la partie dont on parle |
-| Déclenchement | **Le défilement, et rien d'autre.** Aucune apparition après un simple délai |
-| Retour en arrière | Remonter rejoue le mouvement à l'envers |
-| Poids | **93 Ko** transférés, budget 150 |
+| Ouverture | **Six temps qui s'EMPILENT** dans une scène collée. Chacun s'ajoute aux précédents, qui restent à l'écran : on voit un paragraphe se construire, et non des cartons se remplacer |
+| Accent graphique | La **courbe du potentiel d'action**, qui **se trace au défilement** comme sur un électroencéphalogramme. Elle annonce la section « Tout ou rien », où le visiteur la déclenchera lui-même |
+| Le neurone | **Un seul, jamais coupé.** Il arrive au milieu de l'ouverture, se dessine trait par trait, puis grandit et remonte pour devenir l'objet du parcours. L'ouverture et le parcours sont **une seule section** |
+| Le parcours | La caméra se déplace vers la partie dont parle le bloc de texte en cours |
+| Déclenchement | **Le défilement, et rien d'autre.** Aucune apparition après un simple délai. Les tracés eux mêmes sont asservis au défilement, donc réversibles |
+| Retour en arrière | Remonter rejoue tout à l'envers, tracés compris |
+| Poids | **99 Ko** transférés, budget 150. Mesuré, pas supposé |
+| Tests | **12 contrôles sur 12**, dont trois qui prouvent qu'il n'y a qu'un neurone et qu'il n'est pas remplacé |
 
 ### Feuille de route
 
@@ -156,3 +158,55 @@ Détail à noter pour qui reprend : le `.gitconfig` du PC contenait
 place du `@`. Les commits faits depuis ce poste n'auraient pas été rattachés
 au compte GitHub. L'identité est corrigée **au niveau du dépôt**, donc le
 `.gitconfig` global de la machine reste à corriger pour les autres projets.
+
+### 10 septembre 2026 — Session 2 (suite) : le début du site est refait
+
+Trois demandes de l'utilisateur, après avoir regardé le site.
+
+**1. Le texte de l'ouverture doit s'EMPILER.** Chaque temps occupait presque
+tout l'écran : un seul était visible à la fois, et on lisait une suite de
+cartons. L'ouverture devient une scène collée dans laquelle les temps
+s'ajoutent les uns sous les autres et restent.
+
+**2. La courbe doit se TRACER**, comme sur un électroencéphalogramme. Le tracé
+est asservi au défilement, pas joué en un temps donné : c'est le doigt du
+visiteur qui déroule la ligne, ce qui le rend réversible sans une ligne de
+code de plus.
+
+**3. Le neurone doit apparaître dès l'ouverture, et être LE MÊME que celui du
+parcours, sans coupure.** C'est la demande la plus lourde, et elle a une
+conséquence d'architecture : l'ouverture et le parcours ne peuvent plus être
+deux sections. Deux sections auraient imposé deux dessins. Ils n'en font plus
+qu'une, avec une seule scène collée, et `js/apparitions.js` et
+`js/parcours.js` fusionnent en `js/recit.js`.
+
+Le neurone arrive après la phrase sur le cerveau, se dessine trait par trait,
+puis grandit et remonte pour devenir l'objet du parcours. Sa taille
+d'introduction est **calculée** à partir de la place réellement libre entre
+les deux blocs de texte, pas écrite en dur : elle doit tenir sur un téléphone
+comme sur un écran large.
+
+**Quatre défauts trouvés en construisant, tous documentés dans
+[`04-ARCHITECTURE.md`](04-ARCHITECTURE.md) :**
+
+1. `svg.offsetHeight` n'existe pas, comme `element.hidden` avant lui. Le
+   neurone d'introduction faisait 110 px au lieu de 219, sans aucune erreur.
+2. Le porte-neurone avait **deux propriétaires** pour sa position, l'apparition
+   et la bascule, et l'apparition gagnait. Le défaut ne se voyait qu'en
+   sautant directement à une position lointaine, c'est à dire exactement ce que
+   fait un test automatisé.
+3. Deux `ReferenceError` de zone morte temporelle, en mode mouvement réduit
+   seulement : la caméra ne fonctionnait plus pour exactement les visiteurs
+   qu'on cherche à ménager.
+4. Les deux replis, sans JavaScript et en mouvement réduit, affichaient bien
+   tout le contenu mais **tout se chevauchait** : la scène collée enfermait six
+   temps et un dessin dans un seul écran. Elle redevient un bloc de page
+   normal dans ces deux cas.
+
+**Deux corrections d'accessibilité au passage.** La barre du haut devient fixe,
+car elle sortait de l'écran dès le premier défilement alors que WCAG 2.2.2 et
+le critère 3.2.6 exigent que ce réglage soit atteignable à tout moment. Et la
+page ne peut plus rester blanche si le JavaScript **casse** : la protection ne
+couvrait que le cas où il est désactivé.
+
+**Résultat : 12 contrôles sur 12**, 99 Ko sur un budget de 150.

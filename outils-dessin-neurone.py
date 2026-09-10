@@ -126,29 +126,33 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
 
 
 # ---------------------------------------------------------------------------
-# L'ouverture : le texte s'empile, il ne se remplace pas
+# Le récit : l'ouverture et le parcours ne font plus qu'UNE SEULE section
 # ---------------------------------------------------------------------------
-# CHANGEMENT DE PRINCIPE, demande de l'utilisateur.
+# DEUX CHANGEMENTS DE PRINCIPE, demandés par l'utilisateur.
 #
-# Avant : chaque temps occupait presque tout l'écran, donc un seul était
-# visible à la fois et les précédents étaient sortis par le haut. On lisait
-# une suite de cartons, pas un texte.
+# 1. LE TEXTE S'EMPILE. Avant, chaque temps occupait presque tout l'écran :
+#    un seul était visible à la fois et les précédents étaient sortis par le
+#    haut. On lisait une suite de cartons, pas un texte. Maintenant les temps
+#    s'ajoutent les uns sous les autres et RESTENT : le défilement ne déplace
+#    plus le texte, il en fait arriver un morceau de plus.
 #
-# Maintenant : l'ouverture est une SCÈNE COLLÉE en haut de l'écran, dans
-# laquelle les temps s'ajoutent les uns sous les autres et RESTENT. Le
-# défilement ne déplace plus le texte, il en fait arriver un morceau de plus.
-# Le visiteur voit son paragraphe se construire.
+# 2. IL N'Y A QU'UN NEURONE, ET IL N'EST JAMAIS COUPÉ. Il apparaît au milieu
+#    de l'ouverture, juste après la phrase sur le cerveau, puis il ne quitte
+#    plus l'écran : c'est LUI qui grandit et remonte pour devenir l'objet du
+#    parcours. C'est la raison pour laquelle l'ouverture et le parcours sont
+#    désormais une seule section avec une seule scène collée. Deux sections
+#    séparées auraient imposé deux dessins, donc une coupure.
 #
 # Ce que ça ne change pas, et qui reste la règle du projet :
 #   le défilement est le SEUL déclencheur, rien n'arrive après un délai ;
-#   remonter retire les temps dans l'ordre inverse ;
+#   remonter rejoue tout à l'envers ;
 #   sans JavaScript ou en mouvement réduit, tout est là d'emblée.
 #
 # La section est haute de plusieurs écrans, mais ce n'est QUE de la distance
 # de défilement : rien n'y est affiché. Tout ce qui se voit est dans la scène
 # collée, qui ne bouge pas.
 
-OUVERTURE = '''  <!-- ==================================================================
+RECIT_DEBUT = '''  <!-- ==================================================================
        L'ouverture. Le texte s'EMPILE dans une scène collée : chaque temps
        s'ajoute aux précédents, qui restent visibles. Le site s'ouvre sur un
        CONSTAT, pas sur un titre : le geste que le visiteur vient
@@ -158,41 +162,69 @@ OUVERTURE = '''  <!-- ==========================================================
        La hauteur de la section ne sert QU'À donner de la distance de
        défilement. Rien n'y est affiché hors de la scène collée.
        =================================================================== -->
-  <section class="section ouverture" id="ouverture">
+  <section class="section recit" id="recit" aria-labelledby="recit-titre">
 
-    <div class="ouverture-scene">
-      <div class="wrap">
-        <div class="pile">
+    <h2 id="recit-titre" class="sr-only">Le neurone, et par où passe le message</h2>
 
-          <h1 class="temps" data-temps="1">Tu viens d'appuyer sur cette page.</h1>
+    <div class="recit-scene">
 
-          <p class="temps lead" data-temps="2">
-            Ton cerveau a commandé le mouvement de ton doigt.
-          </p>
+      <div class="wrap pile pile-haut">
 
-          <figure class="temps figure-courbe" data-temps="3">
-            {courbe}
-            <figcaption class="caption">
-              Voilà à quoi ressemble l'ordre qu'il a envoyé.
-              Une impulsion électrique, et une seule.
-            </figcaption>
-          </figure>
+        <h1 class="temps" data-temps="1">Tu viens d'appuyer sur cette page.</h1>
 
-          <p class="temps lead" data-temps="4">
-            Ça a pris moins d'un centième de seconde.
-          </p>
+        <p class="temps lead" data-temps="2">
+          Ton cerveau a commandé le mouvement de ton doigt.
+        </p>
 
-          <p class="temps question" data-temps="5">Sais-tu comment&nbsp;?</p>
+      </div>
 
+      <!-- LE NEURONE, et il n'y en a qu'un dans tout le site.
+           Il apparaît ici, au milieu de l'ouverture, puis il ne quitte plus
+           l'écran : c'est LUI qui grandit et remonte pour devenir l'objet du
+           parcours. Le visiteur ne voit jamais deux neurones, et il n'y a
+           jamais de coupure entre les deux moments.
+
+           Ce bloc est hors du .wrap, en pleine largeur, pour que son fond
+           papier couvre tout l'écran quand le texte du parcours défile
+           dessous. -->
+      <div class="porte-neurone temps" data-temps="3">
+        <p class="figure-titre" id="figure-titre">Le messager</p>
+        <div class="scene">
+{neurone}
         </div>
+        <nav class="etapes wrap" aria-label="Aller à une partie du neurone">
+{boutons}
+        </nav>
+        <p class="sr-only" aria-live="polite" data-annonce></p>
+      </div>
+
+      <div class="wrap pile pile-bas">
+
+        <figure class="temps figure-courbe" data-temps="4">
+          {courbe}
+          <figcaption class="caption">
+            Voilà à quoi ressemble l'ordre qu'il a envoyé.
+            Une impulsion électrique, et une seule.
+          </figcaption>
+        </figure>
+
+        <p class="temps lead" data-temps="5">
+          Ça a pris moins d'un centième de seconde.
+        </p>
+
+        <p class="temps question" data-temps="6">Sais-tu comment&nbsp;?</p>
+
       </div>
 
       <p class="defiler caption" aria-hidden="true">Continue à défiler</p>
 
     </div>
 
-  </section>
-'''.replace('{courbe}', COURBE)
+    <!-- Les rails. Ils n'affichent RIEN : leur seule fonction est de donner
+         au défilement la distance nécessaire pour faire arriver un temps
+         après l'autre, puis pour la bascule vers le parcours. -->
+    <div class="rails" aria-hidden="true"></div>
+'''
 
 
 # ---------------------------------------------------------------------------
@@ -249,30 +281,16 @@ BLOCS = '\n'.join('''      <div class="etape-texte" id="etape-{cle}" data-vue="{
       </div>
 '''.format(cle=cle, titre=titre, corps=corps) for cle, titre, corps in ETAPES)
 
-PARCOURS = '''  <!-- ==================================================================
-       Le parcours. UN SEUL neurone pour tout le site.
-       Il reste à l'écran pendant que le texte défile, et la caméra se déplace
-       vers la partie dont on parle. Le défilement est la source de vérité :
-       les boutons ne font que faire défiler jusqu'au bon bloc, donc l'état ne
-       peut jamais se désynchroniser.
-       =================================================================== -->
-  <section class="section parcours" id="parcours" aria-labelledby="parcours-titre">
+RECIT_FIN = '''
+    <!-- ==================================================================
+         Le parcours. Le neurone est DÉJÀ à l'écran, arrivé pendant
+         l'ouverture : ces blocs de texte défilent sous lui et commandent la
+         caméra, qui se déplace vers la partie dont on parle.
 
-    <h2 id="parcours-titre" class="sr-only">Les parties d'un neurone</h2>
-
-    <div class="parcours-figure">
-      <div class="wrap">
-        <p class="figure-titre" id="figure-titre">Le messager</p>
-        <div class="scene">
-{neurone}
-        </div>
-        <nav class="etapes" aria-label="Aller à une partie du neurone">
-{boutons}
-        </nav>
-        <p class="sr-only" aria-live="polite" data-annonce></p>
-      </div>
-    </div>
-
+         Le défilement est la source de vérité : les boutons ne font que
+         faire défiler jusqu'au bon bloc, donc l'état ne peut jamais se
+         désynchroniser de ce que le visiteur a sous les yeux.
+         =============================================================== -->
     <div class="wrap parcours-textes">
 {blocs}
     </div>
@@ -299,7 +317,17 @@ PARCOURS = '''  <!-- ===========================================================
     </div>
 
   </section>
-'''.replace('{neurone}', NEURONE).replace('{boutons}', BOUTONS).replace('{blocs}', BLOCS)
+'''.replace('{blocs}', BLOCS)
+
+
+# Le récit complet. L'assemblage se fait ICI, et pas plus haut, parce que
+# l'ouverture a maintenant besoin du neurone ET des boutons du parcours :
+# ils vivent dans la même scène collée.
+RECIT = (RECIT_DEBUT
+         .replace('{courbe}', COURBE)
+         .replace('{neurone}', NEURONE)
+         .replace('{boutons}', BOUTONS)
+         + RECIT_FIN)
 
 
 RESTE = '''  <!-- Sections restantes, jours 3 à 5. Ordre imposé : rien n'apparaît
@@ -322,7 +350,7 @@ def regenerer():
 
     debut = s.index('<main id="contenu">') + len('<main id="contenu">')
     fin = s.index('</main>')
-    s = s[:debut] + "\n\n" + OUVERTURE + "\n" + PARCOURS + "\n" + RESTE + "\n" + s[fin:]
+    s = s[:debut] + "\n\n" + RECIT + "\n" + RESTE + "\n" + s[fin:]
 
     # newline="\n" est OBLIGATOIRE, ce n'est pas un détail de style.
     # Sans lui, Python traduit chaque saut de ligne en CRLF sur Windows. Le

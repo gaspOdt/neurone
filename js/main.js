@@ -11,8 +11,7 @@
    ========================================================================== */
 
 import { initA11y } from './a11y.js?v=d7b3a0d6';
-import { initApparitions } from './apparitions.js?v=d7b3a0d6';
-import { initParcours } from './parcours.js?v=d7b3a0d6';
+import { initRecit } from './recit.js?v=d7b3a0d6';
 
 initA11y();
 
@@ -29,5 +28,7 @@ if (typeof gsap !== 'undefined' && typeof DrawSVGPlugin !== 'undefined') {
   gsap.registerPlugin(DrawSVGPlugin);
 }
 
-initApparitions();
-initParcours();
+/* Un seul récit, une seule scène collée, un seul neurone : l'ouverture et le
+   parcours ne peuvent pas être initialisés séparément sans risquer de se
+   contredire sur la taille et la position du dessin. */
+initRecit();

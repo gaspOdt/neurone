@@ -88,12 +88,22 @@ css/
   base.css          Typographie, mise en page, accessibilité, composants
 js/
   a11y.js           Mouvement réduit, détection d'appareil lent
-  main.js           Point d'entrée, orchestration des animations
+  recit.js          TOUT le récit : le texte qui s'empile, les tracés asservis
+                    au défilement, le neurone qui grandit, la caméra
+  main.js           Point d'entrée
 assets/
   fonts/            Inter, sous-ensemble latin
   vendor/           GSAP et ses greffons
-docs/               La documentation — commencer par 00-CONTEXTE.md
+outils-dessin-neurone.py    Régénère le contenu de index.html
+outils-test-navigateur.py   Pilote un vrai Chrome et passe la batterie
+docs/               La documentation, commencer par 00-CONTEXTE.md
 ```
+
+**Pourquoi un seul fichier pour le récit.** L'ouverture et le parcours étaient
+deux modules, quand ils étaient deux sections. Ils n'en font plus qu'une, pour
+une raison de fond : le neurone doit être LE MÊME du début à la fin, sans
+coupure. Deux modules se seraient contredits sur sa taille et sa position, et
+c'est exactement ce qui est arrivé pendant l'écriture (voir plus bas).
 
 ---
 
@@ -125,7 +135,7 @@ concrètes :
   est rembobiné ; un élément sorti par le HAUT a simplement été dépassé et
   reste visible.
 
-### Un piège coûteux, déjà payé deux fois
+### Un piège coûteux, déjà payé trois fois : SVG n'est pas HTML
 
 `element.hidden = true` **ne fonctionne pas sur un élément SVG** : `hidden`
 appartient à `HTMLElement`, pas à `SVGElement`. L'affectation crée une
@@ -133,9 +143,50 @@ propriété JavaScript inerte sans jamais poser l'attribut. Pire, une
 vérification qui relit `element.hidden` confirme la valeur qu'on vient
 d'écrire, donc le bug passe le test.
 
+**Le même piège, repayé une troisième fois : `svg.offsetHeight` et
+`svg.offsetTop` n'existent pas non plus.** Ils appartiennent eux aussi à
+`HTMLElement`. Sur un `<svg>`, la lecture rend `undefined`, le calcul retombe
+silencieusement sur sa valeur plancher, et le neurone d'introduction faisait
+110 px au lieu de 219. Aucune erreur, aucun message : juste un dessin deux
+fois trop petit.
+
+Sur un élément SVG, mesurer avec **`getBoundingClientRect()`**, qui existe
+partout. Attention toutefois : il tient compte des transformations. Pour lire
+une position de MISE EN PAGE indépendante des transformations, il faut un
+élément HTML, et c'est la raison pour laquelle le neurone est enveloppé dans
+un `<div class="porte-neurone">` dont on lit l'`offsetTop`.
+
 **Leçon générale : ne jamais vérifier un état en relisant la valeur qu'on a
 soi-même posée.** Vérifier ce que le navigateur calcule, par exemple
 `getComputedStyle(el).display` ou les dimensions réellement peintes.
+
+### Un élément ne peut pas avoir deux propriétaires pour une même propriété
+
+Le porte-neurone est DEUX choses à la fois : un temps qui apparaît, et l'objet
+que la bascule déplace vers le haut de l'écran. Les deux animaient sa position
+en `y`, et l'apparition gagnait : elle repartait vers `y = 0` pendant les six
+dixièmes de seconde suivantes, en emportant le déplacement de la bascule.
+
+Le symptôme était trompeur : en défilement normal, le déplacement se produit
+bien après l'apparition, donc tout marchait. Le défaut n'apparaissait qu'en
+sautant directement à une position lointaine, c'est à dire **exactement ce que
+fait un test automatisé**. Un cas de plus où l'outil de test voyait juste et où
+l'on aurait pu croire qu'il se trompait.
+
+**Règle : une propriété animée a un seul propriétaire.** Ici l'apparition ne
+touche plus qu'à l'opacité, et la position appartient à la bascule seule.
+
+### Les déclarations `const` et `let` avant tout retour anticipé
+
+`initRecit()` sort très tôt en mode « mouvement réduit », mais branche quand
+même la caméra et les boutons. Deux fois, ces branchements ont lu une
+constante déclarée plus bas dans la fonction et levé une `ReferenceError` :
+la zone morte temporelle. Le contenu restait entier, mais la caméra ne
+fonctionnait plus **pour exactement les visiteurs qu'on cherche à ménager**.
+
+Tout l'état est donc déclaré en tête de fonction, avant le premier `return`,
+et les constantes qui n'ont pas besoin du contexte sortent carrément du corps
+de la fonction.
 
 ### Toute animation a un état d'arrivée statique
 
@@ -203,16 +254,39 @@ au mouvement, et la survie sur matériel ancien.
 
 ## Ajouter une section
 
-1. Ajouter le `<section class="section" id="...">` dans `index.html`, **à sa
-   place dans l'ordre** — le récit est linéaire et rien n'apparaît avant son tour.
+> **AVERTISSEMENT, à lire avant de taper la première ligne.**
+> `index.html` est un fichier **généré**. Tout ce qui se trouve entre
+> `<main id="contenu">` et `</main>` est réécrit intégralement à chaque
+> exécution de `outils-dessin-neurone.py`. **Une section écrite à la main
+> dans `index.html` sera détruite au prochain lancement, sans le moindre
+> avertissement.** Le `<head>`, le `<footer>` et les balises `<script>`, eux,
+> ne sont pas touchés et s'éditent bien dans `index.html`.
+
+1. Ajouter la section **dans `outils-dessin-neurone.py`**, à sa place dans
+   l'ordre : le récit est linéaire et rien n'apparaît avant son tour. Puis
+   relancer le script.
 2. Chaque schéma SVG porte `role="img"`, un `<title>` et un `<desc>` liés par
    `aria-labelledby`.
 3. Chaque animation ou activité reçoit son alternative textuelle dépliable
    (`<details class="alt-text">`).
-4. Ajouter la fonction d'animation dans `js/main.js`, déclenchée par
-   `ScrollTrigger`, et **vérifier qu'elle a bien un état d'arrivée statique**.
-5. Passer la liste de vérification de [`03-ACCESSIBILITE.md`](03-ACCESSIBILITE.md).
-6. Mettre à jour [`05-JOURNAL.md`](05-JOURNAL.md).
+4. Écrire l'animation en la faisant **découler de la position de défilement**,
+   comme le fait `js/recit.js`, et **vérifier qu'elle a bien un état d'arrivée
+   statique**.
+   **Ne pas utiliser `ScrollTrigger`**, malgré ce que dit encore
+   `01-DIRECTION-ARTISTIQUE.md` : le greffon est dans le dépôt mais n'est
+   **pas chargé** par `index.html`, et l'ajouter coûterait 17,8 Ko compressés,
+   soit un tiers du budget restant, pour une mécanique que le projet a
+   délibérément abandonnée (voir la note d'`apparitions.js`, reprise dans
+   `recit.js`).
+5. Vérifier les **deux replis** : sans JavaScript, et en mouvement réduit. La
+   scène collée y redevient un bloc de page normal, sans quoi tout se
+   chevauche. C'est une erreur déjà commise.
+6. Passer la liste de vérification de [`03-ACCESSIBILITE.md`](03-ACCESSIBILITE.md).
+7. Relancer `outils-test-navigateur.py` et **ajouter les contrôles de la
+   nouvelle section**. La batterie ne doit jamais dépendre du NOMBRE de
+   paragraphes : elle l'a été, et l'arrivée d'un sixième temps la faisait
+   échouer alors que le site marchait.
+8. Mettre à jour [`05-JOURNAL.md`](05-JOURNAL.md).
 
 ---
 
