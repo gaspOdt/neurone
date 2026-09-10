@@ -34,17 +34,24 @@
 
 ### En cours
 
-- [ ] Activer GitHub Pages (action utilisateur, voir ci-dessous)
-- [ ] `docs/02-CONTENU.md` — le texte scientifique, avec sources
-- [ ] `docs/06-DEMO-3MIN.md` — le parcours de démonstration
-- [ ] Remplacer le schéma provisoire du neurone (section 0) par un vrai dessin
+Rien. **Le jour 1 est terminé et vérifié en ligne.**
 
-### Bloqué / en attente de l'utilisateur
+### Le site est en ligne
 
-- **Activer GitHub Pages.** Le dépôt <https://github.com/gaspOdt/neurone> est
-  public, le code est poussé. Il reste à faire, dans `Settings` > `Pages` :
-  source `Deploy from a branch`, branche `main`, dossier `/ (root)`, puis `Save`.
-  L'adresse sera alors <https://gaspodt.github.io/neurone/>.
+<https://gaspodt.github.io/neurone/>
+
+Vérifications passées le 10 septembre 2026, sur le site déployé :
+
+| Contrôle | Résultat |
+|---|---|
+| Les 8 ressources répondent | `200`, servies en gzip |
+| Poids transféré | **106 Ko** (budget 150 Ko) |
+| Police Inter | chargée, corps de texte à 21 px |
+| Erreurs console | aucune |
+| Bouton « Réduire les animations » | bascule, change son libellé, met à jour `aria-pressed`, mémorise le choix, réversible |
+| Repli sans JavaScript | le contenu reste visible (`opacity: 1`) |
+| Cibles tactiles | 44 px et 49 px — au-dessus du minimum |
+| Rendu mobile et bureau | correct sur les deux |
 
 ### Budget de poids — mesuré
 
@@ -64,6 +71,12 @@ seulement si ça rame. Détail dans `07-BENCHMARK.md`.
    animations GSAP rampent et les captures semblent figées. Ce n'est PAS un
    bug du site. Pour juger l'état final :
    `gsap.globalTimeline.getChildren(true,true,true).forEach(t=>t.progress(1))`
+
+### Point de faiblesse assumé
+
+Le schéma du neurone de la section 0 est un **provisoire**, posé pour vérifier
+que le tracé animé fonctionne. Il est maigre et sans caractère. Le remplacer par
+un vrai dessin au trait, dans l'esprit de Cajal, est la première tâche du jour 2.
 
 ### Prochaine étape immédiate
 
