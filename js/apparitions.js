@@ -17,7 +17,7 @@
    reproduit. Le coût est négligeable : une douzaine d'éléments mesurés.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=1200e850';
+import { mouvementReduit } from './a11y.js?v=d7b3a0d6';
 
 /* La bande de déclenchement est une MINCE LIGNE AU MILIEU de l'écran, et
    c'est délibéré.

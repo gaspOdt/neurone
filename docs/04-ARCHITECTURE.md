@@ -178,20 +178,36 @@ Quand la page n'est pas peinte, cette étape est sautée, donc aucun des trois
 ne se déclenche. Mesuré : `window.scrollTo(0, 1200)` change bien `scrollY`
 mais ne produit **zéro** événement `scroll`.
 
-**Conséquence pratique : aucun mécanisme lié au défilement n'est vérifiable
-depuis le panneau.** La bonne méthode est de tester la LOGIQUE en pilotant
-soi-même le calcul :
+**La solution : `outils-test-navigateur.py`.**
 
-```js
-window.scrollTo(0, y);
-window.__apparitions.majEtat(true);   // on appelle le calcul à la main
-window.__parcours.majParcours();
+Cet outil lance un vrai Chrome, qui rend réellement les pages, et lui envoie
+de VRAIS événements de molette par le protocole DevTools. Les événements
+`scroll` sont donc produits par le navigateur lui-même, exactement comme sous
+le doigt d'un visiteur. Plus rien n'échappe au test.
+
+```bash
+python3 -m http.server 8001 &          # dans un terminal normal
+python3 outils-test-navigateur.py      # la batterie complète
+python3 outils-test-navigateur.py --montrer   # avec la fenêtre visible
 ```
 
-`js/apparitions.js` et `js/parcours.js` exposent volontairement leurs
-fonctions de calcul sur `window` pour rendre cela possible. Le seul maillon
-qui reste non testé est « l'événement part, le gestionnaire tourne », qui est
-trivial et garanti dans un vrai navigateur. Les captures
+**Aucune dépendance à installer** : le client WebSocket tient en une
+soixantaine de lignes de bibliothèque standard, ce qui respecte la règle du
+projet. Il sert aussi à prendre de vraies captures d'écran, ce que le panneau
+intégré ne sait pas faire.
+
+Ce qu'il vérifie aujourd'hui :
+
+1. Au chargement, un seul temps est visible
+2. Après 4 secondes sans toucher à rien, rien n'a bougé
+3. La molette fait apparaître les temps un par un
+4. Remonter les fait disparaître un par un, et l'état revient exactement au départ
+5. La caméra visite les parties dans l'ordre, symétriquement
+6. Aucune erreur de console
+
+`js/apparitions.js` et `js/parcours.js` exposent en plus leurs fonctions de
+calcul sur `window`, ce qui permet de tester la logique seule sans dépendre du
+rendu. Les captures
 d'écran reviennent alors **entièrement blanches**, et les actions qui attendent
 un rendu — défilement, survol — expirent. Les animations GSAP rampent aussi,
 faute de `requestAnimationFrame`. **Rien de tout cela n'est un bug du site.**

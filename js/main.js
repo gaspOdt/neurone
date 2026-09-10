@@ -10,9 +10,9 @@
         reste entier et lisible.
    ========================================================================== */
 
-import { initA11y } from './a11y.js?v=1200e850';
-import { initApparitions } from './apparitions.js?v=1200e850';
-import { initParcours } from './parcours.js?v=1200e850';
+import { initA11y } from './a11y.js?v=d7b3a0d6';
+import { initApparitions } from './apparitions.js?v=d7b3a0d6';
+import { initParcours } from './parcours.js?v=d7b3a0d6';
 
 initA11y();
 

@@ -37,6 +37,7 @@ Ce que vous voyez dans les fichiers est exactement ce qui part en ligne.
 ```
 index.html                  La page unique. Toutes les sections s'y enchaînent
 outils-dessin-neurone.py    Régénère le contenu à partir des dessins canoniques
+outils-test-navigateur.py   Pilote un vrai Chrome pour tester le défilement
 css/
   tokens.css                Couleurs, tailles, durées. Le SEUL endroit où changer le style
   base.css                  Typographie, mise en page, accessibilité, composants
@@ -108,6 +109,16 @@ d'apparition. Rien ne se produit après un simple délai, donc personne ne peut 
 information parce qu'il lisait trop lentement.
 
 ---
+
+## Tester
+
+```bash
+python3 outils-test-navigateur.py
+```
+
+Lance un vrai Chrome, lui envoie de vrais mouvements de molette, et vérifie
+que les apparitions suivent le défilement dans les deux sens. Aucune
+dépendance à installer. Ajouter `--montrer` pour voir la fenêtre.
 
 ## Mettre en ligne
 

@@ -298,7 +298,21 @@ html.js.reduce-motion .reveal { opacity: 1; }
   z-index: 2;
   background: var(--paper);
   padding-block: var(--sp-3);
-  border-bottom: 1px solid var(--ink-faint);
+}
+
+/* Le texte qui passe sous le dessin collé était tranché net au milieu d'une
+   ligne, ce qui ressemblait à un défaut d'affichage. Un fondu court le fait
+   disparaître progressivement. Un simple dégradé, sans filtre ni flou : rien
+   qui coûte cher à un vieux GPU. */
+.parcours-figure::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: var(--sp-5);
+  background: linear-gradient(var(--paper), rgba(255, 255, 255, 0));
+  pointer-events: none;
 }
 
 .scene { display: flex; justify-content: center; }

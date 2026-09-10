@@ -17,7 +17,7 @@
    honnête vis-à-vis d'un lecteur d'écran.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=1200e850';
+import { mouvementReduit } from './a11y.js?v=d7b3a0d6';
 
 const DUREE_SURBRILLANCE = 1800;   /* millisecondes */
 
