@@ -234,7 +234,7 @@ html.js.reduce-motion .reveal { opacity: 1; }
 /* --- Titre de schéma ----------------------------------------------------
    Tout schéma porte un titre visible. Un dessin sans titre oblige le lecteur
    à deviner ce qu'il regarde, ce qui coûte cher aux personnes qui ont du mal
-   à tenir plusieurs informations en tête à la fois. */
+   à tenir plusieurs informations en tête à la fois (recommandation COGA). */
 
 .figure-titre {
   font-size: var(--fs-small);
@@ -245,64 +245,83 @@ html.js.reduce-motion .reveal { opacity: 1; }
   margin: 0 0 var(--sp-2);
 }
 
-/* --- Le rythme de lecture -----------------------------------------------
-   Une idée par mouvement de défilement. Chaque bloc marqué .beat reçoit
-   assez d'espace pour arriver seul dans le champ, au lieu que trois phrases
-   apparaissent ensemble. Le lecteur a le temps de lire avant que la suite
-   n'arrive. */
+/* --- L'ouverture : un temps par écran -----------------------------------
+   Chaque temps occupe presque toute la hauteur, donc il faut FAIRE DÉFILER
+   pour atteindre le suivant. C'est la condition pour que le défilement soit
+   le seul déclencheur : si deux temps tenaient ensemble à l'écran, ils
+   apparaîtraient ensemble, quel que soit le code. */
 
-.beat { margin-bottom: clamp(4rem, 26vh, 12rem); }
-.beat:last-of-type { margin-bottom: var(--sp-5); }
+.ouverture { padding-block: 0; }
 
-/* --- Section 1, l'explorateur d'anatomie -------------------------------- */
+.temps {
+  min-height: 90svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0;
+}
+@supports not (height: 100svh) {
+  .temps { min-height: 90vh; }
+}
 
-.explorateur { margin-top: var(--sp-5); }
+.ouverture h1.temps { max-width: 16ch; }
 
-/* Le neurone est dessiné à la VERTICALE : le message entre par le haut et
-   ressort en bas. Le sens du défilement devient donc le sens du signal, ce
-   qui tombe juste sur un téléphone, où l'on scrolle de haut en bas. */
+.question {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.02em;
+}
+
+.figure-courbe { align-items: flex-start; }
+.figure-courbe .courbe { width: 100%; max-width: 22rem; height: auto; }
+.figure-courbe figcaption { margin-top: var(--sp-3); max-width: var(--measure); }
+
+.defiler {
+  padding-bottom: var(--sp-5);
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.defiler::after { content: ''; width: 1px; height: 2rem; background: var(--ink-faint); }
+
+/* --- Le parcours : un seul neurone, qui reste à l'écran -----------------
+   Le dessin est collé en haut pendant que le texte défile dessous. La caméra
+   se déplace vers la partie dont parle le bloc de texte en cours. */
+
+.parcours { padding-block: 0; }
+
+.parcours-figure {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--paper);
+  padding-block: var(--sp-3);
+  border-bottom: 1px solid var(--ink-faint);
+}
 
 .scene { display: flex; justify-content: center; }
-.neurone { display: block; width: auto; max-width: 100%; }
 
-/* Section 0 : le neurone entier, haut et fin, sans cadre. Une planche. */
-.ouverture .scene  { padding-block: var(--sp-3); }
-.ouverture .neurone { aspect-ratio: 2 / 5; height: 62vh; }
-
-/* Section 1 : une lucarne dans laquelle la caméra se déplace. Le cadre dit
-   qu'il se passe quelque chose là-dedans. Volontairement moins haute, pour
-   que le dessin ET les boutons tiennent ensemble à l'écran. */
-.explorateur .scene {
-  border: 1px solid var(--ink-faint);
-  border-radius: var(--radius);
-  padding: var(--sp-2);
+.neurone {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 4 / 5;
+  height: 38svh;
+  max-height: 380px;
 }
-/* Repli avant que le JavaScript ne prenne la main, et cas où il n'arrive
-   jamais. Ensuite, anatomie.js pilote la largeur et la hauteur au pixel. */
-.explorateur .neurone { aspect-ratio: 4 / 5; height: 44vh; max-height: 440px; }
-
 @supports not (aspect-ratio: 1) {
-  .ouverture .neurone   { width: 25vh; }
-  .explorateur .neurone { width: 35vh; }
+  .neurone { width: 30svh; }
 }
 
-/* Les parties pas encore construites sont absentes, pas seulement
-   transparentes.
-
-   On n'utilise PAS l'attribut [hidden] : il est ignoré sur les éléments SVG,
-   et `element.hidden = true` en JavaScript n'y pose même pas l'attribut. */
-.partie.cachee { display: none; }
-
-/* La surbrillance est MOMENTANÉE. On clique, la partie s'allume le temps
-   qu'on la repère, puis elle revient à l'encre noire. Rien n'est atténué en
-   permanence : le dessin reste épuré et lisible en toutes circonstances.
-
-   La couleur seule ne porte jamais l'information : le trait s'épaissit en
+/* La surbrillance est MOMENTANÉE : on désigne la partie, puis le dessin
+   revient à l'encre noire. Rien n'est atténué en permanence.
+   La couleur ne porte jamais seule l'information : le trait s'épaissit en
    même temps, donc la surbrillance reste visible en noir et blanc. */
-.partie .t,
-.partie .b {
+.partie .t, .partie .b {
   transition: stroke var(--dur-base) var(--ease),
-              fill   var(--dur-base) var(--ease),
+              fill var(--dur-base) var(--ease),
               stroke-width var(--dur-base) var(--ease);
 }
 .partie.surbrillance .t { stroke: var(--c-surbrillance); stroke-width: 4.5; }
@@ -314,23 +333,28 @@ html.js.reduce-motion .reveal { opacity: 1; }
   gap: var(--sp-2);
   margin-top: var(--sp-3);
 }
-.etapes button { flex: 1 1 auto; }
+.etapes button { flex: 1 1 auto; font-size: var(--fs-caption); }
 .etapes button[aria-current="true"] { background: var(--ink); color: var(--paper); }
-.etapes button[data-atteinte="non"] { border-style: dashed; color: var(--ink-soft); }
 
-.explication {
-  margin-top: var(--sp-4);
-  min-height: 9rem;   /* évite que la page saute quand le texte change */
-}
-.explication h4 {
-  font-size: var(--fs-h3);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: var(--lh-tight);
-  margin: 0 0 var(--sp-2);
-}
-.explication p { margin: 0; }
+/* --- Les blocs de texte du parcours -------------------------------------
+   Assez hauts pour n'être qu'un seul à la fois dans la zone de lecture,
+   sous le dessin collé. */
 
-@media (min-width: 48em) {
-  .explication { min-height: 7rem; }
+.parcours-textes { padding-top: var(--sp-4); }
+
+.etape-texte {
+  min-height: 74svh;
+  display: flex;
+  align-items: center;
+  /* Le dessin collé ne doit jamais recouvrir un élément qui reçoit le focus
+     ni la cible d'une ancre. Exigence WCAG 2.4.11 « Focus Not Obscured ». */
+  scroll-margin-top: 52svh;
 }
+@supports not (height: 100svh) {
+  .etape-texte { min-height: 74vh; scroll-margin-top: 52vh; }
+}
+.etape-contenu { max-width: var(--measure); }
+.etape-contenu h3 { margin-bottom: var(--sp-3); }
+.etape-contenu p:last-child { margin-bottom: 0; }
+
+.parcours .alt-text { padding-bottom: var(--sp-6); }

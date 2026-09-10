@@ -58,6 +58,30 @@ invisible au mode « mouvement réduit », qui ne peut pas l'atteindre. Toujours
 Trois des quatre couleurs Okabe-Ito échouent au contraste sur blanc.
 Voir [`01-DIRECTION-ARTISTIQUE.md`](01-DIRECTION-ARTISTIQUE.md).
 
+### Le défilement est le seul déclencheur
+
+Aucune apparition ne se déclenche après un simple délai. Deux conséquences
+concrètes :
+
+- Chaque temps de l'ouverture occupe presque toute la hauteur de l'écran. Si
+  deux tenaient ensemble à l'écran, ils apparaîtraient ensemble quoi qu'on
+  code : c'est la mise en page qui garantit la règle, pas le JavaScript.
+- Remonter rejoue le mouvement à l'envers. Un élément sorti par le BAS du champ
+  est rembobiné ; un élément sorti par le HAUT a simplement été dépassé et
+  reste visible.
+
+### Un piège coûteux, déjà payé deux fois
+
+`element.hidden = true` **ne fonctionne pas sur un élément SVG** : `hidden`
+appartient à `HTMLElement`, pas à `SVGElement`. L'affectation crée une
+propriété JavaScript inerte sans jamais poser l'attribut. Pire, une
+vérification qui relit `element.hidden` confirme la valeur qu'on vient
+d'écrire, donc le bug passe le test.
+
+**Leçon générale : ne jamais vérifier un état en relisant la valeur qu'on a
+soi-même posée.** Vérifier ce que le navigateur calcule, par exemple
+`getComputedStyle(el).display` ou les dimensions réellement peintes.
+
 ### Toute animation a un état d'arrivée statique
 
 Si le mouvement est coupé — appareil lent, réglage du visiteur, JavaScript en
@@ -144,13 +168,20 @@ au mouvement, et la survie sur matériel ancien.
 `os.getcwd()`, avant même de lire les arguments. Contournement : lancer le
 serveur depuis un terminal normal.
 
-**2. Un panneau navigateur masqué ne rend pas la page du tout.** Les captures
+**2. Un panneau navigateur masqué ne rend pas la page du tout, et
+`IntersectionObserver` n'y déclenche jamais ses rappels.** Les captures
 d'écran reviennent alors **entièrement blanches**, et les actions qui attendent
 un rendu — défilement, survol — expirent. Les animations GSAP rampent aussi,
 faute de `requestAnimationFrame`. **Rien de tout cela n'est un bug du site.**
 
 Comment travailler quand même :
 
+- **Tout ce qui dépend du défilement est invérifiable depuis là.** Le test sur
+  un téléphone réel est le seul contrôle valable pour les apparitions et le
+  déplacement de la caméra.
+- **Ne jamais faire dépendre un état initial d'un rappel asynchrone.** Le
+  premier affichage se calcule directement avec `getBoundingClientRect`, et
+  l'observateur ne gère que la suite. Sinon la page peut s'ouvrir vide.
 - **Vérifier par le DOM plutôt que par l'image** — c'est de toute façon plus
   rigoureux. Positions, opacités, attributs ARIA, état des groupes SVG.
 - Faire défiler avec `window.scrollBy()`, jamais avec l'action de défilement

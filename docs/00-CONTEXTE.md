@@ -83,6 +83,12 @@ ne remette pas en cause un arbitrage déjà tranché.
 | **Palette : une couleur par concept** | Idée de l'utilisateur (« une couleur par thème, e.g. la myéline en vert »). Retenue parce que **trois exigences convergent** dessus : la pédagogie, la grammaire 3Blue1Brown, et l'accessibilité daltonienne. Détail dans `01-DIRECTION-ARTISTIQUE.md` |
 | **Grammaire d'animation : celle de 3Blue1Brown** | Référence citée par l'utilisateur. On garde **la grammaire du mouvement** (morphing continu, caméra qui recadre, construction progressive, couleur sémantique constante) mais **pas le fond sombre** |
 | **Rien n'apparaît en même temps** | Principe directeur posé par l'utilisateur : « il faut que les differentes parties viennent dans une suite logique ». Une notion n'est jamais montrée avant le moment où elle est expliquée |
+| **Le défilement est le SEUL déclencheur** | « je veux que le scroll soit l'unique declencheur d'apparitions ». Aucune apparition ne se produit après un simple délai. Chaque temps de l'ouverture occupe presque tout l'écran, sinon deux d'entre eux tiendraient ensemble et apparaîtraient ensemble quoi qu'on code |
+| **Remonter rejoue le mouvement à l'envers** | « quand on scroll en arriere ca revient en arriere dans le mouvement » |
+| **Un seul neurone pour tout le site** | « On peut fusionner le premier et le deuxieme neurone en un ». Vu en large d'abord, puis la caméra se déplace sur chaque partie. Le dessin est produit par `outils-dessin-neurone.py`, source unique |
+| **Neurone à la verticale** | Idée de l'utilisateur. Le sens du défilement devient le sens du signal : le message entre par le haut, ressort en bas |
+| **Aucun tiret cadratin** | Demande explicite, valable pour tout le site, code compris |
+| **Norme visée : WCAG 2.2 niveau AA** | « suis a la lettre les recommendations pour les handicaps, cest tres important ». WCAG 2.2 AA satisfait aussi le RGAA et l'Acte européen. Le volet cognitif suit le document COGA du W3C. Détail dans `03-ACCESSIBILITE.md` |
 
 ### 3.3 Technique
 

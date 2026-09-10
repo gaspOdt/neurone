@@ -2,9 +2,18 @@
 
 Un site interactif qui raconte comment un neurone transmet l'information, pour des collégiens.
 Pensé pour le mobile d'abord, sans aucune étape de compilation, et conçu pour rester
-utilisable par tout le monde — daltonisme, lecteurs d'écran, troubles moteurs, vieux téléphones.
+utilisable par tout le monde : daltonisme, lecteurs d'écran, troubles moteurs,
+troubles cognitifs, vieux téléphones.
+
+**En ligne :** <https://gaspodt.github.io/neurone/>
 
 > **Le nom du site n'est pas encore choisi.** Le dépôt s'appelle `neurone` en attendant.
+
+## Où en est le projet
+
+L'ouverture et le parcours du neurone existent. Restent quatre sections
+scientifiques, le quiz, et les deux audits de fin de projet.
+**L'état détaillé et à jour est dans [`docs/05-JOURNAL.md`](docs/05-JOURNAL.md).**
 
 ---
 
@@ -26,18 +35,30 @@ Ce que vous voyez dans les fichiers est exactement ce qui part en ligne.
 ## Organisation
 
 ```
-index.html              La page unique — toutes les sections s'y enchaînent
+index.html                  La page unique. Toutes les sections s'y enchaînent
+outils-dessin-neurone.py    Régénère le contenu à partir des dessins canoniques
 css/
-  tokens.css            Les couleurs, tailles et espacements. Le seul endroit où on change le style global
-  base.css              Typographie, mise en page, accessibilité de base
+  tokens.css                Couleurs, tailles, durées. Le SEUL endroit où changer le style
+  base.css                  Typographie, mise en page, accessibilité, composants
 js/
-  a11y.js               Mouvement réduit, détection d'appareil lent, préférences du visiteur
-  main.js               Point d'entrée
-sections/               Une section du récit par fichier
+  a11y.js                   Mouvement réduit et détection d'appareil lent
+  apparitions.js            Le défilement fait apparaître, et remonter rembobine
+  parcours.js               Le neurone collé à l'écran, la caméra qui le visite
+  main.js                   Point d'entrée
 assets/
-  fonts/                Inter, copiée localement pour fonctionner hors connexion
-  vendor/               GSAP, copiée localement pour la même raison
-docs/                   La documentation du projet — voir ci-dessous
+  fonts/                    Inter, copiée localement pour fonctionner hors connexion
+  vendor/                   GSAP, copiée localement pour la même raison
+docs/                       La documentation. Voir ci-dessous
+```
+
+### Un seul dessin de neurone
+
+Il n'existe qu'un neurone dans tout le site, produit par
+`outils-dessin-neurone.py`. **Ne pas modifier le SVG directement dans
+`index.html`** : modifier le script, puis le relancer.
+
+```bash
+python3 outils-dessin-neurone.py
 ```
 
 ---
@@ -58,7 +79,8 @@ agent qui reprend le projet doit le lire en premier.
 | [`05-JOURNAL.md`](docs/05-JOURNAL.md) | Journal de bord, une entrée par session de travail |
 | [`06-DEMO-3MIN.md`](docs/06-DEMO-3MIN.md) | Le parcours de démonstration, minuté |
 | [`07-BENCHMARK.md`](docs/07-BENCHMARK.md) | L'étude de l'existant |
-| [`08-RAPPORT-TEST.md`](docs/08-RAPPORT-TEST.md) | Le rapport de l'agent testeur |
+| [`08-RAPPORT-TEST.md`](docs/08-RAPPORT-TEST.md) | Le rapport de l'audit technique |
+| [`09-AUDIT-SCIENTIFIQUE.md`](docs/09-AUDIT-SCIENTIFIQUE.md) | Le rapport de l'audit scientifique |
 
 ---
 
@@ -75,9 +97,15 @@ uniquement des animations de `transform` et `opacity`, et une bascule automatiqu
 allégé si l'appareil peine. Budget total : **150 Ko transférés**, mesuré contre les références réelles (voir `docs/07-BENCHMARK.md`). Au jour 1 nous sommes à 104 Ko.
 
 **3. Le site doit rester utilisable par tout le monde.**
-Palette sûre pour le daltonisme, aucune information portée par la couleur seule, alternatives
-textuelles pour chaque animation, navigation complète au clavier, et **aucune interaction qui
-exige un glisser-déposer**. Voir [`docs/03-ACCESSIBILITE.md`](docs/03-ACCESSIBILITE.md).
+Objectif : **WCAG 2.2 niveau AA**, ce qui satisfait aussi le RGAA français et l'Acte
+européen sur l'accessibilité. Palette sûre pour le daltonisme, aucune information portée
+par la couleur seule, alternatives textuelles pour chaque animation, navigation complète
+au clavier, et **aucune interaction qui exige un glisser-déposer**. Le volet cognitif suit
+le document COGA du W3C. Voir [`docs/03-ACCESSIBILITE.md`](docs/03-ACCESSIBILITE.md).
+
+**Une règle de conception qui découle des trois :** le défilement est le seul déclencheur
+d'apparition. Rien ne se produit après un simple délai, donc personne ne peut rater une
+information parce qu'il lisait trop lentement.
 
 ---
 

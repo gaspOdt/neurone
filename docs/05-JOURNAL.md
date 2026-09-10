@@ -8,100 +8,74 @@
 
 ## État actuel
 
-**Dernière mise à jour :** 10 septembre 2026, jour 1
+**Dernière mise à jour :** 10 septembre 2026, fin du jour 2.
 
-**Où on en est :** jour 1 du sprint — fondations du dépôt.
+**En ligne :** <https://gaspodt.github.io/neurone/>
 
-### Fait
+### Ce qui existe
 
-- [x] Dépôt Git local initialisé, branche `main`
-- [x] Arborescence créée (`docs/`, `css/`, `js/`, `sections/`, `assets/`)
-- [x] `docs/00-CONTEXTE.md` — brief initial mot pour mot + journal des décisions
-- [x] `README.md`
-- [x] `docs/05-JOURNAL.md` (ce fichier)
-- [x] Inter (48 Ko) et GSAP + ScrollTrigger + DrawSVG + MorphSVG (137 Ko) en local
-- [x] `css/tokens.css` — palette sémantique, contrastes mesurés et documentés
-- [x] `css/base.css` — typographie, mise en page, socle d'accessibilité
-- [x] `js/a11y.js` — mouvement réduit + détection d'appareil lent
-- [x] `js/main.js` — point d'entrée, animation de l'ouverture
-- [x] `index.html` — squelette + section 0 (la question d'ouverture)
-- [x] Vérifié dans le navigateur : Inter se charge, aucune erreur console
-- [x] `docs/01-DIRECTION-ARTISTIQUE.md`
-- [x] `docs/03-ACCESSIBILITE.md`
-- [x] `docs/04-ARCHITECTURE.md`
-- [x] `docs/07-BENCHMARK.md` — avec relevés de poids réels
-- [x] Dépôt distant GitHub créé et code poussé (dépôt public)
-
-### En cours — jour 2
-
-- [x] Section 1 « Qui est-ce ? » : le neurone se construit partie par partie
-- [x] Vrai dessin au trait d'un **neurone moteur** (multipolaire), plus juste
-      scientifiquement que le croquis provisoire — et cohérent avec la question
-      d'ouverture, qui parle d'un ordre envoyé au pouce
-- [x] Caméra qui se déplace vers chaque partie (animation du `viewBox`)
-- [x] Système d'apparition au défilement pour tout le site
-- [ ] **En attente de validation de la direction par l'utilisateur** avant de
-      décliner le même schéma sur les sections 2 à 5
-- [ ] Section 2 — les charges de part et d'autre de la membrane
-
-### Vérifié le jour 2
-
-Explorateur d'anatomie testé pas à pas par inspection du DOM : à chaque étape,
-seules les parties déjà construites sont présentes, la bonne est active, la
-caméra est au bon cadrage, le titre et le texte suivent, et `aria-current`
-est correct. « Tout voir » ramène à la vue d'ensemble.
-
-Choix technique notable : `vector-effect="non-scaling-stroke"` sur tout le
-dessin. Sans lui, zoomer la caméra épaissirait les traits ; avec lui, le trait
-garde la même finesse à tous les niveaux de zoom. C'est ce qui rend les
-dendrites lisibles sur un téléphone.
-
-### Le site est en ligne
-
-<https://gaspodt.github.io/neurone/>
-
-Vérifications passées le 10 septembre 2026, sur le site déployé :
-
-| Contrôle | Résultat |
+| | |
 |---|---|
-| Les 8 ressources répondent | `200`, servies en gzip |
-| Poids transféré | **106 Ko** (budget 150 Ko) |
-| Police Inter | chargée, corps de texte à 21 px |
-| Erreurs console | aucune |
-| Bouton « Réduire les animations » | bascule, change son libellé, met à jour `aria-pressed`, mémorise le choix, réversible |
-| Repli sans JavaScript | le contenu reste visible (`opacity: 1`) |
-| Cibles tactiles | 44 px et 49 px — au-dessus du minimum |
-| Rendu mobile et bureau | correct sur les deux |
+| Ouverture | **Quatre temps**, un par écran. Constat, cause, temps écoulé, question |
+| Accent graphique | La **courbe du potentiel d'action**, la vraie forme du signal. Elle annonce la section « Tout ou rien », où le visiteur la déclenchera lui-même |
+| Le parcours | **Un seul neurone** pour tout le site, collé en haut de l'écran pendant que le texte défile. La caméra se déplace vers la partie dont on parle |
+| Déclenchement | **Le défilement, et rien d'autre.** Aucune apparition après un simple délai |
+| Retour en arrière | Remonter rejoue le mouvement à l'envers |
+| Poids | **93 Ko** transférés, budget 150 |
 
-### Budget de poids — mesuré
+### Feuille de route
 
-Relevé sur les références réelles plutôt que supposé. Ciechanowski tient en
-51 Ko, Parable of the Polygons en 25 Ko, TensorFlow Playground en 111 Ko.
-**Notre site au jour 1 : 104 Ko transférés**, dont 91 % de tiers (police 47 Ko,
-GSAP 47 Ko) et seulement 7 Ko de code propre. Budget retenu : **150 Ko**.
-Décision de l'utilisateur : **le vrai juge est son téléphone**, on ajustera
-seulement si ça rame. Détail dans `07-BENCHMARK.md`.
+| Étape | État |
+|---|---|
+| Ouverture et parcours du neurone | fait |
+| Section « Au repos », les charges à travers la membrane | à faire |
+| Section « Tout ou rien », le seuil et l'interrupteur | à faire |
+| Section « Ça file », la propagation puis la myéline | à faire |
+| Section « Le saut », la synapse | à faire |
+| Quiz final | à faire |
+| **Agent d'audit technique** | à faire, avant-dernier |
+| **Agent d'audit scientifique** | à faire, **après l'audit technique** |
+| Parcours de démonstration 3 minutes | à faire, en dernier |
 
-### Deux pièges d'environnement, à connaître
+### Les deux audits de fin de projet
+
+**1. Audit technique.** Un agent parcourt le site déployé et vérifie qu'il
+fonctionne : interactions, console, hors connexion, matériel ancien, sans
+JavaScript, et la liste complète d'accessibilité. Produit `08-RAPPORT-TEST.md`.
+
+**2. Audit scientifique, après le technique.** Un agent distinct vérifie que
+**tout ce qui est affirmé est vrai**. C'est un contrôle différent, qui demande
+un autre regard : un site peut fonctionner parfaitement et raconter des
+bêtises. Il doit contrôler :
+
+- Chaque affirmation chiffrée, une par une, avec sa source. Par exemple
+  « moins d'un centième de seconde », « presque un mètre », « des milliers
+  de messages en même temps »
+- Les simplifications pédagogiques : sont-elles **fausses**, ou seulement
+  **incomplètes** ? Une simplification incomplète est légitime, une
+  simplification fausse ne l'est pas
+- Le vocabulaire : les termes techniques employés le sont-ils correctement
+- Les schémas : le dessin du neurone est-il anatomiquement défendable
+- Ce qui est passé sous silence et qui pourrait induire en erreur
+
+Il produit `09-AUDIT-SCIENTIFIQUE.md` et **ne corrige rien lui-même** : il
+signale, et les corrections sont décidées ensuite. Sa sortie doit distinguer
+clairement les erreurs à corriger des choix de vulgarisation assumés.
+
+### Deux limites de l'environnement de développement
 
 1. **Le lanceur de serveur du navigateur intégré n'a pas accès au Bureau**
-   (protection macOS) : `python3 -m http.server` échoue sur `os.getcwd()`.
-   Lancer le serveur depuis un terminal normal.
-2. **Un panneau navigateur masqué bride `requestAnimationFrame`** : les
-   animations GSAP rampent et les captures semblent figées. Ce n'est PAS un
-   bug du site. Pour juger l'état final :
-   `gsap.globalTimeline.getChildren(true,true,true).forEach(t=>t.progress(1))`
+   (protection macOS). Lancer le serveur depuis un terminal normal.
+2. **Le panneau navigateur masqué ne peint pas la page, et `IntersectionObserver`
+   n'y déclenche jamais ses rappels.** Les captures reviennent blanches et le
+   comportement au défilement est invérifiable depuis ici. **Le test sur
+   téléphone réel est donc le seul contrôle valable pour tout ce qui dépend du
+   défilement.** Ce n'est pas un bug du site.
 
-### Point de faiblesse assumé
+### Prochaine étape
 
-Le schéma du neurone de la section 0 est un **provisoire**, posé pour vérifier
-que le tracé animé fonctionne. Il est maigre et sans caractère. Le remplacer par
-un vrai dessin au trait, dans l'esprit de Cajal, est la première tâche du jour 2.
-
-### Prochaine étape immédiate
-
-Jour 2 : section 1 (anatomie révélée une partie à la fois) et section 2
-(les charges de part et d'autre de la membrane).
+Section « Au repos » : les charges positives et négatives que le visiteur fait
+passer de part et d'autre de la membrane.
 
 ---
 
