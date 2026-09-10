@@ -1,8 +1,72 @@
 # 03 — Accessibilité
 
-> **Objectif : WCAG 2.1 niveau AA**, soit l'équivalent du
-> [RGAA 4.1](https://accessibilite.numerique.gouv.fr/) français, qui en est
-> la transposition officielle (106 critères).
+## Quelles normes suivre, exactement
+
+Recherche menée le 10 septembre 2026, à la demande de l'utilisateur.
+
+### La réponse courte
+
+**Viser WCAG 2.2 niveau AA.** C'est le socle qui satisfait tout le reste.
+
+### Pourquoi, et comment les normes s'emboîtent
+
+Il n'existe pas une norme par handicap. Il existe **une norme technique de
+référence**, et des textes réglementaires qui pointent vers elle.
+
+| Texte | Ce que c'est | Ce qu'il faut en savoir |
+|---|---|---|
+| **[WCAG 2.2](https://www.w3.org/WAI/standards-guidelines/wcag/)** | La norme technique du W3C, publiée en octobre 2023 | **87 critères** : 32 de niveau A, 24 de niveau AA, 31 de niveau AAA. C'est la seule chose qu'on teste réellement |
+| **[EN 301 549](https://www.etsi.org/)** | La norme européenne | La version **v4.1.1, publiée le 2 septembre 2026**, intègre WCAG 2.2. Elle étend les exigences au-delà du web (logiciels, matériel) |
+| **Acte européen sur l'accessibilité** | Le texte de loi européen | Applicable depuis le **28 juin 2025**. Il ne définit rien techniquement : il renvoie à EN 301 549 |
+| **[RGAA 4.1](https://accessibilite.numerique.gouv.fr/)** | La déclinaison française | 106 critères de contrôle. C'est la transposition de WCAG, avec une méthode de test officielle |
+
+**Conclusion pratique : un site conforme WCAG 2.2 AA est conforme au RGAA et à
+l'Acte européen.** Inutile de suivre trois référentiels en parallèle.
+
+### Les 6 critères que WCAG 2.2 ajoute à la version 2.1
+
+Ils comptent particulièrement ici, car **trois d'entre eux concernent
+directement les troubles moteurs**, c'est-à-dire le public des associations
+de patients :
+
+| Critère | Ce qu'il exige | Notre situation |
+|---|---|---|
+| **2.5.7 Dragging Movements** | Toute action au glisser-déposer doit avoir une alternative | Décidé dès le départ : **aucune interaction du site n'utilise le glisser** |
+| **2.5.8 Target Size (Minimum)** | Cibles d'au moins 24 × 24 px | On vise **44 × 44**, bien au-delà |
+| **2.4.11 Focus Not Obscured** | L'élément qui a le focus ne doit jamais être caché par un autre | À vérifier : pas de barre flottante qui recouvre le focus |
+| **2.4.13 Focus Appearance** | Indicateur de focus suffisamment épais et contrasté | Notre contour fait 3 px |
+| **3.2.6 Consistent Help** | L'aide est toujours au même endroit | Le bouton d'animations est toujours dans l'en-tête |
+| **3.3.7 Redundant Entry** | Ne pas redemander une information déjà donnée | Sans objet : aucun formulaire |
+
+### Le volet que personne ne traite : le handicap cognitif
+
+WCAG couvre mal les troubles cognitifs et de l'apprentissage. Le W3C publie un
+document distinct pour ça : **[Making Content Usable for People with Cognitive
+and Learning Disabilities](https://www.w3.org/TR/coga-usable/)** (groupe COGA).
+
+Ce n'est pas une norme opposable, mais **c'est le document le plus pertinent
+pour ce site**, parce qu'il s'adresse à des collégiens et à des familles. Ses
+principes retenus ici :
+
+- **Langue claire.** Phrases courtes, mots courants, une idée à la fois.
+- **Ne pas surcharger.** Ne montrer qu'une chose à la fois. C'est exactement la
+  consigne de l'utilisateur sur le rythme de défilement, et sur les parties du
+  neurone qui arrivent l'une après l'autre.
+- **Ne pas exiger de mémoire.** Ne jamais supposer que le lecteur se souvient
+  d'une notion vue trois écrans plus haut.
+- **Rendre l'état visible.** Où suis-je, que se passe-t-il, que puis-je faire.
+- **Pas de limite de temps.** Aucune.
+
+**Ce qui est notable ici : le rythme lent demandé par l'utilisateur pour des
+raisons de confort de lecture est aussi une exigence d'accessibilité cognitive.**
+Les deux se rejoignent, comme la palette sémantique rejoignait le daltonisme.
+
+### Ce qu'on ne fera pas
+
+Le **niveau AAA** n'est pas visé. Le W3C lui-même déconseille de l'exiger pour
+un site entier : certains critères sont impossibles à tenir sur du contenu
+graphique. On respectera cependant plusieurs critères AAA sans le revendiquer,
+notamment l'absence de limite de temps et le mouvement contrôlable.
 
 ---
 

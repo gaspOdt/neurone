@@ -1,5 +1,5 @@
 /* ==========================================================================
-   tokens.css — les valeurs de base du design
+   tokens.css : les valeurs de base du design
    --------------------------------------------------------------------------
    C'est le SEUL fichier à modifier pour changer l'apparence globale du site.
    Aucune couleur ni aucune taille ne doit être écrite en dur ailleurs.
@@ -13,13 +13,13 @@
   --paper:        #FFFFFF;   /* fond, décision de l'utilisateur : blanc pur   */
   --ink:          #1A1A1A;   /* traits, texte           17.4:1 sur blanc  OK  */
   --ink-soft:     #5A5A5A;   /* texte secondaire         7.0:1 sur blanc  OK  */
-  --ink-faint:    #C9C9C9;   /* filets, séparateurs — décoratif uniquement    */
+  --ink-faint:    #C9C9C9;   /* filets, séparateurs, décoratif seulement    */
 
   /* --- La palette sémantique -------------------------------------------
      Une couleur = un concept, tenue du début à la fin, jamais réattribuée.
      Base Okabe-Ito, le standard scientifique du daltonisme.
 
-     ATTENTION — chaque concept a DEUX valeurs, et ce n'est pas un détail :
+     ATTENTION : chaque concept a DEUX valeurs, et ce n'est pas un détail :
        --c-X       la couleur graphique (aplats, traits épais, icônes)
        --c-X-text  la variante assombrie, seule utilisable pour du TEXTE
 
@@ -28,24 +28,29 @@
      indiqués ci-dessous. Ne jamais utiliser --c-X pour un mot lisible.
      --------------------------------------------------------------------- */
 
-  /* L'impulsion et le sodium — ce qui déclenche.
+  /* L'impulsion et le sodium, ce qui déclenche.
      Une seule couleur pour les deux : l'entrée de Na+ EST l'impulsion. */
   --c-impulse:       #0072B2;   /* 5.1:1  OK même pour du texte               */
   --c-impulse-text:  #0072B2;   /* identique, pas besoin d'assombrir          */
 
-  /* Le potassium — le retour au repos. */
+  /* Le potassium, le retour au repos. */
   --c-potassium:      #D55E00;  /* 3.9:1  graphiques seulement                */
   --c-potassium-text: #A34700;  /* 6.0:1  OK pour du texte                    */
 
-  /* La myéline — ce qui accélère. Couleur suggérée par l'utilisateur. */
+  /* La myéline, ce qui accélère. Couleur suggérée par l'utilisateur. */
   --c-myelin:      #009E73;     /* 3.4:1  graphiques seulement                */
   --c-myelin-text: #007054;     /* 6.0:1  OK pour du texte                    */
 
-  /* Les neurotransmetteurs — ce qui franchit la synapse. */
+  /* Les neurotransmetteurs, ce qui franchit la synapse. */
   --c-neuro:       #A64D79;     /* 5.2:1  assombri dès le graphique, car la
                                    valeur Okabe-Ito d'origine (#CC79A7) tombe
                                    à 3.0:1, trop juste même pour un trait     */
   --c-neuro-text:  #A64D79;     /* identique                                  */
+
+  /* La couleur de surbrillance, quand on désigne une partie d'un schéma.
+     Isolée dans son propre token pour pouvoir l'essayer facilement :
+     remplacer par --c-potassium, --c-myelin ou --c-neuro pour comparer. */
+  --c-surbrillance: var(--c-impulse);
 
   /* Retour visuel du quiz. Jamais seuls : toujours doublés d'un mot
      et d'une icône, car « vert = bon, rouge = faux » est précisément le

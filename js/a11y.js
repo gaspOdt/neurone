@@ -1,5 +1,5 @@
 /* ==========================================================================
-   a11y.js — préférences de mouvement et survie sur appareil lent
+   a11y.js : préférences de mouvement et survie sur appareil lent
    --------------------------------------------------------------------------
    Ce fichier gère une seule bascule, mais elle sert DEUX besoins à la fois :
 
@@ -73,7 +73,7 @@ export function basculerMouvement() {
    tourne au rythme de l'écran même sur une machine poussive, donc la mesure ne
    voudrait rien dire. On surveille plutôt les images RÉELLEMENT produites
    pendant les premières secondes d'usage, et on ne dégrade que si la lenteur
-   est franche et répétée — pour ne pas punir un simple à-coup de chargement.
+   est franche et répétée, pour ne pas punir un simple à-coup de chargement.
    ------------------------------------------------------------------------ */
 
 const SEUIL_MS       = 34;   /* une image au-delà de ~34 ms = sous 30 im/s */
@@ -111,7 +111,7 @@ function surveillerFluidite() {
 export function initA11y() {
   appliquer();
 
-  /* Si le visiteur change son réglage système en cours de route, on suit —
+  /* Si le visiteur change son réglage système en cours de route, on suit,
      sauf s'il a fait un choix explicite sur le site. */
   const suivreSysteme = () => { if (lireChoix() === AUTO) appliquer(); };
   if (requeteSysteme.addEventListener) requeteSysteme.addEventListener('change', suivreSysteme);

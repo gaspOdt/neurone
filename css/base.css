@@ -1,5 +1,5 @@
 /* ==========================================================================
-   base.css — typographie, mise en page, socle d'accessibilité
+   base.css : typographie, mise en page, socle d'accessibilité
    ========================================================================== */
 
 /* --- La police, servie depuis le dépôt ---------------------------------
@@ -88,7 +88,7 @@ a { color: var(--c-impulse-text); text-underline-offset: 0.2em; }
 /* --- Accessibilité : le socle ------------------------------------------ */
 
 /* Réservé aux lecteurs d'écran. Sert notamment aux alternatives textuelles
-   des schémas animés — c'est l'équivalent web de l'audiodescription. */
+   des schémas animés. C'est l'équivalent web de l'audiodescription. */
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
@@ -231,35 +231,82 @@ html.js.reduce-motion .reveal { opacity: 1; }
   background: var(--ink-faint);
 }
 
+/* --- Titre de schéma ----------------------------------------------------
+   Tout schéma porte un titre visible. Un dessin sans titre oblige le lecteur
+   à deviner ce qu'il regarde, ce qui coûte cher aux personnes qui ont du mal
+   à tenir plusieurs informations en tête à la fois. */
+
+.figure-titre {
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 var(--sp-2);
+}
+
+/* --- Le rythme de lecture -----------------------------------------------
+   Une idée par mouvement de défilement. Chaque bloc marqué .beat reçoit
+   assez d'espace pour arriver seul dans le champ, au lieu que trois phrases
+   apparaissent ensemble. Le lecteur a le temps de lire avant que la suite
+   n'arrive. */
+
+.beat { margin-bottom: clamp(4rem, 26vh, 12rem); }
+.beat:last-of-type { margin-bottom: var(--sp-5); }
+
 /* --- Section 1, l'explorateur d'anatomie -------------------------------- */
 
 .explorateur { margin-top: var(--sp-5); }
 
-.scene {
-  background: var(--paper);
+/* Le neurone est dessiné à la VERTICALE : le message entre par le haut et
+   ressort en bas. Le sens du défilement devient donc le sens du signal, ce
+   qui tombe juste sur un téléphone, où l'on scrolle de haut en bas. */
+
+.scene { display: flex; justify-content: center; }
+.neurone { display: block; width: auto; max-width: 100%; }
+
+/* Section 0 : le neurone entier, haut et fin, sans cadre. Une planche. */
+.ouverture .scene  { padding-block: var(--sp-3); }
+.ouverture .neurone { aspect-ratio: 2 / 5; height: 62vh; }
+
+/* Section 1 : une lucarne dans laquelle la caméra se déplace. Le cadre dit
+   qu'il se passe quelque chose là-dedans. Volontairement moins haute, pour
+   que le dessin ET les boutons tiennent ensemble à l'écran. */
+.explorateur .scene {
   border: 1px solid var(--ink-faint);
   border-radius: var(--radius);
   padding: var(--sp-2);
 }
-.scene svg { width: 100%; height: auto; aspect-ratio: 5 / 2; }
+/* Repli avant que le JavaScript ne prenne la main, et cas où il n'arrive
+   jamais. Ensuite, anatomie.js pilote la largeur et la hauteur au pixel. */
+.explorateur .neurone { aspect-ratio: 4 / 5; height: 44vh; max-height: 440px; }
+
 @supports not (aspect-ratio: 1) {
-  .scene svg { height: 40vw; max-height: 320px; }
+  .ouverture .neurone   { width: 25vh; }
+  .explorateur .neurone { width: 35vh; }
 }
 
-/* Les parties non encore construites sont absentes, pas juste transparentes :
-   un lecteur d'écran ne doit pas annoncer ce qui n'existe pas encore. */
-.partie[hidden] { display: none; }
+/* Les parties pas encore construites sont absentes, pas seulement
+   transparentes.
 
-/* La partie qu'on regarde en ce moment. Le trait s'épaissit et prend la
-   couleur de l'impulsion — mais l'épaisseur suffit à la distinguer, la
-   couleur n'est jamais le seul signal. */
-.partie.active path,
-.partie.active circle { stroke: var(--c-impulse); }
-.partie.active circle { fill: var(--c-impulse); }
-.partie.active { stroke-width: 1.35; }
+   On n'utilise PAS l'attribut [hidden] : il est ignoré sur les éléments SVG,
+   et `element.hidden = true` en JavaScript n'y pose même pas l'attribut. */
+.partie.cachee { display: none; }
 
-.partie:not(.active) { opacity: 0.45; }
-.partie.seule       { opacity: 1; }
+/* La surbrillance est MOMENTANÉE. On clique, la partie s'allume le temps
+   qu'on la repère, puis elle revient à l'encre noire. Rien n'est atténué en
+   permanence : le dessin reste épuré et lisible en toutes circonstances.
+
+   La couleur seule ne porte jamais l'information : le trait s'épaissit en
+   même temps, donc la surbrillance reste visible en noir et blanc. */
+.partie .t,
+.partie .b {
+  transition: stroke var(--dur-base) var(--ease),
+              fill   var(--dur-base) var(--ease),
+              stroke-width var(--dur-base) var(--ease);
+}
+.partie.surbrillance .t { stroke: var(--c-surbrillance); stroke-width: 4.5; }
+.partie.surbrillance .b { fill: var(--c-surbrillance); }
 
 .etapes {
   display: flex;
@@ -268,20 +315,22 @@ html.js.reduce-motion .reveal { opacity: 1; }
   margin-top: var(--sp-3);
 }
 .etapes button { flex: 1 1 auto; }
-.etapes button[aria-current="true"] {
-  background: var(--ink);
-  color: var(--paper);
-}
-/* Une étape pas encore atteinte reste cliquable, mais s'annonce comme telle. */
+.etapes button[aria-current="true"] { background: var(--ink); color: var(--paper); }
 .etapes button[data-atteinte="non"] { border-style: dashed; color: var(--ink-soft); }
 
 .explication {
   margin-top: var(--sp-4);
-  min-height: 8rem;   /* évite que la page saute quand le texte change */
+  min-height: 9rem;   /* évite que la page saute quand le texte change */
 }
-.explication h3 { margin-bottom: var(--sp-2); }
-.explication p  { margin: 0; }
+.explication h4 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: var(--lh-tight);
+  margin: 0 0 var(--sp-2);
+}
+.explication p { margin: 0; }
 
 @media (min-width: 48em) {
-  .explication { min-height: 6rem; }
+  .explication { min-height: 7rem; }
 }
