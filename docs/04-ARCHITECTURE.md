@@ -144,9 +144,20 @@ au mouvement, et la survie sur matériel ancien.
 `os.getcwd()`, avant même de lire les arguments. Contournement : lancer le
 serveur depuis un terminal normal.
 
-**2. Un panneau navigateur masqué bride `requestAnimationFrame`.** Les animations
-GSAP avancent alors au ralenti et les captures paraissent figées à mi-course.
-**Ce n'est pas un bug du site.** Pour juger l'état final :
+**2. Un panneau navigateur masqué ne rend pas la page du tout.** Les captures
+d'écran reviennent alors **entièrement blanches**, et les actions qui attendent
+un rendu — défilement, survol — expirent. Les animations GSAP rampent aussi,
+faute de `requestAnimationFrame`. **Rien de tout cela n'est un bug du site.**
+
+Comment travailler quand même :
+
+- **Vérifier par le DOM plutôt que par l'image** — c'est de toute façon plus
+  rigoureux. Positions, opacités, attributs ARIA, état des groupes SVG.
+- Faire défiler avec `window.scrollBy()`, jamais avec l'action de défilement
+  du navigateur.
+- Attention à `scroll-behavior: smooth` : après `scrollTo`, la position n'est
+  pas atteinte immédiatement.
+- Pour juger l'état final d'une animation :
 
 ```js
 gsap.globalTimeline.getChildren(true, true, true).forEach(t => t.progress(1));

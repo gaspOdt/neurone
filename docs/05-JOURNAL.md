@@ -32,9 +32,29 @@
 - [x] `docs/07-BENCHMARK.md` — avec relevés de poids réels
 - [x] Dépôt distant GitHub créé et code poussé (dépôt public)
 
-### En cours
+### En cours — jour 2
 
-Rien. **Le jour 1 est terminé et vérifié en ligne.**
+- [x] Section 1 « Qui est-ce ? » : le neurone se construit partie par partie
+- [x] Vrai dessin au trait d'un **neurone moteur** (multipolaire), plus juste
+      scientifiquement que le croquis provisoire — et cohérent avec la question
+      d'ouverture, qui parle d'un ordre envoyé au pouce
+- [x] Caméra qui se déplace vers chaque partie (animation du `viewBox`)
+- [x] Système d'apparition au défilement pour tout le site
+- [ ] **En attente de validation de la direction par l'utilisateur** avant de
+      décliner le même schéma sur les sections 2 à 5
+- [ ] Section 2 — les charges de part et d'autre de la membrane
+
+### Vérifié le jour 2
+
+Explorateur d'anatomie testé pas à pas par inspection du DOM : à chaque étape,
+seules les parties déjà construites sont présentes, la bonne est active, la
+caméra est au bon cadrage, le titre et le texte suivent, et `aria-current`
+est correct. « Tout voir » ramène à la vue d'ensemble.
+
+Choix technique notable : `vector-effect="non-scaling-stroke"` sur tout le
+dessin. Sans lui, zoomer la caméra épaissirait les traits ; avec lui, le trait
+garde la même finesse à tous les niveaux de zoom. C'est ce qui rend les
+dendrites lisibles sur un téléphone.
 
 ### Le site est en ligne
 

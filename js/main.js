@@ -7,6 +7,7 @@
    ========================================================================== */
 
 import { initA11y, mouvementReduit } from './a11y.js';
+import { initAnatomie } from './anatomie.js';
 
 initA11y();
 
@@ -59,11 +60,33 @@ function animerOuverture() {
       { opacity: 0 }, { opacity: 1, duration: 0.5, stagger: 0.15 }, '-=0.3');
 }
 
+
+/* ------------------------------------------------------------------------
+   Apparitions au défilement, pour tout le reste du site.
+
+   Toute la page hors section 0 : chaque .reveal apparaît quand il entre dans
+   le champ. `once: true` — l'élément ne redisparaît jamais en remontant, ce
+   qui serait à la fois désagréable et une perte d'information.
+   ------------------------------------------------------------------------ */
+
+function animerApparitions() {
+  const cibles = document.querySelectorAll('.reveal:not(#ouverture .reveal)');
+  cibles.forEach(el => {
+    gsap.fromTo(el,
+      { opacity: 0, y: 14 },
+      {
+        opacity: 1, y: 0, duration: 0.6, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+      });
+  });
+}
+
 /* ------------------------------------------------------------------------ */
 
 function demarrer() {
-  if (!gsapDispo || mouvementReduit()) { ttoutAfficher(); return; }
-  animerOuverture();
+  if (!gsapDispo || mouvementReduit()) { ttoutAfficher(); }
+  else { animerOuverture(); animerApparitions(); }
+  initAnatomie();
 }
 
 demarrer();

@@ -1,86 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr" class="no-js">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Comment un neurone transmet l'information</title>
-<meta name="description" content="Un site interactif pour comprendre comment un neurone transmet l'information, et ce qu'est un potentiel d'action.">
-<meta name="color-scheme" content="light">
-
-<link rel="stylesheet" href="css/tokens.css">
-<link rel="stylesheet" href="css/base.css">
-
-<link rel="preload" href="assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
-
-<script>
-  /* Posé avant le premier rendu : le CSS s'en sert pour savoir s'il peut
-     cacher les éléments en attendant leur apparition animée. Sans JavaScript,
-     la classe reste 'no-js' et tout le contenu s'affiche normalement. */
-  document.documentElement.className = 'js';
-</script>
-</head>
-
-<body>
-
-<a class="skip-link" href="#contenu">Aller au contenu</a>
-
-<header class="barre">
-  <button type="button" data-bascule-mouvement aria-pressed="false">
-    Réduire les animations
-  </button>
-</header>
-
-<main id="contenu">
-
-  <!-- ==================================================================
-       Section 0 — L'ouverture.
-       La toute première chose affichée est une QUESTION, pas un titre.
-       Elle porte sur le geste que le visiteur vient littéralement de faire,
-       ce qui installe le sujet en une seconde et sans aucun vocabulaire
-       scientifique. C'est la phrase la plus importante du site.
-       =================================================================== -->
-  <section class="section ouverture" id="ouverture">
-    <div class="wrap">
-
-      <h1 class="reveal">
-        Tu sais comment ton cerveau vient d'ordonner à ton pouce
-        d'appuyer sur cette page&nbsp;?
-      </h1>
-
-      <p class="lead reveal">
-        Ça a pris moins d'un dixième de seconde. Voici comment.
-      </p>
-
-      <figure class="figure reveal">
-        <svg viewBox="0 0 600 200" role="img" aria-labelledby="t-ouv d-ouv" class="schema">
-          <title id="t-ouv">Un neurone vu de profil</title>
-          <desc id="d-ouv">
-            Un dessin au trait : à gauche, une petite étoile aux branches
-            ramifiées — le corps du neurone et ses antennes. Vers la droite
-            s'étire un long fil unique qui traverse toute l'image et se
-            termine par quelques ramifications.
-          </desc>
-          <g fill="none" stroke="var(--ink)" stroke-width="var(--stroke)"
-             stroke-linecap="round" stroke-linejoin="round">
-            <path class="trace" d="M96 100 L560 100"/>
-            <circle class="trace" cx="80" cy="100" r="17"/>
-            <path class="trace" d="M68 86 L44 62 M44 62 L30 58 M44 62 L40 44"/>
-            <path class="trace" d="M68 114 L44 138 M44 138 L28 144 M44 138 L42 158"/>
-            <path class="trace" d="M92 84 L110 62 M110 62 L106 44 M110 62 L126 54"/>
-            <path class="trace" d="M560 100 L582 82 M560 100 L586 100 M560 100 L582 118"/>
-          </g>
-        </svg>
-        <figcaption class="caption">
-          Un neurone. Le message entre par les antennes, à gauche,
-          et ressort tout au bout du long fil, à droite.
-        </figcaption>
-      </figure>
-
-      <p class="defiler caption reveal" aria-hidden="true">Fais défiler</p>
-
-    </div>
-  </section>
-
   <!-- ==================================================================
        Section 1 — Qui est-ce ?
        Le neurone se CONSTRUIT partie par partie, jamais d'un seul coup.
@@ -207,7 +124,6 @@
           <button type="button" data-etape="1" aria-current="false">2. Le corps</button>
           <button type="button" data-etape="2" aria-current="false">3. L'axone</button>
           <button type="button" data-etape="3" aria-current="false">4. Les terminaisons</button>
-          <button type="button" data-tout-voir>Tout voir</button>
         </nav>
 
         <div class="explication" aria-live="polite">
@@ -241,29 +157,3 @@
 
     </div>
   </section>
-
-  <!-- Sections restantes, jours 3 à 5. Ordre imposé : rien n'apparaît
-       avant son tour, et la myéline n'est mentionnée nulle part avant la
-       section 4.
-         2. Au repos          les charges de part et d'autre de la membrane
-         3. Tout ou rien      le seuil, l'analogie de l'interrupteur
-         4. Ça file !         la propagation, PUIS la myéline
-         5. Le saut           la synapse
-         6. Quiz              quelques questions, à la fin seulement -->
-
-</main>
-
-<footer class="section wrap">
-  <p class="caption">
-    Projet personnel de vulgarisation scientifique. Les sources seront
-    listées ici.
-  </p>
-</footer>
-
-<script src="assets/vendor/gsap.min.js"></script>
-<script src="assets/vendor/ScrollTrigger.min.js"></script>
-<script src="assets/vendor/DrawSVGPlugin.min.js"></script>
-<script type="module" src="js/main.js"></script>
-
-</body>
-</html>

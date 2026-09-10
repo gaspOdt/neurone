@@ -230,3 +230,58 @@ html.js.reduce-motion .reveal { opacity: 1; }
   width: 1px; height: 2rem;
   background: var(--ink-faint);
 }
+
+/* --- Section 1, l'explorateur d'anatomie -------------------------------- */
+
+.explorateur { margin-top: var(--sp-5); }
+
+.scene {
+  background: var(--paper);
+  border: 1px solid var(--ink-faint);
+  border-radius: var(--radius);
+  padding: var(--sp-2);
+}
+.scene svg { width: 100%; height: auto; aspect-ratio: 5 / 2; }
+@supports not (aspect-ratio: 1) {
+  .scene svg { height: 40vw; max-height: 320px; }
+}
+
+/* Les parties non encore construites sont absentes, pas juste transparentes :
+   un lecteur d'écran ne doit pas annoncer ce qui n'existe pas encore. */
+.partie[hidden] { display: none; }
+
+/* La partie qu'on regarde en ce moment. Le trait s'épaissit et prend la
+   couleur de l'impulsion — mais l'épaisseur suffit à la distinguer, la
+   couleur n'est jamais le seul signal. */
+.partie.active path,
+.partie.active circle { stroke: var(--c-impulse); }
+.partie.active circle { fill: var(--c-impulse); }
+.partie.active { stroke-width: 1.35; }
+
+.partie:not(.active) { opacity: 0.45; }
+.partie.seule       { opacity: 1; }
+
+.etapes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+.etapes button { flex: 1 1 auto; }
+.etapes button[aria-current="true"] {
+  background: var(--ink);
+  color: var(--paper);
+}
+/* Une étape pas encore atteinte reste cliquable, mais s'annonce comme telle. */
+.etapes button[data-atteinte="non"] { border-style: dashed; color: var(--ink-soft); }
+
+.explication {
+  margin-top: var(--sp-4);
+  min-height: 8rem;   /* évite que la page saute quand le texte change */
+}
+.explication h3 { margin-bottom: var(--sp-2); }
+.explication p  { margin: 0; }
+
+@media (min-width: 48em) {
+  .explication { min-height: 6rem; }
+}
