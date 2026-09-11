@@ -117,11 +117,17 @@ Toute couleur, taille, durée passe par une variable de `tokens.css`.
 invisible au mode « mouvement réduit », qui ne peut pas l'atteindre. Toujours
 `transition: opacity var(--dur-base) var(--ease)`.
 
-### Les couleurs ont deux formes
+### La couleur ne se pose jamais sur le texte
 
-`--c-X` pour les aplats et les traits, `--c-X-text` dès qu'un mot doit être lu.
-Trois des quatre couleurs Okabe-Ito échouent au contraste sur blanc.
-Voir [`01-DIRECTION-ARTISTIQUE.md`](01-DIRECTION-ARTISTIQUE.md).
+**Le texte est noir, toujours. La couleur passe derrière**, en surligneur. Dans
+le dessin, les traits sont à l'encre et la couleur s'emploie en aplats cernés
+d'un filet d'encre.
+
+Une seule exception : **le bleu électrique `#0066FF`**, seule couleur dont le
+contraste sur blanc autorise un trait pur. C'est lui qui porte le signal.
+
+Voir [`01-DIRECTION-ARTISTIQUE.md`](01-DIRECTION-ARTISTIQUE.md) pour les
+mesures.
 
 ### Le défilement est le seul déclencheur
 

@@ -103,20 +103,32 @@ curseur. **Aucune interaction du site ne repose sur un glisser-déposer.**
 
 ### 1. Couleur
 
-Palette **Okabe-Ito**, standard scientifique du daltonisme. Détail complet et
-ratios mesurés dans [`01-DIRECTION-ARTISTIQUE.md`](01-DIRECTION-ARTISTIQUE.md).
+Palette fluo. Détail complet et ratios mesurés dans
+[`01-DIRECTION-ARTISTIQUE.md`](01-DIRECTION-ARTISTIQUE.md).
 
-Les trois règles :
+Les quatre règles :
 
 1. **Aucune information n'est jamais portée par la couleur seule.** Chaque
    concept est identifié par **couleur + forme + étiquette**. Le test : une
    capture en noir et blanc doit rester entièrement compréhensible.
 2. **Une couleur n'est jamais réutilisée** pour un autre concept.
-3. **Les couleurs graphiques ne servent jamais au texte.** Trois des quatre
-   couleurs Okabe-Ito échouent au contraste sur fond blanc. Utiliser les
-   variantes `--c-X-text`.
+3. **Le texte est noir, toujours. La couleur passe derrière**, en surligneur.
+   Une couleur fluo contraste très bien avec du noir et très mal avec du
+   blanc : en fond elle vaut jusqu'à 12:1, en trait fin elle tombe à 1,5:1.
+4. **Les aplats fluo sont cernés d'un filet d'encre**, qui porte le contraste
+   que la couleur ne peut pas porter. Seul le bleu électrique `#0066FF` tient
+   en trait pur, à 4,8:1.
 
 Contrastes : **4,5:1** pour le texte, **3:1** pour les traits et l'interface.
+
+**Une tolérance assumée, mesurée et tracée.** Le magenta d'interface se confond
+avec le vert en deutéranopie et avec l'orange en tritanopie, et aucune palette
+de quatre couleurs fluo n'échappe à cette collision. C'est acceptable **parce
+que le magenta ne porte aucune information scientifique** : il dit « regarde
+ici », message déjà porté par l'épaisseur du trait, le cadrage de la caméra et
+la graisse du mot. La règle 1 est ce qui rend cette tolérance légitime. Les
+couleurs qui portent du sens, elles, restent distinguables dans les trois cas,
+avec un écart minimal de 86 pour un seuil de confusion à 60.
 
 ### 2. Mouvement
 
