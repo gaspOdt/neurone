@@ -651,3 +651,15 @@ html.entre .porte-entree {
   align-items: center;
 }
 .silhouette { display: block; width: auto; max-width: 100%; }
+
+/* Tant que le verrou n'est pas ouvert, la page ne defile pas.
+
+   Le bloc du bouton couvre tout l'ecran en position fixe, donc la page
+   pouvait defiler DERRIERE lui sans que le visiteur s'en apercoive. Il
+   arrivait alors sur le bouton en ayant deja bouge, et le clic l'envoyait
+   ailleurs. Bloquer le defilement rend la position de depart certaine.
+
+   Pose sur <html> par le CSS, et jamais par le script : si le JavaScript
+   echoue, la classe `entre` n'est jamais absente puisqu'elle n'est jamais
+   ajoutee... donc on retire le verrou des que le script est absent. */
+html.js:not(.entre) { overflow: hidden; }

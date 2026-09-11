@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=d17b05b0';
+import { mouvementReduit } from './a11y.js?v=76dd128b';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
@@ -453,8 +453,17 @@ export function initRecit() {
       entre = true;
       document.documentElement.classList.add('entre');
       majEtat(false);
-      /* On avance d'EXACTEMENT un temps, sinon le bouton a l'air de n'avoir
-         rien fait.
+      /* On va à la position ABSOLUE du temps suivant, jamais par un
+         déplacement relatif.
+
+         scrollBy partait de la position courante. Or le bloc du bouton est
+         en plein écran fixe : la page peut défiler DERRIÈRE lui sans que le
+         visiteur le voie. S'il avait bougé avant de cliquer, le saut partait
+         de là et atterrissait n'importe où dans la page. C'est ce qui rendait
+         le clic imprévisible d'une fois sur l'autre.
+
+         La cible se calcule depuis la position de la section dans le
+         document, donc elle ne dépend pas d'où l'on se trouve.
 
          Surtout pas scrollIntoView sur le temps suivant : les temps vivent
          dans une scène COLLÉE, donc leur position à l'écran ne bouge pas et
@@ -464,8 +473,9 @@ export function initRecit() {
          Ici on déplace le défilement de la distance qui sépare deux temps,
          c'est-à-dire une fraction des rails, ce qui est la seule grandeur
          qui gouverne réellement la progression. */
-      const pas = rails.offsetHeight * PAS;
-      window.scrollBy({ top: pas, behavior: mouvementReduit() ? 'auto' : 'smooth' });
+      const hautSection = section.getBoundingClientRect().top + window.scrollY;
+      const cible = hautSection + rails.offsetHeight * PAS;
+      window.scrollTo({ top: cible, behavior: mouvementReduit() ? 'auto' : 'smooth' });
 
       /* Le bloc du bouton se replie, donc la hauteur des piles change et
          les tailles des dessins avec elle. Il ne suffit PAS de remesurer :
