@@ -675,14 +675,169 @@ devienne une idée fausse.**
 
 # ACTE 3 — Le quiz
 
-**Rôle : vérifier qu'on a suivi, sans punir.**
+**Rôle : vérifier qu'on a suivi, sans jamais punir.**
 
-> **À écrire.** Quelques questions courtes, à la fin seulement, portant sur les
-> sections et les activités traversées. Retour bienveillant, explication après
-> chaque réponse, pas de score punitif, **aucune limite de temps**.
+## Les principes
+
+**Cinq questions, pas une de plus.** Le site s'adresse à des collégiens et la
+présentation dure trois minutes.
+
+| Principe | Pourquoi |
+|---|---|
+| **Aucun score affiché** | On ne dit jamais « 3 sur 5 ». Un score transforme une lecture en évaluation, et c'est exactement ce que le site n'est pas |
+| **Une explication après CHAQUE réponse** | Juste ou fausse. La question n'est pas là pour trier, elle est là pour faire revenir une idée une dernière fois |
+| **Les mauvaises réponses sont les vraies idées fausses** | Pas des pièges. Chaque mauvaise réponse est une erreur qu'un collégien commet réellement, et l'explication la répare |
+| **On peut se tromper autant qu'on veut** | Aucune limite de temps, aucune tentative comptée, aucun verrouillage |
+| **On interroge ce qui a été MANIPULÉ** | Trois questions sur cinq portent sur les deux moments interactifs. C'est là que la compréhension s'est jouée |
+
+## Le déroulé
+
+Les questions **s'empilent** : répondre à l'une fait apparaître la suivante
+juste en dessous, et les précédentes restent lisibles avec leur explication.
+C'est la même dynamique que le reste du site, mais déclenchée par la réponse
+plutôt que par le défilement, comme le bouton de l'acte 0.
+
+---
+
+### Question 1 — le sens du trajet
+
+> **Dans un neurone, le message circule dans quel sens ?**
 >
-> Les questions doivent porter sur ce qui a été **manipulé** autant que sur ce
-> qui a été lu : le seuil, la course des deux axones, le vide à la synapse.
+> - Des dendrites vers les terminaisons
+> - Des terminaisons vers les dendrites
+> - Dans les deux sens, ça dépend
+
+**Bonne réponse : des dendrites vers les terminaisons.**
+
+**Explication, affichée dans tous les cas :** toujours dans ce sens, jamais
+l'inverse. C'est pour ça que le neurone est dessiné à la verticale sur ce
+site : il descend, comme le message.
+
+*Renvoie à l'acte 1. Vérifiée en [S8] pour le sens anatomique.*
+
+---
+
+### Question 2 — le tout ou rien
+
+> **Tu envoies au neurone beaucoup plus de messages qu'il n'en faut. Que
+> se passe-t-il ?**
+>
+> - Il envoie une impulsion plus forte
+> - Il envoie exactement la même impulsion
+> - Il sature et n'envoie plus rien
+
+**Bonne réponse : exactement la même impulsion.**
+
+**Explication :** c'est la loi du tout ou rien. Comme un interrupteur : appuyer
+plus fort n'allume pas la lumière plus fort. Ce que le neurone fait varier,
+ce n'est pas la force de l'impulsion, c'est le nombre d'impulsions qu'il envoie.
+
+*Renvoie au curseur du seuil, acte 1B. La dernière phrase prépare la question 5.*
+
+---
+
+### Question 3 — la myéline, la question contre-intuitive
+
+> **Tu as recouvert de myéline cinq segments d'axone sur six. Le message
+> arrive-t-il à temps ?**
+>
+> - Oui, ou presque
+> - Non, il est encore cinq fois trop lent
+> - Non, mais il s'en faut de très peu
+
+**Bonne réponse : encore cinq fois trop lent.**
+
+**Explication :** le signal passe presque tout son temps dans le bout resté
+nu. Tant qu'il reste un morceau à découvert, le reste ne sert presque à rien.
+C'est aussi pour ça que perdre sa myéline, même en partie, est si grave.
+
+*Renvoie au défi du chronomètre, acte 1C. **C'est la question la plus
+importante du quiz** : elle porte sur la seule idée vraiment
+contre-intuitive du site, et celle que le visiteur a découverte lui-même.
+Vérifiée en [S3].*
+
+---
+
+### Question 4 — la synapse
+
+> **Entre deux neurones, qu'est-ce qui franchit le vide qui les sépare ?**
+>
+> - Une étincelle électrique
+> - Des messagers chimiques
+> - Rien, les deux neurones se touchent
+
+**Bonne réponse : des messagers chimiques.**
+
+**Explication :** le message change de forme en route. Électrique à l'intérieur
+du neurone, chimique pour passer d'un neurone au suivant.
+
+*Renvoie à l'acte 1D. Les deux mauvaises réponses sont les deux idées fausses
+les plus répandues, et l'explication répare les deux d'un coup.*
+
+---
+
+### Question 5 — ce qu'on a simplifié
+
+> **Pour que ton doigt appuie sur l'écran, combien de neurones ont travaillé ?**
+>
+> - Un seul, celui qu'on a suivi
+> - Deux, un pour partir et un pour arriver
+> - Des centaines
+
+**Bonne réponse : des centaines.**
+
+**Explication :** on en a suivi **un** pour comprendre comment ça marche. Mais
+ton corps en a mobilisé des centaines, en même temps, chacun envoyant sa propre
+série d'impulsions.
+
+*Renvoie à l'acte 2 temps 25. **Cette question a une fonction particulière :
+elle verrouille la réparation de la simplification centrale du site.** Un
+visiteur qui répond « un seul » est précisément celui qui serait reparti avec
+l'idée fausse, et il reçoit l'explication au dernier moment utile. Vérifiée
+en [S4].*
+
+---
+
+## Après la cinquième question
+
+> **Texte :** Voilà. Tu sais maintenant ce qui s'est passé dans ton bras quand
+> tu as cliqué sur ce bouton, tout au début.
+
+**Graphique :** le bouton magenta du tout premier écran réapparaît, cliquable.
+Le cliquer relance l'impulsion bleue le long de la silhouette, une dernière
+fois.
+
+Aucun bilan, aucun score, aucune note. La seule chose affichée est cette
+phrase.
+
+---
+
+## Accessibilité
+
+Le quiz est l'endroit du site où les exigences se concentrent, parce que c'est
+là que le visiteur interagit le plus.
+
+- **Groupes de boutons radio natifs**, un par question, donc pilotables aux
+  flèches du clavier sans une ligne de JavaScript. Chaque groupe porte un
+  `<fieldset>` et une `<legend>` qui reprend la question.
+- **Le résultat n'est jamais signalé par la seule couleur.** Toujours un mot :
+  « bonne réponse » ou « pas tout à fait », plus une icône de forme distincte.
+  Une capture en noir et blanc reste compréhensible.
+- **L'explication est annoncée en `aria-live="polite"`** dès qu'elle apparaît.
+- **Aucune limite de temps, aucune tentative comptée**, conformément à WCAG
+  2.2.1 et au document COGA.
+- **Aucune interaction au glisser**, conformément à WCAG 2.5.7.
+- Les cibles font au moins 44 × 44 px.
+- Sans JavaScript, les questions et **leurs réponses** restent lisibles : le
+  quiz devient une liste de questions-réponses, ce qui est dégradé mais pas
+  cassé.
+
+## Pour la démonstration de 3 minutes
+
+**Le quiz ne sera pas montré en entier.** Une seule question suffit, et c'est
+**la question 3**, celle de la myéline : elle est contre-intuitive, elle porte
+sur une manipulation, et elle montre au jury que le site vérifie une
+compréhension plutôt qu'une mémorisation.
 
 ---
 
@@ -732,6 +887,19 @@ différentes, en tout ou rien d'un côté, progressive de l'autre.
 1. ~~Sourcer les six valeurs en attente~~ **fait**. Les onze fiches de
    `10-SOURCES.md` couvrent toutes les affirmations chiffrées du récit, et
    le sourçage a évité trois erreurs
-2. Écrire l'acte 3, le quiz
+2. ~~Écrire l'acte 3, le quiz~~ **fait**
 3. Faire relire l'ensemble par l'utilisateur
 4. **Ne toucher au site qu'une fois ce document stabilisé**
+
+## Si le temps le permet, et seulement dans ce cas
+
+Ces éléments sont **hors du socle**. Ils ne seront abordés qu'une fois les
+actes 0 à 3 en ligne et testés.
+
+| Élément | Description |
+|---|---|
+| **Une section « Pour aller plus loin »** | Des ressources sur chacun des points abordés, pour le visiteur qui veut continuer. Demande de l'utilisateur. Elle a un intérêt particulier ici : elle permet de **rendre visibles les onze sources** de `10-SOURCES.md`, ce qui montre au jury que le site est sourcé sans alourdir le récit. À destiner à trois publics distincts : un collégien curieux, un enseignant, et un lecteur qui veut les articles d'origine |
+| L'ouverture vers l'IA et les réseaux de neurones | L'angle de thèse de l'utilisateur, écarté du socle mais gardé en réserve |
+| Un deuxième niveau de lecture | Un bouton « Aller plus loin » ouvrant partout un encart plus technique |
+| La narration audio par section | Non promis : la qualité de la synthèse vocale française dépend de la machine du visiteur |
+| La phrase de Katz et Miledi | Le délai synaptique ne vient pas de la traversée du vide mais du temps de libération des messagers. Contre-intuitif et joli, mais coûte un temps de défilement. Voir [S10] |

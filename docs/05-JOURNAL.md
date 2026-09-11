@@ -18,6 +18,13 @@
 > explicite de l'utilisateur : le texte et les graphiques avaient dérivé l'un
 > de l'autre faute de source commune.
 
+### Le document de contenu est complet
+
+[`02-CONTENU.md`](02-CONTENU.md) couvre désormais **les quatre actes de bout en
+bout**, chaque temps décrit sur ses trois plans, et toutes les valeurs chiffrées
+sourcées. **Il est prêt pour la relecture de l'utilisateur**, après laquelle
+l'implémentation pourra commencer.
+
 ### Ce qui a été décidé depuis la dernière session
 
 | | |
