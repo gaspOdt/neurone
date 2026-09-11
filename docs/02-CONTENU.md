@@ -703,58 +703,78 @@ plutôt que par le défilement, comme le bouton de l'acte 0.
 
 > **Dans un neurone, le message circule dans quel sens ?**
 >
-> - Des dendrites vers les terminaisons
-> - Des terminaisons vers les dendrites
+> - Des dendrites vers l'axone
+> - De l'axone vers les dendrites
 > - Dans les deux sens, ça dépend
 
-**Bonne réponse : des dendrites vers les terminaisons.**
+**Bonne réponse : des dendrites vers l'axone.**
 
 **Explication, affichée dans tous les cas :** toujours dans ce sens, jamais
 l'inverse. C'est pour ça que le neurone est dessiné à la verticale sur ce
 site : il descend, comme le message.
 
-*Renvoie à l'acte 1. Vérifiée en [S8] pour le sens anatomique.*
+*Renvoie à l'acte 1.*
+
+> **Pourquoi « axone » et pas « terminaisons ».** La première version proposait
+> « des dendrites vers les terminaisons », ce qui donnait la réponse : l'ordre
+> des mots reproduisait l'ordre dans lequel le site a présenté les parties, et
+> il suffisait de se souvenir de la liste. Avec « axone », il faut vraiment
+> savoir dans quel sens ça circule.
 
 ---
 
 ### Question 2 — le tout ou rien
 
-> **Tu envoies au neurone beaucoup plus de messages qu'il n'en faut. Que
-> se passe-t-il ?**
+> **Deux neurones dépassent leur seuil. Le premier le dépasse tout juste, le
+> second le dépasse très largement. Que se passe-t-il ?**
 >
-> - Il envoie une impulsion plus forte
-> - Il envoie exactement la même impulsion
-> - Il sature et n'envoie plus rien
+> - Le second envoie une impulsion plus forte
+> - Les deux envoient exactement la même impulsion
+> - Le second envoie une impulsion plus longue
 
-**Bonne réponse : exactement la même impulsion.**
+**Bonne réponse : les deux envoient exactement la même impulsion.**
 
 **Explication :** c'est la loi du tout ou rien. Comme un interrupteur : appuyer
-plus fort n'allume pas la lumière plus fort. Ce que le neurone fait varier,
-ce n'est pas la force de l'impulsion, c'est le nombre d'impulsions qu'il envoie.
+plus fort n'allume pas la lumière plus fort. Ce qu'un neurone fait varier, ce
+n'est pas la force de son impulsion, c'est le **nombre** d'impulsions qu'il
+envoie.
 
 *Renvoie au curseur du seuil, acte 1B. La dernière phrase prépare la question 5.*
 
+> **Pourquoi cette formulation.** La première version disait « tu envoies au
+> neurone beaucoup plus de messages », ce qui posait deux problèmes. Le visiteur
+> n'envoie rien, il actionne un curseur. Et « beaucoup plus » n'avait aucun point
+> de comparaison : plus que quoi ? En mettant **deux neurones côte à côte**, la
+> comparaison est dans la question elle-même, et il n'y a plus rien à deviner.
+
 ---
 
-### Question 3 — la myéline, la question contre-intuitive
+### Question 3 — la myéline
 
-> **Tu as recouvert de myéline cinq segments d'axone sur six. Le message
-> arrive-t-il à temps ?**
+> **À quoi sert la myéline ?**
 >
-> - Oui, ou presque
-> - Non, il est encore cinq fois trop lent
-> - Non, mais il s'en faut de très peu
+> - À faire voyager le message beaucoup plus vite
+> - À protéger l'axone des chocs
+> - À fabriquer l'impulsion
 
-**Bonne réponse : encore cinq fois trop lent.**
+**Bonne réponse : à faire voyager le message beaucoup plus vite.**
 
-**Explication :** le signal passe presque tout son temps dans le bout resté
-nu. Tant qu'il reste un morceau à découvert, le reste ne sert presque à rien.
-C'est aussi pour ça que perdre sa myéline, même en partie, est si grave.
+**Explication :** avec elle, le signal saute d'un morceau au suivant au lieu de
+ramper. Jusqu'à cinquante fois plus vite. Et il en faut sur **tout** le trajet :
+s'il reste un bout à découvert, le message y perd presque tout son temps.
 
-*Renvoie au défi du chronomètre, acte 1C. **C'est la question la plus
-importante du quiz** : elle porte sur la seule idée vraiment
-contre-intuitive du site, et celle que le visiteur a découverte lui-même.
-Vérifiée en [S3].*
+*Renvoie au défi du chronomètre, acte 1C. Vérifiée en [S3].*
+
+> **Pourquoi la question a été simplifiée.** La première version demandait si le
+> message arrivait à temps avec « cinq segments d'axone sur six » recouverts.
+> Trop dur, et surtout mal posé : rien dans l'énoncé ne disait ce qu'était un
+> segment ni combien il en fallait, donc la question testait la mémoire d'un
+> réglage plutôt que la compréhension.
+>
+> **L'idée contre-intuitive n'est pas perdue, elle est déplacée dans
+> l'explication**, où elle arrive comme un supplément plutôt que comme un piège.
+> C'est sa place naturelle : le visiteur l'a déjà découverte en manipulant, le
+> quiz n'a pas à la lui faire redécouvrir sous la contrainte.
 
 ---
 
@@ -800,8 +820,8 @@ en [S4].*
 
 ## Après la cinquième question
 
-> **Texte :** Voilà. Tu sais maintenant ce qui s'est passé dans ton bras quand
-> tu as cliqué sur ce bouton, tout au début.
+> **Texte :** Voilà. Tu sais maintenant ce qui s'est passé entre ta tête et ton
+> doigt quand tu as cliqué sur ce bouton, tout au début.
 
 **Graphique :** le bouton magenta du tout premier écran réapparaît, cliquable.
 Le cliquer relance l'impulsion bleue le long de la silhouette, une dernière
@@ -809,6 +829,12 @@ fois.
 
 Aucun bilan, aucun score, aucune note. La seule chose affichée est cette
 phrase.
+
+> **« Entre ta tête et ton doigt », et surtout pas « dans ton bras ».** Le
+> trajet part du cortex moteur, descend la moelle épinière, puis seulement
+> gagne le bras. Dire « dans ton bras » amputerait le parcours de sa plus
+> grande partie, et contredirait la silhouette de l'acte 0, où le trait part
+> de la tête.
 
 ---
 
@@ -835,9 +861,10 @@ là que le visiteur interagit le plus.
 ## Pour la démonstration de 3 minutes
 
 **Le quiz ne sera pas montré en entier.** Une seule question suffit, et c'est
-**la question 3**, celle de la myéline : elle est contre-intuitive, elle porte
-sur une manipulation, et elle montre au jury que le site vérifie une
-compréhension plutôt qu'une mémorisation.
+**la question 2**, celle des deux neurones : elle se comprend en trois secondes
+sans contexte, elle porte sur une manipulation, et son explication contient la
+phrase qui résume le mieux le site, à savoir qu'un neurone ne fait pas varier
+la force de son message mais leur nombre.
 
 ---
 
