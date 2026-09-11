@@ -255,10 +255,35 @@ SILHOUETTE = '''<svg class="silhouette" viewBox="0 0 300 700"
                 <path class="s" d="{corps}"/>
               </g>
 
-              <!-- Le trajet du signal, par-dessus. -->
-              <g fill="none" stroke="var(--signal)" stroke-width="5"
-                 stroke-linecap="round" vector-effect="non-scaling-stroke">
+              <!-- Le trajet du signal, par-dessus.
+
+                   Son epaisseur est en unites du DESSIN, sans
+                   vector-effect="non-scaling-stroke" : c'est ce qui permet a
+                   la camera de plonger dedans. Avec une epaisseur fixe a
+                   l'ecran, aucun zoom ne l'aurait jamais elargi. 12 unites
+                   font environ 5 pixels a la taille d'introduction, et une
+                   large bande une fois le cadrage resserre. -->
+              <g fill="none" stroke="var(--signal)" stroke-width="12"
+                 stroke-linecap="round">
                 <path class="trajet" d="{trajet}"/>
+              </g>
+
+              <!-- LA CHAINE DE CELLULES, acte 1 temps 1. Invisible tant que la
+                   camera n'est pas au fond du trait. Des capsules a l'encre,
+                   bout a bout, posees sur le segment vertical du trajet, sous
+                   la tete : c'est ce segment que le cadrage resserre. Celle du
+                   milieu est « elue » : c'est elle qui deviendra le neurone au
+                   temps 2. Decision de l'utilisateur : des formes abstraites,
+                   pas de petits neurones. -->
+              <g class="chaine" fill="var(--paper)" stroke="var(--ink)"
+                 stroke-width="0.9" stroke-linejoin="round" opacity="0">
+                <!-- Posees a partir de y = 82 : le trait commence a 86 et son
+                     bout arrondi remonte a 80. Plus haut, la premiere capsule
+                     sortait de la bande. La derniere deborde du cadrage par
+                     le bas, et c'est voulu : la chaine continue hors champ. -->
+                <rect x="145" y="82"  width="10" height="15" rx="5"/>
+                <rect class="elue" x="145" y="100" width="10" height="15" rx="5"/>
+                <rect x="145" y="118" width="10" height="15" rx="5"/>
               </g>
             </svg>'''.replace("{corps}", corps()).replace("{trajet}", trajet())
 
@@ -383,12 +408,20 @@ RECIT_DEBUT = '''  <!-- ========================================================
 # ---------------------------------------------------------------------------
 
 ETAPES = [
-    ('ensemble', 'Le messager', '''
-        <p class="lead">Ce fil, c'est une cellule. Une seule.</p>
-        <p class="lead">On l'appelle un <strong>neurone</strong>.</p>
-        <p>Il est bâti pour une seule chose : faire passer un message
-           d'un bout à l'autre. Regardons-le de plus près, morceau par
-           morceau, dans l'ordre où le message les traverse.</p>'''),
+    # Acte 1, temps 1 à 3, textes de 02-CONTENU mot pour mot. Trois blocs,
+    # parce que chacun commande un état différent du dessin : la chaîne, puis
+    # la cellule qui s'en détache, puis le plan avec ses boutons.
+    ('chaine', 'Une chaîne', '''
+        <p class="lead">Ce chemin n'est pas un fil. C'est une chaîne de
+           cellules, mises bout à bout.</p>'''),
+
+    ('cellule', 'En voici une', '''
+        <p class="lead">En voici une. On l'appelle un
+           <strong>neurone</strong>.</p>'''),
+
+    ('plan', 'Le neurone', '''
+        <p>Il est très fort pour une chose : faire passer un message d'un
+           bout à l'autre. Suivons ce message, dans l'ordre.</p>'''),
 
     ('dendrites', 'Les dendrites, le buisson qui écoute', '''
         <p>C'est par le haut que les messages arrivent, dans ces branches
@@ -421,7 +454,7 @@ ETAPES = [
 BOUTONS = '\n'.join(
     '          <button type="button" data-vers="{}" aria-current="false">{}</button>'
     .format(cle, nom) for cle, nom in [
-        ('ensemble', 'Vue entière'), ('dendrites', '1. Dendrites'),
+        ('plan', 'Vue entière'), ('dendrites', '1. Dendrites'),
         ('soma', '2. Corps'), ('axone', '3. Axone'),
         ('terminaisons', '4. Terminaisons')])
 

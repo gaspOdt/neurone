@@ -20,12 +20,10 @@
 | **Une seule mise en page** | Celle du téléphone, partout. La version deux colonnes des grands écrans est supprimée le 11 septembre 2026, sur décision de l'utilisateur, pour tenir le calendrier. Sur ordinateur, la même colonne de 34 rem, centrée |
 | **Silhouette et neurone exclusifs** | Ils partagent une case de grille et ne sont jamais visibles ensemble |
 | **L'acte 0 entier, conforme à `02-CONTENU`** | Pièce 1, 11 septembre 2026. Temps 2 la silhouette seule avec la phrase sur le cerveau, temps 3 le trajet qui se trace avec « Un message est parti de là-haut », temps 4 « deux centièmes de seconde » [S1] avec le temps inscrit à côté, temps 5 la question et le corps qui s'efface **sauf le trait**. Le neurone n'arrive qu'à la bascule, en fondu avec le trait qui part. Vérifié capture par capture à 390 × 844 |
+| **La transition centrale** | Pièce 2, 11 septembre 2026. À la bascule, la caméra **plonge dans le trait** (cadrage de la silhouette asservi au défilement) jusqu'à ce qu'il soit une large bande. Bloc « chaîne » : trois capsules abstraites dans la bande. Bloc « en voici une » : la bande et les autres capsules s'effacent, la capsule élue reste, le neurone se dessine à sa place. Bloc « plan » : les boutons arrivent, et pas avant. Remonter défait tout. Vérifié par capture |
 
 ### Ce qui n'est PAS implémenté
 
-- **Le plongeon dans le trait**, la chaîne de cellules et « En voici une » :
-  la transition centrale entre l'acte 0 et l'acte 1. Aujourd'hui le trait
-  s'efface et le neurone se dessine à sa place, sans zoom.
 - **Le texte de l'acte 1 est encore l'ancien.** Les deux affirmations FAUSSES
   ont disparu avec la réécriture de l'acte 0 (« moins d'un centième » et « une
   impulsion, et une seule »). Restent les deux IMPRÉCISES, dans le parcours :
@@ -88,7 +86,7 @@ L'ordre suit `02-CONTENU.md`. Chaque pièce est vérifiée par capture à
 | Pièce | État |
 |---|---|
 | 1. Acte 0 conforme : silhouette, trajet, temps inscrit, trait seul | **fait**, 11 septembre 2026 |
-| 2. La transition centrale : plongeon dans le trait, chaîne de cellules, « En voici une » | à faire |
+| 2. La transition centrale : plongeon dans le trait, chaîne de capsules, « En voici une » | **fait**, 11 septembre 2026 |
 | 3. Acte 1 : textes de 1A à 1D qui s'accumulent, boutons au temps 3, courbe déplacée au corps cellulaire | à faire |
 | 4. Le curseur du seuil, 1B temps 8 | à faire |
 | 5. Le défi du chronomètre, 1C temps 16 | à faire |
@@ -144,11 +142,12 @@ clairement les erreurs à corriger des choix de vulgarisation assumés.
 
 ### Prochaine étape
 
-**Pièce 2 : la transition centrale.** La silhouette s'efface sauf le trait,
-la caméra plonge dans le trait jusqu'à ce qu'il remplisse l'écran, le trait
-devenu large se révèle fait de cellules alignées (acte 1, temps 1), l'une
-s'isole et se dessine (temps 2, « En voici une »). Détail dans `02-CONTENU.md`,
-acte 0 temps 5 et acte 1 temps 1 et 2.
+**Pièce 3 : l'acte 1.** Les textes de 1A à 1D de `02-CONTENU.md`, qui
+s'accumulent à l'intérieur de chaque partie au lieu de se remplacer, les
+titres et sous-titres des grandes parties, la courbe du potentiel d'action
+déplacée au corps cellulaire, et la disparition des deux formulations
+imprécises encore en ligne. Sans les deux moments interactifs, qui sont les
+pièces 4 et 5.
 
 ---
 

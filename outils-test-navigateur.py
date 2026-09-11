@@ -518,7 +518,8 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
             if v and (not ordre or ordre[-1] != v):
                 ordre.append(v)
         verifier("elle visite les parties dans l'ordre",
-                 ordre == ["ensemble", "dendrites", "soma", "axone", "terminaisons"],
+                 ordre == ["chaine", "cellule", "plan",
+                           "dendrites", "soma", "axone", "terminaisons"],
                  " > ".join(ordre))
 
         print("\n8. Un seul neurone, du debut a la fin")

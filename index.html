@@ -115,10 +115,35 @@
                 <path class="s" d="M150.0 130.0 C164.0 130.0 182.3 133.7 192.0 138.0 C201.7 142.3 204.3 145.7 208.0 156.0 C211.7 166.3 212.3 182.3 214.0 200.0 C215.7 217.7 217.2 241.7 218.0 262.0 C218.8 282.3 221.8 311.3 219.0 322.0 C216.2 332.7 204.5 336.0 201.0 326.0 C197.5 316.0 199.5 282.7 198.0 262.0 C196.5 241.3 194.3 217.7 192.0 202.0 C189.7 186.3 185.8 161.7 184.0 168.0 C182.2 174.3 180.3 214.3 181.0 240.0 C181.7 265.7 186.2 295.3 188.0 322.0 C189.8 348.7 192.3 370.3 192.0 400.0 C191.7 429.7 187.8 468.3 186.0 500.0 C184.2 531.7 182.3 566.7 181.0 590.0 C179.7 613.3 178.0 629.0 178.0 640.0 C178.0 651.0 184.5 653.3 181.0 656.0 C177.5 658.7 161.2 658.7 157.0 656.0 C152.8 653.3 156.2 662.7 156.0 640.0 C155.8 617.3 156.5 556.7 156.0 520.0 C155.5 483.3 154.0 448.0 153.0 420.0 C152.0 392.0 151.0 352.0 150.0 352.0 C149.0 352.0 148.0 392.0 147.0 420.0 C146.0 448.0 144.5 483.3 144.0 520.0 C143.5 556.7 144.2 617.3 144.0 640.0 C143.8 662.7 147.2 653.3 143.0 656.0 C138.8 658.7 122.5 658.7 119.0 656.0 C115.5 653.3 122.0 651.0 122.0 640.0 C122.0 629.0 120.3 613.3 119.0 590.0 C117.7 566.7 115.8 531.7 114.0 500.0 C112.2 468.3 108.3 429.7 108.0 400.0 C107.7 370.3 110.2 348.7 112.0 322.0 C113.8 295.3 118.3 265.7 119.0 240.0 C119.7 214.3 117.8 174.3 116.0 168.0 C114.2 161.7 110.3 186.3 108.0 202.0 C105.7 217.7 103.5 241.3 102.0 262.0 C100.5 282.7 102.5 316.0 99.0 326.0 C95.5 336.0 83.8 332.7 81.0 322.0 C78.2 311.3 81.2 282.3 82.0 262.0 C82.8 241.7 84.3 217.7 86.0 200.0 C87.7 182.3 88.3 166.3 92.0 156.0 C95.7 145.7 98.3 142.3 108.0 138.0 C117.7 133.7 136.0 130.0 150.0 130.0 Z"/>
               </g>
 
-              <!-- Le trajet du signal, par-dessus. -->
-              <g fill="none" stroke="var(--signal)" stroke-width="5"
-                 stroke-linecap="round" vector-effect="non-scaling-stroke">
+              <!-- Le trajet du signal, par-dessus.
+
+                   Son epaisseur est en unites du DESSIN, sans
+                   vector-effect="non-scaling-stroke" : c'est ce qui permet a
+                   la camera de plonger dedans. Avec une epaisseur fixe a
+                   l'ecran, aucun zoom ne l'aurait jamais elargi. 12 unites
+                   font environ 5 pixels a la taille d'introduction, et une
+                   large bande une fois le cadrage resserre. -->
+              <g fill="none" stroke="var(--signal)" stroke-width="12"
+                 stroke-linecap="round">
                 <path class="trajet" d="M150.0 86.0 C150.0 93.3 149.7 116.7 150.0 130.0 C150.3 143.3 149.0 156.0 152.0 166.0 C155.0 176.0 161.3 180.0 168.0 190.0 C174.7 200.0 186.2 213.3 192.0 226.0 C197.8 238.7 200.3 253.7 203.0 266.0 C205.7 278.3 206.8 291.3 208.0 300.0 C209.2 308.7 209.7 315.0 210.0 318.0"/>
+              </g>
+
+              <!-- LA CHAINE DE CELLULES, acte 1 temps 1. Invisible tant que la
+                   camera n'est pas au fond du trait. Des capsules a l'encre,
+                   bout a bout, posees sur le segment vertical du trajet, sous
+                   la tete : c'est ce segment que le cadrage resserre. Celle du
+                   milieu est « elue » : c'est elle qui deviendra le neurone au
+                   temps 2. Decision de l'utilisateur : des formes abstraites,
+                   pas de petits neurones. -->
+              <g class="chaine" fill="var(--paper)" stroke="var(--ink)"
+                 stroke-width="0.9" stroke-linejoin="round" opacity="0">
+                <!-- Posees a partir de y = 82 : le trait commence a 86 et son
+                     bout arrondi remonte a 80. Plus haut, la premiere capsule
+                     sortait de la bande. La derniere deborde du cadrage par
+                     le bas, et c'est voulu : la chaine continue hors champ. -->
+                <rect x="145" y="82"  width="10" height="15" rx="5"/>
+                <rect class="elue" x="145" y="100" width="10" height="15" rx="5"/>
+                <rect x="145" y="118" width="10" height="15" rx="5"/>
               </g>
             </svg>
           </div>
@@ -194,7 +219,7 @@
             </svg>
         </div>
         <nav class="etapes wrap" aria-label="Aller à une partie du neurone">
-          <button type="button" data-vers="ensemble" aria-current="false">Vue entière</button>
+          <button type="button" data-vers="plan" aria-current="false">Vue entière</button>
           <button type="button" data-vers="dendrites" aria-current="false">1. Dendrites</button>
           <button type="button" data-vers="soma" aria-current="false">2. Corps</button>
           <button type="button" data-vers="axone" aria-current="false">3. Axone</button>
@@ -244,14 +269,27 @@
          désynchroniser de ce que le visiteur a sous les yeux.
          =============================================================== -->
     <div class="wrap parcours-textes">
-      <div class="etape-texte" id="etape-ensemble" data-vue="ensemble">
+      <div class="etape-texte" id="etape-chaine" data-vue="chaine">
         <div class="etape-contenu">
-          <h3>Le messager</h3>
-        <p class="lead">Ce fil, c'est une cellule. Une seule.</p>
-        <p class="lead">On l'appelle un <strong>neurone</strong>.</p>
-        <p>Il est bâti pour une seule chose : faire passer un message
-           d'un bout à l'autre. Regardons-le de plus près, morceau par
-           morceau, dans l'ordre où le message les traverse.</p>
+          <h3>Une chaîne</h3>
+        <p class="lead">Ce chemin n'est pas un fil. C'est une chaîne de
+           cellules, mises bout à bout.</p>
+        </div>
+      </div>
+
+      <div class="etape-texte" id="etape-cellule" data-vue="cellule">
+        <div class="etape-contenu">
+          <h3>En voici une</h3>
+        <p class="lead">En voici une. On l'appelle un
+           <strong>neurone</strong>.</p>
+        </div>
+      </div>
+
+      <div class="etape-texte" id="etape-plan" data-vue="plan">
+        <div class="etape-contenu">
+          <h3>Le neurone</h3>
+        <p>Il est très fort pour une chose : faire passer un message d'un
+           bout à l'autre. Suivons ce message, dans l'ordre.</p>
         </div>
       </div>
 

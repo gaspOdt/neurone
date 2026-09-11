@@ -44,12 +44,28 @@ import { mouvementReduit } from './a11y.js?v=c1a2e0d5';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
-  ensemble:     { vue: '0 0 400 1000',    partie: null,             titre: 'le neurone entier' },
-  dendrites:    { vue: '50 8 300 375',    partie: 'p-dendrites',    titre: 'les dendrites' },
-  soma:         { vue: '130 133 140 175', partie: 'p-soma',         titre: 'le corps cellulaire' },
-  axone:        { vue: '40 230 320 400',  partie: 'p-axone',        titre: "l'axone" },
-  terminaisons: { vue: '100 748 200 250', partie: 'p-terminaisons', titre: 'les terminaisons' }
+  /* Les trois premiers blocs de l'acte 1 commandent l'ÉTAT DE LA SCÈNE plus
+     que le cadrage : quel dessin est là. `scene` le dit.
+       chaine   la silhouette au fond du trait, les capsules visibles
+       cellule  la capsule élue s'accentue, le neurone se dessine à sa place
+       neurone  la silhouette est partie, seul le neurone reste
+     Les boutons du parcours n'arrivent qu'au plan, et pas avant. */
+  chaine:       { vue: '0 0 400 1000',    partie: null, scene: 'chaine',  boutons: false, titre: 'une chaîne de cellules' },
+  cellule:      { vue: '0 0 400 1000',    partie: null, scene: 'cellule', boutons: false, titre: 'un neurone' },
+  plan:         { vue: '0 0 400 1000',    partie: null, scene: 'neurone', boutons: true,  titre: 'le neurone entier' },
+  ensemble:     { vue: '0 0 400 1000',    partie: null, scene: 'neurone', boutons: true,  titre: 'le neurone entier' },
+  dendrites:    { vue: '50 8 300 375',    partie: 'p-dendrites',    scene: 'neurone', boutons: true, titre: 'les dendrites' },
+  soma:         { vue: '130 133 140 175', partie: 'p-soma',         scene: 'neurone', boutons: true, titre: 'le corps cellulaire' },
+  axone:        { vue: '40 230 320 400',  partie: 'p-axone',        scene: 'neurone', boutons: true, titre: "l'axone" },
+  terminaisons: { vue: '100 748 200 250', partie: 'p-terminaisons', scene: 'neurone', boutons: true, titre: 'les terminaisons' }
 };
+
+/* Le cadrage de la silhouette, entier puis au fond du trait. Le second garde
+   le rapport 3 pour 7 du premier, sinon le dessin serait letterboxé. Il est
+   centré sur le segment vertical du trajet, sous la tête, là où sont posées
+   les capsules de la chaîne. */
+const SIL_ENTIERE = [0, 0, 300, 700];
+const SIL_PLONGEE = [138, 72, 24, 56];
 
 /* Distance entre le haut de la scène et le neurone une fois la bascule finie. */
 const MARGE_HAUTE = 14;
@@ -96,7 +112,11 @@ export function initRecit() {
   const traitsNeurone = [...svg.querySelectorAll('.t')];
   const traitTrajet   = [...section.querySelectorAll('.silhouette .trajet')];
   const corpsSil      = [...section.querySelectorAll('.silhouette .s')];
+  const chaine        = section.querySelector('.silhouette .chaine');
+  const elue          = section.querySelector('.silhouette .chaine .elue');
+  const autresCellules = [...section.querySelectorAll('.silhouette .chaine rect:not(.elue)')];
   const chrono        = section.querySelector('[data-chrono]');
+  const visuels       = section.querySelector('.visuels');
   const boutsNeurone  = [...svg.querySelectorAll('.b')];
 
   /* Les phrases qui GOUVERNENT les dessins. Chaque élément graphique de
@@ -131,6 +151,7 @@ export function initRecit() {
   let cle = 'ensemble';
   let silVisible = null;
   let corpsSilVisible = null;
+  let sceneActive = null;
   let minuteur = null;
   /* Ici, et pas plus bas : toutMontrer() l'écrit, et toutMontrer() est
      appelée par le retour anticipé du mode « mouvement réduit ». Déclaré
@@ -191,13 +212,81 @@ export function initRecit() {
 
   /** Pose la taille de la silhouette. Sa largeur decoule du rapport 300/700
       de son cadrage, et se replie si la colonne est plus etroite. */
-  function poserSilhouette() {
+  function poserSilhouette(hauteur) {
     if (!sil) return;
-    let H = hauteurDessin(), L = H * 300 / 700;
+    let H = hauteur || hauteurDessin(), L = H * 300 / 700;
     const dispo = porte.clientWidth || scene.clientWidth || 320;
     if (L > dispo) { L = dispo; H = L * 700 / 300; }
     sil.style.width  = Math.round(L) + 'px';
     sil.style.height = Math.round(H) + 'px';
+  }
+
+  /** La plongée : le cadrage de la silhouette, de l'entier au fond du trait,
+      asservi au défilement. À z = 0 on voit le corps, à z = 1 le trait est
+      une large bande qui remplit la colonne. */
+  function plonger(z) {
+    if (!sil) return;
+    const v = SIL_ENTIERE.map((a, i) => a + (SIL_PLONGEE[i] - a) * z);
+    sil.setAttribute('viewBox', v.map(n => n.toFixed(2)).join(' '));
+  }
+
+  /* --- L'état de la scène, commandé par le bloc de texte en cours --------
+     Trois états, et le passage de l'un à l'autre est un fondu : c'est le seul
+     endroit du site où une chose en remplace une autre, et c'est le récit
+     qui le veut, on plonge dans le chemin pour y trouver la cellule. */
+
+  /* Quatre états :
+       plongee  pendant la bascule : ni chaîne ni neurone, la silhouette est
+                tenue par le mémo de majEtat, pas par ici
+       chaine   au fond du trait, les capsules visibles
+       cellule  la capsule élue s'accentue, le neurone se dessine à sa place
+       neurone  la silhouette est partie, seul le neurone reste
+     L'opacité de la silhouette n'a qu'UN propriétaire à la fois : le mémo de
+     majEtat tant que la bascule n'est pas finie, la scène ensuite. Sans cette
+     frontière, en remontant du parcours, l'un la cachait pendant que l'autre
+     la montrait. */
+  function appliquerScene(nom, immediat) {
+    if (sceneActive === nom) return;
+    sceneActive = nom;
+    const sansGsap = typeof gsap === 'undefined';
+    const doux = !immediat && !sansGsap && !mouvementReduit();
+    const vers = (cible, props, duree) => {
+      if (sansGsap) {
+        /* Sans bibliothèque, seule l'opacité est appliquée, à la main. Les
+           tracés et les cadrages sont déjà à leur état d'arrivée. */
+        if (props.opacity === undefined) return;
+        [].concat(cible).forEach(el => { if (el) el.style.opacity = props.opacity; });
+        return;
+      }
+      if (doux) gsap.to(cible, Object.assign({ duration: duree, overwrite: 'auto' }, props));
+      else { const p = Object.assign({}, props); delete p.delay; gsap.set(cible, p); }
+    };
+
+    const chaineVisible  = nom === 'chaine' || nom === 'cellule';
+    const neuroneVisible = nom === 'cellule' || nom === 'neurone';
+    /* « Une cellule S'ISOLE et se dessine » : au bloc « En voici une », la
+       bande bleue et les autres capsules s'en vont d'abord, la capsule élue
+       reste seule, et le neurone ne commence à se dessiner qu'ensuite, à sa
+       place. Sans cet ordre, il se dessinait par-dessus la bande entière et
+       rien ne s'isolait. */
+    const isoler = nom === 'cellule';
+    const apres  = isoler ? 0.55 : 0;
+
+    if (chaine) vers(chaine, { opacity: chaineVisible ? 1 : 0 }, 0.7);
+    vers(autresCellules, { opacity: isoler ? 0 : 1 }, 0.5);
+    vers(traitTrajet, { opacity: (nom === 'cellule' || nom === 'neurone') ? 0 : 1 }, 0.5);
+    /* La capsule élue s'accentue : plus de trait, et c'est la SEULE marque,
+       pour que ça reste lisible en noir et blanc. */
+    if (elue) vers(elue, { attr: { 'stroke-width': isoler ? 2.2 : 0.9 } }, 0.5);
+    vers(porte, { opacity: neuroneVisible ? 1 : 0, delay: apres }, 0.9);
+    vers(traitsNeurone, { drawSVG: neuroneVisible ? '0% 100%' : '0% 0%', delay: apres }, 1.1);
+    vers(boutsNeurone, { scale: neuroneVisible ? 1 : 0, transformOrigin: 'center', delay: apres + 0.6 }, 0.4);
+
+    if (nom !== 'plongee' && porteSil) {
+      const garder = nom !== 'neurone';
+      vers(porteSil, { opacity: garder ? 1 : 0 }, 0.9);
+      silVisible = garder;
+    }
   }
 
   /** Pose le cadrage ET la taille. La largeur découle du rapport du cadrage. */
@@ -236,11 +325,18 @@ export function initRecit() {
     if (nav) nav.style.opacity = '1';
     if (chrono) chrono.style.opacity = '1';
     /* Les deux dessins entiers, l'un au-dessus de l'autre : le CSS des replis
-       défait la case partagée pour qu'ils ne se superposent pas. */
+       défait la case partagée pour qu'ils ne se superposent pas. La
+       silhouette entière, pas plongée, et sans la chaîne : ce sont des états
+       de transition, ils n'ont pas de sens à l'arrêt. */
     if (porteSil) porteSil.style.opacity = '1';
     corpsSil.forEach(el => { el.style.opacity = '1'; });
+    if (chaine) chaine.style.opacity = '0';
+    traitTrajet.forEach(el => { el.style.opacity = '1'; });
+    plonger(0);
     porte.style.opacity = '1';
     porte.style.transform = 'none';
+    if (visuels) visuels.style.transform = 'none';
+    sceneActive = 'neurone';
     mesurer();
     poserVue('ensemble', hauteurParcours());
     poserSilhouette();
@@ -335,54 +431,39 @@ export function initRecit() {
     const tDessin = borne((t - 0.35) / 0.65, 0, 1);
 
     piles.forEach(el => gsap.set(el, { opacity: 1 - tTexte }));
-    /* Le trait de la silhouette part avec le texte, asservi au défilement.
-       Un seul propriétaire pour cette opacité pendant la bascule : le mémo de
-       majEtat ne l'écrit qu'au franchissement du seuil d'apparition, bien
-       plus haut dans la page, donc les deux ne se disputent jamais. */
-    if (porteSil && silVisible) gsap.set(porteSil, { opacity: 1 - tTexte });
-    gsap.set([titre, nav], { opacity: tDessin });
+    gsap.set(titre, { opacity: tDessin });
     /* Une fois le texte parti, les blocs de l'ouverture ne doivent plus
        intercepter la souris : le texte du parcours défile à leur place. */
     scene.classList.toggle('bascule', tTexte >= 1);
-    if (nav) nav.style.pointerEvents = tDessin > 0.5 ? 'auto' : 'none';
 
-    /* LE NEURONE ARRIVE ICI, et pas avant. Dans la narration, il est ce qu'on
-       trouve au bout du trajet : il ne peut donc se montrer qu'une fois la
-       silhouette partie. Il se dessine trait par trait sur la seconde moitié
-       de la bascule, pendant qu'il monte, et ses renflements arrivent une
-       fois le trait posé. Le plongeon dans le trait, qui reliera les deux,
-       est la pièce suivante. */
-    gsap.set(porte, { opacity: tDessin > 0 ? 1 : 0 });
-    gsap.set(traitsNeurone, { drawSVG: '0% ' + (tDessin * 100) + '%' });
-    gsap.set(boutsNeurone, {
-      scale: borne((tDessin - 0.82) / 0.18, 0, 1), transformOrigin: 'center'
-    });
+    /* LA PLONGÉE. Le trait reste, et la caméra entre dedans : le cadrage de
+       la silhouette se resserre sur le segment vertical du trajet jusqu'à ce
+       que le trait soit une large bande. C'est le cœur du dispositif selon
+       02-CONTENU : le visiteur comprend qu'il entre DANS le chemin, et le
+       neurone n'apparaît pas de nulle part, il est ce qu'on trouve au bout du
+       zoom. Le neurone lui même n'arrive qu'au bloc « En voici une ». */
+    plonger(tDessin);
 
-    /* Tant que la bascule n'est pas finie, c'est elle qui tient la taille du
-       dessin. Ensuite c'est la caméra, et il ne faut surtout pas lui reprendre
-       la main : elle est en train d'animer le cadrage vers une partie. */
+    /* Tant que la bascule n'est pas finie, c'est elle qui tient la taille des
+       dessins. Ensuite c'est la caméra, et il ne faut surtout pas lui
+       reprendre la main : elle est en train d'animer le cadrage. Les deux
+       dessins partagent la case, donc la même hauteur, sinon la bascule
+       ferait un saut. */
     if (tDessin < 1 || !cameraActive) {
-      poserVue(tDessin < 1 ? 'ensemble' : cle, H0 + (H1 - H0) * tDessin);
-      /* La silhouette suit la même hauteur que le neurone d'introduction :
-         elles partagent la case, donc toute différence se verrait comme un
-         saut au moment de la bascule. */
-      poserSilhouette();
+      const H = H0 + (H1 - H0) * tDessin;
+      poserVue(tDessin < 1 ? 'ensemble' : cle, H);
+      poserSilhouette(H);
     }
-    /* La position du dessin est mesuree PAR RAPPORT A LA SCENE, et non par
-       offsetTop.
-
-       offsetTop se compte depuis le parent positionne. En introduisant le
-       conteneur `.visuels`, qui empile la silhouette et le neurone dans une
-       meme case, l'origine de ce calcul a change sans qu'aucune erreur ne se
-       produise : le dessin remontait trop haut et passait sous la barre de
-       reglage.
-
-       On retranche le deplacement deja applique pour retrouver la position
-       non transformee, ce qui reste juste quel que soit le parent. */
-    const hautNu = porte.getBoundingClientRect().top
+    /* C'est la CASE PARTAGÉE qui monte, et non le seul neurone : la
+       silhouette est encore à l'écran pendant la plongée, elle doit monter
+       avec. La position est mesurée par rapport à la scène, et non par
+       offsetTop, qui se compte depuis le parent positionné et avait changé
+       d'origine sans erreur quand `.visuels` est apparu. On retranche le
+       déplacement déjà appliqué pour retrouver la position non transformée. */
+    const hautNu = visuels.getBoundingClientRect().top
                  - scene.getBoundingClientRect().top - decalage;
     decalage = tDessin * (padHaut + MARGE_HAUTE - hautNu);
-    gsap.set(porte, { y: decalage });
+    gsap.set(visuels, { y: decalage });
   }
 
   /* --- L'état, entièrement déduit du défilement --------------------------- */
@@ -413,12 +494,15 @@ export function initRecit() {
        Elle partage sa case avec le neurone, donc elle doit avoir fini de
        disparaître quand lui commence : sa fenêtre se ferme au début de la
        bascule, et le neurone n'arrive qu'à la seconde moitié de celle-ci. */
-    if (porteSil) {
-      /* Pas de borne haute ici : la sortie appartient à la bascule, qui fait
-         partir le trait AVEC le texte, sur sa première moitié. Une fenêtre
-         fermée au début de la bascule laissait un écran vide pendant toute
-         la première moitié, mesuré à 0,4 % de pixels peints : la silhouette
-         était partie, le neurone n'arrivait qu'à la seconde moitié. */
+    /* Tant que la bascule n'est pas finie, la scène est en plongée : ni
+       chaîne ni neurone. En remontant depuis le parcours, c'est ce qui les
+       fait repartir, et la silhouette revenir. */
+    if (p < 1) appliquerScene('plongee', immediat);
+
+    if (porteSil && p < 1) {
+      /* La silhouette reste pendant TOUTE la bascule : c'est dans son trait
+         que la caméra plonge. Au delà, p = 1, c'est la scène commandée par
+         le bloc de texte qui décide, et ce mémo se tait. */
       const doitVoir = entre && p >= iCorps * PAS;
 
       /* Son propre etat, et surtout pas le memo partage de poser().
@@ -450,7 +534,10 @@ export function initRecit() {
                                  duration: 0.6, overwrite: true });
       }
     }
-    poser(chrono, entre && p >= iDuree * PAS, immediat);
+    /* Le temps inscrit part avec le texte de l'acte 0, au début de la
+       bascule : c'est une légende de la silhouette entière, pas de la
+       plongée. */
+    poser(chrono, entre && p >= iDuree * PAS && p < N * PAS, immediat);
     poser(defiler, p < 0.01, immediat);
 
     tracer(traitsCourbe, iCourbe, p);
@@ -496,7 +583,16 @@ export function initRecit() {
     if (!VUES[nouvelle]) return;
     const memeVue = nouvelle === cle;
     cle = nouvelle;
-    const { vue, partie, titre: nom } = VUES[cle];
+    const { vue, partie, titre: nom, scene: etat, boutons: avecBoutons } = VUES[cle];
+
+    /* L'état de la scène d'abord : quel dessin est là. Puis le cadrage. */
+    appliquerScene(etat, typeof gsap === 'undefined' || mouvementReduit());
+    if (nav) {
+      if (typeof gsap === 'undefined') nav.style.opacity = avecBoutons ? '1' : '0';
+      else if (mouvementReduit()) gsap.set(nav, { opacity: avecBoutons ? 1 : 0 });
+      else gsap.to(nav, { opacity: avecBoutons ? 1 : 0, duration: 0.6, overwrite: 'auto' });
+      nav.style.pointerEvents = avecBoutons ? 'auto' : 'none';
+    }
 
     if (!memeVue) {
       if (typeof gsap === 'undefined' || mouvementReduit()) {

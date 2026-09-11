@@ -883,13 +883,13 @@ la force de son message mais leur nombre.
 
 | Élément | Où | Couleur | État |
 |---|---|---|---|
-| Le bouton d'ouverture | 0, t1 | magenta | **à créer** |
-| La silhouette de face, unisexe, et le trajet | 0, t2 | encre | **à créer** |
-| Le trajet qui s'allume | 0, t3 | **bleu** | **à créer** |
-| Le zoom du corps vers la cellule | 0 → 1 | encre | **à créer**, transition centrale |
-| La chaîne de cellules | 1, t1 | encre | **à créer** |
+| Le bouton d'ouverture | 0, t1 | magenta | **existe** |
+| La silhouette de face, unisexe | 0, t2 | encre | **existe**, pictogramme au trait |
+| Le trajet qui s'allume | 0, t3 | **bleu** | **existe**, se trace au défilement avec sa phrase, pièce 1 |
+| Le zoom du corps vers la cellule | 0 → 1 | **bleu** | **existe**, pièce 2 : la caméra plonge dans le trait, asservie au défilement, jusqu'à ce qu'il soit une large bande |
+| La chaîne de cellules | 1, t1 | encre | **existe**, pièce 2 : **trois capsules abstraites** bout à bout dans la bande, décision de l'utilisateur. Au temps 2, la bande et les autres capsules s'effacent, celle du milieu reste seule, puis le neurone se dessine à sa place |
 | Le neurone au trait | 1, t2 | encre | **existe** |
-| Les boutons du parcours | 1, t3 | encre | **existe**, apparaissent trop tôt |
+| Les boutons du parcours | 1, t3 | encre | **existe**, n'apparaissent qu'au temps 3, pièce 2 |
 | Les messages qui convergent | 1A | **bleu** | **à créer** |
 | **Le curseur du seuil** | 1B, t8 | bleu + magenta | **à créer**, 1er moment interactif |
 | La courbe du potentiel d'action | 1B, t8 | **bleu** | **existe**, mal placée |
