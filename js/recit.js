@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=7255950c';
+import { mouvementReduit } from './a11y.js?v=8c94808b';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {

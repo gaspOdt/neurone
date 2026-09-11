@@ -33,53 +33,57 @@ RACINE = os.path.dirname(os.path.abspath(__file__))
 # La silhouette de l'acte 0
 # ===========================================================================
 # -*- coding: utf-8 -*-
-"""Fabrique la silhouette de l'acte 0 : de face, unisexe, neutre.
+"""La silhouette de l'acte 0, en PICTOGRAMME.
 
-La moitie droite est decrite point par point, puis MIROITEE. La symetrie est
-donc exacte par construction, ce qu'un trace a la main n'obtiendrait jamais.
-Les points sont relies par des courbes de Catmull-Rom converties en Bezier,
-ce qui donne un contour organique sans avoir a calculer des tangentes.
+Reference demandee par l'utilisateur : le personnage neutre des panneaux de
+toilettes. C'est une forme PLEINE, pas un contour, ce qui regle d'un coup
+trois choses : le trait parait epais parce qu'il n'y a plus de trait, la tete
+ne peut plus chevaucher le buste puisqu'elle en est detachee, et la figure est
+neutre par convention.
+
+Le corps est rempli d'un gris pale et non de noir : le trajet bleu du signal
+doit rester lisible par-dessus, et c'est lui le sujet. Le corps n'est que le
+decor qui situe la scene.
+
+La moitie droite est decrite point par point puis MIROITEE, donc la symetrie
+est exacte par construction.
 """
 
-L = 300.0   # largeur du viewBox
+L = 300.0
 
-# Moitie DROITE seulement, du cou jusqu'a l'entrejambe, dans le sens horaire.
+# Moitie DROITE du corps, du centre des epaules a l'entrejambe, sens horaire.
 DEMI = [
-    (166, 100),   # cou
-    (196, 132),   # epaule
-    (212, 158),   # deltoide
-    (220, 215),   # bras, dehors
-    (224, 272),   # coude, dehors
-    (226, 330),   # avant-bras, dehors
-    (224, 362),   # poignet, dehors
-    (222, 392),   # LE DOIGT, ou le trajet s'arrete
-    (206, 388),   # main, dedans
-    (204, 360),   # poignet, dedans
-    (202, 328),   # avant-bras, dedans
-    (200, 272),   # coude, dedans
-    (192, 196),   # aisselle
-    (180, 252),   # taille
-    (192, 316),   # hanche
-    (196, 390),   # cuisse, dehors
-    (190, 470),   # genou, dehors
-    (185, 550),   # mollet, dehors
-    (180, 628),   # cheville, dehors
-    (194, 648),   # pied, dehors
-    (166, 648),   # pied, dedans
-    (164, 628),   # cheville, dedans
-    (163, 470),   # genou, dedans
-    (160, 390),   # cuisse, dedans
-    (150, 348),   # entrejambe, sur l'axe de symetrie
+    (150, 130),   # centre des epaules, sur l'axe
+    (192, 138),   # epaule
+    (208, 156),   # deltoide
+    (214, 200),   # bras
+    (218, 262),   # avant-bras
+    (219, 322),   # bas de la main
+    (201, 326),   # main, cote interieur
+    (198, 262),
+    (192, 202),
+    (184, 168),   # aisselle
+    (181, 240),   # taille
+    (188, 322),   # hanche
+    (192, 400),   # cuisse
+    (186, 500),   # genou
+    (181, 590),   # mollet
+    (178, 640),   # cheville
+    (181, 656),   # pied
+    (157, 656),   # pied, cote interieur
+    (156, 640),
+    (156, 520),
+    (153, 420),
+    (150, 352),   # entrejambe, sur l'axe
 ]
+
+TETE = (150, 72, 46)   # cx, cy, r. Detachee : son bas est a 118, les epaules a 130.
 
 
 def catmull(points, ferme=False):
     """Relie des points par des courbes douces. Sortie : un `d` de SVG."""
     p = list(points)
-    if ferme:
-        p = [p[-1]] + p + [p[0], p[1]]
-    else:
-        p = [p[0]] + p + [p[-1]]
+    p = ([p[-1]] + p + [p[0], p[1]]) if ferme else ([p[0]] + p + [p[-1]])
     d = "M%.1f %.1f" % (p[1][0], p[1][1])
     for i in range(1, len(p) - 2):
         p0, p1, p2, p3 = p[i - 1], p[i], p[i + 1], p[i + 2]
@@ -90,16 +94,17 @@ def catmull(points, ferme=False):
 
 
 def corps():
-    """Contour complet : moitie droite, puis son miroir."""
-    miroir = [(L - x, y) for (x, y) in reversed(DEMI[:-1])]
+    """Contour ferme du corps : moitie droite, puis son miroir."""
+    miroir = [(L - x, y) for (x, y) in reversed(DEMI[1:-1])]
     return catmull(DEMI + miroir, ferme=True) + " Z"
 
 
-# Le trajet du signal : de la tete, le long de la moelle, puis du bras,
-# jusqu'au bout du doigt. Il s'arrete exactement sur le point « LE DOIGT ».
+# Le trajet du signal. Il part de la tete, descend au centre du corps, bifurque
+# vers le bras DROIT du dessin, et s'arrete au bout de la main, la ou le doigt
+# a appuye. Trace par-dessus la forme pleine.
 TRAJET = [
-    (150, 96), (152, 140), (155, 174), (172, 198),
-    (198, 240), (210, 286), (215, 336), (218, 366), (221, 390),
+    (150, 86), (150, 130), (152, 166), (168, 190),
+    (192, 226), (203, 266), (208, 300), (210, 318),
 ]
 
 
@@ -234,17 +239,24 @@ SILHOUETTE = '''<svg class="silhouette" viewBox="0 0 300 700"
                  preserveAspectRatio="xMidYMid meet"
                  role="img" aria-labelledby="sil-titre sil-desc">
               <title id="sil-titre">Une silhouette humaine, et le trajet du message</title>
-              <desc id="sil-desc">Contour d'une personne vue de face, dessine au
-                trait, sans visage ni vetement. Un trait part du haut de la tete,
-                descend au centre du corps, bifurque vers le bras droit et
-                s'arrete au bout du doigt.</desc>
-              <g fill="none" stroke="var(--ink)" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round"
-                 vector-effect="non-scaling-stroke">
-                <circle class="s" cx="150" cy="62" r="38"/>
+              <desc id="sil-desc">Pictogramme d'une personne vue de face, comme
+                sur un panneau, dessine au trait epais : une tete ronde detachee
+                au-dessus d'un corps aux bras le long du corps. Un trait bleu part de la
+                tete, descend au centre du corps, bifurque vers le bras droit et
+                s'arrete au bout de la main.</desc>
+
+              <!-- La forme du pictogramme, mais en CONTOUR : tete detachee au
+                   dessus des epaules, comme sur un panneau, et trait epais.
+                   Non rempli, pour que le trajet bleu reste lisible a
+                   l'interieur du corps plutot que pose par-dessus un aplat. -->
+              <g fill="none" stroke="var(--ink)" stroke-width="3.5"
+                 stroke-linejoin="round">
+                <circle class="s" cx="150" cy="72" r="46"/>
                 <path class="s" d="{corps}"/>
               </g>
-              <g fill="none" stroke="var(--signal)" stroke-width="3.5"
+
+              <!-- Le trajet du signal, par-dessus. -->
+              <g fill="none" stroke="var(--signal)" stroke-width="5"
                  stroke-linecap="round" vector-effect="non-scaling-stroke">
                 <path class="trajet" d="{trajet}"/>
               </g>

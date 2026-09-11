@@ -7,8 +7,8 @@
 <meta name="description" content="Un site interactif pour comprendre comment un neurone transmet l'information, et ce qu'est un potentiel d'action.">
 <meta name="color-scheme" content="light">
 
-<link rel="stylesheet" href="css/tokens.css?v=7255950c">
-<link rel="stylesheet" href="css/base.css?v=7255950c">
+<link rel="stylesheet" href="css/tokens.css?v=8c94808b">
+<link rel="stylesheet" href="css/base.css?v=8c94808b">
 
 <link rel="preload" href="assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -89,19 +89,26 @@
                  preserveAspectRatio="xMidYMid meet"
                  role="img" aria-labelledby="sil-titre sil-desc">
               <title id="sil-titre">Une silhouette humaine, et le trajet du message</title>
-              <desc id="sil-desc">Contour d'une personne vue de face, dessine au
-                trait, sans visage ni vetement. Un trait part du haut de la tete,
-                descend au centre du corps, bifurque vers le bras droit et
-                s'arrete au bout du doigt.</desc>
-              <g fill="none" stroke="var(--ink)" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round"
-                 vector-effect="non-scaling-stroke">
-                <circle class="s" cx="150" cy="62" r="38"/>
-                <path class="s" d="M166.0 100.0 C176.3 105.3 188.3 122.3 196.0 132.0 C203.7 141.7 208.0 144.2 212.0 158.0 C216.0 171.8 218.0 196.0 220.0 215.0 C222.0 234.0 223.0 252.8 224.0 272.0 C225.0 291.2 226.0 315.0 226.0 330.0 C226.0 345.0 224.7 351.7 224.0 362.0 C223.3 372.3 225.0 387.7 222.0 392.0 C219.0 396.3 209.0 393.3 206.0 388.0 C203.0 382.7 204.7 370.0 204.0 360.0 C203.3 350.0 202.7 342.7 202.0 328.0 C201.3 313.3 201.7 294.0 200.0 272.0 C198.3 250.0 195.3 199.3 192.0 196.0 C188.7 192.7 180.0 232.0 180.0 252.0 C180.0 272.0 189.3 293.0 192.0 316.0 C194.7 339.0 196.3 364.3 196.0 390.0 C195.7 415.7 191.8 443.3 190.0 470.0 C188.2 496.7 186.7 523.7 185.0 550.0 C183.3 576.3 178.5 611.7 180.0 628.0 C181.5 644.3 196.3 644.7 194.0 648.0 C191.7 651.3 171.0 651.3 166.0 648.0 C161.0 644.7 164.5 657.7 164.0 628.0 C163.5 598.3 163.7 509.7 163.0 470.0 C162.3 430.3 162.2 410.3 160.0 390.0 C157.8 369.7 153.3 348.0 150.0 348.0 C146.7 348.0 142.2 369.7 140.0 390.0 C137.8 410.3 137.7 430.3 137.0 470.0 C136.3 509.7 136.5 598.3 136.0 628.0 C135.5 657.7 139.0 644.7 134.0 648.0 C129.0 651.3 108.3 651.3 106.0 648.0 C103.7 644.7 118.5 644.3 120.0 628.0 C121.5 611.7 116.7 576.3 115.0 550.0 C113.3 523.7 111.8 496.7 110.0 470.0 C108.2 443.3 104.3 415.7 104.0 390.0 C103.7 364.3 105.3 339.0 108.0 316.0 C110.7 293.0 120.0 272.0 120.0 252.0 C120.0 232.0 111.3 192.7 108.0 196.0 C104.7 199.3 101.7 250.0 100.0 272.0 C98.3 294.0 98.7 313.3 98.0 328.0 C97.3 342.7 96.7 350.0 96.0 360.0 C95.3 370.0 97.0 382.7 94.0 388.0 C91.0 393.3 81.0 396.3 78.0 392.0 C75.0 387.7 76.7 372.3 76.0 362.0 C75.3 351.7 74.0 345.0 74.0 330.0 C74.0 315.0 75.0 291.2 76.0 272.0 C77.0 252.8 78.0 234.0 80.0 215.0 C82.0 196.0 84.0 171.8 88.0 158.0 C92.0 144.2 96.3 141.7 104.0 132.0 C111.7 122.3 123.7 105.3 134.0 100.0 C144.3 94.7 155.7 94.7 166.0 100.0 Z"/>
+              <desc id="sil-desc">Pictogramme d'une personne vue de face, comme
+                sur un panneau, dessine au trait epais : une tete ronde detachee
+                au-dessus d'un corps aux bras le long du corps. Un trait bleu part de la
+                tete, descend au centre du corps, bifurque vers le bras droit et
+                s'arrete au bout de la main.</desc>
+
+              <!-- La forme du pictogramme, mais en CONTOUR : tete detachee au
+                   dessus des epaules, comme sur un panneau, et trait epais.
+                   Non rempli, pour que le trajet bleu reste lisible a
+                   l'interieur du corps plutot que pose par-dessus un aplat. -->
+              <g fill="none" stroke="var(--ink)" stroke-width="3.5"
+                 stroke-linejoin="round">
+                <circle class="s" cx="150" cy="72" r="46"/>
+                <path class="s" d="M150.0 130.0 C164.0 130.0 182.3 133.7 192.0 138.0 C201.7 142.3 204.3 145.7 208.0 156.0 C211.7 166.3 212.3 182.3 214.0 200.0 C215.7 217.7 217.2 241.7 218.0 262.0 C218.8 282.3 221.8 311.3 219.0 322.0 C216.2 332.7 204.5 336.0 201.0 326.0 C197.5 316.0 199.5 282.7 198.0 262.0 C196.5 241.3 194.3 217.7 192.0 202.0 C189.7 186.3 185.8 161.7 184.0 168.0 C182.2 174.3 180.3 214.3 181.0 240.0 C181.7 265.7 186.2 295.3 188.0 322.0 C189.8 348.7 192.3 370.3 192.0 400.0 C191.7 429.7 187.8 468.3 186.0 500.0 C184.2 531.7 182.3 566.7 181.0 590.0 C179.7 613.3 178.0 629.0 178.0 640.0 C178.0 651.0 184.5 653.3 181.0 656.0 C177.5 658.7 161.2 658.7 157.0 656.0 C152.8 653.3 156.2 662.7 156.0 640.0 C155.8 617.3 156.5 556.7 156.0 520.0 C155.5 483.3 154.0 448.0 153.0 420.0 C152.0 392.0 151.0 352.0 150.0 352.0 C149.0 352.0 148.0 392.0 147.0 420.0 C146.0 448.0 144.5 483.3 144.0 520.0 C143.5 556.7 144.2 617.3 144.0 640.0 C143.8 662.7 147.2 653.3 143.0 656.0 C138.8 658.7 122.5 658.7 119.0 656.0 C115.5 653.3 122.0 651.0 122.0 640.0 C122.0 629.0 120.3 613.3 119.0 590.0 C117.7 566.7 115.8 531.7 114.0 500.0 C112.2 468.3 108.3 429.7 108.0 400.0 C107.7 370.3 110.2 348.7 112.0 322.0 C113.8 295.3 118.3 265.7 119.0 240.0 C119.7 214.3 117.8 174.3 116.0 168.0 C114.2 161.7 110.3 186.3 108.0 202.0 C105.7 217.7 103.5 241.3 102.0 262.0 C100.5 282.7 102.5 316.0 99.0 326.0 C95.5 336.0 83.8 332.7 81.0 322.0 C78.2 311.3 81.2 282.3 82.0 262.0 C82.8 241.7 84.3 217.7 86.0 200.0 C87.7 182.3 88.3 166.3 92.0 156.0 C95.7 145.7 98.3 142.3 108.0 138.0 C117.7 133.7 136.0 130.0 150.0 130.0 Z"/>
               </g>
-              <g fill="none" stroke="var(--signal)" stroke-width="3.5"
+
+              <!-- Le trajet du signal, par-dessus. -->
+              <g fill="none" stroke="var(--signal)" stroke-width="5"
                  stroke-linecap="round" vector-effect="non-scaling-stroke">
-                <path class="trajet" d="M150.0 96.0 C150.3 103.3 151.2 127.0 152.0 140.0 C152.8 153.0 151.7 164.3 155.0 174.0 C158.3 183.7 164.8 187.0 172.0 198.0 C179.2 209.0 191.7 225.3 198.0 240.0 C204.3 254.7 207.2 270.0 210.0 286.0 C212.8 302.0 213.7 322.7 215.0 336.0 C216.3 349.3 217.0 357.0 218.0 366.0 C219.0 375.0 220.5 386.0 221.0 390.0"/>
+                <path class="trajet" d="M150.0 86.0 C150.0 93.3 149.7 116.7 150.0 130.0 C150.3 143.3 149.0 156.0 152.0 166.0 C155.0 176.0 161.3 180.0 168.0 190.0 C174.7 200.0 186.2 213.3 192.0 226.0 C197.8 238.7 200.3 253.7 203.0 266.0 C205.7 278.3 206.8 291.3 208.0 300.0 C209.2 308.7 209.7 315.0 210.0 318.0"/>
               </g>
             </svg>
           </div>
@@ -340,7 +347,7 @@
      attendant leur apparition animée. Si ce module ne se charge pas, 404 ou
      erreur de syntaxe, personne ne les révélerait jamais. On retire donc la
      classe, et la page redevient celle du visiteur sans JavaScript. -->
-<script type="module" src="js/main.js?v=7255950c"
+<script type="module" src="js/main.js?v=8c94808b"
         onerror="document.documentElement.className='no-js'"></script>
 
 </body>
