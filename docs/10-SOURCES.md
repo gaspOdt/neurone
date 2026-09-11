@@ -160,22 +160,187 @@ demandera sur quoi repose l'interaction du curseur.
 
 ---
 
-## Valeurs encore à sourcer
+## [S6] Seuil de déclenchement d'un motoneurone
 
-À remplir **avant** d'écrire les passages concernés, jamais après.
+**Carp JS, Tennissen AM, Wolpaw JR (2003).** Conduction velocity is inversely
+related to action potential threshold in rat motoneuron axons. *Experimental
+Brain Research*, 150:497-505.
+DOI [10.1007/s00221-003-1475-8](https://doi.org/10.1007/s00221-003-1475-8)
+— PMID 12715118
 
-| Valeur | Où elle servira | État |
-|---|---|---|
-| Seuil de déclenchement, et sa **plage réelle** | corps cellulaire | **à sourcer** |
-| Durée d'un potentiel d'action, 1 à 2 ms | corps cellulaire | **à sourcer** |
-| Longueur d'un axone moteur lombaire → pied, environ 1 m | axone | **à sourcer** |
-| Largeur de la fente synaptique, environ 20 nm | terminaisons | **à sourcer** |
-| Délai synaptique, environ 0,5 ms | terminaisons | **à sourcer** |
-| Nombre de neurones du cerveau humain, environ 86 milliards | retour au corps | **à sourcer**, Azevedo et al. 2009 à vérifier |
+**Valeur retenue : une dépolarisation de 11,6 mV**, écart-type 4,5, depuis le
+potentiel de repos, mesurée sur axones de motoneurones de rat.
 
-**Attention particulière au seuil.** Comme le potentiel de repos, la valeur de
-−55 mV est parmi les plus recopiées de toute la vulgarisation en
-neurosciences, et presque toujours donnée comme universelle. Même traitement
-que pour [S5] : chercher une mesure sur **motoneurone**, et se replier sur une
-formulation sans chiffre si aucune source solide ne se dégage. Une interaction
-peut parfaitement fonctionner sans afficher de nombre.
+**Ce que cette source a permis de découvrir, et c'est le plus important.**
+
+Le seuil n'est pas une tension absolue mais **un écart par rapport au repos**.
+En le combinant à [S5], qui donne un repos à −71 mV, on obtient un seuil autour
+de **−59 mV**.
+
+**Or la vulgarisation répète partout « −55 mV ».** Ce chiffre ne correspond donc
+même pas aux données du type de cellule dont parle le site. Il circule comme
+une constante universelle alors qu'il est au mieux une valeur moyenne, sur
+d'autres neurones que les nôtres.
+
+**Pire : le seuil n'est pas fixe.** Il se dépolarise d'environ 10 mV au cours
+d'une bouffée de potentiels d'action, puis récupère entre les bouffées. Une
+valeur unique est donc doublement trompeuse, par l'espèce et par l'instant.
+
+**Décision de récit : aucune valeur chiffrée de seuil n'est affichée.**
+L'interaction du curseur fonctionne parfaitement sans nombre, et le texte parle
+d'« un niveau à atteindre ». C'est exact, compréhensible à 13 ans, et ça
+n'installe pas une fausse constante. **Un chiffre aurait été plus précis en
+apparence et plus faux en réalité.**
+
+---
+
+## [S7] Durée d'un potentiel d'action
+
+**Byrne JH.** Resting Potentials and Action Potentials, chapitre 1 de
+*Neuroscience Online*, University of Texas Medical School at Houston.
+<https://nba.uth.tmc.edu/neuroscience/m/s1/chapter01.html>
+
+**Valeur retenue : environ 1 ms** pour un potentiel d'action de fibre nerveuse.
+
+**Plage réelle, et elle est large** : d'environ 0,1 ms dans les cellules
+granulaires du cervelet à 2 ou 3 ms dans les neurones dopaminergiques de la
+substance noire. **La durée dépend fortement du type de cellule.**
+
+**Ce que ça autorise à écrire** : « environ un millième de seconde », en parlant
+d'une fibre nerveuse.
+
+**Ce que ça n'autorise PAS** : présenter une durée unique comme valable pour
+tous les neurones.
+
+**Décision de récit** : valeur non affichée. Le site montre la **forme** de
+l'impulsion par la courbe, jamais sa durée chiffrée.
+
+---
+
+## [S8] Longueur du plus long axone humain
+
+**Sonne J, Lopez-Ojeda W.** Histology, Axon. *StatPearls*, NCBI Bookshelf.
+<https://www.ncbi.nlm.nih.gov/books/NBK554388/> — PMID 32119275
+
+**Valeur retenue : plus d'un mètre.** Les plus longs axones du corps humain
+sont ceux du nerf sciatique, qui vont de la région lombaire de la moelle
+épinière jusqu'aux orteils.
+
+**Ce que ça autorise à écrire** : « certains axones descendent de la moelle
+épinière jusqu'au pied : presque un mètre, pour une seule cellule ».
+
+**Précision à tenir** : c'est le cas **extrême**, pas l'axone moyen. La
+formulation du site dit bien « certains axones », ce qui est exact. Ne jamais
+glisser vers « les axones mesurent un mètre ».
+
+---
+
+## [S9] Largeur de la fente synaptique
+
+Sources concordantes en microscopie électronique, reprises notamment par
+*Neuroscience Online* et la littérature de microscopie de super-résolution.
+
+| Type de synapse | Largeur |
+|---|---|
+| Entre neurones, système nerveux central | **20 à 30 nm** |
+| **Jonction neuromusculaire** | **environ 50 nm** |
+
+**Ce que le sourçage a permis d'éviter.** La valeur « 20 nm » figurait dans la
+liste des valeurs à vérifier, et elle est **fausse pour la fin du récit**. Le
+site se termine sur un message remis à un **muscle**, donc sur une jonction
+neuromusculaire, où la fente est **plus de deux fois plus large**. La différence
+vient de la lame basale, présente à la jonction neuromusculaire et absente
+entre neurones.
+
+**Décision de récit** : aucune valeur chiffrée affichée. Le site montre qu'il
+**existe un vide**, ce qui est le point pédagogique, sans le mesurer. Si un
+chiffre devait être ajouté un jour, il faudrait choisir celui qui correspond à
+la synapse effectivement dessinée.
+
+---
+
+## [S10] Délai synaptique
+
+**Katz B, Miledi R (1965).** The measurement of synaptic delay, and the time
+course of acetylcholine release at the neuromuscular junction. *Proceedings of
+the Royal Society B*, 161(985):483-495.
+DOI [10.1098/rspb.1965.0016](https://doi.org/10.1098/rspb.1965.0016)
+— PMID 14278409
+
+**Valeur retenue : minimum de 0,4 à 0,5 ms**, valeur modale environ 0,7 ms,
+mesurée à la jonction neuromusculaire, **à 20 °C**.
+
+**Deux réserves qui comptent :**
+
+- La mesure est faite **à 20 °C**, pas à température corporelle. Le délai
+  synaptique diminue nettement quand la température monte, donc la valeur réelle
+  chez l'humain à 37 °C est plus courte.
+- L'essentiel de ce délai **ne vient pas de la traversée du vide** par les
+  messagers, mais du temps que met le neurone à les libérer. C'est la conclusion
+  même de l'article, et c'est contre-intuitif : on imagine spontanément que le
+  retard vient du trajet.
+
+**Décision de récit** : valeur non affichée. Mais **la seconde réserve mérite
+peut-être une phrase** dans l'acte 1D : le vide n'est pas ce qui prend du temps.
+À arbitrer avec l'utilisateur.
+
+---
+
+## [S11] Nombre de neurones du cerveau humain
+
+**Azevedo FA, Carvalho LR, Grinberg LT, Farfel JM, Ferretti RE, Leite RE, Jacob
+Filho W, Lent R (2009).** Equal numbers of neuronal and nonneuronal cells make
+the human brain an isometrically scaled-up primate brain. *The Journal of
+Comparative Neurology*, 513:532-541.
+DOI [10.1002/cne.21974](https://doi.org/10.1002/cne.21974) — PMID 19226510
+
+**Valeur retenue : 86,1 milliards de neurones**, écart-type 8,1, et 84,6
+milliards de cellules non neuronales, écart-type 9,8. Mesuré par fractionnement
+isotropique sur **quatre cerveaux** d'hommes adultes.
+
+**Ce que cette source corrige.** Le chiffre de « 100 milliards » circule depuis
+des décennies sans source identifiable. Et l'idée que les cellules gliales
+seraient dix fois plus nombreuses que les neurones, présente dans de nombreux
+manuels, est également démentie : elles sont à peu près aussi nombreuses.
+
+**La réserve à garder en tête** : quatre cerveaux, tous masculins. C'est peu, et
+l'article lui-même ne prétend pas à davantage.
+
+**Ce que ça autorise à écrire** : « environ 86 milliards ».
+**Ce que ça n'autorise PAS** : « 100 milliards ».
+
+---
+
+## Toutes les valeurs sont sourcées
+
+**Il n'y a plus de valeur en attente.** Les onze fiches ci-dessus couvrent
+l'intégralité des affirmations chiffrées prévues par
+[`02-CONTENU.md`](02-CONTENU.md).
+
+### Ce que l'exercice de sourçage a rapporté
+
+Trois erreurs auraient été commises sans lui, et **aucune n'était visible à
+l'œil nu** :
+
+| | |
+|---|---|
+| **Le seuil** | « −55 mV » ne correspond pas aux données du motoneurone, qui donnent plutôt −59 mV, et le seuil n'est de toute façon pas une constante : il se déplace d'environ 10 mV pendant une bouffée |
+| **La fente synaptique** | « 20 nm » est faux pour la fin du récit : à la jonction neuromusculaire, où le site se termine, elle fait environ 50 nm |
+| **Le nombre de neurones** | « 100 milliards » est un chiffre sans source, démenti depuis 2009 |
+
+### La décision qui en découle
+
+**Cinq de ces six valeurs ne seront pas affichées au visiteur.** Non par
+prudence excessive, mais parce que le sourçage a montré qu'aucune n'est une
+constante : toutes dépendent du type de cellule, de l'espèce, de la température
+ou de l'instant.
+
+Les afficher aurait donné au site une **apparence de précision** au prix de son
+exactitude. Le récit dit « un niveau à atteindre », « il reste un vide »,
+« presque un mètre », et chacune de ces formulations est vraie sans être
+trompeuse.
+
+**C'est exactement la distinction que le protocole d'audit demande de tenir :
+une simplification incomplète est légitime, une simplification fausse ne l'est
+pas.** Un chiffre non sourcé aurait été plus précis en apparence, et plus faux
+en réalité.

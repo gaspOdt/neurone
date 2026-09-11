@@ -405,7 +405,7 @@ notion qui lui correspond.**
 | **Texte** | Essaie. Fais monter le nombre de messages qui arrivent. |
 | **Graphique** | **À créer.** Un curseur. À zéro, aucun message n'arrive. En montant, les messages arrivent de plus en plus nombreux sur les dendrites et le niveau de bleu monte dans le corps. **Au passage du seuil, quelque chose part vers le bas**, en **bleu**, et une courbe se trace à côté, en **bleu** elle aussi : c'est le même objet vu de deux façons. **Ne pas écrire « le long de l'axone »** : l'axone n'est nommé qu'en 1C. |
 | **Accessibilité** | `<input type="range">` natif, donc pilotable au clavier par les flèches. **Plus deux boutons moins et plus**, pour ne dépendre d'aucun glissement. Valeur annoncée en `aria-live`. |
-| **Science** | **À sourcer avant écriture** : seuil ~−55 mV et sa plage réelle. Voir `10-SOURCES.md`, valeurs en attente. **Ne pas afficher de valeur chiffrée tant qu'elle n'est pas sourcée** : l'interaction peut fonctionner sans nombre. |
+| **Science** | **Sourcé, [S6]. Et le sourçage a tranché contre l'affichage d'un chiffre.** Le seuil n'est pas une tension absolue mais une dépolarisation d'environ 11,6 mV depuis le repos, et il **se déplace d'environ 10 mV au cours d'une bouffée**. Combiné à [S5], cela donne un seuil vers −59 mV, pas les −55 mV que répète la vulgarisation. **Aucune valeur n'est donc affichée** : le texte dit « un niveau à atteindre », ce qui est exact et ne fabrique pas une fausse constante. |
 
 ### Temps 9 — le tout ou rien
 
@@ -614,7 +614,7 @@ verra quelqu'un manipuler quelque chose.
 |---|---|
 | **Texte** | Et là, surprise : la cellule suivante n'est pas collée. Il reste un vide. |
 | **Graphique** | Zoom sur un renflement. L'espace avec la cellule suivante devient visible, à l'**encre**. |
-| **Science** | **À sourcer avant écriture** : largeur de la fente synaptique. Aucune valeur affichée tant qu'elle n'est pas sourcée. |
+| **Science** | **Sourcé, [S9], et le sourçage a évité une erreur.** La fente mesure 20 à 30 nm entre neurones, mais **environ 50 nm à la jonction neuromusculaire**, à cause de la lame basale. Le récit se terminant sur un muscle, la valeur de 20 nm aurait été fausse. **Aucun chiffre n'est affiché** : le point pédagogique est qu'il **existe** un vide, pas sa mesure. |
 
 ### Temps 21
 
@@ -729,8 +729,9 @@ différentes, en tout ou rien d'un côté, progressive de l'autre.
 
 # Ce qui reste à faire sur ce document
 
-1. **Sourcer les six valeurs en attente** dans `10-SOURCES.md`, avant d'écrire
-   les passages qui les emploient
+1. ~~Sourcer les six valeurs en attente~~ **fait**. Les onze fiches de
+   `10-SOURCES.md` couvrent toutes les affirmations chiffrées du récit, et
+   le sourçage a évité trois erreurs
 2. Écrire l'acte 3, le quiz
 3. Faire relire l'ensemble par l'utilisateur
 4. **Ne toucher au site qu'une fois ce document stabilisé**

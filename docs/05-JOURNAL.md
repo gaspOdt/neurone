@@ -26,7 +26,7 @@
 | **Audit de séquence** | **8 incohérences trouvées et corrigées**, dont le fait que le site ne disait nulle part que le signal est électrique alors que tout le code couleur reposait dessus |
 | **Palette** | Refaite en **fluo**. Le texte reste noir, la couleur passe **derrière**, en surligneur. Seul le bleu électrique tient en trait |
 | **Titres** | Encre noire, sous-titre explicite. **Aucun ornement, aucun filet** : demande explicite de l'utilisateur |
-| **Sources** | Nouveau document [`10-SOURCES.md`](10-SOURCES.md). **5 sources primaires** établies, 6 valeurs encore en attente |
+| **Sources** | [`10-SOURCES.md`](10-SOURCES.md). **11 fiches, toutes les valeurs sourcées.** Le sourçage a évité trois erreurs invisibles à l'œil nu, et conduit à ne PAS afficher cinq des six dernières valeurs |
 | **Erreurs scientifiques** | **4 trouvées dans le site en ligne**, dont deux fausses |
 | **Interactions** | Deux moments seulement, à chaque nœud du récit : le **curseur du seuil**, et le **défi du chronomètre** sur la myéline |
 
