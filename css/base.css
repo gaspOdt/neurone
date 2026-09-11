@@ -562,6 +562,34 @@ html.no-js .neurone {
   -webkit-box-decoration-break: clone;
 }
 
+/* --- Le curseur du seuil, premier moment interactif -----------------------
+   Un curseur natif entre deux boutons. Les boutons ne sont pas un doublon :
+   ils sont ce qui rend le réglage possible sans aucun glissement. Cibles de
+   44 pixels, et le curseur lui même est aussi haut, pour le doigt. */
+.interaction { max-width: var(--measure); }
+.curseur {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: var(--sp-3) 0 var(--sp-2);
+}
+.curseur input[type="range"] {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: var(--tap-min);
+  margin: 0;
+  /* La couleur du signal sur le curseur : c'est lui qui fait arriver les
+     messages. Du bleu, seule couleur qui tient sur blanc. */
+  accent-color: var(--signal);
+  cursor: pointer;
+}
+.curseur-bouton { flex: 0 0 auto; font-size: var(--fs-caption); }
+
+/* Le bloc invisible ne se laisse pas cliquer ni tabuler : js/recit.js pose
+   visibility avec l'opacité. Le repli sans script le laisse visible. */
+html.js .interaction { visibility: hidden; }
+html.no-js .interaction, html.reduce-motion .interaction { visibility: visible; }
+
 .etape-contenu .figure-courbe { margin: 0 0 var(--sp-5); }
 .etape-contenu .figure-courbe .courbe { max-width: 18rem; }
 

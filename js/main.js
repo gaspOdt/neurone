@@ -12,6 +12,7 @@
 
 import { initA11y } from './a11y.js?v=c1a2e0d5';
 import { initRecit } from './recit.js?v=c1a2e0d5';
+import { initSeuil } from './seuil.js?v=c1a2e0d5';
 
 initA11y();
 
@@ -32,3 +33,8 @@ if (typeof gsap !== 'undefined' && typeof DrawSVGPlugin !== 'undefined') {
    parcours ne peuvent pas être initialisés séparément sans risquer de se
    contredire sur la taille et la position du dessin. */
 initRecit();
+
+/* Le premier moment interactif, le curseur du seuil. Il ne touche qu'à ses
+   propres éléments dans le dessin : le niveau du corps, les messages et
+   l'impulsion. Le cadrage et les tracés restent à recit.js. */
+initSeuil();

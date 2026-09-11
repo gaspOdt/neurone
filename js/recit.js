@@ -110,6 +110,11 @@ export function initRecit() {
   /* Les temps de l'acte 1, un par paragraphe, qui s'empilent dans leur bloc. */
   const tempsParcours = [...section.querySelectorAll('.temps-parcours')];
   const figureCourbe  = section.querySelector('.figure-courbe');
+  /* La phrase qui nomme le seuil et l'impulsion (1B, temps 9). C'est elle,
+     et non la figure, qui déclenche le tracé de la courbe si le visiteur n'a
+     pas fait partir d'impulsion lui même : la courbe est ce qu'on vient de
+     déclencher, elle ne doit pas être déjà là avant qu'on ait essayé. */
+  const phraseSeuil   = section.querySelector('.t-seuil') || figureCourbe;
 
   const traitsCourbe  = [...section.querySelectorAll('.figure-courbe .t')];
   const traitsNeurone = [...svg.querySelectorAll('.t')];
@@ -209,11 +214,13 @@ export function initRecit() {
 
   function hauteurParcours() {
     const h = window.innerHeight || 800;
-    /* Toujours au-dessus de hauteurDessin, pour que la bascule agrandisse.
-       Mais pas plus : le texte et le dessin se disputent la hauteur, et
-       sous le dessin et ses deux rangs de boutons, il ne restait qu'un
-       quart de l'écran pour lire. */
-    return Math.min(h * 0.42, 356);
+    /* Plus petit que le dessin de l'ouverture, et c'est voulu : demande de
+       l'utilisateur, le texte du parcours était dissimulé et illisible sous
+       un dessin et deux rangs de boutons qui prenaient les deux tiers de
+       l'écran. Le dessin cède la place au texte ; les boutons ne changent
+       pas. La bascule fait donc RÉTRÉCIR la case pendant la plongée, ce qui
+       ne se voit pas : le cadrage y zoome dans le trait au même moment. */
+    return Math.min(h * 0.31, 262);
   }
 
   /** Pose la taille de la silhouette. Sa largeur decoule du rapport 300/700
@@ -592,14 +599,28 @@ export function initRecit() {
      le dessin, et la capture ne montrait qu'un fragment de phrase. */
   const SEUIL_LECTURE = 0.93;
 
+  const etatParcours = new WeakMap();
+
   function majTempsParcours(immediat) {
     const h = window.innerHeight || 800;
     tempsParcours.forEach(el => {
       const visible = cameraActive && el.getBoundingClientRect().top < h * SEUIL_LECTURE;
       poser(el, visible, immediat);
+      if (etatParcours.get(el) === visible) return;
+      etatParcours.set(el, visible);
+      /* Un bloc interactif invisible ne doit pas rester dans l'ordre de
+         tabulation ni sous la souris : l'opacité seule le laisserait
+         atteignable, et le focus irait sur un curseur qu'on ne voit pas
+         (WCAG 2.4.11). */
+      if (el.classList.contains('interaction')) {
+        el.style.visibility = visible ? 'visible' : 'hidden';
+      }
+      /* Les modules qui réagissent à l'arrivée d'un temps, comme la petite
+         démonstration du seuil, l'apprennent par ici, sans se connaître. */
+      document.dispatchEvent(new CustomEvent('temps:parcours', { detail: { el, visible } }));
     });
     if (figureCourbe && traitsCourbe.length) {
-      const visible = cameraActive && figureCourbe.getBoundingClientRect().top < h * SEUIL_LECTURE;
+      const visible = cameraActive && phraseSeuil.getBoundingClientRect().top < h * SEUIL_LECTURE;
       if (courbeTracee !== visible) {
         courbeTracee = visible;
         if (immediat) gsap.set(traitsCourbe, { drawSVG: visible ? '0% 100%' : '0% 0%' });

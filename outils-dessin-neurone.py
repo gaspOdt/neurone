@@ -184,6 +184,22 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
                 </g>
 
                 <g class="partie" id="p-soma" data-partie="soma">
+                  <!-- LE NIVEAU DANS LE CORPS, pour le curseur du seuil (1B).
+                       Un disque bleu, découpé par un rectangle dont on fait
+                       varier la largeur : dans ce repère tourné d'un quart
+                       de tour, l'axe x local est la VERTICALE de l'écran,
+                       donc « se remplir par le bas » revient à étendre le
+                       rectangle depuis x = 246. Le seuil est une ligne
+                       pointillée à trois quarts de la hauteur, sans aucun
+                       chiffre : ce n'est pas une constante [S6]. -->
+                  <clipPath id="soma-clip">
+                    <rect class="soma-clip-rect" x="246" y="172" width="0" height="56"/>
+                  </clipPath>
+                  <circle class="soma-fill" cx="220" cy="200" r="24.6"
+                          fill="var(--signal)" stroke="none"
+                          clip-path="url(#soma-clip)"/>
+                  <path class="soma-seuil" d="M207 178 L207 222"
+                        stroke-width="1.4" stroke-dasharray="3 3" opacity="0"/>
                   <circle class="t" cx="220" cy="200" r="26" stroke-width="2.4"/>
                 </g>
 
@@ -205,6 +221,15 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
                     <circle class="b" cx="899" cy="236" r="5.5"/>
                   </g>
                 </g>
+
+                <!-- LES MESSAGES et L'IMPULSION, en bleu : le signal. Les
+                     points sont créés par js/seuil.js et voyagent le long
+                     des dendrites vers le corps ; l'impulsion descend le
+                     long de l'axone. Dans ce groupe pour hériter du repère
+                     tourné, donc des mêmes coordonnées que les tracés. -->
+                <g class="messages" fill="var(--signal)" stroke="none"></g>
+                <circle class="impulsion" r="5.5" cx="246" cy="200"
+                        fill="var(--signal)" stroke="none" opacity="0"/>
 
               </g>
             </svg>'''
@@ -463,25 +488,47 @@ ETAPES = [
     ('soma', 'Le corps cellulaire', 'Là où le neurone décide de transmettre', [
         '''<p>Tout ce que les dendrites ont récolté converge ici, dans le
            <strong class="mot">corps cellulaire</strong>.</p>''',
-        '''<p>Chaque message qui arrive le fait monter un peu. Un seul ne
-           suffit jamais.</p>''',
-        # Le seuil et l'impulsion sont nommés ICI, chacun avec sa définition
-        # dans la phrase, et nulle part avant. « Vers le bas », jamais « le
-        # long de l'axone » : l'axone n'est nommé qu'en 1C. Aucune valeur de
-        # seuil affichée, [S6] : ce n'est pas une constante.
-        '''<p>Il y a un niveau à atteindre. On l'appelle le
-           <strong class="mot">seuil</strong>. En dessous, il ne se passe
-           rien. Au-dessus, quelque chose part vers le bas : une
-           <strong class="mot">impulsion</strong>. Et elle part
-           <strong>toujours pareil</strong>, pas plus fort si tu pousses
-           plus.</p>''',
-        # La courbe du potentiel d'action, déplacée ici depuis l'ouverture :
-        # c'est ce que le visiteur vient de déclencher, vu autrement.
+        # Quand cette phrase apparaît, trois messages arrivent l'un après
+        # l'autre : le corps monte un peu à chacun, puis se vide. C'est la
+        # sommation, et le retour au repos évite de faire croire à une
+        # accumulation permanente. Joué par js/seuil.js.
+        '''<p data-demo="messages">Chaque message qui arrive le fait monter
+           un peu. Un seul ne suffit jamais.</p>''',
+        # LE PREMIER MOMENT INTERACTIF, 1B temps 8. Un curseur natif, donc
+        # pilotable aux flèches du clavier, PLUS deux boutons : aucune
+        # dépendance au glissement (WCAG 2.5.7). Valeur annoncée en aria-live.
+        # Aucune limite de temps, aucun état d'échec.
+        '''<div class="interaction" data-interaction="seuil">
+          <p>Essaie. Fais monter le nombre de messages qui arrivent.</p>
+          <div class="curseur">
+            <button type="button" class="curseur-bouton" data-moins
+                    aria-label="Moins de messages">Moins</button>
+            <input type="range" id="curseur-seuil" min="0" max="10" step="1"
+                   value="0" aria-label="Nombre de messages qui arrivent"
+                   aria-valuetext="aucun message">
+            <button type="button" class="curseur-bouton" data-plus
+                    aria-label="Plus de messages">Plus</button>
+          </div>
+          <p class="sr-only" aria-live="polite" data-annonce-seuil></p>
+        </div>''',
+        # La courbe du potentiel d'action, déplacée ici depuis l'ouverture.
+        # Elle se trace quand l'impulsion part : c'est le même objet vu de
+        # deux façons. Elle reste affichée ensuite (temps 9).
         '''<figure class="figure-courbe">
           {courbe}
           <figcaption class="caption">La même impulsion, vue comme une
             courbe.</figcaption>
         </figure>''',
+        # Le seuil et l'impulsion sont nommés ICI, chacun avec sa définition
+        # dans la phrase, et nulle part avant. « Vers le bas », jamais « le
+        # long de l'axone » : l'axone n'est nommé qu'en 1C. Aucune valeur de
+        # seuil affichée, [S6] : ce n'est pas une constante.
+        '''<p class="t-seuil">Il y a un niveau à atteindre. On l'appelle le
+           <strong class="mot">seuil</strong>. En dessous, il ne se passe
+           rien. Au-dessus, quelque chose part vers le bas : une
+           <strong class="mot">impulsion</strong>. Et elle part
+           <strong>toujours pareil</strong>, pas plus fort si tu pousses
+           plus.</p>''',
         '''<p>Comme un interrupteur : tu peux appuyer doucement autant que tu
            veux, la lumière reste éteinte. Passé le déclic, elle s'allume. Et
            toujours à la même intensité.</p>''',

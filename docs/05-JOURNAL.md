@@ -23,13 +23,15 @@
 | **La transition centrale** | Pièce 2, 11 septembre 2026. À la bascule, la caméra **plonge dans le trait** (cadrage de la silhouette asservi au défilement) jusqu'à ce qu'il soit une large bande. Bloc « chaîne » : trois neurones réduits à un cercle et un trait, bout à bout dans la bande (d'abord des capsules, changées à la demande de l'utilisateur). Bloc « en voici une » : la bande et les autres capsules s'effacent, la capsule élue reste, le neurone se dessine à sa place. Bloc « plan » : les boutons arrivent, et pas avant. Remonter défait tout. Vérifié par capture |
 | **L'acte 1, ses textes et ses titres** | Pièce 3, 11 septembre 2026. Les textes de 1A à 1D de `02-CONTENU`, mot pour mot, **un temps par paragraphe qui s'empile dans sa partie** : un temps apparaît en entrant dans la zone de lecture, sous le dessin, et reste. Titres des parties gros et gras, sous-titre en encre douce, aucun ornement. Mot-clé de chaque partie en magenta **derrière**, texte noir. Courbe du potentiel d'action déplacée au corps cellulaire, en bleu. Surbrillance des parties passée au magenta. Les deux formulations imprécises ont disparu. Sans les deux moments interactifs ni leurs phrases |
 | **Le titre du site** | En gros au dessus du premier bouton, il disparaît avec lui. **Provisoire** : le nom n'est pas choisi, le titre affiché est celui de la balise `title` |
+| **Le curseur du seuil**, premier moment interactif | Pièce 4, 11 septembre 2026. `<input type="range">` natif plus deux boutons Moins et Plus, cibles de 44 px, valeur et résultat annoncés en `aria-live`. Les messages arrivent en points bleus par les dendrites (chemins appariés à la volée), le corps se remplit de bleu par le bas à chaque arrivée puis se vide, une ligne pointillée marque le seuil sans aucun chiffre [S6]. Au seuil, une impulsion part vers le bas le long de l'axone et la courbe se trace ; poussé plus haut, elle repart identique. Le temps 7 joue une démonstration de trois messages, plafonnée sous le seuil. `js/seuil.js`. Quatre contrôles dans la batterie |
+| **Les dessins du parcours réduits** | Demande de l'utilisateur : le texte était dissimulé sous un dessin et deux rangs de boutons prenant les deux tiers de l'écran. Hauteur du parcours passée de 42 % à 31 % de l'écran, boutons inchangés, zone de lecture de 266 à 359 px |
 
 ### Ce qui n'est PAS implémenté
 
-- **Les éléments graphiques de l'acte 1** : les points bleus qui convergent
-  (1A), le corps qui se remplit (1B), l'impulsion qui descend l'axone et la
-  gaine qui se pose (1C), le vide et les messagers (1D). Ils arrivent avec les
-  deux moments interactifs.
+- **Les éléments graphiques de 1C et 1D** : l'impulsion qui descend l'axone
+  hors interaction, la gaine qui se pose, la comparaison nu contre myélinisé,
+  le vide synaptique et les messagers. Ceux de 1A et 1B existent avec le
+  curseur.
 - Les deux moments interactifs, le retour au corps et le quiz.
 
 ### Un écart à connaître entre le code et les documents
@@ -90,7 +92,7 @@ L'ordre suit `02-CONTENU.md`. Chaque pièce est vérifiée par capture à
 | 1. Acte 0 conforme : silhouette, trajet, temps inscrit, trait seul | **fait**, 11 septembre 2026 |
 | 2. La transition centrale : plongeon dans le trait, chaîne de mini-neurones, « En voici une » | **fait**, 11 septembre 2026 |
 | 3. Acte 1 : textes de 1A à 1D qui s'accumulent, titres, courbe déplacée au corps cellulaire | **fait**, 11 septembre 2026 |
-| 4. Le curseur du seuil, 1B temps 8 | à faire |
+| 4. Le curseur du seuil, 1B temps 8 | **fait**, 11 septembre 2026 |
 | 5. Le défi du chronomètre, 1C temps 16 | à faire |
 | 6. Acte 2, le retour au corps | à faire |
 | 7. Acte 3, le quiz | à faire |
@@ -144,11 +146,12 @@ clairement les erreurs à corriger des choix de vulgarisation assumés.
 
 ### Prochaine étape
 
-**Pièce 4 : le curseur du seuil**, 1B temps 8 de `02-CONTENU.md`. Un
-`<input type="range">` natif plus deux boutons moins et plus, valeur annoncée
-en `aria-live`. Les points bleus arrivent sur les dendrites, le corps se
-remplit de bleu par le bas, et au passage du seuil quelque chose part vers le
-bas pendant que la courbe se trace. Aucune valeur chiffrée de seuil, [S6].
+**Pièce 5 : le défi du chronomètre**, 1C temps 16 et 17 de `02-CONTENU.md`.
+Six segments de gaine à ajouter un par un, boutons plus curseur, le
+chronomètre qui affiche le temps du modèle (0,51 s à 0,02 s) et la cible
+0,02 s marquée comme le chiffre du premier écran. Modèle et réserves
+scientifiques détaillés dans la narration ; les temps affichés sont des
+sorties de modèle sauf le dernier, qui coïncide avec [S1].
 
 ---
 

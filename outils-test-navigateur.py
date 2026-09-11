@@ -557,12 +557,40 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
             "var p=s.closest('.porte-neurone');"
             "return [Math.round(s.getBoundingClientRect().height),"
             " Math.round(parseFloat(getComputedStyle(p).opacity)*100)]")
-        verifier("au parcours, il est la, entier et plus grand",
-                 etat_parcours[1] > 50 and etat_parcours[0] > etat_intro[0],
-                 "%d px puis %d px, opacite %d%%"
-                 % (etat_intro[0], etat_parcours[0], etat_parcours[1]))
+        # Plus de comparaison de taille : le neurone n'est pas visible pendant
+        # l'ouverture, et le parcours le montre plus PETIT, a la demande de
+        # l'utilisateur, pour laisser la place au texte.
+        verifier("au parcours, il est la, entier",
+                 etat_parcours[1] > 50 and etat_parcours[0] > 150,
+                 "%d px, opacite %d%%" % (etat_parcours[0], etat_parcours[1]))
 
-        print("\n9. Erreurs de console")
+        print("\n9. Le curseur du seuil")
+        # Le premier moment interactif. On ne lit pas des opacites : on
+        # declenche le curseur et on constate ce que le module rapporte,
+        # puis ce qui est reellement dessine (la courbe a une longueur).
+        existe = nav.evaluer(
+            "var c=document.querySelector('#curseur-seuil');"
+            "var b=document.querySelectorAll('[data-interaction=seuil] button');"
+            "return c && b.length===2 ? [b[0].offsetHeight, b[1].offsetHeight] : null")
+        verifier("le curseur et ses deux boutons existent, cibles de 44 px",
+                 bool(existe) and min(existe) >= 44, str(existe))
+        nav.evaluer("window.__seuil && window.__seuil.appliquer(3); return 1")
+        time.sleep(1.4)
+        monte = nav.evaluer("return window.__seuil ? window.__seuil.niveau() : -1")
+        verifier("trois messages font monter le niveau sans le faire partir",
+                 0 < monte < 1, "niveau %.2f" % monte)
+        nav.evaluer("window.__seuil && window.__seuil.appliquer(8); return 1")
+        time.sleep(3.2)
+        parti = nav.evaluer("return window.__seuil ? window.__seuil.impulsionsDeclenchees() : 0")
+        trace = nav.evaluer(
+            "var t=document.querySelector('.figure-courbe .t');"
+            "return t ? Math.round(parseFloat(t.style.strokeDasharray.split(',')[0])||0) : 0")
+        verifier("huit messages font partir une impulsion, et la courbe se trace",
+                 parti >= 1 and trace > 300, "%d impulsion(s), courbe %d px" % (parti, trace))
+        dit = nav.evaluer("return (document.querySelector('[data-annonce-seuil]')||{}).textContent||''")
+        verifier("le resultat est annonce au lecteur d'ecran", "impulsion" in dit, dit[:60])
+
+        print("\n10. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
         verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 

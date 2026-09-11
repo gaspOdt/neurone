@@ -890,9 +890,9 @@ la force de son message mais leur nombre.
 | La chaîne de cellules | 1, t1 | encre | **existe**, pièce 2 : **trois neurones réduits à un cercle et un trait**, bout à bout dans la bande, décision de l'utilisateur après avoir vu une version en capsules. Au temps 2, la bande et les deux autres s'effacent, celui du milieu reste seul, puis le neurone entier se dessine à sa place |
 | Le neurone au trait | 1, t2 | encre | **existe** |
 | Les boutons du parcours | 1, t3 | encre | **existe**, n'apparaissent qu'au temps 3, pièce 2 |
-| Les messages qui convergent | 1A | **bleu** | **à créer** |
-| **Le curseur du seuil** | 1B, t8 | bleu + magenta | **à créer**, 1er moment interactif |
-| La courbe du potentiel d'action | 1B, t8 | **bleu** | **existe**, au corps cellulaire depuis la pièce 3, en bleu ; elle se tracera au passage du seuil avec la pièce 4 |
+| Les messages qui convergent | 1A | **bleu** | **existe**, pièce 4 : les mêmes points que ceux du curseur |
+| **Le curseur du seuil** | 1B, t8 | bleu + magenta | **existe**, pièce 4, `js/seuil.js` |
+| La courbe du potentiel d'action | 1B, t8 | **bleu** | **existe**, se trace au passage du seuil, ou au plus tard avec la phrase qui nomme le seuil |
 | L'impulsion qui descend l'axone | 1C, t12 | **bleu** | **à créer** |
 | La gaine de myéline | 1C, t15 | **vert** | **à créer** |
 | **Le défi du chronomètre** | 1C, t16 | vert + bleu | **à créer**, 2e moment interactif |
