@@ -79,7 +79,11 @@
   --fs-body:    21px;
   --fs-small:   17px;
   --fs-caption: 15px;
-  --fs-h1: clamp(2.25rem, 9vw,   4.5rem);
+  /* Volontairement mesure. Un titre a 4,5rem mangeait 320 px de haut sur
+     quatre lignes, et la scene collee doit AUSSI contenir un dessin : le
+     visuel se retrouvait ecrase a zero pixel. Un titre reste un titre a
+     2,6rem, un dessin invisible n'est plus rien. */
+  --fs-h1: clamp(1.6rem, 4.2vw, 2.6rem);
   --fs-h2: clamp(1.75rem, 6vw,   2.75rem);
   --fs-h3: clamp(1.25rem, 3.5vw, 1.5rem);
 

@@ -561,6 +561,22 @@ html.reduce-motion .rails { display: none; }
   flex-direction: column;
   align-items: flex-start;
   gap: var(--sp-3);
+  overflow: hidden;
+  transition: max-height var(--dur-slow) var(--ease),
+              opacity var(--dur-base) var(--ease),
+              margin var(--dur-slow) var(--ease);
+  max-height: 20rem;
+}
+
+/* Une fois cliqué, le bouton a fait son travail : il se replie. Ce n'est pas
+   qu'une economie de place, meme si elle est decisive sur un ecran court.
+   C'est aussi juste narrativement : l'instrument s'efface une fois le geste
+   accompli, et il ne reviendra qu'a la toute fin du recit. */
+html.entre .porte-entree {
+  max-height: 0;
+  opacity: 0;
+  margin-bottom: calc(var(--sp-4) * -1);
+  pointer-events: none;
 }
 
 .bouton-entree {
@@ -594,8 +610,15 @@ html.reduce-motion .rails { display: none; }
 
 .visuels {
   flex: 1 1 auto;
-  min-height: 0;      /* sans ca, un enfant flex refuse de retrecir */
   display: grid;
+  /* Une hauteur PLANCHER, et c'est le point crucial. Avec min-height:0, le
+     dessin se laissait ecraser a zero pixel des que le texte prenait toute
+     la place, et la page paraissait vide. Le texte peut deborder, pas le
+     dessin : c'est lui qu'on est venu voir. */
+  min-height: clamp(170px, 32svh, 330px);
+}
+@supports not (height: 100svh) {
+  .visuels { min-height: clamp(170px, 32vh, 330px); }
 }
 
 /* Les deux enfants occupent la meme case, donc la meme place a l'ecran. */
