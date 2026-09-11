@@ -183,6 +183,7 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
                   </g>
                 </g>
 
+{afferents}
                 <g class="partie" id="p-soma" data-partie="soma">
                   <!-- LE NIVEAU DANS LE CORPS, pour le curseur du seuil (1B).
                        Un disque bleu, découpé par un rectangle dont on fait
@@ -263,6 +264,68 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
 
               </g>
             </svg>'''
+
+
+# LE SIGNAL AFFÉRENT, 1A temps 4. De petites flèches bleues, une par bout de
+# dendrite, qui pointent vers l'intérieur : le message vient d'ailleurs, et
+# il entre par là. Elles disent que le neurone REÇOIT, ce que les traits
+# seuls ne disaient pas. Demande de l'utilisateur, 11 septembre 2026. Les
+# points bleus du temps suivant, puis du curseur du seuil, en sont la
+# modélisation.
+#
+# Calculées à partir des tracés eux-mêmes, et non écrites à la main : la
+# tangente au bout de chaque dendrite secondaire donne la direction, la
+# flèche se pose à quelques unités du bout. Un coup de crayon sur les
+# dendrites les déplace avec elles.
+#
+# Le bleu du signal est la seule couleur autorisée en trait pur. Le groupe
+# est invisible au départ : js/recit.js le montre tant que la caméra regarde
+# les dendrites, et le repli sans script le laisse.
+
+def fleches_afferentes(svg):
+    import math, re
+    zone = svg[svg.index('id="p-dendrites"'):svg.index('{afferents}')]
+    secondaires = zone[zone.index('stroke-width="1.7"'):]
+    ECART, TIGE, POINTE, ANGLE = 7.0, 20.0, 8.0, math.radians(28)
+    def n(v):
+        return ('%.1f' % v).rstrip('0').rstrip('.')
+    fleches = []
+    for m in re.finditer(r'd="M(-?[\d.]+) (-?[\d.]+) Q(-?[\d.]+) (-?[\d.]+) '
+                         r'(-?[\d.]+) (-?[\d.]+)"', secondaires):
+        x0, y0, cx, cy, x2, y2 = map(float, m.groups())
+        # La tangente au bout d'une quadratique va du point de contrôle au
+        # bout : c'est la direction vers l'extérieur.
+        tx, ty = x2 - cx, y2 - cy
+        norme = math.hypot(tx, ty)
+        ux, uy = tx / norme, ty / norme
+        hx, hy = x2 + ux * ECART, y2 + uy * ECART          # la pointe
+        sx, sy = hx + ux * TIGE, hy + uy * TIGE            # le talon
+        ailes = []
+        for signe in (1, -1):                              # les deux ailes
+            a = signe * ANGLE
+            wx = ux * math.cos(a) - uy * math.sin(a)
+            wy = ux * math.sin(a) + uy * math.cos(a)
+            ailes.append((hx + wx * POINTE, hy + wy * POINTE))
+        d = 'M%s %s L%s %s M%s %s L%s %s L%s %s' % (
+            n(sx), n(sy), n(hx), n(hy),
+            n(ailes[0][0]), n(ailes[0][1]), n(hx), n(hy),
+            n(ailes[1][0]), n(ailes[1][1]))
+        # data-dx/dy : d'où la flèche glisse quand elle arrive, un peu plus
+        # loin dans sa propre direction, vers l'intérieur.
+        fleches.append('                  <path d="%s" data-dx="%s" data-dy="%s"/>'
+                       % (d, n(ux * 12), n(uy * 12)))
+    assert len(fleches) == 8, "%d flèches, huit bouts attendus" % len(fleches)
+    return ('''                <!-- LE SIGNAL AFFÉRENT, 1A temps 4 : une flèche bleue par
+                     bout de dendrite, vers l'intérieur. Le neurone reçoit.
+                     Calculées par fleches_afferentes(), montrées par
+                     js/recit.js tant que la caméra est sur les dendrites. -->
+                <g class="afferents" stroke="var(--signal)" stroke-width="2.4"
+                   opacity="0">
+%s
+                </g>''' % '\n'.join(fleches))
+
+
+NEURONE = NEURONE.replace('{afferents}', fleches_afferentes(NEURONE))
 
 
 # ---------------------------------------------------------------------------

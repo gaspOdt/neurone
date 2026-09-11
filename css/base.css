@@ -482,6 +482,9 @@ html.no-js .neurone {
   height: 34vh;
   max-height: 340px;
 }
+/* Sans script, les flèches du signal afférent sont simplement là : le
+   dessin dit d'un bloc que le neurone reçoit. */
+html.no-js .neurone .afferents { opacity: 1; }
 
 /* La surbrillance est MOMENTANÉE : on désigne la partie, puis le dessin
    revient à l'encre noire. Rien n'est atténué en permanence.

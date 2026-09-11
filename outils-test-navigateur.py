@@ -575,6 +575,25 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
                  etat_parcours[1] > 50 and etat_parcours[0] > 150,
                  "%d px, opacite %d%%" % (etat_parcours[0], etat_parcours[1]))
 
+        # Le signal afferent : les fleches bleues sont la tant que la camera
+        # regarde les dendrites, une par bout, et parties un bloc plus loin.
+        fleches = nav.evaluer(
+            "var a=document.querySelector('.neurone .afferents');"
+            "return [a ? a.querySelectorAll('path').length : 0,"
+            " a ? Math.round(parseFloat(getComputedStyle(a).opacity)*100) : -1]")
+        verifier("sur les dendrites, les fleches du signal afferent, une par bout",
+                 fleches[0] == 8 and fleches[1] > 50,
+                 "%d fleches, opacite %d%%" % (fleches[0], fleches[1]))
+        y = nav.evaluer(
+            "var e=document.querySelector('#etape-soma');"
+            "return Math.round(e.getBoundingClientRect().top+window.scrollY-innerHeight*0.5)")
+        nav.aller_a(y, pause=1.6)
+        time.sleep(0.6)
+        op = nav.evaluer(
+            "return Math.round(parseFloat(getComputedStyle("
+            "document.querySelector('.neurone .afferents')).opacity)*100)")
+        verifier("sur le corps cellulaire, elles sont parties", op < 50, "opacite %d%%" % op)
+
         print("\n9. Le curseur du seuil")
         # Le premier moment interactif. On ne lit pas des opacites : on
         # declenche le curseur et on constate ce que le module rapporte,

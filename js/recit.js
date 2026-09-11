@@ -145,6 +145,8 @@ export function initRecit() {
   const chrono        = section.querySelector('[data-chrono]');
   const visuels       = section.querySelector('.visuels');
   const boutsNeurone  = [...svg.querySelectorAll('.b')];
+  /* Les flèches du signal afférent, aux bouts des dendrites. */
+  const afferents     = svg.querySelector('.afferents');
 
   /* Les phrases qui GOUVERNENT les dessins. Chaque élément graphique de
      l'acte 0 est accroché à la phrase qui en parle, et à rien d'autre :
@@ -180,6 +182,9 @@ export function initRecit() {
   let corpsSilVisible = null;
   let sceneActive = null;
   let minuteur = null;
+  /* Les flèches du signal afférent sont-elles à l'écran ? Mémo de
+     poserAfferents(), déclaré ici pour précéder tout retour anticipé. */
+  let afferentsVisibles = false;
   /* Ici, et pas plus bas : toutMontrer() l'écrit, et toutMontrer() est
      appelée par le retour anticipé du mode « mouvement réduit ». Déclaré
      après ce retour, le mémo levait une ReferenceError et la page restait
@@ -702,6 +707,38 @@ export function initRecit() {
     minuteur = setTimeout(() => g.classList.remove('surbrillance'), 1800);
   }
 
+  /* --- Le signal afférent ------------------------------------------------
+     De petites flèches bleues, une par bout de dendrite, tant que la caméra
+     regarde les dendrites. Elles disent que le neurone REÇOIT : le message
+     vient d'ailleurs et entre par là. Les billes bleues du curseur du seuil,
+     un bloc plus loin, en sont la modélisation. Demande de l'utilisateur,
+     11 septembre 2026.
+
+     Elles arrivent en glissant vers l'intérieur, chacune dans sa direction,
+     et leur état d'arrivée est statique : en place, pleines. Un seul
+     propriétaire, cette fonction, et un mémo pour ne pas relancer l'arrivée
+     à chaque événement de défilement. Le mémo est déclaré plus haut, avec
+     le reste de l'état : déclaré ici, après le retour anticipé du mouvement
+     réduit, il levait une ReferenceError, quatrième fois pour ce piège. */
+  function poserAfferents(visibles) {
+    if (!afferents || visibles === afferentsVisibles) return;
+    afferentsVisibles = visibles;
+    const fleches = afferents.querySelectorAll('path');
+    if (typeof gsap === 'undefined' || mouvementReduit()) {
+      if (typeof gsap !== 'undefined') gsap.set(fleches, { opacity: 1, x: 0, y: 0, overwrite: 'auto' });
+      afferents.style.opacity = visibles ? '1' : '0';
+      return;
+    }
+    if (visibles) {
+      gsap.set(afferents, { opacity: 1, overwrite: 'auto' });
+      gsap.fromTo(fleches,
+        { opacity: 0, x: (i, el) => Number(el.dataset.dx) || 0, y: (i, el) => Number(el.dataset.dy) || 0 },
+        { opacity: 1, x: 0, y: 0, duration: 0.55, ease: 'power2.out', stagger: 0.06, overwrite: 'auto' });
+    } else {
+      gsap.to(afferents, { opacity: 0, duration: 0.4, overwrite: 'auto' });
+    }
+  }
+
   function allerA(nouvelle) {
     if (!VUES[nouvelle]) return;
     const memeVue = nouvelle === cle;
@@ -737,6 +774,7 @@ export function initRecit() {
       }
       surbriller(partie);
     }
+    poserAfferents(cle === 'dendrites');
 
     /* L'état est écrit à CHAQUE passage, même si la vue n'a pas changé.
        Sinon le tout premier appel, qui trouve déjà la vue d'ensemble en

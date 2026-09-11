@@ -27,6 +27,7 @@
 | **Le défi du chronomètre**, second moment interactif | Pièce 5, 11 septembre 2026. Six segments de gaine à poser sur l'axone, par deux boutons Ajouter et Retirer ou un curseur natif, cibles de 44 px. Chaque segment est une bande verte cernée d'un filet d'encre, jamais un trait. À chaque changement l'impulsion repart du haut, rampe sur le nu et saute sur le gainé, et le chronomètre compte jusqu'au temps du modèle de `02-CONTENU` : 0,51 s à vide, 0,10 s à cinq segments, 0,02 s à six, avec le mot « atteint ». La cible est marquée comme le chiffre du premier écran. Annonce en `aria-live`. Le temps 14 joue une impulsion lente sur l'axone nu quand sa phrase apparaît. `js/myeline.js`, trois contrôles dans la batterie. Le cadrage de l'axone montre désormais l'axone entier |
 | **La synapse et l'acte 2** | Pièce 6, 11 septembre 2026. 1D : la caméra plonge sur un renflement et la cellule d'en face quand la phrase du vide apparaît (un cadrage porté par un temps, pas par un bloc), quatre messagers orange cernés d'encre traversent le vide, la cellule d'en face s'illumine en bleu. Aucune mesure du vide [S9]. Acte 2 : la caméra recule, la chaîne réapparaît, puis la silhouette entière avec son trajet, puis le trait se démultiplie en faisceau [S4], puis le bouton magenta du premier écran revient et rejoue l'impulsion. `js/synapse.js`, deux contrôles dans la batterie |
 | **Le quiz**, acte 3 | Pièce 7, 11 septembre 2026. Une section à part après le récit. Les cinq questions de `02-CONTENU`, mot pour mot, en boutons radio natifs dans un `fieldset` avec `legend`, l'étiquette entière en cible de 44 px, pilotables aux flèches. Les questions **s'empilent** : répondre fait apparaître la suivante, les précédentes restent avec leur explication. Le verdict est un mot et une icône, « Bonne réponse » sur fond magenta avec une coche, ou « Pas tout à fait » avec une croix, jamais la couleur seule ; l'explication vient dans les deux cas, en `aria-live` ; on peut changer de réponse, rien n'est verrouillé, aucun score. Puis la phrase de fin et le bouton magenta, qui **ramène à la silhouette** et rejoue l'impulsion. Sans JavaScript, une liste de questions-réponses. `js/quiz.js`, six contrôles dans la batterie |
+| **Le signal afférent** | Pièce 8, 11 septembre 2026, demande de l'utilisateur. Huit petites flèches bleues, une par bout de dendrite, pointant vers l'intérieur, qui arrivent en glissant quand la caméra se pose sur les dendrites et repartent quand elle les quitte : le neurone reçoit. Calculées dans le générateur à partir des tracés des dendrites (`fleches_afferentes()`), montrées par `js/recit.js`. Sans script, elles sont là. Deux contrôles dans la batterie |
 | **La chute de l'acte 2** | « Tout ça, pour un clic. Pas mal, non ? » Ajout de l'utilisateur, 11 septembre 2026 |
 | **Les dessins du parcours réduits** | Demande de l'utilisateur : le texte était dissimulé sous un dessin et deux rangs de boutons prenant les deux tiers de l'écran. Hauteur du parcours passée de 42 % à 31 % de l'écran, boutons inchangés, zone de lecture de 266 à 359 px |
 
@@ -100,11 +101,12 @@ L'ordre suit `02-CONTENU.md`. Chaque pièce est vérifiée par capture à
 | 5. Le défi du chronomètre, 1C temps 16 | **fait**, 11 septembre 2026 |
 | 6. La synapse (1D) et l'acte 2, le retour au corps | **fait**, 11 septembre 2026 |
 | 7. Acte 3, le quiz | **fait**, 11 septembre 2026 |
+| 8. Le signal afférent sur les dendrites | **fait**, 11 septembre 2026 |
 | **Agent d'audit technique** | avant-dernier |
 | **Agent d'audit scientifique** | **après l'audit technique** |
 | Parcours de démonstration 3 minutes | en dernier |
 
-**Mesures du moment** : 29 contrôles sur 29 dans `outils-test-navigateur.py`,
+**Mesures du moment** : 31 contrôles sur 31 dans `outils-test-navigateur.py`,
 mouvement réduit et sans JavaScript vérifiés par capture.
 
 ### Les deux audits de fin de projet
@@ -150,15 +152,11 @@ clairement les erreurs à corriger des choix de vulgarisation assumés.
 
 ### Prochaine étape
 
-Les sept pièces de la narration sont en ligne. Dans l'ordre :
+Les huit pièces de la narration sont en ligne. Dans l'ordre :
 
-1. **Le signal afférent sur les dendrites**, demande de l'utilisateur du
-   11 septembre 2026 : de petites flèches bleues, une par dendrite, quand on
-   parle des dendrites, pour montrer que le neurone reçoit de l'information.
-   Les billes bleues du curseur du seuil en sont ensuite la modélisation.
-2. **L'audit technique**, selon le protocole de `08-RAPPORT-TEST.md`.
-3. **L'audit scientifique**, `09-AUDIT-SCIENTIFIQUE.md`, après le technique.
-4. **Le parcours de démonstration**, `06-DEMO-3MIN.md`.
+1. **L'audit technique**, selon le protocole de `08-RAPPORT-TEST.md`.
+2. **L'audit scientifique**, `09-AUDIT-SCIENTIFIQUE.md`, après le technique.
+3. **Le parcours de démonstration**, `06-DEMO-3MIN.md`.
 
 ---
 
