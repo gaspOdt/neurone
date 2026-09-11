@@ -50,7 +50,11 @@
   /* La couleur de surbrillance, quand on désigne une partie d'un schéma.
      Isolée dans son propre token pour pouvoir l'essayer facilement :
      remplacer par --c-potassium, --c-myelin ou --c-neuro pour comparer. */
-  --c-surbrillance: var(--c-impulse);
+  /* Passée au magenta de la palette fluo : « regarde ici ». Le bleu qu'elle
+     empruntait est réservé au signal, et un signal ne désigne pas une
+     partie. La surbrillance épaissit aussi le trait, donc elle reste
+     lisible en noir et blanc, et elle est momentanée. */
+  --c-surbrillance: var(--accent);
 
   /* Retour visuel du quiz. Jamais seuls : toujours doublés d'un mot
      et d'une icône, car « vert = bon, rouge = faux » est précisément le

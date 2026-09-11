@@ -20,14 +20,16 @@
 | **Une seule mise en page** | Celle du téléphone, partout. La version deux colonnes des grands écrans est supprimée le 11 septembre 2026, sur décision de l'utilisateur, pour tenir le calendrier. Sur ordinateur, la même colonne de 34 rem, centrée |
 | **Silhouette et neurone exclusifs** | Ils partagent une case de grille et ne sont jamais visibles ensemble |
 | **L'acte 0 entier, conforme à `02-CONTENU`** | Pièce 1, 11 septembre 2026. Temps 2 la silhouette seule avec la phrase sur le cerveau, temps 3 le trajet qui se trace avec « Un message est parti de là-haut », temps 4 « deux centièmes de seconde » [S1] avec le temps inscrit à côté, temps 5 la question et le corps qui s'efface **sauf le trait**. Le neurone n'arrive qu'à la bascule, en fondu avec le trait qui part. Vérifié capture par capture à 390 × 844 |
-| **La transition centrale** | Pièce 2, 11 septembre 2026. À la bascule, la caméra **plonge dans le trait** (cadrage de la silhouette asservi au défilement) jusqu'à ce qu'il soit une large bande. Bloc « chaîne » : trois capsules abstraites dans la bande. Bloc « en voici une » : la bande et les autres capsules s'effacent, la capsule élue reste, le neurone se dessine à sa place. Bloc « plan » : les boutons arrivent, et pas avant. Remonter défait tout. Vérifié par capture |
+| **La transition centrale** | Pièce 2, 11 septembre 2026. À la bascule, la caméra **plonge dans le trait** (cadrage de la silhouette asservi au défilement) jusqu'à ce qu'il soit une large bande. Bloc « chaîne » : trois neurones réduits à un cercle et un trait, bout à bout dans la bande (d'abord des capsules, changées à la demande de l'utilisateur). Bloc « en voici une » : la bande et les autres capsules s'effacent, la capsule élue reste, le neurone se dessine à sa place. Bloc « plan » : les boutons arrivent, et pas avant. Remonter défait tout. Vérifié par capture |
+| **L'acte 1, ses textes et ses titres** | Pièce 3, 11 septembre 2026. Les textes de 1A à 1D de `02-CONTENU`, mot pour mot, **un temps par paragraphe qui s'empile dans sa partie** : un temps apparaît en entrant dans la zone de lecture, sous le dessin, et reste. Titres des parties gros et gras, sous-titre en encre douce, aucun ornement. Mot-clé de chaque partie en magenta **derrière**, texte noir. Courbe du potentiel d'action déplacée au corps cellulaire, en bleu. Surbrillance des parties passée au magenta. Les deux formulations imprécises ont disparu. Sans les deux moments interactifs ni leurs phrases |
+| **Le titre du site** | En gros au dessus du premier bouton, il disparaît avec lui. **Provisoire** : le nom n'est pas choisi, le titre affiché est celui de la balise `title` |
 
 ### Ce qui n'est PAS implémenté
 
-- **Le texte de l'acte 1 est encore l'ancien.** Les deux affirmations FAUSSES
-  ont disparu avec la réécriture de l'acte 0 (« moins d'un centième » et « une
-  impulsion, et une seule »). Restent les deux IMPRÉCISES, dans le parcours :
-  « des milliers de messages en même temps » et « des centaines de dendrites ».
+- **Les éléments graphiques de l'acte 1** : les points bleus qui convergent
+  (1A), le corps qui se remplit (1B), l'impulsion qui descend l'axone et la
+  gaine qui se pose (1C), le vide et les messagers (1D). Ils arrivent avec les
+  deux moments interactifs.
 - Les deux moments interactifs, le retour au corps et le quiz.
 
 ### Un écart à connaître entre le code et les documents
@@ -68,8 +70,8 @@ python3 outils-test-navigateur.py
 
 ### Les erreurs scientifiques du site en ligne
 
-Les deux **fausses** ont disparu avec la pièce 1, l'acte 0 réécrit. Les deux
-**imprécises** sont encore dans le texte de l'acte 1, qui n'est pas réécrit.
+**Aucune n'est plus en ligne.** Les deux fausses sont parties avec la pièce 1,
+les deux imprécises avec la pièce 3. Le tableau reste pour mémoire.
 
 | Affirmation | Verdict | Source |
 |---|---|---|
@@ -86,8 +88,8 @@ L'ordre suit `02-CONTENU.md`. Chaque pièce est vérifiée par capture à
 | Pièce | État |
 |---|---|
 | 1. Acte 0 conforme : silhouette, trajet, temps inscrit, trait seul | **fait**, 11 septembre 2026 |
-| 2. La transition centrale : plongeon dans le trait, chaîne de capsules, « En voici une » | **fait**, 11 septembre 2026 |
-| 3. Acte 1 : textes de 1A à 1D qui s'accumulent, boutons au temps 3, courbe déplacée au corps cellulaire | à faire |
+| 2. La transition centrale : plongeon dans le trait, chaîne de mini-neurones, « En voici une » | **fait**, 11 septembre 2026 |
+| 3. Acte 1 : textes de 1A à 1D qui s'accumulent, titres, courbe déplacée au corps cellulaire | **fait**, 11 septembre 2026 |
 | 4. Le curseur du seuil, 1B temps 8 | à faire |
 | 5. Le défi du chronomètre, 1C temps 16 | à faire |
 | 6. Acte 2, le retour au corps | à faire |
@@ -142,12 +144,11 @@ clairement les erreurs à corriger des choix de vulgarisation assumés.
 
 ### Prochaine étape
 
-**Pièce 3 : l'acte 1.** Les textes de 1A à 1D de `02-CONTENU.md`, qui
-s'accumulent à l'intérieur de chaque partie au lieu de se remplacer, les
-titres et sous-titres des grandes parties, la courbe du potentiel d'action
-déplacée au corps cellulaire, et la disparition des deux formulations
-imprécises encore en ligne. Sans les deux moments interactifs, qui sont les
-pièces 4 et 5.
+**Pièce 4 : le curseur du seuil**, 1B temps 8 de `02-CONTENU.md`. Un
+`<input type="range">` natif plus deux boutons moins et plus, valeur annoncée
+en `aria-live`. Les points bleus arrivent sur les dendrites, le corps se
+remplit de bleu par le bas, et au passage du seuil quelque chose part vers le
+bas pendant que la courbe se trace. Aucune valeur chiffrée de seuil, [S6].
 
 ---
 

@@ -182,9 +182,9 @@ html.reduce-motion *::after {
    visible ; c'est le JavaScript qui, une fois chargé, prend la main pour
    animer les apparitions. */
 
-.temps, .defiler { opacity: 1; }
-html.js .temps, html.js .defiler { opacity: 0; }
-html.js.reduce-motion .temps { opacity: 1; }
+.temps, .temps-parcours, .defiler { opacity: 1; }
+html.js .temps, html.js .temps-parcours, html.js .defiler { opacity: 0; }
+html.js.reduce-motion .temps, html.js.reduce-motion .temps-parcours { opacity: 1; }
 
 /* Le filet du mode réduit : la classe js est posée avant le premier rendu,
    donc si js/main.js échoue au chargement, tout le contenu resterait
@@ -330,7 +330,12 @@ html.js.reduce-motion .temps { opacity: 1; }
   content: '';
   position: absolute;
   left: 0; right: 0;
-  bottom: 100%;
+  /* Deux pixels DANS le bloc, et non affleurant. Bord à bord, il restait
+     une jointure d'un pixel, anti-crénelée, entre le débordement et le fond
+     du bloc, et le texte du parcours y transparaissait en un liseré de
+     hauts de lettres au dessus du titre. Trouvé en peignant le débordement
+     en rouge et la scène en jaune : le jaune apparaissait sur une ligne. */
+  bottom: calc(100% - 2px);
   height: 60vh;
   background: var(--paper);
   pointer-events: none;
@@ -520,6 +525,46 @@ html.no-js .neurone {
 .etape-contenu h3 { margin-bottom: var(--sp-3); }
 .etape-contenu p:last-child { margin-bottom: 0; }
 
+/* Les temps du parcours s'EMPILENT à l'intérieur d'une partie, comme ceux de
+   l'ouverture : chacun occupe sa place dès le départ et n'arrive qu'en
+   opacité, quand il entre dans la zone de lecture. Les blocs sont donc hauts
+   de tout leur contenu, alignés en haut, avec assez d'air pour que deux temps
+   n'entrent pas dans la zone ensemble. */
+.etape-texte { align-items: flex-start; padding-top: 12svh; }
+@supports not (height: 100svh) { .etape-texte { padding-top: 12vh; } }
+.temps-parcours { margin-bottom: var(--sp-5); }
+
+/* Le titre d'une partie : encre noire, gros et gras, et le sous-titre en
+   encre douce en dessous. Rien d'autre, ni filet ni barre : la hiérarchie se
+   fait par la taille, la graisse et le blanc. */
+.partie-titre {
+  font-size: var(--fs-h2);
+  margin-bottom: var(--sp-4);
+}
+.partie-titre .sous-titre {
+  display: block;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+  margin-top: var(--sp-2);
+}
+
+/* Le mot-clé d'une partie : du magenta DERRIÈRE, le texte reste noir.
+   7,3:1 en fond sous du noir, alors qu'en couleur de texte il tomberait à
+   2,4:1. C'est la règle de la palette, et c'est ce que fait la référence
+   citée par l'utilisateur. */
+.mot {
+  background: var(--accent);
+  padding: 0 0.15em;
+  border-radius: 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.etape-contenu .figure-courbe { margin: 0 0 var(--sp-5); }
+.etape-contenu .figure-courbe .courbe { max-width: 18rem; }
+
 .recit .alt-text { padding-bottom: var(--sp-6); }
 
 /* ==========================================================================
@@ -571,6 +616,16 @@ html.no-js .neurone {
   max-height: 20rem;
   transition: max-height var(--dur-slow) var(--ease),
               opacity var(--dur-base) var(--ease);
+}
+
+/* Le titre du site, au-dessus du premier bouton. Il n'est pas soumis au
+   plafond de --fs-h1 : ce plafond protège la scène collée, où le texte et
+   le dessin se disputent la hauteur, alors qu'ici le bloc occupe tout
+   l'écran et n'a rien d'autre à loger. Encre noire, gras, aucun ornement. */
+.titre-site {
+  font-size: clamp(2rem, 9vw, 3.4rem);
+  max-width: 12ch;
+  margin: 0 0 var(--sp-5);
 }
 
 .bouton-entree {

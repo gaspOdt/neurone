@@ -107,6 +107,9 @@ export function initRecit() {
   const annonce  = section.querySelector('[data-annonce]');
   const boutons  = [...section.querySelectorAll('.etapes button[data-vers]')];
   const blocs    = [...section.querySelectorAll('.etape-texte')];
+  /* Les temps de l'acte 1, un par paragraphe, qui s'empilent dans leur bloc. */
+  const tempsParcours = [...section.querySelectorAll('.temps-parcours')];
+  const figureCourbe  = section.querySelector('.figure-courbe');
 
   const traitsCourbe  = [...section.querySelectorAll('.figure-courbe .t')];
   const traitsNeurone = [...svg.querySelectorAll('.t')];
@@ -114,7 +117,7 @@ export function initRecit() {
   const corpsSil      = [...section.querySelectorAll('.silhouette .s')];
   const chaine        = section.querySelector('.silhouette .chaine');
   const elue          = section.querySelector('.silhouette .chaine .elue');
-  const autresCellules = [...section.querySelectorAll('.silhouette .chaine rect:not(.elue)')];
+  const autresCellules = [...section.querySelectorAll('.silhouette .chaine > g:not(.elue)')];
   const chrono        = section.querySelector('[data-chrono]');
   const visuels       = section.querySelector('.visuels');
   const boutsNeurone  = [...svg.querySelectorAll('.b')];
@@ -123,7 +126,7 @@ export function initRecit() {
      l'acte 0 est accroché à la phrase qui en parle, et à rien d'autre :
      c'est la règle de 02-CONTENU, le texte et l'image au même instant. */
   const iCourbe   = temps.indexOf(section.querySelector('.figure-courbe'));
-  const iCorps    = temps.indexOf(section.querySelector('h1.temps'));
+  const iCorps    = temps.indexOf(section.querySelector('.t-corps'));
   const iTrajet   = temps.indexOf(section.querySelector('.t-trajet'));
   const iDuree    = temps.indexOf(section.querySelector('.t-duree'));
   const iQuestion = temps.indexOf(section.querySelector('.t-question'));
@@ -206,8 +209,11 @@ export function initRecit() {
 
   function hauteurParcours() {
     const h = window.innerHeight || 800;
-    /* Toujours au-dessus de hauteurDessin, pour que la bascule agrandisse. */
-    return Math.min(h * 0.45, 380);
+    /* Toujours au-dessus de hauteurDessin, pour que la bascule agrandisse.
+       Mais pas plus : le texte et le dessin se disputent la hauteur, et
+       sous le dessin et ses deux rangs de boutons, il ne restait qu'un
+       quart de l'écran pour lire. */
+    return Math.min(h * 0.42, 356);
   }
 
   /** Pose la taille de la silhouette. Sa largeur decoule du rapport 300/700
@@ -306,6 +312,7 @@ export function initRecit() {
   /** L'état d'arrivée statique : tout est là, tout est lisible, rien ne bouge. */
   function toutMontrer() {
     temps.forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+    tempsParcours.forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
 
     /* SYNCHRONISER LE MÉMO, et ce n'est pas un détail.
 
@@ -462,7 +469,10 @@ export function initRecit() {
        déplacement déjà appliqué pour retrouver la position non transformée. */
     const hautNu = visuels.getBoundingClientRect().top
                  - scene.getBoundingClientRect().top - decalage;
-    decalage = tDessin * (padHaut + MARGE_HAUTE - hautNu);
+    /* Arrondi au pixel : un déplacement fractionnaire pose le bloc sur une
+       demi-ligne, et ses bords s'anti-crénèlent en laissant passer ce qu'il
+       y a dessous. */
+    decalage = Math.round(tDessin * (padHaut + MARGE_HAUTE - hautNu));
     gsap.set(visuels, { y: decalage });
   }
 
@@ -523,9 +533,19 @@ export function initRecit() {
                                  duration: 0.35, overwrite: true });
       }
 
-      /* Temps 5 : le corps s'efface, le trait reste. C'est la phrase de la
-         question qui commande, parce que c'est à cet instant que le récit
-         cesse de regarder le corps pour regarder le chemin. */
+    }
+
+    /* Temps 5 : le corps s'efface, le trait reste. C'est la phrase de la
+       question qui commande, parce que c'est à cet instant que le récit
+       cesse de regarder le corps pour regarder le chemin.
+
+       Évalué à CHAQUE position, y compris au delà de la bascule. Enfermé
+       dans la fenêtre de l'ouverture, ce calcul était sauté quand on
+       arrivait au parcours d'un bond, par un bouton ou un rechargement : le
+       corps n'avait jamais été effacé, et le contour de la tête traversait
+       la bande bleue au milieu de la chaîne. L'état doit être une fonction
+       de la position, jamais du chemin parcouru pour y arriver. */
+    if (porteSil) {
       const corpsVisible = p < iQuestion * PAS;
       if (corpsSilVisible !== corpsVisible) {
         corpsSilVisible = corpsVisible;
@@ -540,7 +560,6 @@ export function initRecit() {
     poser(chrono, entre && p >= iDuree * PAS && p < N * PAS, immediat);
     poser(defiler, p < 0.01, immediat);
 
-    tracer(traitsCourbe, iCourbe, p);
     /* Le trajet dans la silhouette se dessine de la tête vers le doigt,
        dans le sens du voyage, sur la mesure de la phrase qui le nomme. */
     tracer(traitTrajet, iTrajet, p);
@@ -554,6 +573,40 @@ export function initRecit() {
     basculer(t);
     cameraActive = t >= 1;
     if (cameraActive) majCamera();
+    majTempsParcours(immediat);
+  }
+
+  /* --- Les temps de l'acte 1 s'empilent dans leur partie ------------------
+     Un temps apparaît quand il entre dans la zone de lecture, sous le dessin
+     collé, et il y reste tant qu'on descend : c'est la règle 1 de 02-CONTENU,
+     un temps par défilement, et les temps s'accumulent. Remonter le retire,
+     dans l'ordre inverse. La courbe se trace quand son temps arrive. */
+
+  let courbeTracee = null;
+
+  /* Le seuil d'apparition est EN BAS de l'écran, et non dans la bande de la
+     caméra. La zone de lecture, sous le dessin collé et ses boutons, ne fait
+     qu'un quart de l'écran : un temps doit apparaître quand il y ENTRE, par
+     le bas, puis y rester en montant, jusqu'à passer sous le dessin. Avec le
+     seuil de la caméra, il n'apparaissait qu'au moment de disparaître sous
+     le dessin, et la capture ne montrait qu'un fragment de phrase. */
+  const SEUIL_LECTURE = 0.93;
+
+  function majTempsParcours(immediat) {
+    const h = window.innerHeight || 800;
+    tempsParcours.forEach(el => {
+      const visible = cameraActive && el.getBoundingClientRect().top < h * SEUIL_LECTURE;
+      poser(el, visible, immediat);
+    });
+    if (figureCourbe && traitsCourbe.length) {
+      const visible = cameraActive && figureCourbe.getBoundingClientRect().top < h * SEUIL_LECTURE;
+      if (courbeTracee !== visible) {
+        courbeTracee = visible;
+        if (immediat) gsap.set(traitsCourbe, { drawSVG: visible ? '0% 100%' : '0% 0%' });
+        else gsap.to(traitsCourbe, { drawSVG: visible ? '0% 100%' : '0% 0%',
+                                     duration: 1.2, ease: 'power1.inOut', overwrite: 'auto' });
+      }
+    }
   }
 
   /* --- La caméra, une fois la bascule terminée ---------------------------
@@ -668,7 +721,11 @@ export function initRecit() {
          c'est-à-dire une fraction des rails, ce qui est la seule grandeur
          qui gouverne réellement la progression. */
       const hautSection = section.getBoundingClientRect().top + window.scrollY;
-      const cible = hautSection + rails.offsetHeight * PAS;
+      /* Le MILIEU du temps 2, et pas son seuil. Viser le seuil exact envoyait
+         la page à 984,67 px, arrondis à 984 : un cheveu en dessous, donc le
+         temps 2 restait invisible et le visiteur devait défiler pour que
+         quelque chose se passe après son clic. Constaté par l'utilisateur. */
+      const cible = hautSection + rails.offsetHeight * PAS * 1.5;
       window.scrollTo({ top: cible, behavior: mouvementReduit() ? 'auto' : 'smooth' });
 
       /* Le bloc du bouton se replie, donc la hauteur des piles change et
@@ -701,6 +758,7 @@ export function initRecit() {
   /* --- Démarrage ---------------------------------------------------------- */
 
   gsap.set(temps, { opacity: 0, y: 16 });
+  gsap.set(tempsParcours, { opacity: 0, y: 16 });
   gsap.set([titre, nav, porte, porteSil, chrono].filter(Boolean), { opacity: 0 });
   gsap.set([...traitsCourbe, ...traitsNeurone, ...traitTrajet], { drawSVG: '0% 0%' });
   gsap.set(boutsNeurone, { scale: 0, transformOrigin: 'center' });
@@ -738,7 +796,7 @@ export function initRecit() {
     if (!e.detail.reduire) return;
     window.removeEventListener('scroll', auDefilement);
     window.removeEventListener('resize', auRedimensionnement);
-    gsap.killTweensOf([...temps, ...piles, ...corpsSil, svg, porte, porteSil].filter(Boolean));
+    gsap.killTweensOf([...temps, ...tempsParcours, ...piles, ...corpsSil, svg, porte, porteSil].filter(Boolean));
     toutMontrer();
   });
 }

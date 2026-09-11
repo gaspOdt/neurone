@@ -126,7 +126,9 @@ COURBE = '''<svg class="courbe" viewBox="0 0 320 130"
           <desc id="c-desc">Une ligne horizontale et calme, qui monte
             brutalement en une pointe étroite, redescend en dessous de son
             niveau de départ, puis revient tranquillement à l'horizontale.</desc>
-          <g fill="none" stroke="var(--ink)" stroke-width="2"
+          <!-- En bleu : c'est l'impulsion, le signal, vue autrement. Le bleu
+               est la seule couleur autorisée en trait pur, 4,8:1. -->
+          <g fill="none" stroke="var(--signal)" stroke-width="2.5"
              stroke-linecap="round" stroke-linejoin="round"
              vector-effect="non-scaling-stroke">
             <path class="t" d="M10 92 L104 92 C118 92 121 62 130 36
@@ -269,21 +271,31 @@ SILHOUETTE = '''<svg class="silhouette" viewBox="0 0 300 700"
               </g>
 
               <!-- LA CHAINE DE CELLULES, acte 1 temps 1. Invisible tant que la
-                   camera n'est pas au fond du trait. Des capsules a l'encre,
-                   bout a bout, posees sur le segment vertical du trajet, sous
-                   la tete : c'est ce segment que le cadrage resserre. Celle du
-                   milieu est « elue » : c'est elle qui deviendra le neurone au
-                   temps 2. Decision de l'utilisateur : des formes abstraites,
-                   pas de petits neurones. -->
+                   camera n'est pas au fond du trait. Trois neurones REDUITS A
+                   L'ESSENTIEL, un cercle et un trait pour l'axone, bout a
+                   bout sur le segment vertical du trajet, sous la tete :
+                   c'est ce segment que le cadrage resserre. Chaque axone
+                   s'arrete juste au-dessus du cercle suivant. Celui du milieu
+                   est « elu » : c'est lui qui deviendra le neurone au temps 2.
+                   Decision de l'utilisateur, revenant sur les gelules : la
+                   forme annonce deja le dessin qu'on va trouver.
+                   Poses a partir de y = 84 : le trait commence a 86 et son
+                   bout arrondi remonte a 80. Le dernier deborde du cadrage
+                   par le bas, et c'est voulu : la chaine continue hors champ. -->
               <g class="chaine" fill="var(--paper)" stroke="var(--ink)"
-                 stroke-width="0.9" stroke-linejoin="round" opacity="0">
-                <!-- Posees a partir de y = 82 : le trait commence a 86 et son
-                     bout arrondi remonte a 80. Plus haut, la premiere capsule
-                     sortait de la bande. La derniere deborde du cadrage par
-                     le bas, et c'est voulu : la chaine continue hors champ. -->
-                <rect x="145" y="82"  width="10" height="15" rx="5"/>
-                <rect class="elue" x="145" y="100" width="10" height="15" rx="5"/>
-                <rect x="145" y="118" width="10" height="15" rx="5"/>
+                 stroke-width="0.9" stroke-linecap="round" opacity="0">
+                <g>
+                  <circle cx="150" cy="84" r="3.6"/>
+                  <path d="M150 87.6 L150 98"/>
+                </g>
+                <g class="elue">
+                  <circle cx="150" cy="102" r="3.6"/>
+                  <path d="M150 105.6 L150 116"/>
+                </g>
+                <g>
+                  <circle cx="150" cy="120" r="3.6"/>
+                  <path d="M150 123.6 L150 134"/>
+                </g>
               </g>
             </svg>'''.replace("{corps}", corps()).replace("{trajet}", trajet())
 
@@ -312,6 +324,11 @@ RECIT_DEBUT = '''  <!-- ========================================================
              est le seul déclencheur », et elle est nécessaire : sans le clic,
              la phrase suivante affirmerait un geste qui n'a pas eu lieu. -->
         <div class="temps porte-entree" data-temps="1">
+          <!-- LE TITRE DU SITE, en gros, au-dessus du tout premier bouton.
+               Demande de l'utilisateur. Il disparaît avec le bouton, au clic.
+               Le nom du site n'est PAS encore choisi (README) : ce titre est
+               PROVISOIRE, repris de la balise title. -->
+          <h1 class="titre-site">Comment un neurone transmet l'information</h1>
           <p class="lead">Clique sur ce bouton.</p>
           <button type="button" class="bouton-entree" data-entree>Clique</button>
         </div>
@@ -319,10 +336,11 @@ RECIT_DEBUT = '''  <!-- ========================================================
         <!-- Temps 2 de la narration. La silhouette apparaît EN MÊME TEMPS que
              cette phrase, mais sans le trajet : on montre d'abord le corps
              dont on parle. Le trajet n'arrive qu'avec la phrase qui le
-             nomme, au temps suivant (02-CONTENU, incohérence n°1). -->
-        <h1 class="temps" data-temps="2">
+             nomme, au temps suivant (02-CONTENU, incohérence n°1).
+             Ce n'est plus le h1 : le h1 est le titre du site. -->
+        <p class="temps lead t-corps" data-temps="2">
           Ton cerveau vient de commander le mouvement de ton doigt.
-        </h1>
+        </p>
 
       </div>
 
@@ -407,48 +425,100 @@ RECIT_DEBUT = '''  <!-- ========================================================
 # Le parcours : un seul neurone, qui reste à l'écran
 # ---------------------------------------------------------------------------
 
+# L'acte 1, textes de 02-CONTENU mot pour mot, un temps par paragraphe.
+#
+# À L'INTÉRIEUR D'UNE PARTIE, LES TEMPS S'EMPILENT : chacun arrive sous les
+# précédents, qui restent. C'est la règle 1 de 02-CONTENU, valable pour tout
+# le site. Une partie est un bloc, et le bloc suivant repart d'un écran net.
+#
+# Le mot-clé de chaque partie est marqué `mot` : du magenta DERRIÈRE, le
+# texte reste noir. C'est la règle de la palette.
+#
+# Les phrases des deux moments interactifs (1B temps 8, 1C temps 16 et 17)
+# n'y sont pas encore : elles arrivent avec leur interaction, pièces 4 et 5.
+# Chaque entrée : clé, titre, sous-titre, paragraphes.
+
 ETAPES = [
-    # Acte 1, temps 1 à 3, textes de 02-CONTENU mot pour mot. Trois blocs,
-    # parce que chacun commande un état différent du dessin : la chaîne, puis
-    # la cellule qui s'en détache, puis le plan avec ses boutons.
-    ('chaine', 'Une chaîne', '''
-        <p class="lead">Ce chemin n'est pas un fil. C'est une chaîne de
-           cellules, mises bout à bout.</p>'''),
+    ('chaine', None, None, [
+        '''<p class="lead">Ce chemin n'est pas un fil. C'est une chaîne de
+           cellules, mises bout à bout.</p>''']),
 
-    ('cellule', 'En voici une', '''
-        <p class="lead">En voici une. On l'appelle un
-           <strong>neurone</strong>.</p>'''),
+    ('cellule', None, None, [
+        '''<p class="lead">En voici une. On l'appelle un
+           <strong class="mot">neurone</strong>.</p>''']),
 
-    ('plan', 'Le neurone', '''
-        <p>Il est très fort pour une chose : faire passer un message d'un
-           bout à l'autre. Suivons ce message, dans l'ordre.</p>'''),
+    ('plan', 'Le neurone', 'La cellule qui fait voyager le message', [
+        '''<p>Il est très fort pour une chose : faire passer un message d'un
+           bout à l'autre. Suivons ce message, dans l'ordre.</p>''']),
 
-    ('dendrites', 'Les dendrites, le buisson qui écoute', '''
-        <p>C'est par le haut que les messages arrivent, dans ces branches
-           fines.</p>
-        <p>Un seul neurone peut en recevoir <strong>des milliers en même
-           temps</strong>, venus de milliers d'autres neurones. Toutes ces
-           branches ne font qu'une chose : collecter.</p>'''),
+    ('dendrites', 'Les dendrites', 'Là où les messages arrivent', [
+        '''<p>Le message arrive par le haut, dans ces branches fines. On les
+           appelle les <strong class="mot">dendrites</strong>.</p>''',
+        # [S2]. Surtout pas « des milliers de messages en même temps », qui
+        # confondrait le nombre de connexions et le nombre de messages.
+        '''<p>Elles collectent, et elles collectent beaucoup. Ce n'est pas une
+           simple chaîne : <strong>des milliers d'autres neurones</strong>
+           parlent à celui-ci.</p>''']),
 
-    ('soma', 'Le corps cellulaire, le poste de commande', '''
-        <p>Tout ce que les dendrites ont récolté converge ici.</p>
-        <p>Le corps cellulaire fait la somme, et il tranche :
-           <strong>on transmet, ou on ne transmet pas</strong>. C'est la
-           décision de tout le neurone, prise en un seul endroit.</p>'''),
+    ('soma', 'Le corps cellulaire', 'Là où le neurone décide de transmettre', [
+        '''<p>Tout ce que les dendrites ont récolté converge ici, dans le
+           <strong class="mot">corps cellulaire</strong>.</p>''',
+        '''<p>Chaque message qui arrive le fait monter un peu. Un seul ne
+           suffit jamais.</p>''',
+        # Le seuil et l'impulsion sont nommés ICI, chacun avec sa définition
+        # dans la phrase, et nulle part avant. « Vers le bas », jamais « le
+        # long de l'axone » : l'axone n'est nommé qu'en 1C. Aucune valeur de
+        # seuil affichée, [S6] : ce n'est pas une constante.
+        '''<p>Il y a un niveau à atteindre. On l'appelle le
+           <strong class="mot">seuil</strong>. En dessous, il ne se passe
+           rien. Au-dessus, quelque chose part vers le bas : une
+           <strong class="mot">impulsion</strong>. Et elle part
+           <strong>toujours pareil</strong>, pas plus fort si tu pousses
+           plus.</p>''',
+        # La courbe du potentiel d'action, déplacée ici depuis l'ouverture :
+        # c'est ce que le visiteur vient de déclencher, vu autrement.
+        '''<figure class="figure-courbe">
+          {courbe}
+          <figcaption class="caption">La même impulsion, vue comme une
+            courbe.</figcaption>
+        </figure>''',
+        '''<p>Comme un interrupteur : tu peux appuyer doucement autant que tu
+           veux, la lumière reste éteinte. Passé le déclic, elle s'allume. Et
+           toujours à la même intensité.</p>''',
+        '''<p>Sauf que le neurone, lui, se rallume aussitôt. Prêt pour le
+           message suivant.</p>''']),
 
-    ('axone', "L'axone, le câble de sortie", '''
-        <p>Un neurone a des centaines de dendrites, mais <strong>un seul
-           axone</strong>. Le message part par là, et seulement par là.</p>
-        <p>Chez toi, certains axones descendent de la moelle épinière jusqu'au
-           pied : presque <strong>un mètre de long</strong>, pour une seule
-           cellule.</p>'''),
+    ('axone', "L'axone", "Le long câble qui emporte l'impulsion", [
+        # « Un seul axone » : vérifié. Surtout pas « des centaines de
+        # dendrites », qui compte mal l'objet [S2].
+        '''<p>Une fois partie, l'impulsion descend le long de
+           l'<strong class="mot">axone</strong>. Un neurone a des milliers
+           d'entrées, mais <strong>un seul axone</strong>.</p>''',
+        # Seul endroit du site où le signal est dit électrique. Affirmer
+        # d'abord, corriger ensuite : nier une idée que le visiteur n'a pas
+        # encore reviendrait à la lui souffler.
+        '''<p>Cette impulsion est bien un signal
+           <strong class="mot">électrique</strong>. Mais pas comme dans un
+           câble : c'est un basculement qui se propage, de proche en
+           proche.</p>''',
+        # [S3], 0,5 à 3 m/s sans myéline.
+        '''<p>Sur un axone nu, c'est lent. Beaucoup trop lent pour tes deux
+           centièmes de seconde.</p>''',
+        # Premier endroit du site où le mot apparaît.
+        '''<p>D'où ceci : une gaine, posée par morceaux le long de l'axone. On
+           l'appelle la <strong class="mot">myéline</strong>.</p>''',
+        '''<p>Voilà pourquoi ça va si vite.</p>''']),
 
-    ('terminaisons', 'Les terminaisons, la remise en mains propres', '''
-        <p>Tout en bas, l'axone se divise en petites branches, chacune finie
-           par un renflement.</p>
-        <p>C'est là que le message est <strong>remis au destinataire</strong> :
-           un autre neurone, ou un muscle. Comme celui de ton doigt, tout à
-           l'heure.</p>'''),
+    ('terminaisons', 'Les terminaisons', 'Là où le message passe à la cellule suivante', [
+        '''<p>Tout en bas, l'axone se divise en petites branches, chacune finie
+           par un renflement.</p>''',
+        # [S9]. Aucune largeur affichée : le point est qu'il EXISTE un vide.
+        '''<p>Et là, surprise : la cellule suivante n'est pas collée. Il reste
+           un vide.</p>''',
+        '''<p>Alors le message change de forme : il devient chimique. Le
+           renflement libère des <strong class="mot">messagers</strong> qui
+           traversent le vide et vont toucher la cellule d'en face.</p>''',
+        '''<p>Et de l'autre côté, tout recommence.</p>''']),
 ]
 
 BOUTONS = '\n'.join(
@@ -458,12 +528,37 @@ BOUTONS = '\n'.join(
         ('soma', '2. Corps'), ('axone', '3. Axone'),
         ('terminaisons', '4. Terminaisons')])
 
-BLOCS = '\n'.join('''      <div class="etape-texte" id="etape-{cle}" data-vue="{cle}">
+def bloc(cle, titre, sous_titre, paragraphes):
+    """Un bloc du parcours. Le titre est un temps comme les autres : il arrive
+    en premier, puis chaque paragraphe s'ajoute dessous."""
+    morceaux = []
+    if titre:
+        # Titre en encre noire, gros et gras ; sous-titre en encre douce.
+        # Aucun ornement, aucun filet : demande explicite de l'utilisateur.
+        morceaux.append('          <h3 class="temps-parcours partie-titre">%s'
+                        '<span class="sous-titre">%s</span></h3>' % (titre, sous_titre))
+    for p in paragraphes:
+        # Le `temps-parcours` se pose sur la balise de PREMIER niveau du
+        # paragraphe, p ou figure : ajouté à sa classe si elle en a une,
+        # créé sinon. On ne touche qu'à la première balise.
+        p = p.strip()
+        fin_balise = p.index('>')
+        balise = p[:fin_balise]
+        if 'class="' in balise:
+            balise = balise.replace('class="', 'class="temps-parcours ', 1)
+        else:
+            nom = balise.split(' ', 1)[0]            # « <p » ou « <figure »
+            balise = nom + ' class="temps-parcours"' + balise[len(nom):]
+        p = balise + p[fin_balise:]
+        morceaux.append('          ' + p.replace('{courbe}', COURBE))
+    return '''      <div class="etape-texte" id="etape-{cle}" data-vue="{cle}">
         <div class="etape-contenu">
-          <h3>{titre}</h3>{corps}
+{contenu}
         </div>
       </div>
-'''.format(cle=cle, titre=titre, corps=corps) for cle, titre, corps in ETAPES)
+'''.format(cle=cle, contenu='\n'.join(morceaux))
+
+BLOCS = '\n'.join(bloc(*e) for e in ETAPES)
 
 RECIT_FIN = '''
     <!-- ==================================================================
@@ -484,18 +579,20 @@ RECIT_FIN = '''
         <summary>Lire la description complète en texte</summary>
         <ol>
           <li><strong>Les dendrites.</strong> Les branches fines, en haut, qui
-            partent dans toutes les directions. C'est par là que les messages
-            arrivent, et il y en a beaucoup : un neurone peut en recevoir des
-            milliers en même temps.</li>
+            partent dans toutes les directions. C'est par là que le message
+            arrive. Des milliers d'autres neurones parlent à celui-ci.</li>
           <li><strong>Le corps cellulaire.</strong> Le rond où convergent les
-            branches. C'est le poste de commande : il additionne tout ce qui
-            arrive et décide s'il faut transmettre, ou non.</li>
+            branches. Chaque message qui arrive le fait monter un peu. Passé
+            un niveau, le seuil, une impulsion part vers le bas, toujours
+            pareille. En dessous, rien ne part.</li>
           <li><strong>L'axone.</strong> Le fil unique qui descend du corps
-            cellulaire et file très loin. Il n'y en a qu'un seul par neurone.
-            Chez l'être humain, certains axones mesurent presque un mètre.</li>
+            cellulaire. L'impulsion y descend : c'est un signal électrique,
+            mais pas comme dans un câble. Sur un axone nu c'est lent ; une
+            gaine posée par morceaux, la myéline, le rend rapide.</li>
           <li><strong>Les terminaisons.</strong> Tout en bas, l'axone se divise
-            en petites branches finies par un renflement. C'est là que le
-            message est remis au suivant.</li>
+            en petites branches finies par un renflement. La cellule suivante
+            n'est pas collée : des messagers chimiques traversent le vide, et
+            de l'autre côté tout recommence.</li>
         </ol>
       </details>
     </div>
