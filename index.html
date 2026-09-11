@@ -525,7 +525,7 @@
 
       <div class="etape-texte" id="etape-clic" data-vue="clic">
         <div class="etape-contenu">
-          <p class="temps-parcours lead">Tout ça, pour un clic.</p>
+          <p class="temps-parcours lead">Tout ça, pour un clic. Pas mal, non ?</p>
           <div class="temps-parcours fin">
           <button type="button" class="bouton-entree" data-rejouer>Clique</button>
         </div>
@@ -559,14 +559,142 @@
 
   </section>
 
-  <!-- Sections restantes, jours 3 à 5. Ordre imposé : rien n'apparaît
-       avant son tour, et la myéline n'est mentionnée nulle part avant la
-       section « Ça file ».
-         Au repos       les charges de part et d'autre de la membrane
-         Tout ou rien   le seuil, l'analogie de l'interrupteur
-         Ça file        la propagation, PUIS la myéline
-         Le saut        la synapse
-         Quiz           quelques questions, à la fin seulement -->
+  <!-- ==================================================================
+       ACTE 3, le quiz. Cinq questions qui s'empilent : répondre à l'une
+       fait apparaître la suivante, et les précédentes restent avec leur
+       explication. Aucun score, aucune limite de temps, aucun verrou.
+       Sans JavaScript : une liste de questions-réponses, lisible.
+       =============================================================== -->
+  <section id="quiz" class="quiz section" aria-labelledby="quiz-titre">
+    <div class="wrap">
+      <h2 id="quiz-titre">Cinq questions</h2>
+      <p class="quiz-intro">Pas de note, pas de chrono. Tu peux te tromper
+        autant que tu veux : à chaque réponse, une explication.</p>
+
+        <fieldset class="quiz-question" id="question-sens" data-bonne="a">
+          <legend><span class="numero">1.</span> Dans un neurone, le message circule dans quel sens ?</legend>
+          <div class="choix">
+            <label class="choix-item">
+              <input type="radio" name="q-sens" value="a">
+              <span>Des dendrites vers l'axone</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-sens" value="b">
+              <span>De l'axone vers les dendrites</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-sens" value="c">
+              <span>Dans les deux sens, ça dépend</span>
+            </label>
+          </div>
+          <div class="reponse" aria-live="polite">
+            <p class="verdict" hidden></p>
+            <p class="explication"><span class="sans-js">Réponse. </span><strong>Des dendrites vers l'axone.</strong> Toujours dans ce sens, jamais l'inverse. C'est pour ça que le neurone est dessiné à la verticale sur ce site : il descend, comme le message.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="quiz-question" id="question-seuil" data-bonne="b">
+          <legend><span class="numero">2.</span> Deux neurones dépassent leur seuil. Le premier le dépasse tout juste, le second le dépasse très largement. Que se passe-t-il ?</legend>
+          <div class="choix">
+            <label class="choix-item">
+              <input type="radio" name="q-seuil" value="a">
+              <span>Le second envoie une impulsion plus forte</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-seuil" value="b">
+              <span>Les deux envoient exactement la même impulsion</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-seuil" value="c">
+              <span>Le second envoie une impulsion plus longue</span>
+            </label>
+          </div>
+          <div class="reponse" aria-live="polite">
+            <p class="verdict" hidden></p>
+            <p class="explication"><span class="sans-js">Réponse. </span><strong>Les deux envoient exactement la même impulsion.</strong> C'est la loi du tout ou rien. Comme un interrupteur : appuyer plus fort n'allume pas la lumière plus fort. Ce qu'un neurone fait varier, ce n'est pas la force de son impulsion, c'est le <strong>nombre</strong> d'impulsions qu'il envoie.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="quiz-question" id="question-myeline" data-bonne="a">
+          <legend><span class="numero">3.</span> À quoi sert la myéline ?</legend>
+          <div class="choix">
+            <label class="choix-item">
+              <input type="radio" name="q-myeline" value="a">
+              <span>À faire voyager le message beaucoup plus vite</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-myeline" value="b">
+              <span>À protéger l'axone des chocs</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-myeline" value="c">
+              <span>À fabriquer l'impulsion</span>
+            </label>
+          </div>
+          <div class="reponse" aria-live="polite">
+            <p class="verdict" hidden></p>
+            <p class="explication"><span class="sans-js">Réponse. </span><strong>À faire voyager le message beaucoup plus vite.</strong> Avec elle, le signal saute d'un morceau au suivant au lieu de ramper. Jusqu'à cinquante fois plus vite. Et il en faut sur <strong>tout</strong> le trajet : s'il reste un bout à découvert, le message y perd presque tout son temps.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="quiz-question" id="question-synapse" data-bonne="b">
+          <legend><span class="numero">4.</span> Entre deux neurones, qu'est-ce qui franchit le vide qui les sépare ?</legend>
+          <div class="choix">
+            <label class="choix-item">
+              <input type="radio" name="q-synapse" value="a">
+              <span>Une étincelle électrique</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-synapse" value="b">
+              <span>Des messagers chimiques</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-synapse" value="c">
+              <span>Rien, les deux neurones se touchent</span>
+            </label>
+          </div>
+          <div class="reponse" aria-live="polite">
+            <p class="verdict" hidden></p>
+            <p class="explication"><span class="sans-js">Réponse. </span><strong>Des messagers chimiques.</strong> Le message change de forme en route. Électrique à l'intérieur du neurone, chimique pour passer d'un neurone au suivant.</p>
+          </div>
+        </fieldset>
+
+        <fieldset class="quiz-question" id="question-centaines" data-bonne="c">
+          <legend><span class="numero">5.</span> Pour que ton doigt appuie sur l'écran, combien de neurones ont travaillé ?</legend>
+          <div class="choix">
+            <label class="choix-item">
+              <input type="radio" name="q-centaines" value="a">
+              <span>Un seul, celui qu'on a suivi</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-centaines" value="b">
+              <span>Deux, un pour partir et un pour arriver</span>
+            </label>
+            <label class="choix-item">
+              <input type="radio" name="q-centaines" value="c">
+              <span>Des centaines</span>
+            </label>
+          </div>
+          <div class="reponse" aria-live="polite">
+            <p class="verdict" hidden></p>
+            <p class="explication"><span class="sans-js">Réponse. </span><strong>Des centaines.</strong> On en a suivi <strong>un</strong> pour comprendre comment ça marche. Mais ton corps en a mobilisé des centaines, en même temps, chacun envoyant sa propre série d'impulsions.</p>
+          </div>
+        </fieldset>
+
+      <!-- Après la cinquième question : la phrase de fin, et le bouton du
+           tout premier écran. Le cliquer ramène à la silhouette, et
+           l'impulsion repart de la tête au doigt, une dernière fois. -->
+      <div class="quiz-fin">
+        <p class="lead">Voilà. Tu sais maintenant ce qui s'est passé entre ta
+          tête et ton doigt quand tu as cliqué sur ce bouton, tout au
+          début.</p>
+        <div class="fin">
+          <button type="button" class="bouton-entree" data-rejouer
+                  data-retour="etape-clic">Clique</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
 </main>
 

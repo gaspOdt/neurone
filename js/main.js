@@ -15,6 +15,7 @@ import { initRecit } from './recit.js?v=c1a2e0d5';
 import { initSeuil } from './seuil.js?v=c1a2e0d5';
 import { initMyeline } from './myeline.js?v=c1a2e0d5';
 import { initSynapse } from './synapse.js?v=c1a2e0d5';
+import { initQuiz } from './quiz.js?v=c1a2e0d5';
 
 initA11y();
 
@@ -48,3 +49,8 @@ initMyeline();
 /* La synapse : les messagers qui traversent le vide, la cellule d'en face
    qui s'illumine. Même règle, ses propres éléments seulement. */
 initSynapse();
+
+/* L'acte 3, le quiz. Il vit après le récit, dans sa propre section, et ne
+   touche à rien du dessin : le bouton de sa fin est branché par recit.js,
+   comme celui de l'acte 2, parce que c'est le trajet du récit qu'il rejoue. */
+initQuiz();

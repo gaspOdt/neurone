@@ -90,6 +90,10 @@ js/
   a11y.js           Mouvement réduit, détection d'appareil lent
   recit.js          TOUT le récit : le texte qui s'empile, les tracés asservis
                     au défilement, le neurone qui grandit, la caméra
+  seuil.js          Le curseur du seuil : messages, niveau du corps, impulsion
+  myeline.js        Le défi du chronomètre : la gaine, l'impulsion, le temps
+  synapse.js        Les messagers qui traversent le vide
+  quiz.js           L'acte 3 : les questions qui s'empilent, le verdict
   main.js           Point d'entrée
 assets/
   fonts/            Inter, sous-ensemble latin
@@ -344,6 +348,7 @@ Chacun a coûté au moins une itération. Aucun ne produit d'erreur visible.
 | **Remplacement de bloc trop large** | Une fonction encore appelée quatre fois avait été supprimée, le script mourait au chargement | Vérifier que chaque fonction appelée existe encore après une réécriture |
 | **`max-height` de repli sur un élément dimensionné par le script** | Le neurone ne grandissait plus à la bascule, 340 px avant comme après : un `max-height: 340px` prévu pour le visiteur sans JavaScript plafonnait en silence la hauteur écrite en ligne | Tout repli de taille se scope à `html.no-js` |
 | **Règle de plein écran non scopée à `html.js`** | Sans JavaScript, la classe `entre` n'est jamais posée : le bloc du bouton restait en plein écran pour toujours, tout le récit derrière un cache blanc | Toute règle qui attend une classe posée par le script se scope à `html.js` |
+| **Un nom de classe générique déjà pris** | Le `fieldset` du quiz, classe `question`, s'affichait en 28 px gras : `.question` est la question de l'ouverture, stylée en titre depuis le premier jour, et le fieldset en héritait | Avant de créer une classe, chercher son nom dans `base.css` ; préfixer ce qui appartient à une section, `quiz-question` |
 | **Déclaration après le retour anticipé, troisième fois** | `affiche` était écrit par `toutMontrer()`, appelée avant sa déclaration en mouvement réduit : `ReferenceError`, page figée pour ces visiteurs | Tout l'état d'`initRecit` se déclare avant le premier `return`, sans exception |
 
 ---

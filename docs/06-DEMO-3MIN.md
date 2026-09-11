@@ -70,6 +70,10 @@ de la section à manipuler se fera quand les quatre sections scientifiques
 existeront, et il se fera **sur le critère du geste qui enseigne le mieux**,
 pas du geste le plus spectaculaire.
 
+**Si le quiz est montré**, question 2 comme le prévoit `02-CONTENU.md`,
+répondre d'abord à la question 1 : les questions s'empilent, la deuxième
+n'existe à l'écran qu'après la première. Deux secondes à prévoir.
+
 ---
 
 ## Les règles du jour J

@@ -651,7 +651,56 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
                  and fin["viewBox"].startswith("0.00 0.00"),
                  str(fin))
 
-        print("\n12. Erreurs de console")
+        print("\n12. Le quiz, acte 3")
+        # Une seule question au depart, sans explication ni fin. Puis on
+        # repond juste, faux, on change d'avis, on finit : a chaque pas on
+        # regarde le mot du verdict, l'explication, et ce qui est apparu.
+        y = nav.evaluer("return Math.round(document.querySelector('#quiz').getBoundingClientRect().top+window.scrollY-40)")
+        nav.aller_a(y, pause=1.0)
+        etat = nav.evaluer(
+            "return {visibles: window.__quiz.visibles(), repondues: window.__quiz.repondues(),"
+            " fin: !document.querySelector('.quiz-fin').classList.contains('attente')}")
+        verifier("une seule question au depart, sans explication ni fin",
+                 etat["visibles"] == 1 and etat["repondues"] == 0 and not etat["fin"], str(etat))
+
+        def repondre(cle, juste):
+            nav.evaluer(
+                "var q=document.querySelector('#question-" + cle + "'); var b=q.dataset.bonne;"
+                "var r=[...q.querySelectorAll('input')].find(i=>(i.value===b)===" + ("true" if juste else "false") + ");"
+                "r.click(); return 1")
+            time.sleep(0.8)
+            return nav.evaluer(
+                "var q=document.querySelector('#question-" + cle + "'); var v=q.querySelector('.verdict');"
+                "return {bonne: /^Bonne r/.test(v.textContent.trim()), pas: /^Pas tout/.test(v.textContent.trim()),"
+                " icone: !!v.querySelector('svg'), expl: !q.querySelector('.explication').hidden,"
+                " verrou: !![...q.querySelectorAll('input')].find(i=>i.disabled),"
+                " visibles: window.__quiz.visibles(), fin: !document.querySelector('.quiz-fin').classList.contains('attente')}")
+
+        e = repondre("sens", True)
+        verifier("bonne reponse : le mot, l'icone, l'explication, et la question suivante",
+                 e["bonne"] and e["icone"] and e["expl"] and e["visibles"] == 2, str(e))
+        e = repondre("seuil", False)
+        verifier("mauvaise reponse : « pas tout a fait », l'explication quand meme, la suite",
+                 e["pas"] and e["icone"] and e["expl"] and e["visibles"] == 3 and not e["verrou"], str(e))
+        e = repondre("seuil", True)
+        verifier("on change d'avis : le verdict suit, rien n'est verrouille",
+                 e["bonne"] and e["expl"] and e["visibles"] == 3 and not e["verrou"], str(e))
+        repondre("myeline", True)
+        repondre("synapse", False)
+        e = repondre("centaines", True)
+        # Un chiffre « sur 5 », ou le mot score. Pas le mot « note » seul :
+        # l'introduction du quiz dit precisement « pas de note ».
+        score = nav.evaluer(
+            "var t=document.querySelector('#quiz').textContent; return /[0-9] ?(sur|[/]) ?5|score/i.test(t)")
+        verifier("apres la cinquieme : la phrase de fin et le bouton, et aucun score nulle part",
+                 e["fin"] and e["visibles"] == 5 and not score
+                 and nav.evaluer("return !!document.querySelector('.quiz-fin [data-rejouer]')"), str(e))
+        nav.evaluer("document.querySelector('.quiz-fin [data-rejouer]').click(); return 1")
+        time.sleep(3.0)
+        vue = nav.evaluer("return window.__parcours.vueActuelle()")
+        verifier("le bouton de la fin ramene a la silhouette", vue == "clic", "vue " + str(vue))
+
+        print("\n13. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
         verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 

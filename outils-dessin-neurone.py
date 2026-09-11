@@ -667,7 +667,7 @@ ETAPES = [
     # Chute : retour au bouton du tout premier écran. Le cliquer rejoue
     # l'impulsion le long de la silhouette.
     ('clic', None, None, [
-        '''<p class="lead">Tout ça, pour un clic.</p>''',
+        '''<p class="lead">Tout ça, pour un clic. Pas mal, non ?</p>''',
         '''<div class="fin">
           <button type="button" class="bouton-entree" data-rejouer>Clique</button>
         </div>''']),
@@ -764,15 +764,132 @@ RECIT = (RECIT_DEBUT
          + RECIT_FIN)
 
 
-RESTE = '''  <!-- Sections restantes, jours 3 à 5. Ordre imposé : rien n'apparaît
-       avant son tour, et la myéline n'est mentionnée nulle part avant la
-       section « Ça file ».
-         Au repos       les charges de part et d'autre de la membrane
-         Tout ou rien   le seuil, l'analogie de l'interrupteur
-         Ça file        la propagation, PUIS la myéline
-         Le saut        la synapse
-         Quiz           quelques questions, à la fin seulement -->
-'''
+# ---------------------------------------------------------------------------
+# ACTE 3, le quiz. Cinq questions, pas une de plus, celles de
+# docs/02-CONTENU.md. Chaque mauvaise réponse est une vraie idée fausse de
+# collégien, et l'explication, affichée dans tous les cas, la répare. Aucun
+# score, aucune limite de temps : la mécanique est dans js/quiz.js.
+#
+# Chaque entrée : clé, question, les trois choix, l'indice du bon, et
+# l'explication. L'explication commence par la bonne réponse en gras : sans
+# JavaScript, rien n'est caché, et les questions suivies de leurs réponses
+# forment une liste lisible telle quelle.
+#
+# Le « cinquante fois » de la myéline est sourcé en [S3], les « centaines »
+# de neurones en [S4].
+
+QUESTIONS = [
+    ('sens', "Dans un neurone, le message circule dans quel sens ?",
+     ["Des dendrites vers l'axone",
+      "De l'axone vers les dendrites",
+      "Dans les deux sens, ça dépend"], 0,
+     '''<strong>Des dendrites vers l'axone.</strong> Toujours dans ce sens,
+        jamais l'inverse. C'est pour ça que le neurone est dessiné à la
+        verticale sur ce site : il descend, comme le message.'''),
+
+    ('seuil', "Deux neurones dépassent leur seuil. Le premier le dépasse tout "
+              "juste, le second le dépasse très largement. Que se passe-t-il ?",
+     ["Le second envoie une impulsion plus forte",
+      "Les deux envoient exactement la même impulsion",
+      "Le second envoie une impulsion plus longue"], 1,
+     '''<strong>Les deux envoient exactement la même impulsion.</strong>
+        C'est la loi du tout ou rien. Comme un interrupteur : appuyer plus
+        fort n'allume pas la lumière plus fort. Ce qu'un neurone fait
+        varier, ce n'est pas la force de son impulsion, c'est le
+        <strong>nombre</strong> d'impulsions qu'il envoie.'''),
+
+    ('myeline', "À quoi sert la myéline ?",
+     ["À faire voyager le message beaucoup plus vite",
+      "À protéger l'axone des chocs",
+      "À fabriquer l'impulsion"], 0,
+     '''<strong>À faire voyager le message beaucoup plus vite.</strong> Avec
+        elle, le signal saute d'un morceau au suivant au lieu de ramper.
+        Jusqu'à cinquante fois plus vite. Et il en faut sur
+        <strong>tout</strong> le trajet : s'il reste un bout à découvert, le
+        message y perd presque tout son temps.'''),
+
+    ('synapse', "Entre deux neurones, qu'est-ce qui franchit le vide qui les "
+                "sépare ?",
+     ["Une étincelle électrique",
+      "Des messagers chimiques",
+      "Rien, les deux neurones se touchent"], 1,
+     '''<strong>Des messagers chimiques.</strong> Le message change de forme
+        en route. Électrique à l'intérieur du neurone, chimique pour passer
+        d'un neurone au suivant.'''),
+
+    ('centaines', "Pour que ton doigt appuie sur l'écran, combien de neurones "
+                  "ont travaillé ?",
+     ["Un seul, celui qu'on a suivi",
+      "Deux, un pour partir et un pour arriver",
+      "Des centaines"], 2,
+     '''<strong>Des centaines.</strong> On en a suivi <strong>un</strong>
+        pour comprendre comment ça marche. Mais ton corps en a mobilisé des
+        centaines, en même temps, chacun envoyant sa propre série
+        d'impulsions.'''),
+]
+
+
+def question(numero, cle, enonce, choix, bon, explication):
+    # Une question : un fieldset, sa légende, trois boutons radio natifs,
+    # (classe quiz-question : « question » tout court est déjà la question
+    # de l'ouverture, en gros et en gras, et le fieldset en héritait)
+    # puis la région annoncée où arrivent le verdict et l'explication.
+    #
+    # Les radios natifs se pilotent aux flèches du clavier sans script. Le
+    # verdict est vide et caché tant qu'on n'a pas répondu : c'est js/quiz.js
+    # qui l'écrit. L'explication est visible dans le HTML, et c'est le script
+    # qui la cache jusqu'à la réponse : sans lui, elle reste, précédée du mot
+    # « Réponse » que le script, lui, retire.
+    lettres = 'abc'
+    items = '\n'.join('''            <label class="choix-item">
+              <input type="radio" name="q-{cle}" value="{valeur}">
+              <span>{texte}</span>
+            </label>'''.format(cle=cle, valeur=lettres[i], texte=t)
+                      for i, t in enumerate(choix))
+    return '''        <fieldset class="quiz-question" id="question-{cle}" data-bonne="{bonne}">
+          <legend><span class="numero">{numero}.</span> {enonce}</legend>
+          <div class="choix">
+{items}
+          </div>
+          <div class="reponse" aria-live="polite">
+            <p class="verdict" hidden></p>
+            <p class="explication"><span class="sans-js">Réponse. </span>{explication}</p>
+          </div>
+        </fieldset>
+'''.format(cle=cle, bonne=lettres[bon], numero=numero, enonce=enonce,
+           items=items, explication=' '.join(explication.split()))
+
+
+QUIZ = '''  <!-- ==================================================================
+       ACTE 3, le quiz. Cinq questions qui s'empilent : répondre à l'une
+       fait apparaître la suivante, et les précédentes restent avec leur
+       explication. Aucun score, aucune limite de temps, aucun verrou.
+       Sans JavaScript : une liste de questions-réponses, lisible.
+       =============================================================== -->
+  <section id="quiz" class="quiz section" aria-labelledby="quiz-titre">
+    <div class="wrap">
+      <h2 id="quiz-titre">Cinq questions</h2>
+      <p class="quiz-intro">Pas de note, pas de chrono. Tu peux te tromper
+        autant que tu veux : à chaque réponse, une explication.</p>
+
+{questions}
+      <!-- Après la cinquième question : la phrase de fin, et le bouton du
+           tout premier écran. Le cliquer ramène à la silhouette, et
+           l'impulsion repart de la tête au doigt, une dernière fois. -->
+      <div class="quiz-fin">
+        <p class="lead">Voilà. Tu sais maintenant ce qui s'est passé entre ta
+          tête et ton doigt quand tu as cliqué sur ce bouton, tout au
+          début.</p>
+        <div class="fin">
+          <button type="button" class="bouton-entree" data-rejouer
+                  data-retour="etape-clic">Clique</button>
+        </div>
+      </div>
+    </div>
+  </section>
+'''.replace('{questions}', '\n'.join(
+    question(i + 1, *q) for i, q in enumerate(QUESTIONS)))
+
 
 
 # ---------------------------------------------------------------------------
@@ -784,7 +901,7 @@ def regenerer():
 
     debut = s.index('<main id="contenu">') + len('<main id="contenu">')
     fin = s.index('</main>')
-    s = s[:debut] + "\n\n" + RECIT + "\n" + RESTE + "\n" + s[fin:]
+    s = s[:debut] + "\n\n" + RECIT + "\n" + QUIZ + "\n" + s[fin:]
 
     # newline="\n" est OBLIGATOIRE, ce n'est pas un détail de style.
     # Sans lui, Python traduit chaque saut de ligne en CRLF sur Windows. Le

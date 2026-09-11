@@ -829,9 +829,10 @@ export function initRecit() {
      asservi au défilement, parce qu'il répond à un clic. */
 
   function brancherRejouer() {
-    const bouton = section.querySelector('[data-rejouer]');
-    if (!bouton || !traitTrajet.length) return;
-    bouton.addEventListener('click', () => {
+    const boutons = [...document.querySelectorAll('[data-rejouer]')];
+    if (!boutons.length || !traitTrajet.length) return;
+
+    function rejouer() {
       if (typeof gsap === 'undefined' || mouvementReduit()) return;
       gsap.fromTo(traitTrajet, { drawSVG: '0% 0%' },
         { drawSVG: '0% 100%', duration: 1.1, ease: 'power1.inOut', overwrite: 'auto' });
@@ -839,7 +840,41 @@ export function initRecit() {
         gsap.fromTo(faisceau.querySelectorAll('path'), { drawSVG: '0% 0%' },
           { drawSVG: '0% 100%', duration: 1.1, ease: 'power1.inOut', stagger: 0.05, overwrite: 'auto' });
       }
+    }
+
+    boutons.forEach(bouton => {
+      bouton.addEventListener('click', () => {
+        /* Le bouton de la fin du quiz est en dehors de la scène : quand on
+           le clique, la silhouette n'est plus à l'écran. On y retourne
+           d'abord, au dernier bloc du récit, et on ne rejoue qu'une fois
+           arrivé. Pas pendant : chaque événement de défilement repose le
+           trajet, et le tracé aurait eu deux propriétaires. En mouvement
+           réduit, le retour suffit : le trajet y est déjà tracé, c'est
+           l'état d'arrivée. */
+        const cible = bouton.dataset.retour && document.getElementById(bouton.dataset.retour);
+        if (!cible) { rejouer(); return; }
+        const doux = !mouvementReduit();
+        cible.scrollIntoView({ behavior: doux ? 'smooth' : 'auto', block: 'center' });
+        if (doux) attendreArret(rejouer);
+      });
     });
+  }
+
+  /* Appelle `alors` quand la page a cessé de défiler : au moins 400 ms
+     après le départ, puis huit images de suite sans changement, et jamais
+     plus de 2,5 secondes d'attente, quoi qu'il arrive. */
+  function attendreArret(alors) {
+    const debut = performance.now();
+    let dernier = window.scrollY, stables = 0;
+    function image(maintenant) {
+      const y = window.scrollY;
+      stables = (y === dernier) ? stables + 1 : 0;
+      dernier = y;
+      const ecoule = maintenant - debut;
+      if ((ecoule > 400 && stables >= 8) || ecoule > 2500) { alors(); return; }
+      requestAnimationFrame(image);
+    }
+    requestAnimationFrame(image);
   }
 
   function brancherBoutons() {

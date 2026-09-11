@@ -667,7 +667,7 @@ devienne une idée fausse.**
 
 | | |
 |---|---|
-| **Texte** | Tout ça, pour un clic. |
+| **Texte** | Tout ça, pour un clic. Pas mal, non ? |
 | **Graphique** | Retour au bouton **magenta** du tout premier écran. |
 | **Science** | Chute. Referme le récit sur son point de départ. |
 
@@ -696,6 +696,19 @@ Les questions **s'empilent** : répondre à l'une fait apparaître la suivante
 juste en dessous, et les précédentes restent lisibles avec leur explication.
 C'est la même dynamique que le reste du site, mais déclenchée par la réponse
 plutôt que par le défilement, comme le bouton de l'acte 0.
+
+**En ligne, pièce 7.** Le quiz est une section à part, après le récit, sans
+dessin : la silhouette n'est plus à l'écran. Elle s'ouvre sur le titre « Cinq
+questions » et une phrase d'entrée qui pose les règles avant la première
+question :
+
+> Pas de note, pas de chrono. Tu peux te tromper autant que tu veux : à
+> chaque réponse, une explication.
+
+Les questions sont numérotées de 1 à 5. Le verdict est un mot et une icône,
+« Bonne réponse » avec une coche, sur fond magenta, ou « Pas tout à fait »
+avec une croix. Changer de réponse met le verdict à jour ; l'explication,
+elle, reste.
 
 ---
 
@@ -827,6 +840,11 @@ en [S4].*
 Le cliquer relance l'impulsion bleue le long de la silhouette, une dernière
 fois.
 
+Le quiz étant hors de la scène du récit, la silhouette n'est pas à l'écran
+quand on clique : le bouton y **ramène** d'abord, au dernier bloc de l'acte 2,
+puis l'impulsion repart une fois arrivé. En mouvement réduit, le retour
+suffit : le trajet y est déjà tracé, c'est l'état d'arrivée.
+
 Aucun bilan, aucun score, aucune note. La seule chose affichée est cette
 phrase.
 
@@ -865,6 +883,10 @@ là que le visiteur interagit le plus.
 sans contexte, elle porte sur une manipulation, et son explication contient la
 phrase qui résume le mieux le site, à savoir qu'un neurone ne fait pas varier
 la force de son message mais leur nombre.
+
+Comme les questions s'empilent, la question 2 n'existe à l'écran qu'une fois
+la première répondue : répondre à la question 1 prend deux secondes, et c'est
+le geste à prévoir dans le minutage.
 
 ---
 

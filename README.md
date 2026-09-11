@@ -56,6 +56,10 @@ js/
   a11y.js                   Mouvement réduit et détection d'appareil lent
   recit.js                  Tout le récit : le texte qui s'empile, les tracés,
                             le neurone qui grandit, la caméra qui le visite
+  seuil.js                  Le curseur du seuil
+  myeline.js                Le défi du chronomètre
+  synapse.js                Les messagers de la synapse
+  quiz.js                   Le quiz, cinq questions qui s'empilent
   main.js                   Point d'entrée
 assets/
   fonts/                    Inter, copiée localement pour fonctionner hors connexion
