@@ -9,25 +9,49 @@
 ## État actuel
 
 **Dernière mise à jour :** 11 septembre 2026.
-
 **En ligne :** <https://gaspodt.github.io/neurone/>
 
-> **L'implémentation a commencé.** L'acte 0 est en place : le bouton
-> d'ouverture, la silhouette et le trajet. Le reste du récit suit l'ancienne
-> version en attendant.
->
-> **Le site ne correspond PAS ENCORE entièrement au contenu décidé.** La narration a été
-> entièrement réécrite dans [`02-CONTENU.md`](02-CONTENU.md), et **on ne touche
-> pas au site tant que ce document n'est pas stabilisé**. C'est une décision
-> explicite de l'utilisateur : le texte et les graphiques avaient dérivé l'un
-> de l'autre faute de source commune.
+### Ce qui est implémenté
 
-### Le document de contenu est complet
+| | |
+|---|---|
+| **Le bouton d'ouverture** | Plein écran, centré, fond opaque. Rien ne se débloque tant qu'il n'est pas cliqué, pas même le défilement. Il se replie au clic |
+| **La silhouette** | Pictogramme au trait, tête détachée, de face et neutre. Produite par symétrie à partir d'une moitié décrite point par point |
+| **Deux colonnes sur grand écran** | Au-delà de 60em, texte à gauche et dessin à droite. Sans cela le neurone tombait à trente pixels de large |
+| **Silhouette et neurone exclusifs** | Ils partagent une case de grille et ne sont jamais visibles ensemble |
 
-[`02-CONTENU.md`](02-CONTENU.md) couvre désormais **les quatre actes de bout en
-bout**, chaque temps décrit sur ses trois plans, et toutes les valeurs chiffrées
-sourcées. **Il est prêt pour la relecture de l'utilisateur**, après laquelle
-l'implémentation pourra commencer.
+### Ce qui n'est PAS implémenté
+
+- **Le trajet bleu ne se dessine pas encore** dans la silhouette. Le tracé est
+  branché dans le code mais n'a pas été vérifié à l'œil.
+- **Tout le texte est encore l'ancien.** Les deux affirmations fausses sont
+  donc toujours en ligne : « moins d'un centième de seconde » et « des
+  centaines de dendrites ».
+- Les deux moments interactifs, le retour au corps et le quiz.
+
+### Un écart à connaître entre le code et les documents
+
+`css/tokens.css` contient **les deux palettes en même temps**. L'ancienne,
+dérivée d'Okabe-Ito, est encore utilisée par le reste du site ; la nouvelle,
+fluo, a été ajoutée parce que le CSS écrit depuis référençait `--signal` et
+`--accent` qui n'existaient pas, et le trajet de la silhouette se retrouvait
+sans couleur définie. **L'ancienne disparaîtra quand tout le contenu sera
+passé à la nouvelle**, pas avant.
+
+Cet écart vient d'un retour en arrière sur le code du site qui n'a pas touché
+aux documents. C'est le genre de dérive à surveiller après tout `git checkout`
+partiel.
+
+### Comment vérifier
+
+**Ne jamais se fier aux opacités ni aux positions.** La méthode qui tient est
+décrite dans `04-ARCHITECTURE.md` : compter les pixels peints, détecter les
+chevauchements, et regarder les images, à trois tailles de fenêtre.
+
+```bash
+python3 -m http.server 8000 --bind 127.0.0.1 &
+python3 outils-test-navigateur.py
+```
 
 ### Ce qui a été décidé depuis la dernière session
 

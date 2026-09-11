@@ -275,6 +275,94 @@ au mouvement, et la survie sur matériel ancien.
 
 ---
 
+## Vérifier : la seule méthode qui ait tenu
+
+Ce projet a produit **quatre fausses validations** avant d'arriver à une
+méthode fiable. Elles sont consignées ici parce qu'elles se reproduiront
+sinon, et parce qu'elles ont chacune coûté du temps à l'utilisateur.
+
+### La faute qui revient : vérifier ce qu'on a soi-même posé
+
+La batterie a annoncé **quatorze succès sur quatorze pendant que la page était
+blanche**. Elle mesurait des opacités, c'est-à-dire exactement les valeurs que
+le code venait d'écrire. Un élément à `opacity: 1` placé à `-133px` passe ce
+contrôle et reste invisible.
+
+**Ne jamais conclure d'une propriété qu'on a soi-même affectée.** Le même
+piège a été payé trois fois, sous trois formes différentes :
+
+| Ce qu'on lisait | Pourquoi ça ne prouvait rien |
+|---|---|
+| `element.hidden` sur un SVG | La propriété appartient à `HTMLElement` : l'affectation crée un champ inerte et ne pose jamais l'attribut. La relire confirme ce qu'on vient d'écrire |
+| `getComputedStyle(el).opacity` | Ne dit pas si l'élément est dans l'écran |
+| Position et taille | Ne disent pas si les traits du SVG sont dessinés. Une boîte vide a des dimensions |
+| `elementFromPoint` | Ne dit pas si la boîte contient autre chose que du vide |
+
+### Les trois contrôles qui, eux, ne mentent pas
+
+Tous les trois sont dans `outils-test-navigateur.py`.
+
+**1. Compter les pixels non blancs de la capture.** Si le compte est nul, le
+visiteur voit une page blanche, quelles qu'aient été les valeurs posées.
+Décodage PNG en bibliothèque standard, `encre(chemin)` renvoie une proportion.
+C'est le seul contrôle qui ne se soit jamais laissé tromper.
+
+**2. Détecter les chevauchements.** `chevauchements(nav)` compare deux à deux
+les rectangles des éléments visibles. Il a trouvé du premier coup la
+superposition silhouette / neurone que l'utilisateur signalait.
+
+> **Il doit utiliser l'opacité EFFECTIVE, cumulée sur tous les ancêtres.** Sa
+> première version lisait l'opacité propre et signalait un titre pourtant déjà
+> effacé par son conteneur. Un faux positif dans l'outil qui traque les faux
+> positifs.
+
+**3. Regarder les images.** Non négociable. Les deux défauts les plus visibles
+du projet, un titre débordant par le haut et un neurone de trente pixels,
+n'apparaissaient dans **aucune** mesure.
+
+### Tester à plusieurs tailles, toujours
+
+Tout a longtemps été vérifié en émulation iPhone uniquement, pendant que
+l'utilisateur regardait sur un écran d'ordinateur. Trois tailles au minimum :
+**390 × 844**, **1440 × 722**, et une fenêtre courte type **1280 × 620**, qui
+est le cas le plus dur.
+
+---
+
+## Les pièges déjà payés
+
+Chacun a coûté au moins une itération. Aucun ne produit d'erreur visible.
+
+| Piège | Symptôme | Règle |
+|---|---|---|
+| `element.hidden` sur un SVG | Les parties du neurone restaient toutes visibles | Passer par une classe |
+| `offsetHeight` sur un SVG | Le dessin faisait 110 px au lieu de 219 | `getBoundingClientRect()` |
+| **`align-items` par défaut en flex** | Le SVG était **étiré** et la taille calculée par le script ignorée : silhouette de 1495 px de haut | Poser `align-items: center` sur tout conteneur flex qui reçoit un SVG dimensionné par le script |
+| **`scrollIntoView` sur un élément collé** | Écran blanc après le clic : un élément collé ne bouge pas à l'écran et sa position dans le flux est ailleurs | Déplacer le défilement d'une distance calculée |
+| **`svh` contre `innerHeight`** | Un bloc apparaissait sans qu'on ait défilé : `svh` est mesuré barre d'adresse déployée, `innerHeight` grandit quand elle se rétracte | Bande de déclenchement étroite au centre |
+| **Centrage d'un contenu plus haut que la fenêtre** | Le débordement se répartit en haut ET en bas, donc le début sort de l'écran. La page s'ouvrait sur du vide | `justify-content: flex-start` |
+| **Remplacement de bloc trop large** | Une fonction encore appelée quatre fois avait été supprimée, le script mourait au chargement | Vérifier que chaque fonction appelée existe encore après une réécriture |
+
+---
+
+## Ce que l'interface impose à la mise en page
+
+**Le texte et le dessin se disputent la hauteur.** Dans une scène collée, tout
+ce que prend le texte est retiré au dessin. Deux conséquences durables :
+
+- **La taille du titre est un choix d'architecture, pas de goût.** À 4,5rem il
+  occupait 476 des 650 pixels utiles et écrasait le dessin à zéro. Il est
+  plafonné à 2,4rem pour cette raison.
+- **Deux dessins ne doivent jamais occuper deux places.** La silhouette et le
+  neurone partagent une case de grille, parce qu'ils ne sont jamais montrés
+  ensemble. Quand ils additionnaient leurs hauteurs, la scène débordait.
+
+**Corollaire : ils partagent donc la même règle de taille.** Leur donner deux
+calculs différents a produit une silhouette correcte à côté d'un neurone de
+trente pixels. Voir `hauteurDessin` dans `js/recit.js`.
+
+---
+
 ## Ajouter une section
 
 > **AVERTISSEMENT, à lire avant de taper la première ligne.**

@@ -142,5 +142,21 @@ Détail complet dans `03-ACCESSIBILITE.md`.
   gagnent à passer par des analogies, et il a dit ne pas avoir besoin de tout comprendre du code.
 - Il réagit **très bien aux comparaisons visuelles** : lui montrer deux options vaut mieux
   que les décrire.
+- **Il refuse le tiret cadratin.** Nulle part dans le site, code compris.
+- **Il refuse tout filet ou trait décoratif** au-dessus ou à côté d'un titre :
+  il considère que ce motif signe un travail de machine. La hiérarchie se fait
+  par la taille, la graisse et le blanc, jamais par un ornement ajouté.
+- **Il exige une vérification réelle avant qu'on lui montre quoi que ce soit.**
+  Formulé après que des tests annonçant quatorze succès aient accompagné une
+  page blanche. Voir la méthode dans `04-ARCHITECTURE.md`.
+- **Il teste sur ordinateur autant que sur téléphone.** Tout vérifier en
+  émulation mobile a laissé passer des défauts graves pendant des jours.
+- **Navigateur de référence : Chrome.** Safari n'est pas testé, décision prise
+  d'un commun accord pour ne pas disperser l'effort. L'extension Claude in
+  Chrome est installée et fonctionne, ce qui permet d'aller voir le site
+  déployé directement.
+- **Il préfère une implémentation par petites pièces**, chacune vérifiée et
+  montrée avant la suivante, plutôt qu'un gros lot livré d'un coup. Décidé
+  après qu'une implémentation complète de l'acte 0 ait dû être annulée.
 - **Le fil de conversation est le canal fiable.** Les commentaires annotés dans l'interface
   de relecture de plan sont arrivés avec un fort décalage, et une première série a été perdue.

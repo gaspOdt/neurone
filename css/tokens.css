@@ -58,6 +58,44 @@
   --c-ok:    #007054;
   --c-nope:  #A34700;
 
+  /* --- La palette fluo, celle de docs/01-DIRECTION-ARTISTIQUE.md ---------
+
+     LA REGLE : le texte est NOIR, toujours. La couleur passe DERRIERE, en
+     surligneur. Dans le dessin, les traits sont a l'encre et la couleur
+     s'emploie en aplats cernes.
+
+     Ce n'est pas un gout, c'est une mesure. Une couleur fluo est lumineuse,
+     donc elle contraste tres bien avec du noir et tres mal avec du blanc :
+
+       couleur        en fond sous du noir     en trait fin sur blanc
+       magenta                 7,3:1                   2,4:1
+       vert                   12,0:1                   1,5:1
+       orange                  6,7:1                   2,6:1
+       bleu electrique         3,6:1                   4,8:1
+
+     Seul le bleu electrique tient en trait pur, et c'est pour cela que c'est
+     lui qui porte le signal.
+
+     Ces quatre tokens cohabitent pour l'instant avec l'ancienne palette
+     ci-dessus, encore utilisee par le reste du site. L'ancienne disparaitra
+     quand tout le contenu sera passe a la nouvelle. */
+
+  /* Le signal electrique. SEULE couleur autorisee en trait pur. C'est le fil
+     du recit : le visiteur doit pouvoir la suivre des yeux du premier ecran
+     au dernier. Ne jamais l'employer pour autre chose, et surtout pas pour un
+     titre : le bleu designe une chose qui SE DEPLACE. */
+  --signal:     #0066FF;
+
+  /* « Regarde ici ». Ne designe aucune notion scientifique. Toujours en FOND
+     derriere du texte noir, jamais en couleur de texte. */
+  --accent:     #FF6EF5;
+
+  /* La myeline. Une BANDE cernee d'encre, jamais un trait. */
+  --myeline:    #00F58A;
+
+  /* Les messagers chimiques, a la synapse. Des aplats cernes d'encre. */
+  --messagers:  #FF7A29;
+
   /* --- Typographie ------------------------------------------------------
      Corps à 21px, repris de la référence infrastructures-terrestres.com.
      C'est nettement au-dessus de l'usage courant, et c'est voulu :
