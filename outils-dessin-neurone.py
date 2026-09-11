@@ -260,9 +260,9 @@ RECIT_DEBUT = '''  <!-- ========================================================
        littéralement vraie : elle ne suppose pas un geste passé, elle décrit
        celui que le visiteur vient de faire, à la seconde.
 
-       L'ordre d'apparition suit docs/02-CONTENU.md et ne doit pas changer
-       sans lui : le plan large (la silhouette) arrive AVANT le gros plan
-       (le neurone), sinon on parle d'un cerveau qu'on ne montre jamais.
+       ORDRE IMPOSÉ par docs/02-CONTENU.md, à ne pas changer sans lui : le
+       plan large (la silhouette) arrive AVANT le gros plan (le neurone),
+       sinon on parle d'un cerveau qu'on ne montre jamais.
        =================================================================== -->
   <section class="section recit" id="recit" aria-labelledby="recit-titre">
 
@@ -274,9 +274,7 @@ RECIT_DEBUT = '''  <!-- ========================================================
 
         <div class="temps porte-entree" data-temps="1">
           <p class="lead">Clique sur ce bouton.</p>
-          <button type="button" class="bouton-entree" data-entree>
-            Clique
-          </button>
+          <button type="button" class="bouton-entree" data-entree>Clique</button>
         </div>
 
         <h1 class="temps" data-temps="2">
@@ -285,14 +283,40 @@ RECIT_DEBUT = '''  <!-- ========================================================
 
       </div>
 
-      <!-- LA SILHOUETTE. Le plan large, avant le gros plan.
-           Elle apparaît au temps 2, le trajet s'y allume au temps 3, puis
-           elle s'efface au temps 6 quand la caméra plonge dans le trajet
-           pour y trouver le neurone. -->
-      <div class="porte-silhouette temps" data-temps="2">
-        <div class="scene">
+      <!-- LES DEUX VISUELS PARTAGENT LA MÊME CASE.
+           Ils ne sont jamais montrés ensemble : la silhouette est le plan
+           large, le neurone est ce qu'on trouve au bout du zoom. Les empiler
+           n'est pas une astuce de mise en page, c'est le récit lui-même. Et
+           c'est ce qui garantit que la scène ne déborde jamais de l'écran :
+           un seul visuel occupe de la place à la fois, quelle que soit la
+           hauteur de la fenêtre.
+
+           Sans cela, la silhouette et le neurone ajoutaient leurs hauteurs,
+           la scène dépassait la fenêtre, et le débordement se répartissant
+           en haut et en bas, le DÉBUT du récit sortait de l'écran. La page
+           s'ouvrait alors sur du vide. -->
+      <div class="visuels">
+
+        <div class="porte-silhouette temps" data-temps="2">
+          <div class="scene">
 {silhouette}
+          </div>
         </div>
+
+        <!-- LE NEURONE, et il n'y en a qu'un dans tout le site. Il
+             n'apparaît qu'ICI, une fois la question posée, parce qu'il est
+             ce qu'on trouve au bout du zoom dans le trajet. Jamais avant. -->
+        <div class="porte-neurone temps" data-temps="6">
+          <p class="figure-titre" id="figure-titre">Le messager</p>
+          <div class="scene">
+{neurone}
+          </div>
+          <nav class="etapes wrap" aria-label="Aller à une partie du neurone">
+{boutons}
+          </nav>
+          <p class="sr-only" aria-live="polite" data-annonce></p>
+        </div>
+
       </div>
 
       <div class="wrap pile pile-bas">
@@ -307,20 +331,6 @@ RECIT_DEBUT = '''  <!-- ========================================================
 
         <p class="temps question" data-temps="5">Sais-tu comment&nbsp;?</p>
 
-      </div>
-
-      <!-- LE NEURONE, et il n'y en a qu'un dans tout le site. Il n'apparaît
-           qu'ICI, une fois la question posée, parce qu'il est ce qu'on trouve
-           au bout du zoom dans le trajet. Jamais avant. -->
-      <div class="porte-neurone temps" data-temps="6">
-        <p class="figure-titre" id="figure-titre">Le messager</p>
-        <div class="scene">
-{neurone}
-        </div>
-        <nav class="etapes wrap" aria-label="Aller à une partie du neurone">
-{boutons}
-        </nav>
-        <p class="sr-only" aria-live="polite" data-annonce></p>
       </div>
 
       <p class="defiler caption" aria-hidden="true">Continue à défiler</p>

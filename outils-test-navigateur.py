@@ -540,3 +540,80 @@ if __name__ == "__main__":
 
     ok = lancer(url=adresse, montrer="--montrer" in sys.argv)
     sys.exit(0 if ok else 1)
+
+
+# ---------------------------------------------------------------------------
+# Compter l'encre reellement peinte
+# ---------------------------------------------------------------------------
+# Le controle qui ne peut pas mentir.
+#
+# Tous les autres se sont laisses tromper au moins une fois. Verifier une
+# opacite ne dit pas si l'element est dans l'ecran. Verifier sa position ne dit
+# pas si ses traits sont dessines. Verifier elementFromPoint ne dit pas si une
+# boite SVG contient autre chose que du vide.
+#
+# Compter les pixels non blancs de la capture, si. Si le compte est nul, le
+# visiteur voit une page blanche, quelles qu'aient ete les valeurs posees.
+#
+# Decodage PNG en bibliotheque standard : zlib est dans Python, et le
+# defiltrage des lignes tient en quelques lignes.
+
+import zlib
+
+
+def _lire_png(chemin):
+    """Renvoie (largeur, hauteur, pixels RGB) d'un PNG 8 bits."""
+    with open(chemin, "rb") as f:
+        data = f.read()
+    if data[:8] != b"\x89PNG\r\n\x1a\n":
+        raise ValueError("ce n'est pas un PNG")
+    pos, largeur, hauteur, canaux, brut = 8, 0, 0, 3, b""
+    while pos < len(data):
+        taille = int.from_bytes(data[pos:pos + 4], "big")
+        typ = data[pos + 4:pos + 8]
+        corps = data[pos + 8:pos + 8 + taille]
+        if typ == b"IHDR":
+            largeur = int.from_bytes(corps[0:4], "big")
+            hauteur = int.from_bytes(corps[4:8], "big")
+            couleur = corps[9]
+            canaux = {0: 1, 2: 3, 4: 2, 6: 4}[couleur]
+        elif typ == b"IDAT":
+            brut += corps
+        elif typ == b"IEND":
+            break
+        pos += 12 + taille
+
+    flux = zlib.decompress(brut)
+    parligne = largeur * canaux
+    sortie = bytearray(hauteur * parligne)
+    precedente = bytearray(parligne)
+    i = 0
+    for y in range(hauteur):
+        filtre = flux[i]; i += 1
+        ligne = bytearray(flux[i:i + parligne]); i += parligne
+        for x in range(parligne):
+            a = ligne[x - canaux] if x >= canaux else 0
+            b = precedente[x]
+            c = precedente[x - canaux] if x >= canaux else 0
+            if filtre == 1:   ligne[x] = (ligne[x] + a) & 255
+            elif filtre == 2: ligne[x] = (ligne[x] + b) & 255
+            elif filtre == 3: ligne[x] = (ligne[x] + (a + b) // 2) & 255
+            elif filtre == 4:
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                pr = a if (pa <= pb and pa <= pc) else (b if pb <= pc else c)
+                ligne[x] = (ligne[x] + pr) & 255
+        sortie[y * parligne:(y + 1) * parligne] = ligne
+        precedente = ligne
+    return largeur, hauteur, bytes(sortie), canaux
+
+
+def encre(chemin, seuil=235):
+    """Part de pixels non blancs, entre 0 et 1. Zero = page blanche."""
+    largeur, hauteur, px, canaux = _lire_png(chemin)
+    total = largeur * hauteur
+    sombres = 0
+    for i in range(0, len(px), canaux):
+        if px[i] < seuil or px[i + 1] < seuil or px[i + 2] < seuil:
+            sombres += 1
+    return sombres / float(total)

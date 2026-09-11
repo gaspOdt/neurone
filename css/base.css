@@ -273,7 +273,15 @@ html.js.reduce-motion .temps { opacity: 1; }
   z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* flex-start et NON center. Avec un centrage, dès que le contenu dépasse la
+     hauteur de la fenêtre, le débordement se répartit en haut ET en bas : le
+     début du récit sortait donc par le haut, hors de l'écran. C'est ce qui
+     rendait la page vide sur un écran d'ordinateur, moins haut que celui d'un
+     téléphone une fois la largeur prise en compte.
+
+     Avec flex-start, le contenu ne peut jamais remonter au-dessus du bord.
+     Ce sont les visuels qui absorbent le jeu, voir .porte-silhouette. */
+  justify-content: flex-start;
   pointer-events: none;
 
   /* La barre de réglage est fixe, donc elle ne défile pas : sans cette
@@ -573,16 +581,51 @@ html.reduce-motion .rails { display: none; }
    Le plan large, avant le gros plan. Sans elle, le site parlait d'un cerveau
    qu'il ne montrait jamais. */
 
-.porte-silhouette .scene { display: flex; justify-content: center; }
+/* --- Les deux visuels, dans la MEME case --------------------------------
 
+   La silhouette et le neurone ne sont jamais montres ensemble : l'une est le
+   plan large, l'autre est ce qu'on trouve au bout du zoom. Les empiler dans
+   une seule case de grille n'est donc pas une astuce, c'est le recit.
+
+   C'est aussi ce qui rend la mise en page sure : un seul visuel occupe de la
+   place a la fois. Quand ils s'additionnaient, la scene depassait la hauteur
+   de la fenetre, le debordement se repartissait en haut et en bas, et le
+   DEBUT du recit sortait de l'ecran. La page s'ouvrait sur du vide. */
+
+.visuels {
+  flex: 1 1 auto;
+  min-height: 0;      /* sans ca, un enfant flex refuse de retrecir */
+  display: grid;
+}
+
+/* Les deux enfants occupent la meme case, donc la meme place a l'ecran. */
+.visuels > * {
+  grid-area: 1 / 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.porte-silhouette .scene,
+.porte-neurone .scene {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+/* Le dessin prend la hauteur disponible et deduit sa largeur du rapport.
+   Une hauteur en svh marchait sur telephone et debordait sur ordinateur,
+   ou la fenetre est plus courte. */
 .silhouette {
   display: block;
   width: auto;
   max-width: 100%;
+  height: 100%;
+  max-height: 100%;
   aspect-ratio: 3 / 7;
-  height: 42svh;
-  max-height: 400px;
-}
-@supports not (aspect-ratio: 1) {
-  .silhouette { width: 18svh; }
 }

@@ -7,8 +7,8 @@
 <meta name="description" content="Un site interactif pour comprendre comment un neurone transmet l'information, et ce qu'est un potentiel d'action.">
 <meta name="color-scheme" content="light">
 
-<link rel="stylesheet" href="css/tokens.css?v=7ef751a7">
-<link rel="stylesheet" href="css/base.css?v=7ef751a7">
+<link rel="stylesheet" href="css/tokens.css?v=7139ea38">
+<link rel="stylesheet" href="css/base.css?v=7139ea38">
 
 <link rel="preload" href="assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -41,9 +41,9 @@
        littéralement vraie : elle ne suppose pas un geste passé, elle décrit
        celui que le visiteur vient de faire, à la seconde.
 
-       L'ordre d'apparition suit docs/02-CONTENU.md et ne doit pas changer
-       sans lui : le plan large (la silhouette) arrive AVANT le gros plan
-       (le neurone), sinon on parle d'un cerveau qu'on ne montre jamais.
+       ORDRE IMPOSÉ par docs/02-CONTENU.md, à ne pas changer sans lui : le
+       plan large (la silhouette) arrive AVANT le gros plan (le neurone),
+       sinon on parle d'un cerveau qu'on ne montre jamais.
        =================================================================== -->
   <section class="section recit" id="recit" aria-labelledby="recit-titre">
 
@@ -55,9 +55,7 @@
 
         <div class="temps porte-entree" data-temps="1">
           <p class="lead">Clique sur ce bouton.</p>
-          <button type="button" class="bouton-entree" data-entree>
-            Clique
-          </button>
+          <button type="button" class="bouton-entree" data-entree>Clique</button>
         </div>
 
         <h1 class="temps" data-temps="2">
@@ -66,12 +64,22 @@
 
       </div>
 
-      <!-- LA SILHOUETTE. Le plan large, avant le gros plan.
-           Elle apparaît au temps 2, le trajet s'y allume au temps 3, puis
-           elle s'efface au temps 6 quand la caméra plonge dans le trajet
-           pour y trouver le neurone. -->
-      <div class="porte-silhouette temps" data-temps="2">
-        <div class="scene">
+      <!-- LES DEUX VISUELS PARTAGENT LA MÊME CASE.
+           Ils ne sont jamais montrés ensemble : la silhouette est le plan
+           large, le neurone est ce qu'on trouve au bout du zoom. Les empiler
+           n'est pas une astuce de mise en page, c'est le récit lui-même. Et
+           c'est ce qui garantit que la scène ne déborde jamais de l'écran :
+           un seul visuel occupe de la place à la fois, quelle que soit la
+           hauteur de la fenêtre.
+
+           Sans cela, la silhouette et le neurone ajoutaient leurs hauteurs,
+           la scène dépassait la fenêtre, et le débordement se répartissant
+           en haut et en bas, le DÉBUT du récit sortait de l'écran. La page
+           s'ouvrait alors sur du vide. -->
+      <div class="visuels">
+
+        <div class="porte-silhouette temps" data-temps="2">
+          <div class="scene">
 <svg class="silhouette" viewBox="0 0 300 700"
                  preserveAspectRatio="xMidYMid meet"
                  role="img" aria-labelledby="sil-titre sil-desc">
@@ -91,29 +99,15 @@
                 <path class="trajet" d="M150.0 96.0 C150.3 103.3 151.2 127.0 152.0 140.0 C152.8 153.0 151.7 164.3 155.0 174.0 C158.3 183.7 164.8 187.0 172.0 198.0 C179.2 209.0 191.7 225.3 198.0 240.0 C204.3 254.7 207.2 270.0 210.0 286.0 C212.8 302.0 213.7 322.7 215.0 336.0 C216.3 349.3 217.0 357.0 218.0 366.0 C219.0 375.0 220.5 386.0 221.0 390.0"/>
               </g>
             </svg>
+          </div>
         </div>
-      </div>
 
-      <div class="wrap pile pile-bas">
-
-        <p class="temps lead" data-temps="3">
-          Un message est parti de là-haut, et il est descendu jusqu'à lui.
-        </p>
-
-        <p class="temps lead" data-temps="4">
-          Ça a pris deux centièmes de seconde.
-        </p>
-
-        <p class="temps question" data-temps="5">Sais-tu comment&nbsp;?</p>
-
-      </div>
-
-      <!-- LE NEURONE, et il n'y en a qu'un dans tout le site. Il n'apparaît
-           qu'ICI, une fois la question posée, parce qu'il est ce qu'on trouve
-           au bout du zoom dans le trajet. Jamais avant. -->
-      <div class="porte-neurone temps" data-temps="6">
-        <p class="figure-titre" id="figure-titre">Le messager</p>
-        <div class="scene">
+        <!-- LE NEURONE, et il n'y en a qu'un dans tout le site. Il
+             n'apparaît qu'ICI, une fois la question posée, parce qu'il est
+             ce qu'on trouve au bout du zoom dans le trajet. Jamais avant. -->
+        <div class="porte-neurone temps" data-temps="6">
+          <p class="figure-titre" id="figure-titre">Le messager</p>
+          <div class="scene">
 <svg class="neurone" viewBox="0 0 400 1000"
                  preserveAspectRatio="xMidYMid meet"
                  role="img" aria-labelledby="n-titre n-desc">
@@ -175,15 +169,31 @@
 
               </g>
             </svg>
-        </div>
-        <nav class="etapes wrap" aria-label="Aller à une partie du neurone">
+          </div>
+          <nav class="etapes wrap" aria-label="Aller à une partie du neurone">
           <button type="button" data-vers="ensemble" aria-current="false">Vue entière</button>
           <button type="button" data-vers="dendrites" aria-current="false">1. Dendrites</button>
           <button type="button" data-vers="soma" aria-current="false">2. Corps</button>
           <button type="button" data-vers="axone" aria-current="false">3. Axone</button>
           <button type="button" data-vers="terminaisons" aria-current="false">4. Terminaisons</button>
-        </nav>
-        <p class="sr-only" aria-live="polite" data-annonce></p>
+          </nav>
+          <p class="sr-only" aria-live="polite" data-annonce></p>
+        </div>
+
+      </div>
+
+      <div class="wrap pile pile-bas">
+
+        <p class="temps lead" data-temps="3">
+          Un message est parti de là-haut, et il est descendu jusqu'à lui.
+        </p>
+
+        <p class="temps lead" data-temps="4">
+          Ça a pris deux centièmes de seconde.
+        </p>
+
+        <p class="temps question" data-temps="5">Sais-tu comment&nbsp;?</p>
+
       </div>
 
       <p class="defiler caption" aria-hidden="true">Continue à défiler</p>
@@ -309,7 +319,7 @@
      attendant leur apparition animée. Si ce module ne se charge pas, 404 ou
      erreur de syntaxe, personne ne les révélerait jamais. On retire donc la
      classe, et la page redevient celle du visiteur sans JavaScript. -->
-<script type="module" src="js/main.js?v=7ef751a7"
+<script type="module" src="js/main.js?v=7139ea38"
         onerror="document.documentElement.className='no-js'"></script>
 
 </body>
