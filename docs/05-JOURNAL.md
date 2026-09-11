@@ -8,13 +8,39 @@
 
 ## État actuel
 
-**Dernière mise à jour :** 10 septembre 2026, jour 3.
+**Dernière mise à jour :** 11 septembre 2026.
 
 **En ligne :** <https://gaspodt.github.io/neurone/>
 
-**Le projet se développe désormais sur deux machines**, un Mac et un PC
-Windows, et tourne à l'identique sur les deux. Voir la section « Deux machines »
-de [`04-ARCHITECTURE.md`](04-ARCHITECTURE.md).
+> **Le site ne correspond PAS au contenu décidé.** La narration a été
+> entièrement réécrite dans [`02-CONTENU.md`](02-CONTENU.md), et **on ne touche
+> pas au site tant que ce document n'est pas stabilisé**. C'est une décision
+> explicite de l'utilisateur : le texte et les graphiques avaient dérivé l'un
+> de l'autre faute de source commune.
+
+### Ce qui a été décidé depuis la dernière session
+
+| | |
+|---|---|
+| **Narration** | Réécrite de A à Z. Ouverture en 5 temps démarrant par **un bouton à cliquer**, puis le neurone partie par partie, chacune portant sa notion. Les actes séparés sur le repos, le seuil, la vitesse et la synapse sont **repliés dans l'acte 1**, faute de temps pour 3 minutes |
+| **Audit de séquence** | **8 incohérences trouvées et corrigées**, dont le fait que le site ne disait nulle part que le signal est électrique alors que tout le code couleur reposait dessus |
+| **Palette** | Refaite en **fluo**. Le texte reste noir, la couleur passe **derrière**, en surligneur. Seul le bleu électrique tient en trait |
+| **Titres** | Encre noire, sous-titre explicite. **Aucun ornement, aucun filet** : demande explicite de l'utilisateur |
+| **Sources** | Nouveau document [`10-SOURCES.md`](10-SOURCES.md). **5 sources primaires** établies, 6 valeurs encore en attente |
+| **Erreurs scientifiques** | **4 trouvées dans le site en ligne**, dont deux fausses |
+| **Interactions** | Deux moments seulement, à chaque nœud du récit : le **curseur du seuil**, et le **défi du chronomètre** sur la myéline |
+
+### Les erreurs scientifiques du site en ligne
+
+Elles y sont **toujours**, la correction ayant été annulée à la demande de
+l'utilisateur en attendant la refonte.
+
+| Affirmation | Verdict | Source |
+|---|---|---|
+| « moins d'un centième de seconde » | **faux**, facteur 2. La vraie valeur est 21,4 ms | [S1] |
+| « une impulsion électrique, et une seule » | **faux**. Un geste mobilise des centaines d'impulsions | [S4] |
+| « des milliers de messages en même temps » | imprécis | [S2] |
+| « des centaines de dendrites » | imprécis | [S2] |
 
 ### Ce qui existe
 

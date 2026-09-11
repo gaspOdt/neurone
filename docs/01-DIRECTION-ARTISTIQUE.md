@@ -38,64 +38,83 @@ matrice de toute l'iconographie neuroscientifique, sont de l'encre sur papier.
 
 ---
 
-## La palette sémantique
+## La palette
 
-**Une couleur = un concept. Tenue du début à la fin. Jamais réattribuée.**
+**Référence : [infrastructures-terrestres.com](https://www.infrastructures-terrestres.com),
+cité par l'utilisateur.** Ce site n'écrit jamais en couleur. Son texte reste
+noir, et la couleur arrive comme **un bloc derrière**, à la manière d'un
+surligneur. C'est ce principe qui est repris ici, et il n'est pas seulement
+esthétique : il est ce qui permet d'utiliser des couleurs fluo sans rien
+sacrifier de la lisibilité.
 
-C'est l'idée de l'utilisateur, et elle est retenue parce que **trois exigences
-du projet convergent dessus** :
+### La règle
 
-- **La pédagogie** — le lecteur reconnaît un concept à sa couleur avant même
-  d'en lire le nom.
-- **La grammaire de 3Blue1Brown** — son quatrième principe est exactement celui-là.
-- **L'accessibilité** — une palette Okabe-Ito, sûre pour toutes les formes de
-  daltonisme.
+**Le texte est noir, toujours. La couleur passe derrière.**
+**Les traits du dessin sont à l'encre. La couleur s'emploie en aplats.**
 
-Trois contraintes qui se renforcent au lieu de se gêner, c'est rare. On en profite.
+Mesures qui la justifient :
 
-### Les couleurs
-
-| Concept | Graphique | Texte | Forme associée |
-|---|---|---|---|
-| **L'impulsion et Na⁺** — ce qui déclenche | `#0072B2` | `#0072B2` | disque **plein** |
-| **K⁺** — le retour au repos | `#D55E00` | `#A34700` | anneau **creux** |
-| **La myéline** — ce qui accélère | `#009E73` | `#007054` | gaine épaisse |
-| **Les neurotransmetteurs** — ce qui franchit | `#A64D79` | `#A64D79` | petits triangles |
-
-Le bleu couvre à la fois l'impulsion et le sodium parce que **l'entrée de Na⁺
-*est* l'impulsion**. Une seule couleur pour une seule idée : ce n'est pas une
-économie, c'est une justesse. Le vert pour la myéline vient directement de
-l'utilisateur.
-
-### Pourquoi deux valeurs par concept
-
-Sur fond blanc, **trois des quatre couleurs Okabe-Ito n'atteignent pas le
-rapport de 4,5:1 exigé pour du texte.** Ratios mesurés :
-
-| Couleur | Sur blanc | Verdict |
+| Couleur | En fond, sous du texte noir | En trait fin sur blanc |
 |---|---|---|
-| `#0072B2` bleu | 5,1:1 | bon partout |
-| `#D55E00` vermillon | 3,9:1 | graphiques seulement |
-| `#009E73` vert | 3,4:1 | graphiques seulement |
-| `#CC79A7` violet Okabe-Ito | 3,0:1 | **trop juste même pour un trait** — remplacé par `#A64D79`, à 5,2:1 |
+| Magenta `#FF6EF5` | **7,3:1** | 2,4:1 illisible |
+| Vert `#00F58A` | **12,0:1** | 1,5:1 illisible |
+| Orange `#FF7A29` | **6,7:1** | 2,6:1 illisible |
+| Bleu électrique `#0066FF` | 3,6:1 | **4,8:1** |
 
-D'où la règle : `--c-X` pour les aplats et les traits, `--c-X-text` dès qu'un
-mot doit être lu. **Ne jamais écrire du texte avec `--c-X`.**
+Une couleur fluo est lumineuse, donc elle contraste mal avec du blanc et très
+bien avec du noir. En fond, c'est un atout. En trait, c'est inutilisable.
 
-### La règle qui ne se négocie pas
+### Les cinq couleurs
 
-**Aucune information n'est jamais portée par la couleur seule.**
+| Couleur | Représente | Emploi |
+|---|---|---|
+| **Encre** `#1A1A1A` | le dessin et le texte | traits et lettres |
+| **Bleu électrique** `#0066FF` | **le signal** | **seule couleur autorisée en trait pur** |
+| **Magenta fluo** `#FF6EF5` | « regarde ici » | bloc derrière un mot, surbrillance, bouton |
+| **Vert fluo** `#00F58A` | la myéline | **une bande cernée d'encre**, jamais un trait |
+| **Orange fluo** `#FF7A29` | les messagers chimiques | aplats cernés d'encre |
 
-Chaque concept est identifié par **trois canaux simultanés** — couleur, forme
-et étiquette. Na⁺ est un disque plein bleu marqué « Na⁺ ». K⁺ est un anneau
-creux vermillon marqué « K⁺ ». Une capture d'écran en noir et blanc doit rester
-entièrement compréhensible : c'est le test.
+**Le filet d'encre autour des aplats fluo porte le contraste** que la couleur
+ne peut pas porter. Sans lui, une bande verte n'aurait pas de bord défini sur
+fond blanc.
 
-Le retour du quiz suit la même règle. « Vert = bon, rouge = faux » est
-précisément le couple que ne distinguent pas les daltonismes rouge-vert, donc
-le résultat est toujours doublé d'un mot et d'une icône.
+### Les titres
 
----
+**Encre noire, gros, gras. Sous-titre en encre douce. Aucun ornement.**
+
+Pas de filet, pas de barre, pas de séparateur décoratif, nulle part dans le
+site. La hiérarchie se fait par la taille, la graisse et le blanc. C'est une
+demande explicite de l'utilisateur.
+
+**Le titre n'est jamais bleu**, bien que le bleu soit le fil du récit, et
+précisément pour cette raison : le bleu désigne une chose qui **se déplace**.
+Un titre bleu au-dessus d'une impulsion bleue rendrait la couleur ambiguë.
+
+### Daltonisme
+
+Simulation des trois dichromatismes, distances calculées deux à deux :
+
+- **Les couleurs du dessin sont sûres** : bleu, vert, orange et encre restent
+  distinguables dans les trois cas, écart minimal de 86 pour un seuil de
+  confusion à 60.
+- **Le magenta se confond avec le vert en deutéranopie et avec l'orange en
+  tritanopie.** Aucune variante n'y échappe : il n'existe aucune palette de
+  quatre couleurs fluo passant toutes les paires.
+
+**Ce n'est pas un défaut, parce que le magenta ne porte aucune information
+scientifique.** Il dit « regarde ici », message déjà porté par l'épaisseur du
+trait, le cadrage de la caméra et la graisse du mot. Il n'est jamais le seul
+canal.
+
+### La règle qui rend tout cela tenable
+
+**Aucune information n'est jamais portée par la couleur seule.** Chaque élément
+est identifié par couleur **et** forme **et** étiquette. Le test : une capture
+en noir et blanc doit rester entièrement compréhensible.
+
+> **`css/tokens.css` contient encore l'ancienne palette**, plus sourde, dérivée
+> d'Okabe-Ito. Elle sera remplacée par les valeurs ci-dessus au moment de la
+> reprise du site.
 
 ## La typographie
 
