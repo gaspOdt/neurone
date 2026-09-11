@@ -358,6 +358,17 @@ class Navigateur:
             "pointerType": "mouse"})
         time.sleep(pause)
 
+    def aller_a(self, y, pause=0.35):
+        """Saute directement a une position de defilement.
+
+        Dans un vrai Chrome, qui rend la page, window.scrollTo declenche bien
+        l'evenement scroll : le saut est donc equivalent a la molette pour
+        tout ce qui depend du defilement, et instantane. La molette reste
+        utile quand on veut eprouver le geste lui-meme."""
+        self.evaluer("window.scrollTo(0, %d); return 1" % y)
+        time.sleep(pause)
+        return self.evaluer("return Math.round(window.scrollY)")
+
     def defiler_jusqua(self, cible, pas=400, maxi=80):
         """Descend à la molette jusqu'à atteindre la position voulue."""
         for _ in range(maxi):
@@ -367,8 +378,25 @@ class Navigateur:
             self.molette(pas if cible > y else -pas, pause=0.2)
         return self.evaluer("return Math.round(window.scrollY)")
 
-    def capture(self, chemin):
-        r = self.commande("Page.captureScreenshot", {"format": "png"})
+    def capture(self, chemin, echelle=1.0):
+        """Capture l'ecran. `echelle` reduit l'image AVANT de l'ecrire.
+
+        Pour seulement CONSTATER que des pixels sont peints, une image au
+        quart suffit et coute seize fois moins cher a decoder. Le decodage PNG
+        se fait en Python pur, octet par octet : sur une image de 1440 par 722
+        c'est plus de quatre millions d'operations, et c'etait le goulot de
+        toute la batterie."""
+        params = {"format": "png"}
+        if echelle != 1.0:
+            # ATTENTION : clip travaille en coordonnees de PAGE, pas de
+            # fenetre. Sans decaler de la position de defilement, on capture
+            # le haut du document quelle que soit la position reelle, et tout
+            # ressort blanc. Piege paye une fois.
+            y = self.evaluer("return Math.round(window.scrollY)") or 0
+            x = self.evaluer("return Math.round(window.scrollX)") or 0
+            params["clip"] = {"x": x, "y": y, "width": self.largeur,
+                              "height": self.hauteur, "scale": echelle}
+        r = self.commande("Page.captureScreenshot", params)
         with open(chemin, "wb") as f:
             f.write(base64.b64decode(r["data"]))
         return chemin

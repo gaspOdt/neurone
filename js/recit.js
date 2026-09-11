@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=0b36be13';
+import { mouvementReduit } from './a11y.js?v=d17b05b0';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
@@ -339,10 +339,14 @@ export function initRecit() {
        Fondu croisé : la silhouette part sur le temps qui précède le neurone,
        de sorte qu'à aucun instant les deux ne sont opaques ensemble. */
     if (porteSil) {
+      /* La silhouette part AVANT que le neurone n'arrive, et non au meme
+         instant. Un fondu croise laisse les deux a moitie visibles pendant
+         une demi-seconde, ce qui superpose un neurone a moitie dessine sur un
+         corps : exactement le defaut signale. En avancant sa sortie d'une
+         demi-mesure, elle a fini de disparaitre quand l'autre commence. */
       const debut = iSil * PAS;
-      const fin   = iNeurone * PAS;
-      const dedans = entre && p >= debut && p < fin;
-      poser(porteSil, dedans, immediat);
+      const fin   = (iNeurone - 0.5) * PAS;
+      poser(porteSil, entre && p >= debut && p < fin, immediat);
     }
     poser(defiler, p < 0.01, immediat);
 
