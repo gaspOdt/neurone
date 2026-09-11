@@ -95,6 +95,7 @@ export function initSeuil() {
   /* --- L'état ------------------------------------------------------------- */
 
   const etat = { niveau: 0 };      /* 0 = vide, 1 = seuil atteint */
+  const enVol = [];                /* les messages en route, pour les rappeler */
   let vidage = null;               /* le tween de retour au repos */
   let compteur = 0;                /* pour varier les dendrites */
   let impulsions = 0;              /* exposé pour les tests */
@@ -151,11 +152,23 @@ export function initSeuil() {
       plus. Sans plafond, deux démonstrations rejouées coup sur coup au
       défilement s'additionnaient et faisaient partir une impulsion sans
       aucun geste du visiteur, ce que la phrase dément. */
+  /* Juste après un départ, les arrivées ne comptent pas pendant un court
+     instant. Sans cela, chaque arrivée d'une rafale coupait la vidange en
+     cours, le corps repartait de haut, et l'impulsion se redéclenchait tous
+     les deux messages : cinq départs pour huit messages, un dessin illisible.
+     C'est aussi, en simplifié, la période réfractaire, que le temps 11
+     escamote sans rien dire de faux. */
+  let refractaireJusqua = 0;
+
   function arriver(plafond) {
+    if (performance.now() < refractaireJusqua) return;
     if (vidage) vidage.kill();
     etat.niveau = borne(etat.niveau + 1 / MESSAGES_POUR_SEUIL, 0, plafond);
     poserNiveau();
-    if (plafond >= 1 && etat.niveau >= 1 - 1e-6) declencher();
+    if (plafond >= 1 && etat.niveau >= 1 - 1e-6) {
+      refractaireJusqua = performance.now() + 900;
+      declencher();
+    }
   }
 
   /** Envoie n messages, échelonnés, par des dendrites différentes. */
@@ -177,7 +190,7 @@ export function initSeuil() {
       const p = { t: 0 };
       const depart = position(chemin, 0);
       point.setAttribute('cx', depart.x); point.setAttribute('cy', depart.y);
-      gsap.to(p, {
+      enVol.push(gsap.to(p, {
         t: 1, duration: 0.7, ease: 'power1.in', delay: i * ecart,
         onUpdate() {
           const pt = position(chemin, p.t);
@@ -195,8 +208,20 @@ export function initSeuil() {
             if (alors) alors();
           }
         }
-      });
+      }));
     }
+  }
+
+  /* Rappelle les messages encore en vol. Sans cela, en quittant le corps
+     cellulaire d'un bond pendant une démonstration, les points continuaient
+     leur route et remplissaient le corps à retardement, visible depuis la
+     vue de l'axone. */
+  function rappeler() {
+    enVol.forEach(t => t.kill());
+    enVol.length = 0;
+    [...messages.children].forEach(el => el.remove());
+    if (vidage) vidage.kill();
+    etat.niveau = 0; poserNiveau();
   }
 
   /* --- Le curseur ------------------------------------------------------- */
@@ -240,7 +265,7 @@ export function initSeuil() {
     const { el, visible } = e.detail;
     if (!el || el.dataset.demo !== 'messages') return;
     if (visible) envoyer(3, 0.9, null, 0.55);
-    else { if (vidage) vidage.kill(); etat.niveau = 0; poserNiveau(); }
+    else rappeler();
   });
 
   poserNiveau();

@@ -209,6 +209,14 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
                            C700 193 780 206 840 200"/>
                 </g>
 
+                <!-- LA GAINE DE MYÉLINE, pour le défi du chronomètre (1C).
+                     Six segments, créés par js/myeline.js en copiant le
+                     tracé de l'axone et en n'en dessinant qu'une portion :
+                     une bande verte cernée d'un filet d'encre, jamais un
+                     trait, comme l'exige la palette. Vides tant que le
+                     visiteur n'a rien ajouté. -->
+                <g class="gaines"></g>
+
                 <g class="partie" id="p-terminaisons" data-partie="terminaisons">
                   <g stroke-width="1.7">
                     <path class="t" d="M840 200 Q868 182 896 166"/>
@@ -229,6 +237,10 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
                      tourné, donc des mêmes coordonnées que les tracés. -->
                 <g class="messages" fill="var(--signal)" stroke="none"></g>
                 <circle class="impulsion" r="5.5" cx="246" cy="200"
+                        fill="var(--signal)" stroke="none" opacity="0"/>
+                <!-- L'impulsion du défi du chronomètre, distincte de celle
+                     du seuil : deux modules ne se partagent pas un élément. -->
+                <circle class="impulsion-defi" r="5.5" cx="246" cy="200"
                         fill="var(--signal)" stroke="none" opacity="0"/>
 
               </g>
@@ -548,12 +560,45 @@ ETAPES = [
            <strong class="mot">électrique</strong>. Mais pas comme dans un
            câble : c'est un basculement qui se propage, de proche en
            proche.</p>''',
-        # [S3], 0,5 à 3 m/s sans myéline.
-        '''<p>Sur un axone nu, c'est lent. Beaucoup trop lent pour tes deux
-           centièmes de seconde.</p>''',
+        # [S3], 0,5 à 3 m/s sans myéline. Quand la phrase apparaît, une
+        # impulsion descend l'axone nu, lentement : js/myeline.js.
+        '''<p data-demo="lent">Sur un axone nu, c'est lent. Beaucoup trop lent
+           pour tes deux centièmes de seconde.</p>''',
         # Premier endroit du site où le mot apparaît.
         '''<p>D'où ceci : une gaine, posée par morceaux le long de l'axone. On
            l'appelle la <strong class="mot">myéline</strong>.</p>''',
+        # LE SECOND MOMENT INTERACTIF, 1C temps 16. Six segments à ajouter un
+        # par un ; à chaque ajout l'impulsion repart du haut et le chronomètre
+        # affiche le temps du modèle. La cible est le chiffre du premier
+        # écran. Modèle, validation et réserves dans 02-CONTENU : les temps
+        # affichés sont des sorties de modèle, sauf le dernier qui coïncide
+        # avec la mesure [S1]. Aucune limite de temps, aucun état d'échec.
+        '''<div class="interaction" data-interaction="myeline">
+          <p>À toi. Ajoute de la myéline jusqu'à ce que le message arrive à
+             temps.</p>
+          <p class="chrono-defi">
+            <span class="chrono-valeur" data-chrono-valeur>0,51 s</span>
+            <span class="chrono-cible caption">Objectif : <strong>0,02 s</strong>,
+              le chiffre du premier écran.
+              <span data-chrono-etat></span></span>
+          </p>
+          <div class="curseur">
+            <button type="button" class="curseur-bouton" data-retirer
+                    aria-label="Retirer un segment de gaine">Retirer</button>
+            <input type="range" id="curseur-myeline" min="0" max="6" step="1"
+                   value="0" aria-label="Segments de gaine posés, sur six"
+                   aria-valuetext="aucun segment sur six">
+            <button type="button" class="curseur-bouton" data-ajouter
+                    aria-label="Ajouter un segment de gaine">Ajouter</button>
+          </div>
+          <p class="sr-only" aria-live="polite" data-annonce-myeline></p>
+        </div>''',
+        # Temps 17 : la leçon que le visiteur vient de découvrir en
+        # manipulant, énoncée après et non avant. [S3] pour le rapport de 50.
+        '''<p>Tu as vu ? Tant qu'il reste un bout à découvert, le message y
+           perd tout son temps. Il faut la gaine <strong>partout</strong>.
+           Alors le signal saute d'un morceau au suivant au lieu de ramper :
+           jusqu'à <strong>cinquante fois plus vite</strong>.</p>''',
         '''<p>Voilà pourquoi ça va si vite.</p>''']),
 
     ('terminaisons', 'Les terminaisons', 'Là où le message passe à la cellule suivante', [

@@ -893,9 +893,9 @@ la force de son message mais leur nombre.
 | Les messages qui convergent | 1A | **bleu** | **existe**, pièce 4 : les mêmes points que ceux du curseur |
 | **Le curseur du seuil** | 1B, t8 | bleu + magenta | **existe**, pièce 4, `js/seuil.js` |
 | La courbe du potentiel d'action | 1B, t8 | **bleu** | **existe**, se trace au passage du seuil, ou au plus tard avec la phrase qui nomme le seuil |
-| L'impulsion qui descend l'axone | 1C, t12 | **bleu** | **à créer** |
-| La gaine de myéline | 1C, t15 | **vert** | **à créer** |
-| **Le défi du chronomètre** | 1C, t16 | vert + bleu | **à créer**, 2e moment interactif |
+| L'impulsion qui descend l'axone | 1C, t12 | **bleu** | **existe**, pièce 5 : au temps 14, lente sur l'axone nu, puis à chaque geste du défi |
+| La gaine de myéline | 1C, t15 | **vert** | **existe**, pièce 5 : six bandes cernées d'encre, posées par le visiteur |
+| **Le défi du chronomètre** | 1C, t16 | vert + bleu | **existe**, pièce 5, `js/myeline.js`, temps du modèle affichés tels que calculés ci-dessus |
 | La comparaison nu contre myélinisé | 1C, t17 | encre + vert | **à créer** |
 | Le vide synaptique | 1D, t20 | encre | **à créer** |
 | Les messagers chimiques | 1D, t21 | **orange fluo** | **à créer** |

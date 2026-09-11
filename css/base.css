@@ -585,6 +585,31 @@ html.no-js .neurone {
 }
 .curseur-bouton { flex: 0 0 auto; font-size: var(--fs-caption); }
 
+/* Le chronomètre du défi : le temps en gros, tabulaire pour ne pas sauter
+   quand les chiffres changent, et la cible en légende. Le succès est dit
+   par un mot, jamais par la seule couleur. */
+.chrono-defi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  margin: var(--sp-3) 0 0;
+}
+.chrono-valeur {
+  font-size: var(--fs-h2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  min-width: 5.2ch;
+}
+/* Objectif atteint : le temps passe sur fond vert myéline, texte noir, comme
+   tout ce qui est coloré sur ce site. Le mot « atteint » est là aussi. */
+.defi-atteint .chrono-valeur {
+  background: var(--myeline);
+  padding: 0 0.15em;
+  border-radius: 2px;
+}
+
 /* Le bloc invisible ne se laisse pas cliquer ni tabuler : js/recit.js pose
    visibility avec l'opacité. Le repli sans script le laisse visible. */
 html.js .interaction { visibility: hidden; }

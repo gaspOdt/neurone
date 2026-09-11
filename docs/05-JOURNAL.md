@@ -24,14 +24,14 @@
 | **L'acte 1, ses textes et ses titres** | Pièce 3, 11 septembre 2026. Les textes de 1A à 1D de `02-CONTENU`, mot pour mot, **un temps par paragraphe qui s'empile dans sa partie** : un temps apparaît en entrant dans la zone de lecture, sous le dessin, et reste. Titres des parties gros et gras, sous-titre en encre douce, aucun ornement. Mot-clé de chaque partie en magenta **derrière**, texte noir. Courbe du potentiel d'action déplacée au corps cellulaire, en bleu. Surbrillance des parties passée au magenta. Les deux formulations imprécises ont disparu. Sans les deux moments interactifs ni leurs phrases |
 | **Le titre du site** | En gros au dessus du premier bouton, il disparaît avec lui. **Provisoire** : le nom n'est pas choisi, le titre affiché est celui de la balise `title` |
 | **Le curseur du seuil**, premier moment interactif | Pièce 4, 11 septembre 2026. `<input type="range">` natif plus deux boutons Moins et Plus, cibles de 44 px, valeur et résultat annoncés en `aria-live`. Les messages arrivent en points bleus par les dendrites (chemins appariés à la volée), le corps se remplit de bleu par le bas à chaque arrivée puis se vide, une ligne pointillée marque le seuil sans aucun chiffre [S6]. Au seuil, une impulsion part vers le bas le long de l'axone et la courbe se trace ; poussé plus haut, elle repart identique. Le temps 7 joue une démonstration de trois messages, plafonnée sous le seuil. `js/seuil.js`. Quatre contrôles dans la batterie |
+| **Le défi du chronomètre**, second moment interactif | Pièce 5, 11 septembre 2026. Six segments de gaine à poser sur l'axone, par deux boutons Ajouter et Retirer ou un curseur natif, cibles de 44 px. Chaque segment est une bande verte cernée d'un filet d'encre, jamais un trait. À chaque changement l'impulsion repart du haut, rampe sur le nu et saute sur le gainé, et le chronomètre compte jusqu'au temps du modèle de `02-CONTENU` : 0,51 s à vide, 0,10 s à cinq segments, 0,02 s à six, avec le mot « atteint ». La cible est marquée comme le chiffre du premier écran. Annonce en `aria-live`. Le temps 14 joue une impulsion lente sur l'axone nu quand sa phrase apparaît. `js/myeline.js`, trois contrôles dans la batterie. Le cadrage de l'axone montre désormais l'axone entier |
 | **Les dessins du parcours réduits** | Demande de l'utilisateur : le texte était dissimulé sous un dessin et deux rangs de boutons prenant les deux tiers de l'écran. Hauteur du parcours passée de 42 % à 31 % de l'écran, boutons inchangés, zone de lecture de 266 à 359 px |
 
 ### Ce qui n'est PAS implémenté
 
-- **Les éléments graphiques de 1C et 1D** : l'impulsion qui descend l'axone
-  hors interaction, la gaine qui se pose, la comparaison nu contre myélinisé,
-  le vide synaptique et les messagers. Ceux de 1A et 1B existent avec le
-  curseur.
+- **La comparaison côte à côte** du temps 17 (l'axone nu en fantôme à
+  côté de l'axone gainé, départ simultané) et **les éléments graphiques de
+  1D** : le vide synaptique et les messagers orange.
 - Les deux moments interactifs, le retour au corps et le quiz.
 
 ### Un écart à connaître entre le code et les documents
@@ -93,7 +93,7 @@ L'ordre suit `02-CONTENU.md`. Chaque pièce est vérifiée par capture à
 | 2. La transition centrale : plongeon dans le trait, chaîne de mini-neurones, « En voici une » | **fait**, 11 septembre 2026 |
 | 3. Acte 1 : textes de 1A à 1D qui s'accumulent, titres, courbe déplacée au corps cellulaire | **fait**, 11 septembre 2026 |
 | 4. Le curseur du seuil, 1B temps 8 | **fait**, 11 septembre 2026 |
-| 5. Le défi du chronomètre, 1C temps 16 | à faire |
+| 5. Le défi du chronomètre, 1C temps 16 | **fait**, 11 septembre 2026 |
 | 6. Acte 2, le retour au corps | à faire |
 | 7. Acte 3, le quiz | à faire |
 | **Agent d'audit technique** | avant-dernier |
@@ -146,12 +146,11 @@ clairement les erreurs à corriger des choix de vulgarisation assumés.
 
 ### Prochaine étape
 
-**Pièce 5 : le défi du chronomètre**, 1C temps 16 et 17 de `02-CONTENU.md`.
-Six segments de gaine à ajouter un par un, boutons plus curseur, le
-chronomètre qui affiche le temps du modèle (0,51 s à 0,02 s) et la cible
-0,02 s marquée comme le chiffre du premier écran. Modèle et réserves
-scientifiques détaillés dans la narration ; les temps affichés sont des
-sorties de modèle sauf le dernier, qui coïncide avec [S1].
+**Pièce 6 : l'acte 2, le retour au corps**, temps 23 à 26 de
+`02-CONTENU.md`. La caméra recule, la chaîne réapparaît, puis la silhouette
+avec le trajet allumé en bleu de la tête au doigt ; le trait unique se
+démultiplie en faisceau pour réparer la simplification « un neurone, une
+impulsion » [S4] ; retour au bouton magenta du premier écran.
 
 ---
 

@@ -590,7 +590,30 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
         dit = nav.evaluer("return (document.querySelector('[data-annonce-seuil]')||{}).textContent||''")
         verifier("le resultat est annonce au lecteur d'ecran", "impulsion" in dit, dit[:60])
 
-        print("\n10. Erreurs de console")
+        print("\n10. Le defi du chronometre")
+        # Le second moment interactif. On pose des segments et on lit ce que
+        # le chronometre AFFICHE, c'est-a-dire ce que le visiteur lit.
+        existe = nav.evaluer(
+            "var c=document.querySelector('#curseur-myeline');"
+            "var b=document.querySelectorAll('[data-interaction=myeline] button');"
+            "return c && b.length===2 ? [b[0].offsetHeight, b[1].offsetHeight] : null")
+        verifier("le curseur de la gaine et ses deux boutons existent, 44 px",
+                 bool(existe) and min(existe) >= 44, str(existe))
+        nav.evaluer("window.__myeline && window.__myeline.appliquer(5, true); return 1")
+        time.sleep(2.2)
+        cinq = nav.evaluer("return document.querySelector('[data-chrono-valeur]').textContent")
+        verifier("a cinq segments sur six, le message est encore cinq fois trop lent",
+                 cinq.strip() == "0,10 s", cinq)
+        nav.evaluer("window.__myeline && window.__myeline.appliquer(6, true); return 1")
+        time.sleep(1.2)
+        six = nav.evaluer("return document.querySelector('[data-chrono-valeur]').textContent")
+        etat = nav.evaluer("return document.querySelector('[data-chrono-etat]').textContent")
+        gaines = nav.evaluer("return [...document.querySelectorAll('.gaines > g')].filter(g=>parseFloat(g.getAttribute('opacity'))>0.5).length")
+        verifier("a six segments, 0,02 s, objectif atteint, six gaines dessinees",
+                 six.strip() == "0,02 s" and "atteint" in etat and gaines == 6,
+                 "%s, %s, %d gaines" % (six, etat, gaines))
+
+        print("\n11. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
         verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 

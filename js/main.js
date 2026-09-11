@@ -13,6 +13,7 @@
 import { initA11y } from './a11y.js?v=c1a2e0d5';
 import { initRecit } from './recit.js?v=c1a2e0d5';
 import { initSeuil } from './seuil.js?v=c1a2e0d5';
+import { initMyeline } from './myeline.js?v=c1a2e0d5';
 
 initA11y();
 
@@ -38,3 +39,7 @@ initRecit();
    propres éléments dans le dessin : le niveau du corps, les messages et
    l'impulsion. Le cadrage et les tracés restent à recit.js. */
 initSeuil();
+
+/* Le second moment interactif, le défi du chronomètre. Même règle : il ne
+   touche qu'à ses propres éléments, la gaine et sa propre impulsion. */
+initMyeline();

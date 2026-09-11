@@ -56,7 +56,10 @@ const VUES = {
   ensemble:     { vue: '0 0 400 1000',    partie: null, scene: 'neurone', boutons: true,  titre: 'le neurone entier' },
   dendrites:    { vue: '50 8 300 375',    partie: 'p-dendrites',    scene: 'neurone', boutons: true, titre: 'les dendrites' },
   soma:         { vue: '130 133 140 175', partie: 'p-soma',         scene: 'neurone', boutons: true, titre: 'le corps cellulaire' },
-  axone:        { vue: '40 230 320 400',  partie: 'p-axone',        scene: 'neurone', boutons: true, titre: "l'axone" },
+  /* L'axone ENTIER, du corps aux terminaisons : le défi du chronomètre y
+     pose six segments de gaine, et le visiteur doit les voir tous les six.
+     Le cadrage précédent en coupait deux. */
+  axone:        { vue: '40 236 320 616',  partie: 'p-axone',        scene: 'neurone', boutons: true, titre: "l'axone" },
   terminaisons: { vue: '100 748 200 250', partie: 'p-terminaisons', scene: 'neurone', boutons: true, titre: 'les terminaisons' }
 };
 
