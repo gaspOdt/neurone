@@ -111,9 +111,13 @@ mouvement réduit et sans JavaScript vérifiés par capture.
 
 ### Les deux audits de fin de projet
 
-**1. Audit technique.** Un agent parcourt le site déployé et vérifie qu'il
-fonctionne : interactions, console, hors connexion, matériel ancien, sans
-JavaScript, et la liste complète d'accessibilité. Produit `08-RAPPORT-TEST.md`.
+**1. Audit technique.** Un agent parcourt le site et vérifie qu'il
+fonctionne. **D'abord la synchronisation du dessin et du texte**, temps par
+temps de `02-CONTENU.md`, que l'utilisateur a désignée comme l'essentiel ;
+puis le socle, l'absence de JavaScript, le clavier, la couleur, le mouvement,
+les lecteurs d'écran, le tactile. Pas de limite de poids, pas de hors
+connexion, pas de matériel ancien : retirés par l'utilisateur le 11 septembre
+2026. Protocole et rapport dans `08-RAPPORT-TEST.md`.
 
 **2. Audit scientifique, après le technique.** Un agent distinct vérifie que
 **tout ce qui est affirmé est vrai**. C'est un contrôle différent, qui demande
