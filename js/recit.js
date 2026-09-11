@@ -95,11 +95,18 @@ export function initRecit() {
   const traitsCourbe  = [...section.querySelectorAll('.figure-courbe .t')];
   const traitsNeurone = [...svg.querySelectorAll('.t')];
   const traitTrajet   = [...section.querySelectorAll('.silhouette .trajet')];
+  const corpsSil      = [...section.querySelectorAll('.silhouette .s')];
+  const chrono        = section.querySelector('[data-chrono]');
   const boutsNeurone  = [...svg.querySelectorAll('.b')];
 
-  const iCourbe  = temps.indexOf(section.querySelector('.figure-courbe'));
-  const iNeurone = temps.indexOf(porte);
-  const iSil     = temps.indexOf(porteSil);
+  /* Les phrases qui GOUVERNENT les dessins. Chaque élément graphique de
+     l'acte 0 est accroché à la phrase qui en parle, et à rien d'autre :
+     c'est la règle de 02-CONTENU, le texte et l'image au même instant. */
+  const iCourbe   = temps.indexOf(section.querySelector('.figure-courbe'));
+  const iCorps    = temps.indexOf(section.querySelector('h1.temps'));
+  const iTrajet   = temps.indexOf(section.querySelector('.t-trajet'));
+  const iDuree    = temps.indexOf(section.querySelector('.t-duree'));
+  const iQuestion = temps.indexOf(section.querySelector('.t-question'));
 
   /* Un temps de plus que de temps à montrer : l'avant-dernier écran laisse le
      paragraphe complet sous les yeux, le dernier sert à la bascule. */
@@ -123,7 +130,13 @@ export function initRecit() {
   let cameraActive = false;
   let cle = 'ensemble';
   let silVisible = null;
+  let corpsSilVisible = null;
   let minuteur = null;
+  /* Ici, et pas plus bas : toutMontrer() l'écrit, et toutMontrer() est
+     appelée par le retour anticipé du mode « mouvement réduit ». Déclaré
+     après ce retour, le mémo levait une ReferenceError et la page restait
+     figée pour exactement les visiteurs qu'on cherche à ménager. */
+  const affiche = new WeakMap();
   let H0 = 200;
   let H1 = 320;
 
@@ -221,12 +234,18 @@ export function initRecit() {
     if (defiler) defiler.style.opacity = '0';
     if (titre) titre.style.opacity = '1';
     if (nav) nav.style.opacity = '1';
+    if (chrono) chrono.style.opacity = '1';
+    /* Les deux dessins entiers, l'un au-dessus de l'autre : le CSS des replis
+       défait la case partagée pour qu'ils ne se superposent pas. */
+    if (porteSil) porteSil.style.opacity = '1';
+    corpsSil.forEach(el => { el.style.opacity = '1'; });
+    porte.style.opacity = '1';
     porte.style.transform = 'none';
     mesurer();
     poserVue('ensemble', hauteurParcours());
     poserSilhouette();
     if (typeof gsap !== 'undefined') {
-      gsap.set([...traitsCourbe, ...traitsNeurone], { drawSVG: '0% 100%' });
+      gsap.set([...traitsCourbe, ...traitsNeurone, ...traitTrajet], { drawSVG: '0% 100%' });
       gsap.set(boutsNeurone, { scale: 1, transformOrigin: 'center' });
     }
   }
@@ -247,8 +266,6 @@ export function initRecit() {
   H1 = hauteurParcours();
 
   /* --- L'apparition d'un temps ------------------------------------------- */
-
-  const affiche = new WeakMap();
 
   function poser(el, visible, immediat) {
     if (!el || affiche.get(el) === visible) return;
@@ -310,14 +327,36 @@ export function initRecit() {
        ne se recouvrent pas : le texte s'efface sur la première moitié, le
        dessin monte sur la seconde. La place est libre avant qu'on l'occupe. */
     const tTexte  = borne(t / 0.5, 0, 1);
-    const tDessin = borne((t - 0.5) / 0.5, 0, 1);
+    /* Le neurone commence AVANT que le trait ait fini de partir. Les deux
+       temps se recouvrent d'un tiers : sans ce recouvrement, l'écran était
+       vide à mi-bascule, mesuré à 0,4 % de pixels peints, le trait parti et
+       le neurone pas encore là. Ils partagent la même case, donc ce
+       recouvrement se lit comme un fondu de l'un vers l'autre. */
+    const tDessin = borne((t - 0.35) / 0.65, 0, 1);
 
     piles.forEach(el => gsap.set(el, { opacity: 1 - tTexte }));
+    /* Le trait de la silhouette part avec le texte, asservi au défilement.
+       Un seul propriétaire pour cette opacité pendant la bascule : le mémo de
+       majEtat ne l'écrit qu'au franchissement du seuil d'apparition, bien
+       plus haut dans la page, donc les deux ne se disputent jamais. */
+    if (porteSil && silVisible) gsap.set(porteSil, { opacity: 1 - tTexte });
     gsap.set([titre, nav], { opacity: tDessin });
     /* Une fois le texte parti, les blocs de l'ouverture ne doivent plus
        intercepter la souris : le texte du parcours défile à leur place. */
     scene.classList.toggle('bascule', tTexte >= 1);
     if (nav) nav.style.pointerEvents = tDessin > 0.5 ? 'auto' : 'none';
+
+    /* LE NEURONE ARRIVE ICI, et pas avant. Dans la narration, il est ce qu'on
+       trouve au bout du trajet : il ne peut donc se montrer qu'une fois la
+       silhouette partie. Il se dessine trait par trait sur la seconde moitié
+       de la bascule, pendant qu'il monte, et ses renflements arrivent une
+       fois le trait posé. Le plongeon dans le trait, qui reliera les deux,
+       est la pièce suivante. */
+    gsap.set(porte, { opacity: tDessin > 0 ? 1 : 0 });
+    gsap.set(traitsNeurone, { drawSVG: '0% ' + (tDessin * 100) + '%' });
+    gsap.set(boutsNeurone, {
+      scale: borne((tDessin - 0.82) / 0.18, 0, 1), transformOrigin: 'center'
+    });
 
     /* Tant que la bascule n'est pas finie, c'est elle qui tient la taille du
        dessin. Ensuite c'est la caméra, et il ne faut surtout pas lui reprendre
@@ -361,32 +400,26 @@ export function initRecit() {
        n'apparaît au-delà du premier temps, même si le visiteur fait défiler.
        Posé par le JavaScript et jamais par le CSS : si le script échoue, tout
        le texte reste lisible plutôt que bloqué. */
-    temps.forEach((el, i) => {
-      /* La silhouette est pilotee juste en dessous, par son propre etat.
-         La laisser passer ici la rendrait visible pour toujours, puisque la
-         regle generale est monotone. */
-      if (el === porteSil) return;
-      poser(el, (entre || i === 0) && p >= i * PAS, immediat);
-    });
+    temps.forEach((el, i) => poser(el, (entre || i === 0) && p >= i * PAS, immediat));
 
-    /* LA SILHOUETTE S'EFFACE QUAND LE NEURONE ARRIVE.
-       Ils partagent la même case de grille, donc les laisser visibles
-       ensemble les superpose : un neurone à moitié dessiné par-dessus un
-       corps. C'est le seul temps du site qui n'est pas monotone, et il doit
-       l'être : le récit plonge DANS le trajet pour y trouver le neurone, donc
-       le plan large cède la place au gros plan.
+    /* LA SILHOUETTE, gouvernée par les phrases de l'acte 0.
 
-       Fondu croisé : la silhouette part sur le temps qui précède le neurone,
-       de sorte qu'à aucun instant les deux ne sont opaques ensemble. */
+         temps 2  elle apparaît AVEC la phrase sur le cerveau, sans trajet
+         temps 3  le trajet se trace, de la tête vers le doigt, avec sa phrase
+         temps 4  le temps du trajet s'inscrit à côté
+         temps 5  le corps s'efface, SAUF le trait : on va plonger dedans
+         bascule  ce qui reste part, et le neurone arrive à sa place
+
+       Elle partage sa case avec le neurone, donc elle doit avoir fini de
+       disparaître quand lui commence : sa fenêtre se ferme au début de la
+       bascule, et le neurone n'arrive qu'à la seconde moitié de celle-ci. */
     if (porteSil) {
-      /* La silhouette part AVANT que le neurone n'arrive, et non au meme
-         instant. Un fondu croise laisse les deux a moitie visibles pendant
-         une demi-seconde, ce qui superpose un neurone a moitie dessine sur un
-         corps : exactement le defaut signale. En avancant sa sortie d'une
-         demi-mesure, elle a fini de disparaitre quand l'autre commence. */
-      const debut = iSil * PAS;
-      const fin   = (iNeurone - 0.5) * PAS;
-      const doitVoir = entre && p >= debut && p < fin;
+      /* Pas de borne haute ici : la sortie appartient à la bascule, qui fait
+         partir le trait AVEC le texte, sur sa première moitié. Une fenêtre
+         fermée au début de la bascule laissait un écran vide pendant toute
+         la première moitié, mesuré à 0,4 % de pixels peints : la silhouette
+         était partie, le neurone n'arrivait qu'à la seconde moitié. */
+      const doitVoir = entre && p >= iCorps * PAS;
 
       /* Son propre etat, et surtout pas le memo partage de poser().
 
@@ -405,18 +438,25 @@ export function initRecit() {
         else gsap.to(porteSil, { opacity: doitVoir ? 1 : 0,
                                  duration: 0.35, overwrite: true });
       }
+
+      /* Temps 5 : le corps s'efface, le trait reste. C'est la phrase de la
+         question qui commande, parce que c'est à cet instant que le récit
+         cesse de regarder le corps pour regarder le chemin. */
+      const corpsVisible = p < iQuestion * PAS;
+      if (corpsSilVisible !== corpsVisible) {
+        corpsSilVisible = corpsVisible;
+        if (immediat) gsap.set(corpsSil, { opacity: corpsVisible ? 1 : 0 });
+        else gsap.to(corpsSil, { opacity: corpsVisible ? 1 : 0,
+                                 duration: 0.6, overwrite: true });
+      }
     }
+    poser(chrono, entre && p >= iDuree * PAS, immediat);
     poser(defiler, p < 0.01, immediat);
 
     tracer(traitsCourbe, iCourbe, p);
     /* Le trajet dans la silhouette se dessine de la tête vers le doigt,
-       dans le sens du voyage. */
-    tracer(traitTrajet, iSil, p);
-    const tn = tracer(traitsNeurone, iNeurone, p);
-    /* Les renflements des terminaisons arrivent une fois le trait posé. */
-    gsap.set(boutsNeurone, {
-      scale: borne((tn - 0.82) / 0.18, 0, 1), transformOrigin: 'center'
-    });
+       dans le sens du voyage, sur la mesure de la phrase qui le nomme. */
+    tracer(traitTrajet, iTrajet, p);
 
     /* La bascule est recalculée À CHAQUE passage, y compris une fois
        terminée. Le raccourci qui l'arrêtait à t = 1 laissait un déplacement
@@ -565,8 +605,8 @@ export function initRecit() {
   /* --- Démarrage ---------------------------------------------------------- */
 
   gsap.set(temps, { opacity: 0, y: 16 });
-  gsap.set([titre, nav], { opacity: 0 });
-  gsap.set([...traitsCourbe, ...traitsNeurone], { drawSVG: '0% 0%' });
+  gsap.set([titre, nav, porte, porteSil, chrono].filter(Boolean), { opacity: 0 });
+  gsap.set([...traitsCourbe, ...traitsNeurone, ...traitTrajet], { drawSVG: '0% 0%' });
   gsap.set(boutsNeurone, { scale: 0, transformOrigin: 'center' });
   poserVue('ensemble', H0);
   poserSilhouette();
@@ -602,7 +642,7 @@ export function initRecit() {
     if (!e.detail.reduire) return;
     window.removeEventListener('scroll', auDefilement);
     window.removeEventListener('resize', auRedimensionnement);
-    gsap.killTweensOf([...temps, ...piles, svg, porte]);
+    gsap.killTweensOf([...temps, ...piles, ...corpsSil, svg, porte, porteSil].filter(Boolean));
     toutMontrer();
   });
 }

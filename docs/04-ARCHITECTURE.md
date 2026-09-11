@@ -342,6 +342,9 @@ Chacun a coûté au moins une itération. Aucun ne produit d'erreur visible.
 | **`svh` contre `innerHeight`** | Un bloc apparaissait sans qu'on ait défilé : `svh` est mesuré barre d'adresse déployée, `innerHeight` grandit quand elle se rétracte | Bande de déclenchement étroite au centre |
 | **Centrage d'un contenu plus haut que la fenêtre** | Le débordement se répartit en haut ET en bas, donc le début sort de l'écran. La page s'ouvrait sur du vide | `justify-content: flex-start` |
 | **Remplacement de bloc trop large** | Une fonction encore appelée quatre fois avait été supprimée, le script mourait au chargement | Vérifier que chaque fonction appelée existe encore après une réécriture |
+| **`max-height` de repli sur un élément dimensionné par le script** | Le neurone ne grandissait plus à la bascule, 340 px avant comme après : un `max-height: 340px` prévu pour le visiteur sans JavaScript plafonnait en silence la hauteur écrite en ligne | Tout repli de taille se scope à `html.no-js` |
+| **Règle de plein écran non scopée à `html.js`** | Sans JavaScript, la classe `entre` n'est jamais posée : le bloc du bouton restait en plein écran pour toujours, tout le récit derrière un cache blanc | Toute règle qui attend une classe posée par le script se scope à `html.js` |
+| **Déclaration après le retour anticipé, troisième fois** | `affiche` était écrit par `toutMontrer()`, appelée avant sa déclaration en mouvement réduit : `ReferenceError`, page figée pour ces visiteurs | Tout l'état d'`initRecit` se déclare avant le premier `return`, sans exception |
 
 ---
 

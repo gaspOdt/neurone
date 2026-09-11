@@ -291,6 +291,10 @@ RECIT_DEBUT = '''  <!-- ========================================================
           <button type="button" class="bouton-entree" data-entree>Clique</button>
         </div>
 
+        <!-- Temps 2 de la narration. La silhouette apparaît EN MÊME TEMPS que
+             cette phrase, mais sans le trajet : on montre d'abord le corps
+             dont on parle. Le trajet n'arrive qu'avec la phrase qui le
+             nomme, au temps suivant (02-CONTENU, incohérence n°1). -->
         <h1 class="temps" data-temps="2">
           Ton cerveau vient de commander le mouvement de ton doigt.
         </h1>
@@ -314,13 +318,23 @@ RECIT_DEBUT = '''  <!-- ========================================================
            occupe de la place a la fois, quelle que soit la fenetre. -->
       <div class="visuels">
 
-        <div class="porte-silhouette temps" data-temps="3">
+        <!-- Ni la silhouette ni le neurone ne sont des « temps » : leur
+             apparition ne suit pas la règle générale, monotone, des
+             paragraphes. La silhouette arrive avec la phrase sur le cerveau,
+             s'efface au moment de la question en laissant son trait, puis
+             cède la place au neurone. C'est js/recit.js qui tient ces deux
+             fenêtres, à partir de la position des phrases qui les gouvernent. -->
+        <div class="porte-silhouette">
           <div class="scene">
 {silhouette}
           </div>
+          <!-- Temps 4 : « le temps s'inscrit à côté ». La valeur vient de
+               [S1], 21,4 ms, arrondie du bon côté. C'est ce même chiffre que
+               le défi du chronomètre reprendra comme cible, en 1C. -->
+          <p class="chrono caption" data-chrono aria-hidden="true">0,02 s</p>
         </div>
 
-        <div class="porte-neurone temps" data-temps="4">
+        <div class="porte-neurone">
         <p class="figure-titre" id="figure-titre">Le messager</p>
         <div class="scene">
 {neurone}
@@ -333,21 +347,23 @@ RECIT_DEBUT = '''  <!-- ========================================================
 
       </div>
 
+      <!-- Les temps 3 à 5 de l'acte 0, sous le dessin. Textes de 02-CONTENU,
+           mot pour mot. « deux centièmes » est sourcé [S1] : la valeur
+           « moins d'un centième » qui figurait ici était fausse d'un facteur
+           deux. La courbe et « une impulsion, et une seule » sont retirées :
+           la courbe revient au corps cellulaire, où le visiteur la
+           déclenchera lui-même, et l'affirmation était fausse [S4]. -->
       <div class="wrap pile pile-bas">
 
-        <figure class="temps figure-courbe" data-temps="5">
-          {courbe}
-          <figcaption class="caption">
-            Voilà à quoi ressemble l'ordre qu'il a envoyé.
-            Une impulsion électrique, et une seule.
-          </figcaption>
-        </figure>
-
-        <p class="temps lead" data-temps="6">
-          Ça a pris moins d'un centième de seconde.
+        <p class="temps lead t-trajet" data-temps="3">
+          Un message est parti de là-haut, et il est descendu jusqu'à lui.
         </p>
 
-        <p class="temps question" data-temps="7">Sais-tu comment&nbsp;?</p>
+        <p class="temps lead t-duree" data-temps="4">
+          Ça a pris deux centièmes de seconde.
+        </p>
+
+        <p class="temps question t-question" data-temps="5">Sais-tu comment&nbsp;?</p>
 
       </div>
 

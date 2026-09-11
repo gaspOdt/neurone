@@ -529,21 +529,37 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
         verifier("il n'y en a qu'un dans la page",
                  nav.evaluer("return document.querySelectorAll('.neurone').length") == 1)
 
+        # Dans la narration, le neurone est ce qu'on trouve AU BOUT du trajet :
+        # pendant l'ouverture, c'est la silhouette qui est a l'ecran, et lui
+        # n'est pas encore la. On verifie donc les deux etats, et pas
+        # seulement une hauteur : une boite a une taille meme quand elle est
+        # invisible, ce qui avait deja fait passer un test pour rien.
         nav.evaluer("window.scrollTo(0,0); return 1")
         for _ in range(9):
             nav.molette(500, pause=0.12)
-        intro = nav.evaluer(
+        etat_intro = nav.evaluer(
             "var s=document.querySelector('.neurone');"
-            "return Math.round(s.getBoundingClientRect().height)")
-        verifier("il est deja visible pendant l'ouverture", intro > 0, "%d px" % intro)
+            "var p=s.closest('.porte-neurone');"
+            "return [Math.round(s.getBoundingClientRect().height),"
+            " Math.round(parseFloat(getComputedStyle(p).opacity)*100)]")
+        sil_intro = nav.evaluer(
+            "return Math.round(parseFloat(getComputedStyle("
+            "document.querySelector('.porte-silhouette')).opacity)*100)")
+        verifier("pendant l'ouverture, c'est la silhouette qui est la, pas lui",
+                 sil_intro > 50 and etat_intro[1] < 50,
+                 "silhouette %d%%, neurone %d%%" % (sil_intro, etat_intro[1]))
 
         for _ in range(22):
             nav.molette(500, pause=0.12)
-        parcours = nav.evaluer(
+        etat_parcours = nav.evaluer(
             "var s=document.querySelector('.neurone');"
-            "return Math.round(s.getBoundingClientRect().height)")
-        verifier("il a grandi pour le parcours, sans etre remplace",
-                 parcours > intro, "%d px puis %d px" % (intro, parcours))
+            "var p=s.closest('.porte-neurone');"
+            "return [Math.round(s.getBoundingClientRect().height),"
+            " Math.round(parseFloat(getComputedStyle(p).opacity)*100)]")
+        verifier("au parcours, il est la, entier et plus grand",
+                 etat_parcours[1] > 50 and etat_parcours[0] > etat_intro[0],
+                 "%d px puis %d px, opacite %d%%"
+                 % (etat_intro[0], etat_parcours[0], etat_parcours[1]))
 
         print("\n9. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []

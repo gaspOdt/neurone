@@ -20,13 +20,17 @@
 | **Une seule mise en page** | Celle du téléphone, partout. La version deux colonnes des grands écrans est supprimée le 11 septembre 2026, sur décision de l'utilisateur, pour tenir le calendrier. Sur ordinateur, la même colonne de 34 rem, centrée |
 | **Silhouette et neurone exclusifs** | Ils partagent une case de grille et ne sont jamais visibles ensemble |
 
+| **L'acte 0 entier, conforme à `02-CONTENU`** | Pièce 1, 11 septembre 2026. Temps 2 la silhouette seule avec la phrase sur le cerveau, temps 3 le trajet qui se trace avec « Un message est parti de là-haut », temps 4 « deux centièmes de seconde » [S1] avec le temps inscrit à côté, temps 5 la question et le corps qui s'efface **sauf le trait**. Le neurone n'arrive qu'à la bascule, en fondu avec le trait qui part. Vérifié capture par capture à 390 × 844 |
+
 ### Ce qui n'est PAS implémenté
 
-- **Le trajet bleu ne se dessine pas encore** dans la silhouette. Le tracé est
-  branché dans le code mais n'a pas été vérifié à l'œil.
-- **Tout le texte est encore l'ancien.** Les deux affirmations fausses sont
-  donc toujours en ligne : « moins d'un centième de seconde » et « des
-  centaines de dendrites ».
+- **Le plongeon dans le trait**, la chaîne de cellules et « En voici une » :
+  la transition centrale entre l'acte 0 et l'acte 1. Aujourd'hui le trait
+  s'efface et le neurone se dessine à sa place, sans zoom.
+- **Le texte de l'acte 1 est encore l'ancien.** Les deux affirmations FAUSSES
+  ont disparu avec la réécriture de l'acte 0 (« moins d'un centième » et « une
+  impulsion, et une seule »). Restent les deux IMPRÉCISES, dans le parcours :
+  « des milliers de messages en même temps » et « des centaines de dendrites ».
 - Les deux moments interactifs, le retour au corps et le quiz.
 
 ### Un écart à connaître entre le code et les documents
@@ -147,8 +151,11 @@ clairement les erreurs à corriger des choix de vulgarisation assumés.
 
 ### Prochaine étape
 
-Section « Au repos » : les charges positives et négatives que le visiteur fait
-passer de part et d'autre de la membrane.
+**Pièce 2 : la transition centrale.** La silhouette s'efface sauf le trait,
+la caméra plonge dans le trait jusqu'à ce qu'il remplisse l'écran, le trait
+devenu large se révèle fait de cellules alignées (acte 1, temps 1), l'une
+s'isole et se dessine (temps 2, « En voici une »). Détail dans `02-CONTENU.md`,
+acte 0 temps 5 et acte 1 temps 1 et 2.
 
 ---
 

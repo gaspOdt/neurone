@@ -468,6 +468,12 @@ html.reduce-motion .rails { display: none; }
   display: block;
   width: auto;
   max-width: 100%;
+}
+/* Le repli seulement, quand aucun script ne pose de taille. Ces deux valeurs
+   ne doivent JAMAIS s'appliquer quand le script tourne : un max-height posé
+   ici plafonnait en silence la hauteur écrite en ligne par js/recit.js, et
+   le neurone ne grandissait plus à la bascule, 340 px avant comme après. */
+html.no-js .neurone {
   height: 34vh;
   max-height: 340px;
 }
@@ -590,7 +596,12 @@ html.reduce-motion .rails { display: none; }
    distraire. Un fond opaque garantit qu'aucun element du recit ne transparait
    derriere, donc aucun chevauchement possible a cette etape. Et le centre est
    la ou l'oeil se pose d'abord. */
-html:not(.entre) .porte-entree {
+/* html.js, et non html seul : sans JavaScript, la classe `entre` n'est jamais
+   posée, donc ce plein écran serait définitif et le visiteur ne verrait
+   jamais rien d'autre que le bouton. Mesuré : capture sans script, tout le
+   récit derrière un cache blanc. Le site doit rester lisible sans script,
+   c'est une règle du projet. */
+html.js:not(.entre) .porte-entree {
   position: fixed;
   inset: 0;
   z-index: 5;
@@ -636,6 +647,22 @@ html.entre .porte-entree {
   align-items: center;
 }
 .silhouette { display: block; width: auto; max-width: 100%; }
+
+/* Le temps du trajet, inscrit à côté du dessin au temps 4. En encre douce,
+   comme une légende : c'est une mesure, pas le sujet. */
+.chrono {
+  text-align: center;
+  margin: var(--sp-2) 0 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dans les deux replis, plus rien ne s'efface : la silhouette et le neurone
+   doivent donc cesser de partager une case, sinon ils se superposent. Ils
+   s'empilent, l'un au-dessus de l'autre, dans l'ordre du récit. */
+html.no-js .visuels,
+html.reduce-motion .visuels { display: block; }
+html.no-js .porte-silhouette,
+html.reduce-motion .porte-silhouette { margin-bottom: var(--sp-4); }
 
 /* Tant que le verrou n'est pas ouvert, la page ne defile pas.
 
