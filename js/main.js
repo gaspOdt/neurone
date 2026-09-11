@@ -14,6 +14,7 @@ import { initA11y } from './a11y.js?v=c1a2e0d5';
 import { initRecit } from './recit.js?v=c1a2e0d5';
 import { initSeuil } from './seuil.js?v=c1a2e0d5';
 import { initMyeline } from './myeline.js?v=c1a2e0d5';
+import { initSynapse } from './synapse.js?v=c1a2e0d5';
 
 initA11y();
 
@@ -43,3 +44,7 @@ initSeuil();
 /* Le second moment interactif, le défi du chronomètre. Même règle : il ne
    touche qu'à ses propres éléments, la gaine et sa propre impulsion. */
 initMyeline();
+
+/* La synapse : les messagers qui traversent le vide, la cellule d'en face
+   qui s'illumine. Même règle, ses propres éléments seulement. */
+initSynapse();

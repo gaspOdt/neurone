@@ -897,10 +897,10 @@ la force de son message mais leur nombre.
 | La gaine de myéline | 1C, t15 | **vert** | **existe**, pièce 5 : six bandes cernées d'encre, posées par le visiteur |
 | **Le défi du chronomètre** | 1C, t16 | vert + bleu | **existe**, pièce 5, `js/myeline.js`, temps du modèle affichés tels que calculés ci-dessus |
 | La comparaison nu contre myélinisé | 1C, t17 | encre + vert | **à créer** |
-| Le vide synaptique | 1D, t20 | encre | **à créer** |
-| Les messagers chimiques | 1D, t21 | **orange fluo** | **à créer** |
-| Le retour à la silhouette | 2, t24 | **bleu** | réutilise l'acte 0 |
-| Le faisceau de neurones | 2, t25 | **bleu** | **à créer** |
+| Le vide synaptique | 1D, t20 | encre | **existe**, pièce 6 : cadrage sur le renflement du milieu et le bord de la cellule d'en face |
+| Les messagers chimiques | 1D, t21 | **orange fluo** | **existe**, pièce 6 : quatre points cernés d'encre qui traversent le vide, `js/synapse.js` |
+| Le retour à la silhouette | 2, t24 | **bleu** | **existe**, pièce 6 : la caméra recule de la chaîne à la silhouette entière |
+| Le faisceau de neurones | 2, t25 | **bleu** | **existe**, pièce 6 : quatre copies décalées du trajet |
 
 **Les deux moments interactifs** sont les seuls endroits où le visiteur agit,
 en dehors du bouton d'ouverture. Ils sont placés aux deux nœuds du récit : la

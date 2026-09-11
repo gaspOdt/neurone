@@ -512,14 +512,19 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
         print("\n7. La camera du parcours")
         nav.evaluer("window.scrollTo(0,0); return 1")
         ordre = []
-        for _ in range(40):
+        for _ in range(64):
             nav.molette(500, pause=0.15)
             v = nav.evaluer("return window.__parcours ? window.__parcours.vueActuelle() : null")
             if v and (not ordre or ordre[-1] != v):
                 ordre.append(v)
+        # « synapse » est un cadrage de TEMPS, pas de bloc : un tour de
+        # molette de 500 px peut sauter par-dessus la phrase qui le porte.
+        # On ne l'exige donc pas dans l'ordre, on ne fait que le tolerer.
+        ordre_blocs = [v for v in ordre if v != "synapse"]
         verifier("elle visite les parties dans l'ordre",
-                 ordre == ["chaine", "cellule", "plan",
-                           "dendrites", "soma", "axone", "terminaisons"],
+                 ordre_blocs == ["chaine", "cellule", "plan", "dendrites", "soma",
+                                 "axone", "terminaisons", "muscle", "doigt",
+                                 "faisceau", "clic"],
                  " > ".join(ordre))
 
         print("\n8. Un seul neurone, du debut a la fin")
@@ -550,8 +555,14 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
                  sil_intro > 50 and etat_intro[1] < 50,
                  "silhouette %d%%, neurone %d%%" % (sil_intro, etat_intro[1]))
 
-        for _ in range(22):
-            nav.molette(500, pause=0.12)
+        # On se place SUR une partie du neurone, et non a un nombre de tours
+        # de molette : la page a grandi, et vingt-deux tours menaient dans
+        # l'acte 2, ou le neurone a cede la place a la silhouette.
+        y = nav.evaluer(
+            "var e=document.querySelector('#etape-dendrites');"
+            "return Math.round(e.getBoundingClientRect().top+window.scrollY-innerHeight*0.5)")
+        nav.aller_a(y, pause=1.6)
+        time.sleep(1.0)
         etat_parcours = nav.evaluer(
             "var s=document.querySelector('.neurone');"
             "var p=s.closest('.porte-neurone');"
@@ -613,7 +624,34 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
                  six.strip() == "0,02 s" and "atteint" in etat and gaines == 6,
                  "%s, %s, %d gaines" % (six, etat, gaines))
 
-        print("\n11. Erreurs de console")
+        print("\n11. La synapse et le retour au corps")
+        # On se place sur la phrase des messagers, et on regarde ce qui est
+        # cree dans le dessin ; puis sur la fin, et on regarde ce qui est la.
+        y = nav.evaluer(
+            "var e=document.querySelector('[data-synapse=messagers]');"
+            "return Math.round(e.getBoundingClientRect().top+window.scrollY-innerHeight*0.80)")
+        nav.aller_a(y, pause=1.6)
+        time.sleep(1.0)
+        crees = nav.evaluer("return window.__synapse ? window.__synapse.messagers() : -1")
+        verifier("les messagers traversent le vide quand leur phrase arrive",
+                 crees == 4, "%d messagers" % crees)
+        y = nav.evaluer(
+            "var e=document.querySelector('#etape-clic');"
+            "return Math.round(e.getBoundingClientRect().top+window.scrollY-innerHeight*0.55)")
+        nav.aller_a(y, pause=2.0)
+        time.sleep(1.0)
+        fin = nav.evaluer(
+            "var q=s=>document.querySelector(s); var o=e=>Math.round(parseFloat(getComputedStyle(e).opacity)*100);"
+            "return {vue: window.__parcours.vueActuelle(), sil: o(q('.porte-silhouette')),"
+            " corps: o(q('.silhouette .s')), faisceau: parseFloat(getComputedStyle(q('.silhouette .faisceau')).opacity),"
+            " neurone: o(q('.porte-neurone')), bouton: !!q('[data-rejouer]'), viewBox: q('.silhouette').getAttribute('viewBox')}")
+        verifier("a la fin, la silhouette entiere est revenue, avec le faisceau, sans le neurone",
+                 fin["vue"] == "clic" and fin["sil"] > 50 and fin["corps"] > 50
+                 and fin["faisceau"] > 0.5 and fin["neurone"] < 50 and fin["bouton"]
+                 and fin["viewBox"].startswith("0.00 0.00"),
+                 str(fin))
+
+        print("\n12. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
         verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 

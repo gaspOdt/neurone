@@ -230,6 +230,24 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
                   </g>
                 </g>
 
+                <!-- LA SYNAPSE, 1D temps 20 à 22. En face du renflement du
+                     milieu, le bord de la CELLULE SUIVANTE, à l'encre, avec
+                     un vide visible entre les deux : le point est qu'il
+                     existe, pas sa mesure [S9]. Les messagers, en orange
+                     cerné d'encre, sont créés par js/synapse.js et
+                     traversent le vide. Puis la cellule suivante s'illumine
+                     en bleu : de l'autre côté, tout recommence. -->
+                <g class="synapse">
+                  <path class="suivante" d="M921 174 C932 176 940 187 940 200
+                                            C940 213 932 224 921 226"
+                        stroke-width="2.4"/>
+                  <path class="suivante-bleue" d="M921 174 C932 176 940 187 940 200
+                                                  C940 213 932 224 921 226"
+                        stroke="var(--signal)" stroke-width="4" opacity="0"/>
+                  <g class="messagers" fill="var(--messagers)" stroke="var(--ink)"
+                     stroke-width="0.5"></g>
+                </g>
+
                 <!-- LES MESSAGES et L'IMPULSION, en bleu : le signal. Les
                      points sont créés par js/seuil.js et voyagent le long
                      des dendrites vers le corps ; l'impulsion descend le
@@ -305,6 +323,19 @@ SILHOUETTE = '''<svg class="silhouette" viewBox="0 0 300 700"
               <g fill="none" stroke="var(--signal)" stroke-width="12"
                  stroke-linecap="round">
                 <path class="trajet" d="{trajet}"/>
+              </g>
+
+              <!-- LE FAISCEAU, acte 2 temps 25 : le trait unique se
+                   demultiplie. Des copies du trajet, decalees, qui
+                   apparaissent ensemble. « Pour un seul geste, ton corps en
+                   a mobilise des centaines » [S4] : c'est la reparation de
+                   la simplification « un neurone, une impulsion ». -->
+              <g class="faisceau" fill="none" stroke="var(--signal)"
+                 stroke-width="6" stroke-linecap="round" opacity="0">
+                <path d="{trajet}" transform="translate(-16,0)"/>
+                <path d="{trajet}" transform="translate(-8,0)"/>
+                <path d="{trajet}" transform="translate(8,0)"/>
+                <path d="{trajet}" transform="translate(16,0)"/>
               </g>
 
               <!-- LA CHAINE DE CELLULES, acte 1 temps 1. Invisible tant que la
@@ -605,12 +636,41 @@ ETAPES = [
         '''<p>Tout en bas, l'axone se divise en petites branches, chacune finie
            par un renflement.</p>''',
         # [S9]. Aucune largeur affichée : le point est qu'il EXISTE un vide.
-        '''<p>Et là, surprise : la cellule suivante n'est pas collée. Il reste
-           un vide.</p>''',
-        '''<p>Alors le message change de forme : il devient chimique. Le
-           renflement libère des <strong class="mot">messagers</strong> qui
-           traversent le vide et vont toucher la cellule d'en face.</p>''',
-        '''<p>Et de l'autre côté, tout recommence.</p>''']),
+        # La caméra plonge sur un renflement quand cette phrase apparaît.
+        '''<p data-cadrage="synapse">Et là, surprise : la cellule suivante
+           n'est pas collée. Il reste un vide.</p>''',
+        # Les messagers orange traversent le vide : js/synapse.js.
+        '''<p data-synapse="messagers">Alors le message change de forme : il
+           devient chimique. Le renflement libère des
+           <strong class="mot">messagers</strong> qui traversent le vide et
+           vont toucher la cellule d'en face.</p>''',
+        # La cellule suivante s'illumine en bleu, et le regard s'élargit.
+        '''<p data-synapse="suivante" data-cadrage="terminaisons">Et de
+           l'autre côté, tout recommence.</p>''']),
+
+    # ACTE 2, le retour au corps. Referme la boucle, et répare la
+    # simplification « un neurone, une impulsion » avant qu'elle ne reste.
+    ('muscle', None, None, [
+        '''<p class="lead">Le dernier maillon de la chaîne ne parle pas à un
+           neurone. Il parle à un muscle.</p>''']),
+
+    ('doigt', 'Ton doigt', 'Là où le message arrive, et où tout a commencé', [
+        '''<p>Le muscle se contracte. Ton doigt appuie.</p>''']),
+
+    # [S4] : un mouvement volontaire recrute de nombreuses unités motrices.
+    ('faisceau', None, None, [
+        '''<p>Une dernière chose. On a suivi <strong>un</strong> neurone. Mais
+           pour un seul geste, ton corps en a mobilisé
+           <strong>des centaines</strong>, qui ont envoyé des centaines
+           d'impulsions, ensemble.</p>''']),
+
+    # Chute : retour au bouton du tout premier écran. Le cliquer rejoue
+    # l'impulsion le long de la silhouette.
+    ('clic', None, None, [
+        '''<p class="lead">Tout ça, pour un clic.</p>''',
+        '''<div class="fin">
+          <button type="button" class="bouton-entree" data-rejouer>Clique</button>
+        </div>''']),
 ]
 
 BOUTONS = '\n'.join(

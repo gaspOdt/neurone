@@ -60,7 +60,22 @@ const VUES = {
      pose six segments de gaine, et le visiteur doit les voir tous les six.
      Le cadrage précédent en coupait deux. */
   axone:        { vue: '40 236 320 616',  partie: 'p-axone',        scene: 'neurone', boutons: true, titre: "l'axone" },
-  terminaisons: { vue: '100 748 200 250', partie: 'p-terminaisons', scene: 'neurone', boutons: true, titre: 'les terminaisons' }
+  terminaisons: { vue: '100 748 200 250', partie: 'p-terminaisons', scene: 'neurone', boutons: true, titre: 'les terminaisons' },
+  /* Un cadrage de TEMPS, et non de bloc : la phrase « il reste un vide »
+     plonge sur un renflement et la cellule d'en face. Voir majCamera. */
+  /* En coordonnées de la RACINE du SVG, comme tous les cadrages : le dessin
+     est tourné d'un quart de tour, donc racine (x, y) = (400 - y local,
+     x local). Le renflement du milieu, local (907, 200), est en (200, 907).
+     Écrit dans les coordonnées locales, ce cadrage montrait du vide. */
+  synapse:      { vue: '168 884 64 64',   partie: null,             scene: 'neurone', boutons: true, titre: 'la synapse' },
+
+  /* L'acte 2, le retour au corps. La caméra recule : la chaîne, puis la
+     silhouette entière avec son trajet, puis le faisceau. Plus de boutons :
+     on ne visite plus le neurone, on referme la boucle. */
+  muscle:       { vue: '0 0 400 1000',    partie: null, scene: 'chaine',     boutons: false, titre: 'la chaîne de cellules' },
+  doigt:        { vue: '0 0 400 1000',    partie: null, scene: 'silhouette', boutons: false, titre: 'ton doigt' },
+  faisceau:     { vue: '0 0 400 1000',    partie: null, scene: 'faisceau',   boutons: false, titre: 'des centaines de neurones' },
+  clic:         { vue: '0 0 400 1000',    partie: null, scene: 'faisceau',   boutons: false, titre: 'tout ça, pour un clic' }
 };
 
 /* Le cadrage de la silhouette, entier puis au fond du trait. Le second garde
@@ -126,6 +141,7 @@ export function initRecit() {
   const chaine        = section.querySelector('.silhouette .chaine');
   const elue          = section.querySelector('.silhouette .chaine .elue');
   const autresCellules = [...section.querySelectorAll('.silhouette .chaine > g:not(.elue)')];
+  const faisceau      = section.querySelector('.silhouette .faisceau');
   const chrono        = section.querySelector('[data-chrono]');
   const visuels       = section.querySelector('.visuels');
   const boutsNeurone  = [...svg.querySelectorAll('.b')];
@@ -280,6 +296,20 @@ export function initRecit() {
 
     const chaineVisible  = nom === 'chaine' || nom === 'cellule';
     const neuroneVisible = nom === 'cellule' || nom === 'neurone';
+    /* Les deux états de l'acte 2 : la silhouette entière, avec son corps et
+       son trajet, puis la même avec le faisceau. La caméra recule : le
+       cadrage revient de la plongée à l'entier, en douceur. */
+    const corpsEntier    = nom === 'silhouette' || nom === 'faisceau';
+    if (nom !== 'plongee') {
+      const z = corpsEntier ? 0 : 1;
+      if (zoomTween) zoomTween.kill();
+      if (doux) zoomTween = gsap.to(zoom, { z, duration: 1.2, ease: 'power2.inOut',
+                                           onUpdate: () => plonger(zoom.z) });
+      else { zoom.z = z; plonger(z); }
+      vers(corpsSil, { opacity: corpsEntier ? 1 : 0 }, 0.9);
+      corpsSilVisible = corpsEntier;
+      if (faisceau) vers(faisceau, { opacity: nom === 'faisceau' ? 1 : 0 }, 0.9);
+    }
     /* « Une cellule S'ISOLE et se dessine » : au bloc « En voici une », la
        bande bleue et les autres capsules s'en vont d'abord, la capsule élue
        reste seule, et le neurone ne commence à se dessiner qu'ensuite, à sa
@@ -291,6 +321,9 @@ export function initRecit() {
     if (chaine) vers(chaine, { opacity: chaineVisible ? 1 : 0 }, 0.7);
     vers(autresCellules, { opacity: isoler ? 0 : 1 }, 0.5);
     vers(traitTrajet, { opacity: (nom === 'cellule' || nom === 'neurone') ? 0 : 1 }, 0.5);
+    /* La bande bleue du fond du trait est la chaîne DE PRÈS ; à l'acte 2,
+       en reculant, le trait redevient le trajet fin de l'acte 0. Même
+       élément, même couleur : c'est le cadrage qui change, pas l'objet. */
     /* La capsule élue s'accentue : plus de trait, et c'est la SEULE marque,
        pour que ça reste lisible en noir et blanc. */
     if (elue) vers(elue, { attr: { 'stroke-width': isoler ? 2.2 : 0.9 } }, 0.5);
@@ -304,6 +337,11 @@ export function initRecit() {
       silVisible = garder;
     }
   }
+
+  /* Le cadrage de la silhouette pendant le parcours, tenu par la scène. La
+     bascule le pilote tant qu'elle dure ; ensuite c'est ici, en douceur. */
+  const zoom = { z: 1 };
+  let zoomTween = null;
 
   /** Pose le cadrage ET la taille. La largeur découle du rapport du cadrage. */
   function poserVue(cle, hauteur) {
@@ -459,7 +497,7 @@ export function initRecit() {
        02-CONTENU : le visiteur comprend qu'il entre DANS le chemin, et le
        neurone n'apparaît pas de nulle part, il est ce qu'on trouve au bout du
        zoom. Le neurone lui même n'arrive qu'au bloc « En voici une ». */
-    plonger(tDessin);
+    if (t < 1 || !cameraActive) { zoom.z = tDessin; plonger(tDessin); }
 
     /* Tant que la bascule n'est pas finie, c'est elle qui tient la taille des
        dessins. Ensuite c'est la caméra, et il ne faut surtout pas lui
@@ -555,7 +593,11 @@ export function initRecit() {
        corps n'avait jamais été effacé, et le contour de la tête traversait
        la bande bleue au milieu de la chaîne. L'état doit être une fonction
        de la position, jamais du chemin parcouru pour y arriver. */
-    if (porteSil) {
+    /* ... mais seulement TANT QUE LA BASCULE N'EST PAS FINIE. Au delà, le
+       corps appartient à la scène commandée par le bloc de texte : l'acte 2
+       le fait revenir, et ce mémo, s'il tournait encore, le ré-effaçait à
+       la position suivante. Deux propriétaires, le piège documenté. */
+    if (porteSil && p < 1) {
       const corpsVisible = p < iQuestion * PAS;
       if (corpsSilVisible !== corpsVisible) {
         corpsSilVisible = corpsVisible;
@@ -582,8 +624,12 @@ export function initRecit() {
     const t = borne((p - N * PAS) / PAS, 0, 1);
     basculer(t);
     cameraActive = t >= 1;
-    if (cameraActive) majCamera();
+    /* Les temps AVANT la caméra : un temps peut imposer son cadrage, et la
+       caméra doit le lire à jour. Dans l'autre ordre, elle appliquait le
+       cadrage de la position précédente, un pas de retard visible en
+       sautant d'un bond sur la synapse. */
     majTempsParcours(immediat);
+    if (cameraActive) majCamera();
   }
 
   /* --- Les temps de l'acte 1 s'empilent dans leur partie ------------------
@@ -704,7 +750,16 @@ export function initRecit() {
 
   function majCamera() {
     const b = blocCourant();
-    if (b) allerA(b.dataset.vue);
+    if (!b) return;
+    /* Un temps peut imposer son propre cadrage, le temps qu'il est là : le
+       dernier temps visible du bloc qui en porte un l'emporte sur celui du
+       bloc. C'est ce qui permet de plonger sur la synapse au milieu des
+       terminaisons, puis d'élargir de nouveau à la phrase suivante. */
+    let vue = b.dataset.vue;
+    const cadres = [...b.querySelectorAll('.temps-parcours[data-cadrage]')]
+      .filter(el => etatParcours.get(el));
+    if (cadres.length) vue = cadres[cadres.length - 1].dataset.cadrage;
+    allerA(vue);
   }
 
   function brancherCamera() {
@@ -767,6 +822,26 @@ export function initRecit() {
     });
   }
 
+  /* --- Le bouton de la fin : rejouer l'impulsion dans la silhouette -------
+     « Tout ça, pour un clic. » Le bouton du premier écran revient, et le
+     cliquer fait repartir le signal de la tête au doigt, une dernière fois.
+     Le trajet est retracé du début : c'est le seul tracé qui n'est pas
+     asservi au défilement, parce qu'il répond à un clic. */
+
+  function brancherRejouer() {
+    const bouton = section.querySelector('[data-rejouer]');
+    if (!bouton || !traitTrajet.length) return;
+    bouton.addEventListener('click', () => {
+      if (typeof gsap === 'undefined' || mouvementReduit()) return;
+      gsap.fromTo(traitTrajet, { drawSVG: '0% 0%' },
+        { drawSVG: '0% 100%', duration: 1.1, ease: 'power1.inOut', overwrite: 'auto' });
+      if (faisceau) {
+        gsap.fromTo(faisceau.querySelectorAll('path'), { drawSVG: '0% 0%' },
+          { drawSVG: '0% 100%', duration: 1.1, ease: 'power1.inOut', stagger: 0.05, overwrite: 'auto' });
+      }
+    });
+  }
+
   function brancherBoutons() {
     boutons.forEach(b => {
       b.addEventListener('click', () => {
@@ -792,6 +867,7 @@ export function initRecit() {
 
   brancherEntree();
   brancherBoutons();
+  brancherRejouer();
 
   /* Mise à jour SYNCHRONE, volontairement : requestAnimationFrame ne part pas
      quand la page n'est pas peinte, ce qui rendrait le comportement

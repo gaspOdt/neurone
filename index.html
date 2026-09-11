@@ -134,6 +134,19 @@
                 <path class="trajet" d="M150.0 86.0 C150.0 93.3 149.7 116.7 150.0 130.0 C150.3 143.3 149.0 156.0 152.0 166.0 C155.0 176.0 161.3 180.0 168.0 190.0 C174.7 200.0 186.2 213.3 192.0 226.0 C197.8 238.7 200.3 253.7 203.0 266.0 C205.7 278.3 206.8 291.3 208.0 300.0 C209.2 308.7 209.7 315.0 210.0 318.0"/>
               </g>
 
+              <!-- LE FAISCEAU, acte 2 temps 25 : le trait unique se
+                   demultiplie. Des copies du trajet, decalees, qui
+                   apparaissent ensemble. « Pour un seul geste, ton corps en
+                   a mobilise des centaines » [S4] : c'est la reparation de
+                   la simplification « un neurone, une impulsion ». -->
+              <g class="faisceau" fill="none" stroke="var(--signal)"
+                 stroke-width="6" stroke-linecap="round" opacity="0">
+                <path d="M150.0 86.0 C150.0 93.3 149.7 116.7 150.0 130.0 C150.3 143.3 149.0 156.0 152.0 166.0 C155.0 176.0 161.3 180.0 168.0 190.0 C174.7 200.0 186.2 213.3 192.0 226.0 C197.8 238.7 200.3 253.7 203.0 266.0 C205.7 278.3 206.8 291.3 208.0 300.0 C209.2 308.7 209.7 315.0 210.0 318.0" transform="translate(-16,0)"/>
+                <path d="M150.0 86.0 C150.0 93.3 149.7 116.7 150.0 130.0 C150.3 143.3 149.0 156.0 152.0 166.0 C155.0 176.0 161.3 180.0 168.0 190.0 C174.7 200.0 186.2 213.3 192.0 226.0 C197.8 238.7 200.3 253.7 203.0 266.0 C205.7 278.3 206.8 291.3 208.0 300.0 C209.2 308.7 209.7 315.0 210.0 318.0" transform="translate(-8,0)"/>
+                <path d="M150.0 86.0 C150.0 93.3 149.7 116.7 150.0 130.0 C150.3 143.3 149.0 156.0 152.0 166.0 C155.0 176.0 161.3 180.0 168.0 190.0 C174.7 200.0 186.2 213.3 192.0 226.0 C197.8 238.7 200.3 253.7 203.0 266.0 C205.7 278.3 206.8 291.3 208.0 300.0 C209.2 308.7 209.7 315.0 210.0 318.0" transform="translate(8,0)"/>
+                <path d="M150.0 86.0 C150.0 93.3 149.7 116.7 150.0 130.0 C150.3 143.3 149.0 156.0 152.0 166.0 C155.0 176.0 161.3 180.0 168.0 190.0 C174.7 200.0 186.2 213.3 192.0 226.0 C197.8 238.7 200.3 253.7 203.0 266.0 C205.7 278.3 206.8 291.3 208.0 300.0 C209.2 308.7 209.7 315.0 210.0 318.0" transform="translate(16,0)"/>
+              </g>
+
               <!-- LA CHAINE DE CELLULES, acte 1 temps 1. Invisible tant que la
                    camera n'est pas au fond du trait. Trois neurones REDUITS A
                    L'ESSENTIEL, un cercle et un trait pour l'axone, bout a
@@ -253,6 +266,24 @@
                     <circle class="b" cx="907" cy="200" r="5.5"/>
                     <circle class="b" cx="899" cy="236" r="5.5"/>
                   </g>
+                </g>
+
+                <!-- LA SYNAPSE, 1D temps 20 à 22. En face du renflement du
+                     milieu, le bord de la CELLULE SUIVANTE, à l'encre, avec
+                     un vide visible entre les deux : le point est qu'il
+                     existe, pas sa mesure [S9]. Les messagers, en orange
+                     cerné d'encre, sont créés par js/synapse.js et
+                     traversent le vide. Puis la cellule suivante s'illumine
+                     en bleu : de l'autre côté, tout recommence. -->
+                <g class="synapse">
+                  <path class="suivante" d="M921 174 C932 176 940 187 940 200
+                                            C940 213 932 224 921 226"
+                        stroke-width="2.4"/>
+                  <path class="suivante-bleue" d="M921 174 C932 176 940 187 940 200
+                                                  C940 213 932 224 921 226"
+                        stroke="var(--signal)" stroke-width="4" opacity="0"/>
+                  <g class="messagers" fill="var(--messagers)" stroke="var(--ink)"
+                     stroke-width="0.5"></g>
                 </g>
 
                 <!-- LES MESSAGES et L'IMPULSION, en bleu : le signal. Les
@@ -458,12 +489,46 @@
           <h3 class="temps-parcours partie-titre">Les terminaisons<span class="sous-titre">Là où le message passe à la cellule suivante</span></h3>
           <p class="temps-parcours">Tout en bas, l'axone se divise en petites branches, chacune finie
            par un renflement.</p>
-          <p class="temps-parcours">Et là, surprise : la cellule suivante n'est pas collée. Il reste
-           un vide.</p>
-          <p class="temps-parcours">Alors le message change de forme : il devient chimique. Le
-           renflement libère des <strong class="mot">messagers</strong> qui
-           traversent le vide et vont toucher la cellule d'en face.</p>
-          <p class="temps-parcours">Et de l'autre côté, tout recommence.</p>
+          <p class="temps-parcours" data-cadrage="synapse">Et là, surprise : la cellule suivante
+           n'est pas collée. Il reste un vide.</p>
+          <p class="temps-parcours" data-synapse="messagers">Alors le message change de forme : il
+           devient chimique. Le renflement libère des
+           <strong class="mot">messagers</strong> qui traversent le vide et
+           vont toucher la cellule d'en face.</p>
+          <p class="temps-parcours" data-synapse="suivante" data-cadrage="terminaisons">Et de
+           l'autre côté, tout recommence.</p>
+        </div>
+      </div>
+
+      <div class="etape-texte" id="etape-muscle" data-vue="muscle">
+        <div class="etape-contenu">
+          <p class="temps-parcours lead">Le dernier maillon de la chaîne ne parle pas à un
+           neurone. Il parle à un muscle.</p>
+        </div>
+      </div>
+
+      <div class="etape-texte" id="etape-doigt" data-vue="doigt">
+        <div class="etape-contenu">
+          <h3 class="temps-parcours partie-titre">Ton doigt<span class="sous-titre">Là où le message arrive, et où tout a commencé</span></h3>
+          <p class="temps-parcours">Le muscle se contracte. Ton doigt appuie.</p>
+        </div>
+      </div>
+
+      <div class="etape-texte" id="etape-faisceau" data-vue="faisceau">
+        <div class="etape-contenu">
+          <p class="temps-parcours">Une dernière chose. On a suivi <strong>un</strong> neurone. Mais
+           pour un seul geste, ton corps en a mobilisé
+           <strong>des centaines</strong>, qui ont envoyé des centaines
+           d'impulsions, ensemble.</p>
+        </div>
+      </div>
+
+      <div class="etape-texte" id="etape-clic" data-vue="clic">
+        <div class="etape-contenu">
+          <p class="temps-parcours lead">Tout ça, pour un clic.</p>
+          <div class="temps-parcours fin">
+          <button type="button" class="bouton-entree" data-rejouer>Clique</button>
+        </div>
         </div>
       </div>
 

@@ -521,7 +521,11 @@ html.no-js .neurone {
 @supports not (height: 100svh) {
   .etape-texte { min-height: 74vh; scroll-margin-top: 52vh; }
 }
-.etape-contenu { max-width: var(--measure); }
+/* width: 100 %, et ce n'est pas superflu : le contenu est un enfant flex, et
+   un enfant flex prend la largeur de sa ligne la plus longue. Sur le bloc
+   de la fin, une phrase courte et un bouton, le bloc faisait 198 px et le
+   bouton « centré » l'était dans ces 198 px, donc collé à gauche. */
+.etape-contenu { width: 100%; max-width: var(--measure); }
 .etape-contenu h3 { margin-bottom: var(--sp-3); }
 .etape-contenu p:last-child { margin-bottom: 0; }
 
@@ -616,6 +620,9 @@ html.js .interaction { visibility: hidden; }
 html.no-js .interaction, html.reduce-motion .interaction { visibility: visible; }
 
 .etape-contenu .figure-courbe { margin: 0 0 var(--sp-5); }
+
+/* La fin : le bouton du premier écran revient, seul, au milieu. */
+.fin { display: flex; justify-content: center; padding: var(--sp-3) 0 var(--sp-6); }
 .etape-contenu .figure-courbe .courbe { max-width: 18rem; }
 
 .recit .alt-text { padding-bottom: var(--sp-6); }
@@ -754,6 +761,37 @@ html.entre .porte-entree {
   justify-content: center;
   align-items: center;
 }
+
+/* Le porte-silhouette a le MÊME fond papier, le même débordement vers le
+   haut et le même fondu vers le bas que le porte-neurone. À l'acte 2, le
+   neurone est effacé : son fond l'est avec lui, et le texte du parcours
+   passait à découvert par dessus la silhouette et jusque sous la barre. Les
+   deux dessins partagent une case, ils doivent partager son papier. */
+.porte-silhouette {
+  position: relative;
+  z-index: 0;
+  background: var(--paper);
+}
+.porte-silhouette::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: calc(100% - 2px);
+  height: 60vh;
+  background: var(--paper);
+  pointer-events: none;
+}
+.porte-silhouette::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: 100%;
+  height: var(--sp-5);
+  background: linear-gradient(var(--paper), rgba(255, 255, 255, 0));
+  pointer-events: none;
+}
+html.no-js .porte-silhouette::before, html.reduce-motion .porte-silhouette::before,
+html.no-js .porte-silhouette::after,  html.reduce-motion .porte-silhouette::after { display: none; }
 .silhouette { display: block; width: auto; max-width: 100%; }
 
 /* Le temps du trajet, inscrit à côté du dessin au temps 4. En encre douce,
