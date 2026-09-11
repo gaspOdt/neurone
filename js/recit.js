@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=376cb927';
+import { mouvementReduit } from './a11y.js?v=70b026da';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
@@ -70,6 +70,8 @@ const HAUT = 0.62, BAS = 0.70;
 const borne = (v, min, max) => Math.min(max, Math.max(min, v));
 
 export function initRecit() {
+  /* Vrai une fois le bouton d'ouverture cliqué. Voir le verrou dans majEtat. */
+  let entre = false;
   const section = document.querySelector('#recit');
   if (!section) return;
 
@@ -295,7 +297,11 @@ export function initRecit() {
   function majEtat(immediat) {
     const p = progression();
 
-    temps.forEach((el, i) => poser(el, p >= i * PAS, immediat));
+    /* LE VERROU D'ENTRÉE. Tant que le bouton n'est pas cliqué, rien
+       n'apparaît au-delà du premier temps, même si le visiteur fait défiler.
+       Posé par le JavaScript et jamais par le CSS : si le script échoue, tout
+       le texte reste lisible plutôt que bloqué. */
+    temps.forEach((el, i) => poser(el, (entre || i === 0) && p >= i * PAS, immediat));
     poser(defiler, p < 0.01, immediat);
 
     tracer(traitsCourbe, iCourbe, p);
@@ -390,6 +396,34 @@ export function initRecit() {
      Ils ne changent pas l'état eux mêmes. C'est ce qui garantit que ce qu'on
      voit et ce que dit l'interface ne peuvent pas diverger. */
 
+  function brancherEntree() {
+    const bouton = section.querySelector('[data-entree]');
+    if (!bouton) { entre = true; return; }
+    bouton.addEventListener('click', () => {
+      if (entre) return;
+      entre = true;
+      document.documentElement.classList.add('entre');
+      majEtat(false);
+      /* On avance d'EXACTEMENT un temps, sinon le bouton a l'air de n'avoir
+         rien fait.
+
+         Surtout pas scrollIntoView sur le temps suivant : les temps vivent
+         dans une scène COLLÉE, donc leur position à l'écran ne bouge pas et
+         leur position dans le flux est ailleurs. L'appel envoyait la page
+         dans le vide et l'écran devenait blanc.
+
+         Ici on déplace le défilement de la distance qui sépare deux temps,
+         c'est-à-dire une fraction des rails, ce qui est la seule grandeur
+         qui gouverne réellement la progression. */
+      const pas = rails.offsetHeight * PAS;
+      window.scrollBy({ top: pas, behavior: mouvementReduit() ? 'auto' : 'smooth' });
+
+      /* Le bloc du bouton se replie : la hauteur des piles change, donc la
+         taille du dessin doit être recalculée une fois la transition finie. */
+      setTimeout(() => { mesurer(); majEtat(true); }, 700);
+    });
+  }
+
   function brancherBoutons() {
     boutons.forEach(b => {
       b.addEventListener('click', () => {
@@ -411,6 +445,7 @@ export function initRecit() {
   poserVue('ensemble', H0);
   majEtat(true);
 
+  brancherEntree();
   brancherBoutons();
 
   /* Mise à jour SYNCHRONE, volontairement : requestAnimationFrame ne part pas

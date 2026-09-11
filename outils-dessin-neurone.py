@@ -170,11 +170,19 @@ RECIT_DEBUT = '''  <!-- ========================================================
 
       <div class="wrap pile pile-haut">
 
-        <h1 class="temps" data-temps="1">Tu viens d'appuyer sur cette page.</h1>
+        <!-- LE BOUTON D'OUVERTURE.
+             Rien ne se débloque tant qu'il n'est pas cliqué, pas même le
+             défilement. C'est la seule exception à la règle « le défilement
+             est le seul déclencheur », et elle est nécessaire : sans le clic,
+             la phrase suivante affirmerait un geste qui n'a pas eu lieu. -->
+        <div class="temps porte-entree" data-temps="1">
+          <p class="lead">Clique sur ce bouton.</p>
+          <button type="button" class="bouton-entree" data-entree>Clique</button>
+        </div>
 
-        <p class="temps lead" data-temps="2">
-          Ton cerveau a commandé le mouvement de ton doigt.
-        </p>
+        <h1 class="temps" data-temps="2">
+          Ton cerveau vient de commander le mouvement de ton doigt.
+        </h1>
 
       </div>
 

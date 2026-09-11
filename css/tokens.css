@@ -69,7 +69,11 @@
   --fs-body:    21px;
   --fs-small:   17px;
   --fs-caption: 15px;
-  --fs-h1: clamp(2.25rem, 9vw,   4.5rem);
+  /* Volontairement mesuré. À 4,5rem, le titre occupait six lignes dans la
+     colonne de texte et débordait par le haut de la scène collée, sa
+     première ligne coupée. Un titre reste un titre à 2,4rem ; un titre
+     tronqué n'est plus un titre. */
+  --fs-h1: clamp(1.5rem, 3.6vw, 2.4rem);
   --fs-h2: clamp(1.75rem, 6vw,   2.75rem);
   --fs-h3: clamp(1.25rem, 3.5vw, 1.5rem);
 

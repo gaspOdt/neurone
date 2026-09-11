@@ -567,3 +567,41 @@ html.reduce-motion .rails { display: none; }
   .recit-scene .pile p,
   .recit-scene .pile h1 { max-width: 30rem; }
 }
+
+/* --- Le bouton d'ouverture ----------------------------------------------
+   La première chose du site, et la seule à agir avant le défilement. */
+
+.porte-entree {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  overflow: hidden;
+  max-height: 20rem;
+  transition: max-height var(--dur-slow) var(--ease),
+              opacity var(--dur-base) var(--ease);
+}
+
+.bouton-entree {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  padding: var(--sp-3) var(--sp-5);
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius);
+  /* Le magenta en FOND derrière du texte noir, jamais l'inverse : un texte
+     coloré serait contraire à la règle de la palette, et moins lisible. */
+  background: var(--accent, #FF6EF5);
+  color: var(--ink);
+}
+.bouton-entree:hover { background: var(--ink); color: var(--paper); }
+.bouton-entree:active { transform: translateY(1px); }
+
+/* Une fois cliqué, le bouton a fait son travail : il se replie. Ce n'est pas
+   qu'une économie de place, même si elle compte sur un écran court. C'est
+   aussi juste narrativement : l'instrument s'efface une fois le geste
+   accompli, et ne reviendra qu'à la toute fin du récit. */
+html.entre .porte-entree {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
