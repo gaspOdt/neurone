@@ -19,7 +19,6 @@
 | **La silhouette** | Pictogramme au trait, tête détachée, de face et neutre. Produite par symétrie à partir d'une moitié décrite point par point |
 | **Une seule mise en page** | Celle du téléphone, partout. La version deux colonnes des grands écrans est supprimée le 11 septembre 2026, sur décision de l'utilisateur, pour tenir le calendrier. Sur ordinateur, la même colonne de 34 rem, centrée |
 | **Silhouette et neurone exclusifs** | Ils partagent une case de grille et ne sont jamais visibles ensemble |
-
 | **L'acte 0 entier, conforme à `02-CONTENU`** | Pièce 1, 11 septembre 2026. Temps 2 la silhouette seule avec la phrase sur le cerveau, temps 3 le trajet qui se trace avec « Un message est parti de là-haut », temps 4 « deux centièmes de seconde » [S1] avec le temps inscrit à côté, temps 5 la question et le corps qui s'efface **sauf le trait**. Le neurone n'arrive qu'à la bascule, en fondu avec le trait qui part. Vérifié capture par capture à 390 × 844 |
 
 ### Ce qui n'est PAS implémenté
@@ -71,8 +70,8 @@ python3 outils-test-navigateur.py
 
 ### Les erreurs scientifiques du site en ligne
 
-Elles y sont **toujours**, la correction ayant été annulée à la demande de
-l'utilisateur en attendant la refonte.
+Les deux **fausses** ont disparu avec la pièce 1, l'acte 0 réécrit. Les deux
+**imprécises** sont encore dans le texte de l'acte 1, qui n'est pas réécrit.
 
 | Affirmation | Verdict | Source |
 |---|---|---|
@@ -81,32 +80,26 @@ l'utilisateur en attendant la refonte.
 | « des milliers de messages en même temps » | imprécis | [S2] |
 | « des centaines de dendrites » | imprécis | [S2] |
 
-### Ce qui existe
+### Feuille de route, par pièces
 
-| | |
+L'ordre suit `02-CONTENU.md`. Chaque pièce est vérifiée par capture à
+390 × 844 et montrée avant la suivante.
+
+| Pièce | État |
 |---|---|
-| Ouverture | **Six temps qui s'EMPILENT** dans une scène collée. Chacun s'ajoute aux précédents, qui restent à l'écran : on voit un paragraphe se construire, et non des cartons se remplacer |
-| Accent graphique | La **courbe du potentiel d'action**, qui **se trace au défilement** comme sur un électroencéphalogramme. Elle annonce la section « Tout ou rien », où le visiteur la déclenchera lui-même |
-| Le neurone | **Un seul, jamais coupé.** Il arrive au milieu de l'ouverture, se dessine trait par trait, puis grandit et remonte pour devenir l'objet du parcours. L'ouverture et le parcours sont **une seule section** |
-| Le parcours | La caméra se déplace vers la partie dont parle le bloc de texte en cours |
-| Déclenchement | **Le défilement, et rien d'autre.** Aucune apparition après un simple délai. Les tracés eux mêmes sont asservis au défilement, donc réversibles |
-| Retour en arrière | Remonter rejoue tout à l'envers, tracés compris |
-| Poids | **99 Ko** transférés, budget 150. Mesuré, pas supposé |
-| Tests | **12 contrôles sur 12**, dont trois qui prouvent qu'il n'y a qu'un neurone et qu'il n'est pas remplacé |
+| 1. Acte 0 conforme : silhouette, trajet, temps inscrit, trait seul | **fait**, 11 septembre 2026 |
+| 2. La transition centrale : plongeon dans le trait, chaîne de cellules, « En voici une » | à faire |
+| 3. Acte 1 : textes de 1A à 1D qui s'accumulent, boutons au temps 3, courbe déplacée au corps cellulaire | à faire |
+| 4. Le curseur du seuil, 1B temps 8 | à faire |
+| 5. Le défi du chronomètre, 1C temps 16 | à faire |
+| 6. Acte 2, le retour au corps | à faire |
+| 7. Acte 3, le quiz | à faire |
+| **Agent d'audit technique** | avant-dernier |
+| **Agent d'audit scientifique** | **après l'audit technique** |
+| Parcours de démonstration 3 minutes | en dernier |
 
-### Feuille de route
-
-| Étape | État |
-|---|---|
-| Ouverture et parcours du neurone | fait |
-| Section « Au repos », les charges à travers la membrane | à faire |
-| Section « Tout ou rien », le seuil et l'interrupteur | à faire |
-| Section « Ça file », la propagation puis la myéline | à faire |
-| Section « Le saut », la synapse | à faire |
-| Quiz final | à faire |
-| **Agent d'audit technique** | à faire, avant-dernier |
-| **Agent d'audit scientifique** | à faire, **après l'audit technique** |
-| Parcours de démonstration 3 minutes | à faire, en dernier |
+**Mesures du moment** : 14 contrôles sur 14 dans `outils-test-navigateur.py`,
+mouvement réduit et sans JavaScript vérifiés par capture.
 
 ### Les deux audits de fin de projet
 
