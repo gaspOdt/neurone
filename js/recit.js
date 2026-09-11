@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=d7b3a0d6';
+import { mouvementReduit } from './a11y.js?v=376cb927';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
@@ -139,23 +139,38 @@ export function initRecit() {
     reserve = porte.offsetHeight - svg.getBoundingClientRect().height;
   }
 
+  /* Au-delà de cette largeur, le texte et le dessin sont en DEUX COLONNES,
+     donc le dessin ne partage plus sa hauteur avec le texte. Le calcul de sa
+     taille en dépend entièrement : garder la formule empilée en deux colonnes
+     donnait un neurone de trente pixels alors que la place ne manquait pas. */
+  const deuxColonnes = window.matchMedia('(min-width: 60em)');
+
   function hauteurIntro() {
     /* clientHeight COMPREND les marges intérieures, et la scène en a une en
        haut pour laisser sa place au bouton flottant. La retirer, sinon le
        neurone d'introduction déborderait sous le pli de cette hauteur. */
+    if (deuxColonnes.matches) {
+      /* Le dessin a sa propre colonne : il prend toute la hauteur utile,
+         sans rien retirer pour le texte, qui est ailleurs. */
+      return borne(scene.clientHeight - padHaut - reserve - 40, 180, 520);
+    }
     const libre = scene.clientHeight - padHaut - hautPile - basPile - reserve - 40;
     return borne(libre, 110, 260);
   }
 
   function hauteurParcours() {
-    return Math.min((window.innerHeight || 800) * 0.38, 380);
+    const h = window.innerHeight || 800;
+    return deuxColonnes.matches ? Math.min(h * 0.66, 560) : Math.min(h * 0.38, 380);
   }
 
   /** Pose le cadrage ET la taille. La largeur découle du rapport du cadrage. */
   function poserVue(cle, hauteur) {
     const [, , w, h] = VUES[cle].vue.split(/\s+/).map(Number);
     let H = hauteur, L = H * w / h;
-    const dispo = scene.clientWidth || 320;
+    /* La largeur disponible est celle de la COLONNE du dessin, pas celle de
+       la scène entière : en deux colonnes, prendre la scène autoriserait un
+       dessin deux fois trop large, qui déborderait sur le texte. */
+    const dispo = porte.clientWidth || scene.clientWidth || 320;
     if (L > dispo) { L = dispo; H = L * h / w; }
     svg.setAttribute('viewBox', VUES[cle].vue);
     svg.style.width  = Math.round(L) + 'px';
@@ -336,7 +351,10 @@ export function initRecit() {
       } else {
         const [, , w, h] = vue.split(/\s+/).map(Number);
         let H = H1, L = H * w / h;
-        const dispo = scene.clientWidth || 320;
+        /* La largeur disponible est celle de la COLONNE du dessin, pas celle de
+       la scène entière : en deux colonnes, prendre la scène autoriserait un
+       dessin deux fois trop large, qui déborderait sur le texte. */
+    const dispo = porte.clientWidth || scene.clientWidth || 320;
         if (L > dispo) { L = dispo; H = L * h / w; }
         /* Le cadre et le cadrage bougent ensemble : si l'un devançait
            l'autre, des bandes vides apparaîtraient pendant la transition. */

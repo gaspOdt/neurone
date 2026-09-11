@@ -515,3 +515,55 @@ html.reduce-motion .rails { display: none; }
 .etape-contenu p:last-child { margin-bottom: 0; }
 
 .recit .alt-text { padding-bottom: var(--sp-6); }
+
+/* ==========================================================================
+   Grand écran : deux colonnes
+   --------------------------------------------------------------------------
+   Sur un téléphone, haut et étroit, empiler le texte et le dessin fonctionne.
+   Sur un écran large et court, c'est un piège : le texte s'étale en hauteur
+   et il ne reste au dessin que des miettes. Mesuré, le neurone tombait à
+   trente pixels de large sur une fenêtre de 1440 par 722.
+
+   Aucun réglage de taille ne répare ça, parce que c'est l'empilement lui-même
+   qui est en cause. D'où deux colonnes dès qu'il y a de la largeur : le texte
+   d'un côté, le dessin de l'autre, sur toute la hauteur.
+   ========================================================================== */
+
+@media (min-width: 60em) {
+
+  .recit-scene {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    align-content: center;
+    column-gap: var(--sp-6);
+    padding-inline: var(--sp-5);
+  }
+
+  /* Les deux blocs de texte occupent la colonne de gauche, l'un sous l'autre,
+     et se rejoignent au centre : le haut pousse vers le bas, le bas pousse
+     vers le haut. Le texte reste groupé au lieu de s'étaler. */
+  .recit-scene .pile-haut { grid-column: 1; grid-row: 1; align-self: end; }
+  .recit-scene .pile-bas  { grid-column: 1; grid-row: 2; align-self: start; }
+  .recit-scene .defiler   { grid-column: 1; grid-row: 3; align-self: start; }
+
+  /* Le dessin prend toute la hauteur de la colonne de droite. */
+  .recit-scene .porte-neurone {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    align-self: center;
+    justify-self: center;
+    width: 100%;
+  }
+
+  /* .wrap centre et borne le texte, ce qui n'a plus de sens dans une colonne
+     qui est déjà bornée. On le neutralise ici, sinon le texte se décalerait
+     vers la droite de sa propre marge. */
+  .recit-scene .wrap {
+    max-width: none;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+  .recit-scene .pile p,
+  .recit-scene .pile h1 { max-width: 30rem; }
+}

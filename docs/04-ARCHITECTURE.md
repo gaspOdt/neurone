@@ -129,6 +129,23 @@ contraste sur blanc autorise un trait pur. C'est lui qui porte le signal.
 Voir [`01-DIRECTION-ARTISTIQUE.md`](01-DIRECTION-ARTISTIQUE.md) pour les
 mesures.
 
+### Deux colonnes dès qu'il y a de la largeur
+
+Au-delà de **60em**, le texte et le dessin passent côte à côte au lieu d'être
+empilés.
+
+Ce n'est pas un raffinement, c'est une correction. Empiler fonctionne sur un
+téléphone, haut et étroit. Sur un écran large et court, le texte s'étale en
+hauteur et il ne reste au dessin que des miettes : mesuré, le neurone tombait
+à **trente pixels de large** sur une fenêtre de 1440 par 722, alors que la
+place ne manquait pas.
+
+**Le calcul de la taille du dessin dépend entièrement de ce mode.** En empilé,
+il vaut « ce qui reste entre les deux blocs de texte ». En deux colonnes, le
+dessin a sa propre colonne et prend toute la hauteur utile. Garder la formule
+empilée en deux colonnes redonnait un neurone minuscule. Voir `hauteurIntro`
+dans `js/recit.js`.
+
 ### Le défilement est le seul déclencheur
 
 Aucune apparition ne se déclenche après un simple délai. Deux conséquences
