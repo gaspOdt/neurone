@@ -230,7 +230,11 @@ export function initRecit() {
     /* Une seule mise en page, donc une seule regle de taille : le dessin
        prend ce que les deux piles de texte lui laissent. */
     const dispo = scene.clientHeight - padHaut - 32;
-    return borne(dispo - hautPile - basPile, 230, 340);
+    /* Plafond abaissé de 340 à 300 : le texte prend un peu plus de place,
+       le dessin un peu moins, demande de l'utilisateur du 11 septembre 2026
+       (« les dessins et schémas prennent trop de place par rapport au
+       texte »). Le plancher suit, de 230 à 210. */
+    return borne(dispo - hautPile - basPile, 210, 300);
   }
 
   function hauteurIntro() { return hauteurDessin(); }
@@ -243,8 +247,11 @@ export function initRecit() {
        un dessin et deux rangs de boutons qui prenaient les deux tiers de
        l'écran. Le dessin cède la place au texte ; les boutons ne changent
        pas. La bascule fait donc RÉTRÉCIR la case pendant la plongée, ce qui
-       ne se voit pas : le cadrage y zoome dans le trait au même moment. */
-    return Math.min(h * 0.31, 262);
+       ne se voit pas : le cadrage y zoome dans le trait au même moment.
+       Réduit une seconde fois, de 31 % à 27 % et de 262 à 228 px, même
+       demande, même jour : « quand le texte défile et disparaît, on ne le
+       voit pas assez ». Zone de lecture de 359 à 393 px sur 844. */
+    return Math.min(h * 0.27, 228);
   }
 
   /** Pose la taille de la silhouette. Sa largeur decoule du rapport 300/700

@@ -626,7 +626,9 @@ html.no-js .interaction, html.reduce-motion .interaction { visibility: visible; 
 
 /* La fin : le bouton du premier écran revient, seul, au milieu. */
 .fin { display: flex; justify-content: center; padding: var(--sp-3) 0 var(--sp-6); }
-.etape-contenu .figure-courbe .courbe { max-width: 18rem; }
+/* 15 rem et non 18 : la courbe est un schéma dans le texte, et le texte a
+   priorité. Demande de l'utilisateur, 11 septembre 2026. */
+.etape-contenu .figure-courbe .courbe { max-width: 15rem; }
 
 .recit .alt-text { padding-bottom: var(--sp-6); }
 
