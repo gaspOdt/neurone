@@ -10,8 +10,8 @@
         reste entier et lisible.
    ========================================================================== */
 
-import { initA11y } from './a11y.js?v=d7b3a0d6';
-import { initRecit } from './recit.js?v=d7b3a0d6';
+import { initA11y } from './a11y.js?v=7ef751a7';
+import { initRecit } from './recit.js?v=7ef751a7';
 
 initA11y();
 

@@ -29,6 +29,84 @@ for _flux in (sys.stdout, sys.stderr):
 RACINE = os.path.dirname(os.path.abspath(__file__))
 
 
+# ===========================================================================
+# La silhouette de l'acte 0
+# ===========================================================================
+# -*- coding: utf-8 -*-
+"""Fabrique la silhouette de l'acte 0 : de face, unisexe, neutre.
+
+La moitie droite est decrite point par point, puis MIROITEE. La symetrie est
+donc exacte par construction, ce qu'un trace a la main n'obtiendrait jamais.
+Les points sont relies par des courbes de Catmull-Rom converties en Bezier,
+ce qui donne un contour organique sans avoir a calculer des tangentes.
+"""
+
+L = 300.0   # largeur du viewBox
+
+# Moitie DROITE seulement, du cou jusqu'a l'entrejambe, dans le sens horaire.
+DEMI = [
+    (166, 100),   # cou
+    (196, 132),   # epaule
+    (212, 158),   # deltoide
+    (220, 215),   # bras, dehors
+    (224, 272),   # coude, dehors
+    (226, 330),   # avant-bras, dehors
+    (224, 362),   # poignet, dehors
+    (222, 392),   # LE DOIGT, ou le trajet s'arrete
+    (206, 388),   # main, dedans
+    (204, 360),   # poignet, dedans
+    (202, 328),   # avant-bras, dedans
+    (200, 272),   # coude, dedans
+    (192, 196),   # aisselle
+    (180, 252),   # taille
+    (192, 316),   # hanche
+    (196, 390),   # cuisse, dehors
+    (190, 470),   # genou, dehors
+    (185, 550),   # mollet, dehors
+    (180, 628),   # cheville, dehors
+    (194, 648),   # pied, dehors
+    (166, 648),   # pied, dedans
+    (164, 628),   # cheville, dedans
+    (163, 470),   # genou, dedans
+    (160, 390),   # cuisse, dedans
+    (150, 348),   # entrejambe, sur l'axe de symetrie
+]
+
+
+def catmull(points, ferme=False):
+    """Relie des points par des courbes douces. Sortie : un `d` de SVG."""
+    p = list(points)
+    if ferme:
+        p = [p[-1]] + p + [p[0], p[1]]
+    else:
+        p = [p[0]] + p + [p[-1]]
+    d = "M%.1f %.1f" % (p[1][0], p[1][1])
+    for i in range(1, len(p) - 2):
+        p0, p1, p2, p3 = p[i - 1], p[i], p[i + 1], p[i + 2]
+        c1 = (p1[0] + (p2[0] - p0[0]) / 6.0, p1[1] + (p2[1] - p0[1]) / 6.0)
+        c2 = (p2[0] - (p3[0] - p1[0]) / 6.0, p2[1] - (p3[1] - p1[1]) / 6.0)
+        d += " C%.1f %.1f %.1f %.1f %.1f %.1f" % (c1[0], c1[1], c2[0], c2[1], p2[0], p2[1])
+    return d
+
+
+def corps():
+    """Contour complet : moitie droite, puis son miroir."""
+    miroir = [(L - x, y) for (x, y) in reversed(DEMI[:-1])]
+    return catmull(DEMI + miroir, ferme=True) + " Z"
+
+
+# Le trajet du signal : de la tete, le long de la moelle, puis du bras,
+# jusqu'au bout du doigt. Il s'arrete exactement sur le point « LE DOIGT ».
+TRAJET = [
+    (150, 96), (152, 140), (155, 174), (172, 198),
+    (198, 240), (210, 286), (215, 336), (218, 366), (221, 390),
+]
+
+
+def trajet():
+    return catmull(TRAJET)
+
+
 # ---------------------------------------------------------------------------
 # La courbe du potentiel d'action
 # ---------------------------------------------------------------------------
@@ -152,15 +230,39 @@ NEURONE = '''<svg class="neurone" viewBox="0 0 400 1000"
 # de défilement : rien n'y est affiché. Tout ce qui se voit est dans la scène
 # collée, qui ne bouge pas.
 
+SILHOUETTE = '''<svg class="silhouette" viewBox="0 0 300 700"
+                 preserveAspectRatio="xMidYMid meet"
+                 role="img" aria-labelledby="sil-titre sil-desc">
+              <title id="sil-titre">Une silhouette humaine, et le trajet du message</title>
+              <desc id="sil-desc">Contour d'une personne vue de face, dessiné au
+                trait, sans visage ni vêtement. Un trait part du haut de la tête,
+                descend au centre du corps, bifurque vers le bras droit et
+                s'arrête au bout du doigt.</desc>
+              <g fill="none" stroke="var(--ink)" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 vector-effect="non-scaling-stroke">
+                <circle class="s" cx="150" cy="62" r="38"/>
+                <path class="s" d="{corps}"/>
+              </g>
+              <g fill="none" stroke="var(--signal)" stroke-width="3.5"
+                 stroke-linecap="round" vector-effect="non-scaling-stroke">
+                <path class="trajet" d="{trajet}"/>
+              </g>
+            </svg>'''.replace("{corps}", corps()).replace("{trajet}", trajet())
+
+
 RECIT_DEBUT = '''  <!-- ==================================================================
        L'ouverture. Le texte s'EMPILE dans une scène collée : chaque temps
-       s'ajoute aux précédents, qui restent visibles. Le site s'ouvre sur un
-       CONSTAT, pas sur un titre : le geste que le visiteur vient
-       littéralement de faire. Aucun vocabulaire scientifique avant la
-       question finale.
+       s'ajoute aux précédents, qui restent visibles.
 
-       La hauteur de la section ne sert QU'À donner de la distance de
-       défilement. Rien n'y est affiché hors de la scène collée.
+       Le site s'ouvre sur un BOUTON À CLIQUER, et rien ne se débloque tant
+       qu'il n'est pas cliqué. C'est ce qui rend la phrase suivante
+       littéralement vraie : elle ne suppose pas un geste passé, elle décrit
+       celui que le visiteur vient de faire, à la seconde.
+
+       L'ordre d'apparition suit docs/02-CONTENU.md et ne doit pas changer
+       sans lui : le plan large (la silhouette) arrive AVANT le gros plan
+       (le neurone), sinon on parle d'un cerveau qu'on ne montre jamais.
        =================================================================== -->
   <section class="section recit" id="recit" aria-labelledby="recit-titre">
 
@@ -170,24 +272,47 @@ RECIT_DEBUT = '''  <!-- ========================================================
 
       <div class="wrap pile pile-haut">
 
-        <h1 class="temps" data-temps="1">Tu viens d'appuyer sur cette page.</h1>
+        <div class="temps porte-entree" data-temps="1">
+          <p class="lead">Clique sur ce bouton.</p>
+          <button type="button" class="bouton-entree" data-entree>
+            Clique
+          </button>
+        </div>
 
-        <p class="temps lead" data-temps="2">
-          Ton cerveau a commandé le mouvement de ton doigt.
-        </p>
+        <h1 class="temps" data-temps="2">
+          Ton cerveau vient de commander le mouvement de ton doigt.
+        </h1>
 
       </div>
 
-      <!-- LE NEURONE, et il n'y en a qu'un dans tout le site.
-           Il apparaît ici, au milieu de l'ouverture, puis il ne quitte plus
-           l'écran : c'est LUI qui grandit et remonte pour devenir l'objet du
-           parcours. Le visiteur ne voit jamais deux neurones, et il n'y a
-           jamais de coupure entre les deux moments.
+      <!-- LA SILHOUETTE. Le plan large, avant le gros plan.
+           Elle apparaît au temps 2, le trajet s'y allume au temps 3, puis
+           elle s'efface au temps 6 quand la caméra plonge dans le trajet
+           pour y trouver le neurone. -->
+      <div class="porte-silhouette temps" data-temps="2">
+        <div class="scene">
+{silhouette}
+        </div>
+      </div>
 
-           Ce bloc est hors du .wrap, en pleine largeur, pour que son fond
-           papier couvre tout l'écran quand le texte du parcours défile
-           dessous. -->
-      <div class="porte-neurone temps" data-temps="3">
+      <div class="wrap pile pile-bas">
+
+        <p class="temps lead" data-temps="3">
+          Un message est parti de là-haut, et il est descendu jusqu'à lui.
+        </p>
+
+        <p class="temps lead" data-temps="4">
+          Ça a pris deux centièmes de seconde.
+        </p>
+
+        <p class="temps question" data-temps="5">Sais-tu comment&nbsp;?</p>
+
+      </div>
+
+      <!-- LE NEURONE, et il n'y en a qu'un dans tout le site. Il n'apparaît
+           qu'ICI, une fois la question posée, parce qu'il est ce qu'on trouve
+           au bout du zoom dans le trajet. Jamais avant. -->
+      <div class="porte-neurone temps" data-temps="6">
         <p class="figure-titre" id="figure-titre">Le messager</p>
         <div class="scene">
 {neurone}
@@ -196,24 +321,6 @@ RECIT_DEBUT = '''  <!-- ========================================================
 {boutons}
         </nav>
         <p class="sr-only" aria-live="polite" data-annonce></p>
-      </div>
-
-      <div class="wrap pile pile-bas">
-
-        <figure class="temps figure-courbe" data-temps="4">
-          {courbe}
-          <figcaption class="caption">
-            Voilà à quoi ressemble l'ordre qu'il a envoyé.
-            Une impulsion électrique, et une seule.
-          </figcaption>
-        </figure>
-
-        <p class="temps lead" data-temps="5">
-          Ça a pris moins d'un centième de seconde.
-        </p>
-
-        <p class="temps question" data-temps="6">Sais-tu comment&nbsp;?</p>
-
       </div>
 
       <p class="defiler caption" aria-hidden="true">Continue à défiler</p>
@@ -324,7 +431,7 @@ RECIT_FIN = '''
 # l'ouverture a maintenant besoin du neurone ET des boutons du parcours :
 # ils vivent dans la même scène collée.
 RECIT = (RECIT_DEBUT
-         .replace('{courbe}', COURBE)
+         .replace('{silhouette}', SILHOUETTE)
          .replace('{neurone}', NEURONE)
          .replace('{boutons}', BOUTONS)
          + RECIT_FIN)

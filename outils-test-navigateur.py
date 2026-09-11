@@ -437,7 +437,26 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
         apres = opacites(nav)
         verifier("rien n'a bouge tout seul", apres == depart, str(apres))
 
-        print("\n3. On defile a la molette, pour de vrai")
+        print("\n3. Le verrou d'entree : on defile SANS cliquer")
+        for _ in range(6):
+            nav.molette(500)
+        verrouille = opacites(nav)
+        verifier("rien ne se debloque sans le clic",
+                 sum(1 for v in verrouille if v > 50) <= 1, str(verrouille))
+        nav.evaluer("window.scrollTo(0,0); return 1")
+        time.sleep(0.6)
+
+        print("\n4. On clique sur le bouton d'ouverture")
+        clique = nav.evaluer(
+            "const b=document.querySelector('[data-entree]');"
+            "if(!b) return 'ABSENT'; b.click(); return 'ok'")
+        verifier("le bouton existe et repond", clique == "ok", str(clique))
+        time.sleep(1.2)
+        nav.evaluer("window.scrollTo(0,0); return 1")
+        time.sleep(0.6)
+
+        print("\n5. On defile a la molette, pour de vrai")
+
         vus = []
         for _ in range(14):
             nav.molette(500)
@@ -453,7 +472,7 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
         for y, o in vus[:8]:
             print("        y=%-6d %s" % (y, ",".join(map(str, o))))
 
-        print("\n4. On remonte")
+        print("\n6. On remonte")
         haut = []
         for _ in range(20):
             nav.molette(-500)
@@ -462,7 +481,7 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
                  all(n(haut[i][1]) <= n(haut[i - 1][1]) for i in range(1, len(haut))))
         verifier("retour a l'etat de depart", haut[-1][1] == depart, str(haut[-1][1]))
 
-        print("\n5. La camera du parcours")
+        print("\n7. La camera du parcours")
         nav.evaluer("window.scrollTo(0,0); return 1")
         ordre = []
         for _ in range(40):
@@ -474,7 +493,7 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
                  ordre == ["ensemble", "dendrites", "soma", "axone", "terminaisons"],
                  " > ".join(ordre))
 
-        print("\n6. Un seul neurone, du debut a la fin")
+        print("\n8. Un seul neurone, du debut a la fin")
         # La promesse tenue par tout le projet : il n'existe qu'UN neurone,
         # il arrive pendant l'ouverture et il ne quitte plus l'ecran. Le test
         # verifie les trois choses, parce que la continuite ne se voit pas sur
@@ -498,7 +517,7 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
         verifier("il a grandi pour le parcours, sans etre remplace",
                  parcours > intro, "%d px puis %d px" % (intro, parcours))
 
-        print("\n7. Erreurs de console")
+        print("\n9. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
         verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 

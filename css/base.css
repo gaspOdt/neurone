@@ -64,7 +64,10 @@ strong { font-weight: 700; }
 .caption   { font-size: var(--fs-caption); color: var(--ink-soft); }
 .small     { font-size: var(--fs-small); }
 
-a { color: var(--c-impulse-text); text-underline-offset: 0.2em; }
+/* Les liens restent noirs et soulignes. La regle « le texte n'est jamais
+   colore » vaut aussi pour eux, et le soulignement suffit a les signaler
+   sans dependre de la couleur, ce qui est de toute facon la bonne pratique. */
+a { color: var(--ink); text-underline-offset: 0.2em; }
 
 /* --- Mise en page ------------------------------------------------------- */
 
@@ -115,7 +118,10 @@ a { color: var(--c-impulse-text); text-underline-offset: 0.2em; }
 /* Un anneau de focus visible et épais. Ne jamais supprimer cet outline
    sans le remplacer : c'est ce qui rend le site navigable au clavier. */
 :focus-visible {
-  outline: 3px solid var(--c-impulse);
+  /* A l'encre, pas au bleu du signal : un anneau de focus est un element
+     d'interface, et le bleu est reserve a ce qui se deplace. Le noir sur
+     blanc donne de toute facon le meilleur contraste possible. */
+  outline: 3px solid var(--ink);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -269,6 +275,15 @@ html.js.reduce-motion .temps { opacity: 1; }
   flex-direction: column;
   justify-content: center;
   pointer-events: none;
+
+  /* La barre de réglage est fixe, donc elle ne défile pas : sans cette
+     réserve en haut, le premier titre lui passait dessous et devenait
+     illisible. On réserve sa hauteur plutôt que de la rendre opaque, pour
+     que rien ne soit jamais caché derrière elle.
+
+     C'est aussi l'exigence WCAG 2.4.11 « Focus Not Obscured » : un élément
+     qui reçoit le focus ne doit jamais se retrouver sous un élément fixe. */
+  padding-top: var(--hauteur-barre);
 
   /* La place du bouton flottant. Sans elle, le titre de l'ouverture passait
      dessous et devenait illisible : un bouton posé par dessus du texte n'est
@@ -481,8 +496,20 @@ html.reduce-motion .rails { display: none; }
               fill var(--dur-base) var(--ease),
               stroke-width var(--dur-base) var(--ease);
 }
-.partie.surbrillance .t { stroke: var(--c-surbrillance); stroke-width: 4.5; }
-.partie.surbrillance .b { fill: var(--c-surbrillance); }
+/* La surbrillance d'une partie du dessin est un SURLIGNEUR pose derriere,
+   exactement comme derriere un mot dans le texte. C'est le meme geste aux
+   deux endroits, et ca resout le probleme de contraste : le magenta ne
+   passe pas en trait fin (2,4:1) mais il est parfait en fond.
+
+   Le trait s'epaissit en meme temps, pour que la designation reste visible
+   en noir et blanc et ne depende jamais de la seule couleur. */
+.partie.surbrillance .t { stroke-width: 4; }
+.surligneur {
+  fill: var(--accent);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease);
+}
+.partie.surbrillance .surligneur { opacity: 1; }
 
 .etapes {
   display: flex;
@@ -515,3 +542,47 @@ html.reduce-motion .rails { display: none; }
 .etape-contenu p:last-child { margin-bottom: 0; }
 
 .recit .alt-text { padding-bottom: var(--sp-6); }
+
+/* --- Le bouton d'ouverture ----------------------------------------------
+   La première chose du site, et la seule à agir avant le défilement.
+   Tant qu'il n'est pas cliqué, rien ne se débloque : c'est ce qui rend la
+   phrase suivante littéralement vraie plutôt que supposée. */
+
+.porte-entree {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+.bouton-entree {
+  font-size: var(--fs-body);
+  font-weight: 700;
+  padding: var(--sp-3) var(--sp-5);
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius);
+  /* Magenta : la couleur de « regarde ici », en fond derrière du texte noir.
+     Jamais l'inverse, le texte ne se colore pas. */
+  background: var(--accent);
+  color: var(--ink);
+}
+.bouton-entree:hover { background: var(--ink); color: var(--paper); }
+.bouton-entree:active { transform: translateY(1px); }
+
+/* --- La silhouette de l'ouverture ---------------------------------------
+   Le plan large, avant le gros plan. Sans elle, le site parlait d'un cerveau
+   qu'il ne montrait jamais. */
+
+.porte-silhouette .scene { display: flex; justify-content: center; }
+
+.silhouette {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  aspect-ratio: 3 / 7;
+  height: 42svh;
+  max-height: 400px;
+}
+@supports not (aspect-ratio: 1) {
+  .silhouette { width: 18svh; }
+}

@@ -12,7 +12,11 @@
 
 **En ligne :** <https://gaspodt.github.io/neurone/>
 
-> **Le site ne correspond PAS au contenu décidé.** La narration a été
+> **L'implémentation a commencé.** L'acte 0 est en place : le bouton
+> d'ouverture, la silhouette et le trajet. Le reste du récit suit l'ancienne
+> version en attendant.
+>
+> **Le site ne correspond PAS ENCORE entièrement au contenu décidé.** La narration a été
 > entièrement réécrite dans [`02-CONTENU.md`](02-CONTENU.md), et **on ne touche
 > pas au site tant que ce document n'est pas stabilisé**. C'est une décision
 > explicite de l'utilisateur : le texte et les graphiques avaient dérivé l'un

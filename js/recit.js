@@ -19,7 +19,7 @@
      1  le titre
      2  la phrase sur le cerveau
      3  LE NEURONE arrive, et se dessine trait par trait
-     4  la courbe du potentiel d'action, qui se trace comme sur un EEG
+     3  le trajet dans la silhouette, qui se dessine de la tête au doigt
      5  la durée
      6  la question
 
@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=d7b3a0d6';
+import { mouvementReduit } from './a11y.js?v=7ef751a7';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
@@ -70,6 +70,8 @@ const HAUT = 0.62, BAS = 0.70;
 const borne = (v, min, max) => Math.min(max, Math.max(min, v));
 
 export function initRecit() {
+  /* Vrai une fois le bouton d'ouverture cliqué. Voir le verrou dans majEtat. */
+  let entre = false;
   const section = document.querySelector('#recit');
   if (!section) return;
 
@@ -88,11 +90,12 @@ export function initRecit() {
   const boutons  = [...section.querySelectorAll('.etapes button[data-vers]')];
   const blocs    = [...section.querySelectorAll('.etape-texte')];
 
-  const traitsCourbe  = [...section.querySelectorAll('.figure-courbe .t')];
+  const traitTrajet   = [...section.querySelectorAll('.silhouette .trajet')];
+  const silhouette    = section.querySelector('.porte-silhouette');
   const traitsNeurone = [...svg.querySelectorAll('.t')];
   const boutsNeurone  = [...svg.querySelectorAll('.b')];
 
-  const iCourbe  = temps.indexOf(section.querySelector('.figure-courbe'));
+  const iTrajet  = temps.indexOf(section.querySelector('.porte-silhouette'));
   const iNeurone = temps.indexOf(porte);
 
   /* Un temps de plus que de temps à montrer : l'avant-dernier écran laisse le
@@ -173,7 +176,7 @@ export function initRecit() {
     mesurer();
     poserVue('ensemble', hauteurParcours());
     if (typeof gsap !== 'undefined') {
-      gsap.set([...traitsCourbe, ...traitsNeurone], { drawSVG: '0% 100%' });
+      gsap.set([...traitTrajet, ...traitsNeurone], { drawSVG: '0% 100%' });
       gsap.set(boutsNeurone, { scale: 1, transformOrigin: 'center' });
     }
   }
@@ -280,10 +283,24 @@ export function initRecit() {
   function majEtat(immediat) {
     const p = progression();
 
-    temps.forEach((el, i) => poser(el, p >= i * PAS, immediat));
+    /* LE VERROU D'ENTRÉE.
+       Tant que le bouton n'est pas cliqué, rien n'apparaît au-delà du
+       premier temps, même si le visiteur fait défiler. C'est la seule
+       exception à la règle « le défilement est le seul déclencheur », et
+       elle est nécessaire : sans le clic, la phrase suivante affirmerait un
+       geste qui n'a pas eu lieu, ce qui serait faux.
+
+       Le verrou est posé par le JavaScript et jamais par le CSS : si le
+       script échoue, tout le texte reste lisible plutôt que bloqué. */
+    temps.forEach((el, i) => {
+      const permis = entre || i === 0;
+      poser(el, permis && p >= i * PAS, immediat);
+    });
     poser(defiler, p < 0.01, immediat);
 
-    tracer(traitsCourbe, iCourbe, p);
+    /* Le trajet dans la silhouette se dessine de la tête vers le doigt,
+       dans le sens du voyage. C'est le premier bleu du site. */
+    tracer(traitTrajet, iTrajet, p);
     const tn = tracer(traitsNeurone, iNeurone, p);
     /* Les renflements des terminaisons arrivent une fois le trait posé. */
     gsap.set(boutsNeurone, {
@@ -372,6 +389,24 @@ export function initRecit() {
      Ils ne changent pas l'état eux mêmes. C'est ce qui garantit que ce qu'on
      voit et ce que dit l'interface ne peuvent pas diverger. */
 
+  function brancherEntree() {
+    const bouton = section.querySelector('[data-entree]');
+    if (!bouton) { entre = true; return; }
+    bouton.addEventListener('click', () => {
+      if (entre) return;
+      entre = true;
+      bouton.setAttribute('aria-expanded', 'true');
+      document.documentElement.classList.add('entre');
+      majEtat(false);
+      /* On amène doucement le visiteur au temps suivant, sinon il reste
+         devant un bouton qui vient de « ne rien faire » à ses yeux. */
+      const suite = temps[1];
+      if (suite && !mouvementReduit()) {
+        suite.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+
   function brancherBoutons() {
     boutons.forEach(b => {
       b.addEventListener('click', () => {
@@ -388,11 +423,12 @@ export function initRecit() {
 
   gsap.set(temps, { opacity: 0, y: 16 });
   gsap.set([titre, nav], { opacity: 0 });
-  gsap.set([...traitsCourbe, ...traitsNeurone], { drawSVG: '0% 0%' });
+  gsap.set([...traitTrajet, ...traitsNeurone], { drawSVG: '0% 0%' });
   gsap.set(boutsNeurone, { scale: 0, transformOrigin: 'center' });
   poserVue('ensemble', H0);
   majEtat(true);
 
+  brancherEntree();
   brancherBoutons();
 
   /* Mise à jour SYNCHRONE, volontairement : requestAnimationFrame ne part pas

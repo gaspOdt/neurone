@@ -15,48 +15,58 @@
   --ink-soft:     #5A5A5A;   /* texte secondaire         7.0:1 sur blanc  OK  */
   --ink-faint:    #C9C9C9;   /* filets, séparateurs, décoratif seulement    */
 
-  /* --- La palette sémantique -------------------------------------------
-     Une couleur = un concept, tenue du début à la fin, jamais réattribuée.
-     Base Okabe-Ito, le standard scientifique du daltonisme.
+  /* --- La palette --------------------------------------------------------
 
-     ATTENTION : chaque concept a DEUX valeurs, et ce n'est pas un détail :
-       --c-X       la couleur graphique (aplats, traits épais, icônes)
-       --c-X-text  la variante assombrie, seule utilisable pour du TEXTE
+     LA REGLE, et elle explique tout le reste :
+     le texte est NOIR, toujours. La couleur passe DERRIERE, en surligneur.
+     Dans le dessin, les traits sont a l'encre et la couleur s'emploie en
+     aplats cernes d'un filet d'encre.
 
-     Raison : sur fond blanc, trois des quatre couleurs Okabe-Ito n'atteignent
-     pas le rapport de 4.5:1 exigé pour du texte. Les ratios mesurés sont
-     indiqués ci-dessous. Ne jamais utiliser --c-X pour un mot lisible.
+     Ce n'est pas un parti pris gratuit, c'est une contrainte mesuree. Une
+     couleur fluo est lumineuse, donc elle contraste tres bien avec du noir
+     et tres mal avec du blanc :
+
+       couleur        en fond sous du noir     en trait fin sur blanc
+       magenta                 7,3:1                   2,4:1
+       vert                   12,0:1                   1,5:1
+       orange                  6,7:1                   2,6:1
+       bleu electrique         3,6:1                   4,8:1
+
+     En fond, le fluo est un atout. En trait, il est illisible. Seul le bleu
+     electrique tient en trait pur, et c'est pour ca que c'est lui qui porte
+     le signal.
+
+     Voir docs/01-DIRECTION-ARTISTIQUE.md pour le detail des mesures.
      --------------------------------------------------------------------- */
 
-  /* L'impulsion et le sodium, ce qui déclenche.
-     Une seule couleur pour les deux : l'entrée de Na+ EST l'impulsion. */
-  --c-impulse:       #0072B2;   /* 5.1:1  OK même pour du texte               */
-  --c-impulse-text:  #0072B2;   /* identique, pas besoin d'assombrir          */
+  /* Le signal electrique. La SEULE couleur autorisee en trait pur.
+     C'est le fil du recit : le visiteur doit pouvoir la suivre des yeux du
+     premier ecran au dernier. Ne jamais l'employer pour autre chose, et
+     surtout pas pour un titre : le bleu designe une chose qui SE DEPLACE. */
+  --signal:        #0066FF;
 
-  /* Le potassium, le retour au repos. */
-  --c-potassium:      #D55E00;  /* 3.9:1  graphiques seulement                */
-  --c-potassium-text: #A34700;  /* 6.0:1  OK pour du texte                    */
+  /* « Regarde ici ». Ne designe aucune notion scientifique, seulement
+     l'endroit ou porter le regard. Toujours en FOND derriere du texte noir,
+     jamais en couleur de texte. */
+  --accent:        #FF6EF5;
 
-  /* La myéline, ce qui accélère. Couleur suggérée par l'utilisateur. */
-  --c-myelin:      #009E73;     /* 3.4:1  graphiques seulement                */
-  --c-myelin-text: #007054;     /* 6.0:1  OK pour du texte                    */
+  /* La myeline. Une BANDE cernee d'encre, jamais un trait. */
+  --myeline:       #00F58A;
 
-  /* Les neurotransmetteurs, ce qui franchit la synapse. */
-  --c-neuro:       #A64D79;     /* 5.2:1  assombri dès le graphique, car la
-                                   valeur Okabe-Ito d'origine (#CC79A7) tombe
-                                   à 3.0:1, trop juste même pour un trait     */
-  --c-neuro-text:  #A64D79;     /* identique                                  */
+  /* Les messagers chimiques, a la synapse. Des aplats cernes d'encre. */
+  --messagers:     #FF7A29;
 
-  /* La couleur de surbrillance, quand on désigne une partie d'un schéma.
-     Isolée dans son propre token pour pouvoir l'essayer facilement :
-     remplacer par --c-potassium, --c-myelin ou --c-neuro pour comparer. */
-  --c-surbrillance: var(--c-impulse);
+  /* Le filet d'encre autour des aplats fluo n'est pas decoratif : c'est lui
+     qui porte le contraste que la couleur ne peut pas porter. Sans lui, une
+     bande verte n'aurait aucun bord defini sur fond blanc. */
+  --cerne:         var(--ink);
+  --cerne-epaisseur: 1.2px;
 
-  /* Retour visuel du quiz. Jamais seuls : toujours doublés d'un mot
-     et d'une icône, car « vert = bon, rouge = faux » est précisément le
-     couple que ne distinguent pas les daltonismes rouge-vert. */
-  --c-ok:    #007054;
-  --c-nope:  #A34700;
+  /* Retour du quiz. Jamais seul : toujours double d'un mot et d'une forme,
+     car « vert = bon, rouge = faux » est precisement le couple que ne
+     distinguent pas les daltonismes rouge-vert. */
+  --ok:            #007054;
+  --pas-tout-a-fait: #A34700;
 
   /* --- Typographie ------------------------------------------------------
      Corps à 21px, repris de la référence infrastructures-terrestres.com.
@@ -103,6 +113,10 @@
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* --- Divers ----------------------------------------------------------- */
+
+  /* Hauteur réservée à la barre de réglage fixe, pour que rien ne passe
+     dessous. Voir .recit-scene dans base.css. */
+  --hauteur-barre: 4.5rem;
 
   --tap-min: 44px;   /* taille tactile minimale, exigence d'accessibilité */
   --radius: 6px;
