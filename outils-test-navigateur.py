@@ -617,3 +617,56 @@ def encre(chemin, seuil=235):
         if px[i] < seuil or px[i + 1] < seuil or px[i + 2] < seuil:
             sombres += 1
     return sombres / float(total)
+
+
+# ---------------------------------------------------------------------------
+# Detecter les chevauchements
+# ---------------------------------------------------------------------------
+# Deux blocs de texte qui se superposent ne se voient dans aucune mesure de
+# taille ou d'opacite : il faut comparer les rectangles deux a deux. Les
+# couples parent-enfant sont exclus, puisqu'un enfant est toujours dans son
+# parent.
+
+CHEVAUCHEMENTS = """
+/* L'opacite EFFECTIVE, pas l'opacite propre. Un element a opacity 1 dont le
+   parent est a 0 est invisible, et le lire seul produit de faux positifs :
+   c'est exactement l'erreur commise par la premiere version de ce detecteur,
+   qui signalait un titre deja efface par son conteneur. */
+function opEff(e) {
+  let o = 1;
+  for (let n = e; n && n.nodeType === 1; n = n.parentElement) {
+    o *= parseFloat(getComputedStyle(n).opacity);
+    if (getComputedStyle(n).visibility === 'hidden') return 0;
+  }
+  return o;
+}
+const sels = ['.temps', '.pile > *', '.figure-titre', '.etapes', '.defiler'];
+const vus = new Set(); const els = [];
+sels.forEach(s => document.querySelectorAll(s).forEach(e => {
+  if (vus.has(e)) return; vus.add(e);
+  const b = e.getBoundingClientRect(), c = getComputedStyle(e);
+  if (opEff(e) < 0.5) return;
+  if (b.width < 3 || b.height < 3) return;
+  if (b.bottom <= 0 || b.top >= innerHeight) return;
+  /* Le bloc du bouton d'ouverture couvre volontairement tout l'ecran avant
+     le clic : ce n'est pas un chevauchement, c'est un cache. */
+  if (e.closest('.porte-entree')) return;
+  els.push({e, b, nom: (e.tagName + '.' + (e.className || '')).slice(0, 38)});
+}));
+const mauvais = [];
+for (let i = 0; i < els.length; i++)
+  for (let j = i + 1; j < els.length; j++) {
+    const A = els[i], B = els[j];
+    if (A.e.contains(B.e) || B.e.contains(A.e)) continue;
+    const l = Math.max(A.b.left, B.b.left), r = Math.min(A.b.right, B.b.right);
+    const h = Math.max(A.b.top, B.b.top),   d = Math.min(A.b.bottom, B.b.bottom);
+    const aire = Math.max(0, r - l) * Math.max(0, d - h);
+    if (aire > 120) mauvais.push(A.nom + '  ///  ' + B.nom + '  (' + Math.round(aire) + 'px2)');
+  }
+return JSON.stringify(mauvais);
+"""
+
+
+def chevauchements(nav):
+    import json
+    return json.loads(nav.evaluer(CHEVAUCHEMENTS))

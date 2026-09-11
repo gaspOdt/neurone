@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=8c94808b';
+import { mouvementReduit } from './a11y.js?v=b2713de7';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
@@ -80,6 +80,7 @@ export function initRecit() {
   const porte    = section.querySelector('.porte-neurone');
   const svg      = section.querySelector('.neurone');
   const sil      = section.querySelector('.silhouette');
+  const porteSil = section.querySelector('.porte-silhouette');
   if (!scene || !rails || !porte || !svg) return;
 
   const piles    = [...section.querySelectorAll('.pile')];
@@ -93,10 +94,12 @@ export function initRecit() {
 
   const traitsCourbe  = [...section.querySelectorAll('.figure-courbe .t')];
   const traitsNeurone = [...svg.querySelectorAll('.t')];
+  const traitTrajet   = [...section.querySelectorAll('.silhouette .trajet')];
   const boutsNeurone  = [...svg.querySelectorAll('.b')];
 
   const iCourbe  = temps.indexOf(section.querySelector('.figure-courbe'));
   const iNeurone = temps.indexOf(porte);
+  const iSil     = temps.indexOf(porteSil);
 
   /* Un temps de plus que de temps à montrer : l'avant-dernier écran laisse le
      paragraphe complet sous les yeux, le dernier sert à la bascule. */
@@ -148,31 +151,35 @@ export function initRecit() {
      donnait un neurone de trente pixels alors que la place ne manquait pas. */
   const deuxColonnes = window.matchMedia('(min-width: 60em)');
 
-  function hauteurIntro() {
-    /* clientHeight COMPREND les marges intérieures, et la scène en a une en
-       haut pour laisser sa place au bouton flottant. La retirer, sinon le
-       neurone d'introduction déborderait sous le pli de cette hauteur. */
-    if (deuxColonnes.matches) {
-      /* Le dessin a sa propre colonne : il prend toute la hauteur utile,
-         sans rien retirer pour le texte, qui est ailleurs. */
-      return borne(scene.clientHeight - padHaut - reserve - 40, 180, 520);
-    }
-    const libre = scene.clientHeight - padHaut - hautPile - basPile - reserve - 40;
-    return borne(libre, 110, 260);
+  /* LA MEME REGLE POUR LES DEUX DESSINS.
+
+     Ils partagent la meme case, donc la place disponible est la meme : leur
+     donner deux calculs differents produisait une silhouette correcte a cote
+     d'un neurone de trente pixels, ce qui n'avait aucune raison d'etre.
+
+     La borne haute est choisie pour rester SOUS la taille du parcours, afin
+     que la bascule fasse grandir le dessin et jamais retrecir : le recit
+     plonge vers le neurone, un retrecissement le contredirait. */
+  function hauteurDessin() {
+    const dispo = scene.clientHeight - padHaut - 32;
+    if (deuxColonnes.matches) return borne(dispo, 260, 520);
+    return borne(dispo - hautPile - basPile, 230, 340);
   }
+
+  function hauteurIntro() { return hauteurDessin(); }
+  function hauteurSilhouette() { return hauteurDessin(); }
 
   function hauteurParcours() {
     const h = window.innerHeight || 800;
-    return deuxColonnes.matches ? Math.min(h * 0.66, 560) : Math.min(h * 0.38, 380);
+    /* Toujours au-dessus de hauteurDessin, pour que la bascule agrandisse. */
+    return deuxColonnes.matches ? Math.min(h * 0.78, 600) : Math.min(h * 0.45, 380);
   }
 
-  /** La silhouette prend la MEME hauteur que le neurone d'introduction.
-      Elle partage sa case, donc lui donner une hauteur independante la
-      ferait sauter d'une taille a l'autre au moment de la bascule. Sa
-      largeur decoule du rapport 300 sur 700 de son cadrage. */
-  function poserSilhouette(hauteur) {
+  /** Pose la taille de la silhouette. Sa largeur decoule du rapport 300/700
+      de son cadrage, et se replie si la colonne est plus etroite. */
+  function poserSilhouette() {
     if (!sil) return;
-    let H = hauteur, L = H * 300 / 700;
+    let H = hauteurDessin(), L = H * 300 / 700;
     const dispo = porte.clientWidth || scene.clientWidth || 320;
     if (L > dispo) { L = dispo; H = L * 700 / 300; }
     sil.style.width  = Math.round(L) + 'px';
@@ -203,7 +210,7 @@ export function initRecit() {
     porte.style.transform = 'none';
     mesurer();
     poserVue('ensemble', hauteurParcours());
-    poserSilhouette(hauteurIntro());
+    poserSilhouette();
     if (typeof gsap !== 'undefined') {
       gsap.set([...traitsCourbe, ...traitsNeurone], { drawSVG: '0% 100%' });
       gsap.set(boutsNeurone, { scale: 1, transformOrigin: 'center' });
@@ -292,7 +299,7 @@ export function initRecit() {
       /* La silhouette suit la même hauteur que le neurone d'introduction :
          elles partagent la case, donc toute différence se verrait comme un
          saut au moment de la bascule. */
-      poserSilhouette(H0);
+      poserSilhouette();
     }
     /* offsetTop est une mesure de MISE EN PAGE : les transformations ne
        l'affectent pas, donc on peut la relire sans que notre propre
@@ -321,9 +328,28 @@ export function initRecit() {
        Posé par le JavaScript et jamais par le CSS : si le script échoue, tout
        le texte reste lisible plutôt que bloqué. */
     temps.forEach((el, i) => poser(el, (entre || i === 0) && p >= i * PAS, immediat));
+
+    /* LA SILHOUETTE S'EFFACE QUAND LE NEURONE ARRIVE.
+       Ils partagent la même case de grille, donc les laisser visibles
+       ensemble les superpose : un neurone à moitié dessiné par-dessus un
+       corps. C'est le seul temps du site qui n'est pas monotone, et il doit
+       l'être : le récit plonge DANS le trajet pour y trouver le neurone, donc
+       le plan large cède la place au gros plan.
+
+       Fondu croisé : la silhouette part sur le temps qui précède le neurone,
+       de sorte qu'à aucun instant les deux ne sont opaques ensemble. */
+    if (porteSil) {
+      const debut = iSil * PAS;
+      const fin   = iNeurone * PAS;
+      const dedans = entre && p >= debut && p < fin;
+      poser(porteSil, dedans, immediat);
+    }
     poser(defiler, p < 0.01, immediat);
 
     tracer(traitsCourbe, iCourbe, p);
+    /* Le trajet dans la silhouette se dessine de la tête vers le doigt,
+       dans le sens du voyage. */
+    tracer(traitTrajet, iSil, p);
     const tn = tracer(traitsNeurone, iNeurone, p);
     /* Les renflements des terminaisons arrivent une fois le trait posé. */
     gsap.set(boutsNeurone, {
@@ -446,7 +472,7 @@ export function initRecit() {
         mesurer();
         H0 = hauteurIntro();
         H1 = hauteurParcours();
-        poserSilhouette(H0);
+        poserSilhouette();
         majEtat(true);
       }, 700);
     });
@@ -471,7 +497,7 @@ export function initRecit() {
   gsap.set([...traitsCourbe, ...traitsNeurone], { drawSVG: '0% 0%' });
   gsap.set(boutsNeurone, { scale: 0, transformOrigin: 'center' });
   poserVue('ensemble', H0);
-  poserSilhouette(H0);
+  poserSilhouette();
   majEtat(true);
 
   brancherEntree();

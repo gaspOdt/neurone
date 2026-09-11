@@ -600,6 +600,27 @@ html.reduce-motion .rails { display: none; }
    qu'une économie de place, même si elle compte sur un écran court. C'est
    aussi juste narrativement : l'instrument s'efface une fois le geste
    accompli, et ne reviendra qu'à la toute fin du récit. */
+/* AVANT le clic, le bouton occupe l'ecran entier, centre.
+   Trois raisons. C'est la seule chose a faire, donc rien d'autre ne doit
+   distraire. Un fond opaque garantit qu'aucun element du recit ne transparait
+   derriere, donc aucun chevauchement possible a cette etape. Et le centre est
+   la ou l'oeil se pose d'abord. */
+html:not(.entre) .porte-entree {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4);
+  text-align: center;
+  max-height: none;
+  pointer-events: auto;
+}
+
+/* Une fois clique, il disparait et laisse la place a la suite. */
 html.entre .porte-entree {
   max-height: 0;
   opacity: 0;
@@ -619,5 +640,14 @@ html.entre .porte-entree {
 .visuels { display: grid; }
 .visuels > * { grid-area: 1 / 1; }
 
-.porte-silhouette .scene { display: flex; justify-content: center; }
+/* align-items: center, et ce n'est pas cosmetique. Par defaut un conteneur
+   flex ETIRE ses enfants sur l'axe secondaire : le SVG voyait sa hauteur
+   ecrasee par celle de la case, et la silhouette sortait a 1495 pixels de
+   haut au lieu des 520 calcules. La taille posee par le script etait
+   simplement ignoree. */
+.porte-silhouette .scene {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .silhouette { display: block; width: auto; max-width: 100%; }
