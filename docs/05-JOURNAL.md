@@ -17,7 +17,7 @@
 |---|---|
 | **Le bouton d'ouverture** | Plein écran, centré, fond opaque. Rien ne se débloque tant qu'il n'est pas cliqué, pas même le défilement. Il se replie au clic |
 | **La silhouette** | Pictogramme au trait, tête détachée, de face et neutre. Produite par symétrie à partir d'une moitié décrite point par point |
-| **Deux colonnes sur grand écran** | Au-delà de 60em, texte à gauche et dessin à droite. Sans cela le neurone tombait à trente pixels de large |
+| **Une seule mise en page** | Celle du téléphone, partout. La version deux colonnes des grands écrans est supprimée le 11 septembre 2026, sur décision de l'utilisateur, pour tenir le calendrier. Sur ordinateur, la même colonne de 34 rem, centrée |
 | **Silhouette et neurone exclusifs** | Ils partagent une case de grille et ne sont jamais visibles ensemble |
 
 ### Ce qui n'est PAS implémenté
@@ -153,6 +153,38 @@ passer de part et d'autre de la membrane.
 ---
 
 ## Historique des sessions
+
+### 11 septembre 2026, soir : une seule mise en page
+
+**Ce qui a été décidé.** Plus de version grand écran. L'utilisateur a tranché
+sur le calendrier : « if the problem is to have both the mobile version and the
+computer version, we will have only the mobile version, i dont have the time ».
+Enregistré dans `00-CONTEXTE.md` et détaillé dans `04-ARCHITECTURE.md`.
+
+**Trois défauts trouvés et corrigés avant cette décision**, tous les trois
+invisibles aux mesures qui tournaient jusque là :
+
+1. **La bascule traversait son propre texte.** Effacement du texte et montée du
+   dessin étaient pilotés par la même valeur, donc simultanés : à mi-course, le
+   titre de l'ouverture se lisait par-dessus le neurone. Séparés en deux temps
+   qui ne se recouvrent pas, la place est libre avant qu'on l'occupe.
+2. **L'origine du déplacement était fausse.** `offsetTop` se compte depuis le
+   parent positionné ; l'ajout du conteneur `.visuels` a changé cette origine
+   sans produire la moindre erreur. Le dessin remontait sous la barre. Mesuré
+   désormais par rapport à la scène.
+3. **Les phrases de l'acte 1 se coupaient en plein mot** sur grand écran, en
+   passant sous le dessin opaque. Ce défaut n'apparaissait dans **aucune**
+   mesure, et a été trouvé en regardant une capture. La suppression du grand
+   écran le fait disparaître par construction.
+
+**Ce qu'on a appris sur l'outillage**, et qui est écrit dans
+`04-ARCHITECTURE.md` : le détecteur de recouvrements a des angles morts dans
+ses deux versions. Comparer les boîtes signale des défauts qui n'existent pas
+et en rate de réels. Interroger le point est plus juste mais ignore ce qui
+porte `pointer-events: none` : il a été **mis en échec sur le défaut n°3
+réintroduit exprès pour le tester**. Regarder les captures reste obligatoire.
+
+
 
 ### 10 septembre 2026 — Session 1 : conception
 

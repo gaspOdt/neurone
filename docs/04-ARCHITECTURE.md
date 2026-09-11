@@ -517,3 +517,53 @@ Comment travailler quand même :
 ```js
 gsap.globalTimeline.getChildren(true, true, true).forEach(t => t.progress(1));
 ```
+
+---
+
+## Une seule mise en page
+
+Il n'y a **pas** de mise en page pour grand écran. Le site a une seule colonne,
+celle du téléphone, bornée à `34rem` et centrée. Décision prise le 11 septembre
+2026 pour tenir le calendrier, enregistrée dans `00-CONTEXTE.md`.
+
+Ce qui la met en oeuvre, et qu'il ne faut pas défaire sans savoir pourquoi :
+
+| Où | Quoi |
+|---|---|
+| `css/base.css` | `.recit .wrap { max-width: 34rem }` borne le texte |
+| `css/base.css` | `.recit-scene { max-width: 34rem; margin-inline: auto }` borne **la scène elle-même** |
+| `js/recit.js` | `hauteurDessin()` et `hauteurParcours()` n'ont plus qu'une branche |
+
+Le second point est le moins évident. Borner seulement le contenu de la scène ne
+suffit pas : le titre du schéma et les boutons prennent la largeur de leur
+contenu et restent alors collés à gauche pendant que le dessin et le texte se
+centrent. On obtient trois alignements différents sur le même écran. En bornant
+la scène, tout ce qu'elle porte se range sur la même colonne, et cette colonne
+est exactement celle du texte qui défile dessous.
+
+## Ce que le détecteur de recouvrements ne voit pas
+
+`chevauchements()` dans `outils-test-navigateur.py` a été repris deux fois, et
+les deux versions se sont trompées. Il faut connaître leurs angles morts, sans
+quoi on lui accorde une confiance qu'il ne mérite pas.
+
+**Comparer les boîtes** produit des faux positifs et des faux négatifs :
+
+- Faux positifs. Une boîte n'est pas de l'encre. Le conteneur du dessin est bien
+  plus haut que le dessin, et le texte de l'acte 1 défile *derrière* la scène
+  collée, qui est opaque. Deux boîtes se croisent, rien ne se voit. Le détecteur
+  a signalé neuf fois de suite un défaut inexistant.
+- Faux négatifs, plus graves. Sur grand écran, les phrases passaient sous le
+  dessin opaque et se coupaient en plein mot. Aucune boîte ne débordait de la
+  sienne. **Il a fallu regarder une capture pour s'en apercevoir.**
+
+**Interroger le point** (`elementFromPoint` sur les rectangles de ligne obtenus
+par un `Range`) répond à la bonne question, « cette phrase est-elle à moitié
+recouverte ? », mais a son propre angle mort, mesuré et non supposé : il a été
+mis en échec sur le défaut ci-dessus **réintroduit exprès pour le tester**, et
+n'a rien signalé. `elementFromPoint` ignore ce qui porte `pointer-events: none`,
+donc un élément opaque et non cliquable recouvre sans être vu.
+
+**La conclusion pratique, qui n'a pas bougé de tout le projet : regarder les
+captures reste obligatoire.** Aucune des deux mesures ne remplace l'oeil, et
+les deux défauts les plus visibles du projet n'ont été trouvés que comme ça.

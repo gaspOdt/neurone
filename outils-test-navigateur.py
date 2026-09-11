@@ -656,41 +656,91 @@ def encre(chemin, seuil=235):
 # parent.
 
 CHEVAUCHEMENTS = """
-/* L'opacite EFFECTIVE, pas l'opacite propre. Un element a opacity 1 dont le
-   parent est a 0 est invisible, et le lire seul produit de faux positifs :
-   c'est exactement l'erreur commise par la premiere version de ce detecteur,
-   qui signalait un titre deja efface par son conteneur. */
+/* CE QU'ON MESURE : DU TEXTE COUPE EN DEUX.
+
+   La premiere version comparait les BOITES deux a deux. Elle s'est trompee
+   dans les deux sens, et c'est instructif :
+
+   - Faux positifs. Une boite n'est pas de l'encre. Le conteneur du dessin est
+     bien plus haut que le dessin qu'il porte, et le texte de l'acte 1 defile
+     DERRIERE la scene collee, qui est opaque : deux boites se croisent, rien
+     ne se voit. Le detecteur a signale neuf fois de suite un defaut qui
+     n'existait pas, ce qui use la confiance qu'on peut lui accorder.
+   - Faux negatifs, plus graves. Sur grand ecran, les phrases de l'acte 1
+     passaient sous le dessin opaque et se coupaient en plein mot. Aucune
+     boite ne debordait de la sienne : la comparaison de boites ne pouvait pas
+     le voir. Il a fallu regarder une capture pour s'en apercevoir.
+
+   On teste donc ce qui compte reellement pour un lecteur : une phrase qu'il
+   doit lire est-elle a moitie recouverte ? On releve les rectangles de LIGNE
+   par un Range sur les noeuds de texte, ce qui donne l'encre et non la boite,
+   puis on interroge le point : elementFromPoint dit qui est au-dessus.
+
+   Trois issues, et une seule est un defaut :
+     - tous les points repondent l'element  -> il est lisible, rien a signaler
+     - aucun point ne repond l'element      -> il est entierement derriere
+                                               autre chose. C'est le defilement
+                                               normal : ce n'est pas son tour.
+     - certains oui, d'autres non           -> DEFAUT. La phrase est coupee. */
+
 function opEff(e) {
   let o = 1;
   for (let n = e; n && n.nodeType === 1; n = n.parentElement) {
-    o *= parseFloat(getComputedStyle(n).opacity);
-    if (getComputedStyle(n).visibility === 'hidden') return 0;
+    const c = getComputedStyle(n);
+    o *= parseFloat(c.opacity);
+    if (c.visibility === 'hidden') return 0;
   }
   return o;
 }
-const sels = ['.temps', '.pile > *', '.figure-titre', '.etapes', '.defiler'];
-const vus = new Set(); const els = [];
+
+/* Les rectangles de LIGNE, et non la boite du bloc. Un paragraphe de quatre
+   lignes en donne quatre, chacun serre sur son texte. */
+function lignes(e) {
+  const out = [];
+  const it = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = it.nextNode())) {
+    if (!n.nodeValue.trim()) continue;
+    const rg = document.createRange();
+    rg.selectNodeContents(n);
+    for (const b of rg.getClientRects())
+      if (b.width > 4 && b.height > 4) out.push(b);
+  }
+  return out;
+}
+
+const sels = ['.temps', '.pile > *', '.figure-titre', '.etapes', '.defiler',
+              '.barre', '.barre button', '.etape-contenu', '.visuels'];
+const vus = new Set(); const mauvais = [];
+
 sels.forEach(s => document.querySelectorAll(s).forEach(e => {
   if (vus.has(e)) return; vus.add(e);
-  const b = e.getBoundingClientRect(), c = getComputedStyle(e);
   if (opEff(e) < 0.5) return;
-  if (b.width < 3 || b.height < 3) return;
-  if (b.bottom <= 0 || b.top >= innerHeight) return;
   /* Le bloc du bouton d'ouverture couvre volontairement tout l'ecran avant
      le clic : ce n'est pas un chevauchement, c'est un cache. */
   if (e.closest('.porte-entree')) return;
-  els.push({e, b, nom: (e.tagName + '.' + (e.className || '')).slice(0, 38)});
-}));
-const mauvais = [];
-for (let i = 0; i < els.length; i++)
-  for (let j = i + 1; j < els.length; j++) {
-    const A = els[i], B = els[j];
-    if (A.e.contains(B.e) || B.e.contains(A.e)) continue;
-    const l = Math.max(A.b.left, B.b.left), r = Math.min(A.b.right, B.b.right);
-    const h = Math.max(A.b.top, B.b.top),   d = Math.min(A.b.bottom, B.b.bottom);
-    const aire = Math.max(0, r - l) * Math.max(0, d - h);
-    if (aire > 120) mauvais.push(A.nom + '  ///  ' + B.nom + '  (' + Math.round(aire) + 'px2)');
+
+  let lisibles = 0, couverts = 0, coupable = '';
+  for (const b of lignes(e)) {
+    if (b.bottom <= 0 || b.top >= innerHeight) continue;   /* hors ecran */
+    const y = Math.min(Math.max(b.top + b.height / 2, 1), innerHeight - 1);
+    /* Le bord DROIT en premier : c'est la que les phrases se coupent. */
+    for (const x of [b.right - 2, b.left + b.width / 2, b.left + 2]) {
+      if (x < 1 || x > innerWidth - 1) continue;
+      const haut = document.elementFromPoint(x, y);
+      if (!haut) continue;
+      if (haut === e || e.contains(haut) || haut.contains(e)) { lisibles++; }
+      else {
+        couverts++;
+        if (!coupable) coupable = haut.tagName + '.' + String(haut.className).slice(0, 20);
+      }
+    }
   }
+  if (lisibles > 0 && couverts > 0)
+    mauvais.push((e.tagName + '.' + String(e.className)).slice(0, 34)
+      + '  COUPE PAR  ' + coupable
+      + '  (' + couverts + '/' + (lisibles + couverts) + ' points)');
+}));
 return JSON.stringify(mauvais);
 """
 
@@ -698,3 +748,24 @@ return JSON.stringify(mauvais);
 def chevauchements(nav):
     import json
     return json.loads(nav.evaluer(CHEVAUCHEMENTS))
+
+
+def stabiliser(nav, maxi=25, pas=0.12):
+    """Attend que les opacites cessent de changer.
+
+    Une pause fixe est un pari : trop courte, on mesure pendant un fondu et on
+    croit voir un chevauchement qui n'existe pas une fois l'animation finie ;
+    trop longue, la batterie traine. On releve donc l'etat jusqu'a ce qu'il se
+    repete, ce qui est vrai quelle que soit la duree des transitions.
+    """
+    lecture = ("return [...document.querySelectorAll('.temps,.porte-silhouette,"
+               ".porte-neurone,.figure-titre,.etapes')]"
+               ".map(e=>Math.round(parseFloat(getComputedStyle(e).opacity)*20)).join(',')")
+    precedent = None
+    for _ in range(maxi):
+        actuel = nav.evaluer(lecture)
+        if actuel == precedent:
+            return True
+        precedent = actuel
+        time.sleep(pas)
+    return False

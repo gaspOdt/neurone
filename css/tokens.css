@@ -146,6 +146,13 @@
 
   /* --- Divers ----------------------------------------------------------- */
 
+  /* Hauteur reservee a la barre de reglage, qui est FIXE et ne defile donc
+     jamais. Sans cette reserve, le premier titre passe dessous et se retrouve
+     coupe. C'est aussi l'exigence WCAG 2.4.11 « Focus Not Obscured » : un
+     element qui recoit le focus ne doit jamais se retrouver sous un element
+     fixe. */
+  --hauteur-barre: 4.75rem;
+
   --tap-min: 44px;   /* taille tactile minimale, exigence d'accessibilité */
   --radius: 6px;
 }

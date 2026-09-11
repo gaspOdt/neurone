@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=76dd128b';
+import { mouvementReduit } from './a11y.js?v=c1a2e0d5';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
@@ -122,6 +122,7 @@ export function initRecit() {
   let decalage = 0;
   let cameraActive = false;
   let cle = 'ensemble';
+  let silVisible = null;
   let minuteur = null;
   let H0 = 200;
   let H1 = 320;
@@ -149,7 +150,6 @@ export function initRecit() {
      donc le dessin ne partage plus sa hauteur avec le texte. Le calcul de sa
      taille en dépend entièrement : garder la formule empilée en deux colonnes
      donnait un neurone de trente pixels alors que la place ne manquait pas. */
-  const deuxColonnes = window.matchMedia('(min-width: 60em)');
 
   /* LA MEME REGLE POUR LES DEUX DESSINS.
 
@@ -161,8 +161,9 @@ export function initRecit() {
      que la bascule fasse grandir le dessin et jamais retrecir : le recit
      plonge vers le neurone, un retrecissement le contredirait. */
   function hauteurDessin() {
+    /* Une seule mise en page, donc une seule regle de taille : le dessin
+       prend ce que les deux piles de texte lui laissent. */
     const dispo = scene.clientHeight - padHaut - 32;
-    if (deuxColonnes.matches) return borne(dispo, 260, 520);
     return borne(dispo - hautPile - basPile, 230, 340);
   }
 
@@ -172,7 +173,7 @@ export function initRecit() {
   function hauteurParcours() {
     const h = window.innerHeight || 800;
     /* Toujours au-dessus de hauteurDessin, pour que la bascule agrandisse. */
-    return deuxColonnes.matches ? Math.min(h * 0.78, 600) : Math.min(h * 0.45, 380);
+    return Math.min(h * 0.45, 380);
   }
 
   /** Pose la taille de la silhouette. Sa largeur decoule du rapport 300/700
@@ -203,6 +204,19 @@ export function initRecit() {
   /** L'état d'arrivée statique : tout est là, tout est lisible, rien ne bouge. */
   function toutMontrer() {
     temps.forEach(el => { el.style.opacity = '1'; el.style.transform = 'none'; });
+
+    /* SYNCHRONISER LE MÉMO, et ce n'est pas un détail.
+
+       poser() garde en mémoire l'état affiché de chaque élément et ne fait
+       rien quand il n'a pas changé. Forcer les opacités ici sans le prévenir
+       le laisse croire que la silhouette est cachée alors qu'elle vient
+       d'être rendue visible : l'appel suivant qui demande de la cacher ne
+       fait donc rien, et elle reste à l'écran par-dessus le neurone.
+
+       C'est une desynchronisation entre un etat interne et l'affichage, la
+       meme famille d'erreur que les verifications qui relisent leur propre
+       ecriture. */
+    temps.forEach(el => affiche.set(el, true));
     piles.forEach(el => { el.style.opacity = '1'; });
     if (defiler) defiler.style.opacity = '0';
     if (titre) titre.style.opacity = '1';
@@ -284,31 +298,51 @@ export function initRecit() {
      entre 0 et 1, elle même déduite du défilement. */
 
   function basculer(t) {
-    piles.forEach(el => gsap.set(el, { opacity: 1 - t }));
-    gsap.set([titre, nav], { opacity: t });
-    /* Au delà de la moitié, les blocs de texte de l'ouverture ne doivent plus
+    /* DEUX TEMPS, ET NON UN SEUL.
+       La bascule fait deux choses : effacer le texte de l'ouverture, et faire
+       monter le dessin à sa place. Pilotées par la même valeur, elles se
+       produisaient ENSEMBLE : à mi-course, le dessin était déjà remonté de
+       moitié pendant que le texte, encore à moitié visible, occupait toujours
+       le haut. Les deux se traversaient, et le titre de l'ouverture se lisait
+       par-dessus le neurone.
+
+       On garde une seule valeur de défilement, mais on en tire deux temps qui
+       ne se recouvrent pas : le texte s'efface sur la première moitié, le
+       dessin monte sur la seconde. La place est libre avant qu'on l'occupe. */
+    const tTexte  = borne(t / 0.5, 0, 1);
+    const tDessin = borne((t - 0.5) / 0.5, 0, 1);
+
+    piles.forEach(el => gsap.set(el, { opacity: 1 - tTexte }));
+    gsap.set([titre, nav], { opacity: tDessin });
+    /* Une fois le texte parti, les blocs de l'ouverture ne doivent plus
        intercepter la souris : le texte du parcours défile à leur place. */
-    scene.classList.toggle('bascule', t > 0.5);
-    if (nav) nav.style.pointerEvents = t > 0.5 ? 'auto' : 'none';
+    scene.classList.toggle('bascule', tTexte >= 1);
+    if (nav) nav.style.pointerEvents = tDessin > 0.5 ? 'auto' : 'none';
 
     /* Tant que la bascule n'est pas finie, c'est elle qui tient la taille du
        dessin. Ensuite c'est la caméra, et il ne faut surtout pas lui reprendre
        la main : elle est en train d'animer le cadrage vers une partie. */
-    if (t < 1 || !cameraActive) {
-      poserVue(t < 1 ? 'ensemble' : cle, H0 + (H1 - H0) * t);
+    if (tDessin < 1 || !cameraActive) {
+      poserVue(tDessin < 1 ? 'ensemble' : cle, H0 + (H1 - H0) * tDessin);
       /* La silhouette suit la même hauteur que le neurone d'introduction :
          elles partagent la case, donc toute différence se verrait comme un
          saut au moment de la bascule. */
       poserSilhouette();
     }
-    /* offsetTop est une mesure de MISE EN PAGE : les transformations ne
-       l'affectent pas, donc on peut la relire sans que notre propre
-       déplacement ne se rajoute au précédent.
+    /* La position du dessin est mesuree PAR RAPPORT A LA SCENE, et non par
+       offsetTop.
 
-       padHaut est ajouté parce que offsetTop se compte depuis le bord de la
-       scène, marge intérieure comprise. Sans lui, le dessin remontait jusque
-       SOUS le bouton flottant, et son titre passait derrière. */
-    decalage = t * (padHaut + MARGE_HAUTE - porte.offsetTop);
+       offsetTop se compte depuis le parent positionne. En introduisant le
+       conteneur `.visuels`, qui empile la silhouette et le neurone dans une
+       meme case, l'origine de ce calcul a change sans qu'aucune erreur ne se
+       produise : le dessin remontait trop haut et passait sous la barre de
+       reglage.
+
+       On retranche le deplacement deja applique pour retrouver la position
+       non transformee, ce qui reste juste quel que soit le parent. */
+    const hautNu = porte.getBoundingClientRect().top
+                 - scene.getBoundingClientRect().top - decalage;
+    decalage = tDessin * (padHaut + MARGE_HAUTE - hautNu);
     gsap.set(porte, { y: decalage });
   }
 
@@ -327,7 +361,13 @@ export function initRecit() {
        n'apparaît au-delà du premier temps, même si le visiteur fait défiler.
        Posé par le JavaScript et jamais par le CSS : si le script échoue, tout
        le texte reste lisible plutôt que bloqué. */
-    temps.forEach((el, i) => poser(el, (entre || i === 0) && p >= i * PAS, immediat));
+    temps.forEach((el, i) => {
+      /* La silhouette est pilotee juste en dessous, par son propre etat.
+         La laisser passer ici la rendrait visible pour toujours, puisque la
+         regle generale est monotone. */
+      if (el === porteSil) return;
+      poser(el, (entre || i === 0) && p >= i * PAS, immediat);
+    });
 
     /* LA SILHOUETTE S'EFFACE QUAND LE NEURONE ARRIVE.
        Ils partagent la même case de grille, donc les laisser visibles
@@ -346,7 +386,25 @@ export function initRecit() {
          demi-mesure, elle a fini de disparaitre quand l'autre commence. */
       const debut = iSil * PAS;
       const fin   = (iNeurone - 0.5) * PAS;
-      poser(porteSil, entre && p >= debut && p < fin, immediat);
+      const doitVoir = entre && p >= debut && p < fin;
+
+      /* Son propre etat, et surtout pas le memo partage de poser().
+
+         Ce memo est ecrit par plusieurs chemins, dont toutMontrer(), qui
+         force les opacites sans le prevenir. Il se retrouvait alors a croire
+         la silhouette cachee alors qu'elle etait a l'ecran, et l'ordre de la
+         cacher ne faisait rien : elle restait par-dessus le neurone. Un etat
+         interne desynchronise de l'affichage.
+
+         Ici l'ecriture est inconditionnelle des que la decision change, sur
+         un seul element : le cout est nul et le resultat ne peut pas
+         diverger de ce qui est affiche. */
+      if (silVisible !== doitVoir) {
+        silVisible = doitVoir;
+        if (immediat) gsap.set(porteSil, { opacity: doitVoir ? 1 : 0 });
+        else gsap.to(porteSil, { opacity: doitVoir ? 1 : 0,
+                                 duration: 0.35, overwrite: true });
+      }
     }
     poser(defiler, p < 0.01, immediat);
 
