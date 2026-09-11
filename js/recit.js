@@ -40,7 +40,7 @@
    section, ce qui se mesure, se rejoue et se teste.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=70b026da';
+import { mouvementReduit } from './a11y.js?v=7255950c';
 
 /* Les cadrages de la caméra, une entrée par partie du neurone. */
 const VUES = {
@@ -79,6 +79,7 @@ export function initRecit() {
   const rails    = section.querySelector('.rails');
   const porte    = section.querySelector('.porte-neurone');
   const svg      = section.querySelector('.neurone');
+  const sil      = section.querySelector('.silhouette');
   if (!scene || !rails || !porte || !svg) return;
 
   const piles    = [...section.querySelectorAll('.pile')];
@@ -165,6 +166,19 @@ export function initRecit() {
     return deuxColonnes.matches ? Math.min(h * 0.66, 560) : Math.min(h * 0.38, 380);
   }
 
+  /** La silhouette prend la MEME hauteur que le neurone d'introduction.
+      Elle partage sa case, donc lui donner une hauteur independante la
+      ferait sauter d'une taille a l'autre au moment de la bascule. Sa
+      largeur decoule du rapport 300 sur 700 de son cadrage. */
+  function poserSilhouette(hauteur) {
+    if (!sil) return;
+    let H = hauteur, L = H * 300 / 700;
+    const dispo = porte.clientWidth || scene.clientWidth || 320;
+    if (L > dispo) { L = dispo; H = L * 700 / 300; }
+    sil.style.width  = Math.round(L) + 'px';
+    sil.style.height = Math.round(H) + 'px';
+  }
+
   /** Pose le cadrage ET la taille. La largeur découle du rapport du cadrage. */
   function poserVue(cle, hauteur) {
     const [, , w, h] = VUES[cle].vue.split(/\s+/).map(Number);
@@ -189,6 +203,7 @@ export function initRecit() {
     porte.style.transform = 'none';
     mesurer();
     poserVue('ensemble', hauteurParcours());
+    poserSilhouette(hauteurIntro());
     if (typeof gsap !== 'undefined') {
       gsap.set([...traitsCourbe, ...traitsNeurone], { drawSVG: '0% 100%' });
       gsap.set(boutsNeurone, { scale: 1, transformOrigin: 'center' });
@@ -274,6 +289,10 @@ export function initRecit() {
        la main : elle est en train d'animer le cadrage vers une partie. */
     if (t < 1 || !cameraActive) {
       poserVue(t < 1 ? 'ensemble' : cle, H0 + (H1 - H0) * t);
+      /* La silhouette suit la même hauteur que le neurone d'introduction :
+         elles partagent la case, donc toute différence se verrait comme un
+         saut au moment de la bascule. */
+      poserSilhouette(H0);
     }
     /* offsetTop est une mesure de MISE EN PAGE : les transformations ne
        l'affectent pas, donc on peut la relire sans que notre propre
@@ -418,9 +437,18 @@ export function initRecit() {
       const pas = rails.offsetHeight * PAS;
       window.scrollBy({ top: pas, behavior: mouvementReduit() ? 'auto' : 'smooth' });
 
-      /* Le bloc du bouton se replie : la hauteur des piles change, donc la
-         taille du dessin doit être recalculée une fois la transition finie. */
-      setTimeout(() => { mesurer(); majEtat(true); }, 700);
+      /* Le bloc du bouton se replie, donc la hauteur des piles change et
+         les tailles des dessins avec elle. Il ne suffit PAS de remesurer :
+         il faut recalculer H0 et H1, sinon les dessins gardent la taille
+         plancher calculée quand le bouton occupait encore sa place. C'est ce
+         qui laissait une silhouette de 47 pixels de large. */
+      setTimeout(() => {
+        mesurer();
+        H0 = hauteurIntro();
+        H1 = hauteurParcours();
+        poserSilhouette(H0);
+        majEtat(true);
+      }, 700);
     });
   }
 
@@ -443,6 +471,7 @@ export function initRecit() {
   gsap.set([...traitsCourbe, ...traitsNeurone], { drawSVG: '0% 0%' });
   gsap.set(boutsNeurone, { scale: 0, transformOrigin: 'center' });
   poserVue('ensemble', H0);
+  poserSilhouette(H0);
   majEtat(true);
 
   brancherEntree();

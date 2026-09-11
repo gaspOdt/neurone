@@ -7,8 +7,8 @@
 <meta name="description" content="Un site interactif pour comprendre comment un neurone transmet l'information, et ce qu'est un potentiel d'action.">
 <meta name="color-scheme" content="light">
 
-<link rel="stylesheet" href="css/tokens.css?v=70b026da">
-<link rel="stylesheet" href="css/base.css?v=70b026da">
+<link rel="stylesheet" href="css/tokens.css?v=7255950c">
+<link rel="stylesheet" href="css/base.css?v=7255950c">
 
 <link rel="preload" href="assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -75,7 +75,39 @@
            Ce bloc est hors du .wrap, en pleine largeur, pour que son fond
            papier couvre tout l'écran quand le texte du parcours défile
            dessous. -->
-      <div class="porte-neurone temps" data-temps="3">
+      <!-- LES DEUX VISUELS PARTAGENT UNE SEULE CASE.
+           Ils ne sont jamais montres ensemble : la silhouette est le plan
+           large, le neurone est ce qu'on trouve au bout du zoom. Les empiler
+           n'est donc pas une astuce de mise en page, c'est le recit. Et c'est
+           ce qui garantit que la scene ne deborde jamais : un seul visuel
+           occupe de la place a la fois, quelle que soit la fenetre. -->
+      <div class="visuels">
+
+        <div class="porte-silhouette temps" data-temps="3">
+          <div class="scene">
+<svg class="silhouette" viewBox="0 0 300 700"
+                 preserveAspectRatio="xMidYMid meet"
+                 role="img" aria-labelledby="sil-titre sil-desc">
+              <title id="sil-titre">Une silhouette humaine, et le trajet du message</title>
+              <desc id="sil-desc">Contour d'une personne vue de face, dessine au
+                trait, sans visage ni vetement. Un trait part du haut de la tete,
+                descend au centre du corps, bifurque vers le bras droit et
+                s'arrete au bout du doigt.</desc>
+              <g fill="none" stroke="var(--ink)" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round"
+                 vector-effect="non-scaling-stroke">
+                <circle class="s" cx="150" cy="62" r="38"/>
+                <path class="s" d="M166.0 100.0 C176.3 105.3 188.3 122.3 196.0 132.0 C203.7 141.7 208.0 144.2 212.0 158.0 C216.0 171.8 218.0 196.0 220.0 215.0 C222.0 234.0 223.0 252.8 224.0 272.0 C225.0 291.2 226.0 315.0 226.0 330.0 C226.0 345.0 224.7 351.7 224.0 362.0 C223.3 372.3 225.0 387.7 222.0 392.0 C219.0 396.3 209.0 393.3 206.0 388.0 C203.0 382.7 204.7 370.0 204.0 360.0 C203.3 350.0 202.7 342.7 202.0 328.0 C201.3 313.3 201.7 294.0 200.0 272.0 C198.3 250.0 195.3 199.3 192.0 196.0 C188.7 192.7 180.0 232.0 180.0 252.0 C180.0 272.0 189.3 293.0 192.0 316.0 C194.7 339.0 196.3 364.3 196.0 390.0 C195.7 415.7 191.8 443.3 190.0 470.0 C188.2 496.7 186.7 523.7 185.0 550.0 C183.3 576.3 178.5 611.7 180.0 628.0 C181.5 644.3 196.3 644.7 194.0 648.0 C191.7 651.3 171.0 651.3 166.0 648.0 C161.0 644.7 164.5 657.7 164.0 628.0 C163.5 598.3 163.7 509.7 163.0 470.0 C162.3 430.3 162.2 410.3 160.0 390.0 C157.8 369.7 153.3 348.0 150.0 348.0 C146.7 348.0 142.2 369.7 140.0 390.0 C137.8 410.3 137.7 430.3 137.0 470.0 C136.3 509.7 136.5 598.3 136.0 628.0 C135.5 657.7 139.0 644.7 134.0 648.0 C129.0 651.3 108.3 651.3 106.0 648.0 C103.7 644.7 118.5 644.3 120.0 628.0 C121.5 611.7 116.7 576.3 115.0 550.0 C113.3 523.7 111.8 496.7 110.0 470.0 C108.2 443.3 104.3 415.7 104.0 390.0 C103.7 364.3 105.3 339.0 108.0 316.0 C110.7 293.0 120.0 272.0 120.0 252.0 C120.0 232.0 111.3 192.7 108.0 196.0 C104.7 199.3 101.7 250.0 100.0 272.0 C98.3 294.0 98.7 313.3 98.0 328.0 C97.3 342.7 96.7 350.0 96.0 360.0 C95.3 370.0 97.0 382.7 94.0 388.0 C91.0 393.3 81.0 396.3 78.0 392.0 C75.0 387.7 76.7 372.3 76.0 362.0 C75.3 351.7 74.0 345.0 74.0 330.0 C74.0 315.0 75.0 291.2 76.0 272.0 C77.0 252.8 78.0 234.0 80.0 215.0 C82.0 196.0 84.0 171.8 88.0 158.0 C92.0 144.2 96.3 141.7 104.0 132.0 C111.7 122.3 123.7 105.3 134.0 100.0 C144.3 94.7 155.7 94.7 166.0 100.0 Z"/>
+              </g>
+              <g fill="none" stroke="var(--signal)" stroke-width="3.5"
+                 stroke-linecap="round" vector-effect="non-scaling-stroke">
+                <path class="trajet" d="M150.0 96.0 C150.3 103.3 151.2 127.0 152.0 140.0 C152.8 153.0 151.7 164.3 155.0 174.0 C158.3 183.7 164.8 187.0 172.0 198.0 C179.2 209.0 191.7 225.3 198.0 240.0 C204.3 254.7 207.2 270.0 210.0 286.0 C212.8 302.0 213.7 322.7 215.0 336.0 C216.3 349.3 217.0 357.0 218.0 366.0 C219.0 375.0 220.5 386.0 221.0 390.0"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="porte-neurone temps" data-temps="4">
         <p class="figure-titre" id="figure-titre">Le messager</p>
         <div class="scene">
 <svg class="neurone" viewBox="0 0 400 1000"
@@ -150,9 +182,11 @@
         <p class="sr-only" aria-live="polite" data-annonce></p>
       </div>
 
+      </div>
+
       <div class="wrap pile pile-bas">
 
-        <figure class="temps figure-courbe" data-temps="4">
+        <figure class="temps figure-courbe" data-temps="5">
           <svg class="courbe" viewBox="0 0 320 130"
              preserveAspectRatio="xMidYMid meet"
              role="img" aria-labelledby="c-titre c-desc">
@@ -175,11 +209,11 @@
           </figcaption>
         </figure>
 
-        <p class="temps lead" data-temps="5">
+        <p class="temps lead" data-temps="6">
           Ça a pris moins d'un centième de seconde.
         </p>
 
-        <p class="temps question" data-temps="6">Sais-tu comment&nbsp;?</p>
+        <p class="temps question" data-temps="7">Sais-tu comment&nbsp;?</p>
 
       </div>
 
@@ -306,7 +340,7 @@
      attendant leur apparition animée. Si ce module ne se charge pas, 404 ou
      erreur de syntaxe, personne ne les révélerait jamais. On retire donc la
      classe, et la page redevient celle du visiteur sans JavaScript. -->
-<script type="module" src="js/main.js?v=70b026da"
+<script type="module" src="js/main.js?v=7255950c"
         onerror="document.documentElement.className='no-js'"></script>
 
 </body>

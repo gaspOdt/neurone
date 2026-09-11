@@ -548,7 +548,7 @@ html.reduce-motion .rails { display: none; }
   .recit-scene .defiler   { grid-column: 1; grid-row: 3; align-self: start; }
 
   /* Le dessin prend toute la hauteur de la colonne de droite. */
-  .recit-scene .porte-neurone {
+  .recit-scene .visuels {
     grid-column: 2;
     grid-row: 1 / 4;
     align-self: center;
@@ -605,3 +605,19 @@ html.entre .porte-entree {
   opacity: 0;
   pointer-events: none;
 }
+
+/* --- Les deux visuels, dans la MEME case --------------------------------
+   La silhouette et le neurone ne sont jamais montres ensemble : l'une est le
+   plan large, l'autre est ce qu'on trouve au bout du zoom. Les empiler dans
+   une seule case de grille n'est pas une astuce, c'est le recit lui-meme.
+
+   C'est aussi ce qui garantit que la scene ne deborde pas. Quand les deux
+   additionnaient leurs hauteurs, la scene depassait la fenetre, le
+   debordement se repartissait en haut et en bas, et le DEBUT du recit
+   sortait de l'ecran : la page s'ouvrait sur du vide. */
+
+.visuels { display: grid; }
+.visuels > * { grid-area: 1 / 1; }
+
+.porte-silhouette .scene { display: flex; justify-content: center; }
+.silhouette { display: block; width: auto; max-width: 100%; }
