@@ -762,7 +762,78 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
                      "classe %r, scrollY %d, %d erreur(s)"
                      % (etat["classe"], etat["y"], etat["err"]))
 
-        print("\n14. Erreurs de console")
+        print("\n14. Ce qui est invisible ne se laisse pas tabuler")
+        # Un element efface a l'oeil mais laisse dans l'ordre de tabulation
+        # est un piege pour qui navigue au clavier, et une source de bruit
+        # pour un lecteur d'ecran. Deux cas trouves par l'audit technique :
+        #
+        # - les cinq boutons du parcours restaient atteignables pendant tout
+        #   l'ecran d'ouverture. Quatre tabulations et Entree envoyaient le
+        #   defilement a 7586 px SANS lever le verrou : le visiteur au
+        #   clavier se retrouvait fige au milieu du recit, sans sortie
+        #   visible. Retirer ces seuls boutons ne suffisait pas, le piege se
+        #   deplacait sur le bouton de la fin, puis sur le quiz : c'est tout
+        #   ce que couvre le cache d'ouverture qui doit en sortir.
+        # - le bouton d'ouverture restait atteignable et annonce APRES le
+        #   clic, alors qu'il ne fait plus rien.
+        #
+        # On compte les elements reellement atteignables, c'est a dire
+        # visibles eux-memes ET dont aucun ancetre n'est cache.
+        focusables = (
+            "var sel='a[href],button,input,select,textarea,summary,"
+            "[tabindex]:not([tabindex=\"-1\"])';"
+            "return [...document.querySelectorAll(sel)].filter(function(e){"
+            "  var c=getComputedStyle(e);"
+            "  if(c.visibility!=='visible'||c.display==='none') return false;"
+            "  for(var p=e.parentElement;p;p=p.parentElement){"
+            "    var k=getComputedStyle(p);"
+            "    if(k.visibility==='hidden'||k.display==='none') return false;}"
+            "  return true;}).map(function(e){"
+            "    return (e.textContent||e.type||e.tagName).trim().slice(0,24)})")
+        for reduit in (False, True):
+            mode = "mouvement reduit" if reduit else "mode normal"
+            n3 = Navigateur(largeur=390, hauteur=844, reduire_mouvement=reduit)
+            try:
+                n3.ouvrir(url)
+                n3.evaluer("document.documentElement.style.scrollBehavior='auto'; return 1")
+                avant = n3.evaluer(focusables)
+                q = n3.evaluer(
+                    "var b=document.querySelector('[data-entree]');"
+                    "var r=b.getBoundingClientRect();"
+                    "return [Math.round(r.x+r.width/2), Math.round(r.y+r.height/2)]")
+                for typ in ("mousePressed", "mouseReleased"):
+                    n3.commande("Input.dispatchMouseEvent", {
+                        "type": typ, "x": q[0], "y": q[1],
+                        "button": "left", "clickCount": 1})
+                time.sleep(1.6)
+                y = n3.evaluer(
+                    "var e=document.querySelector('#etape-dendrites');"
+                    "return Math.round(e.getBoundingClientRect().top"
+                    "+window.scrollY-innerHeight*0.5)")
+                n3.aller_a(y, pause=1.8)
+                apres = n3.evaluer(focusables)
+                # Par son attribut, et non par son texte : trois boutons du
+                # site s'appellent << Clique >>, celui de l'ouverture et les
+                # deux de la fin. Les compter par le nom faisait echouer le
+                # controle sur des boutons parfaitement legitimes.
+                entree_la = n3.evaluer(
+                    "var b=document.querySelector('[data-entree]');"
+                    "if(!b) return false;"
+                    "if(getComputedStyle(b).visibility!=='visible') return false;"
+                    "for(var p=b.parentElement;p;p=p.parentElement){"
+                    "  if(getComputedStyle(p).visibility==='hidden') return false;}"
+                    "return true")
+            finally:
+                n3.fermer()
+            verifier("avant le clic, trois arrets seulement, tous utiles, " + mode,
+                     len(avant) == 3 and "Clique" in avant[2],
+                     "%d arrets : %s" % (len(avant), avant))
+            verifier("au parcours, le bouton d'entree est sorti et les parties sont la, " + mode,
+                     not entree_la and [t for t in apres if "Dendrites" in t],
+                     "%d arrets, bouton d'entree %s"
+                     % (len(apres), "encore la" if entree_la else "sorti"))
+
+        print("\n15. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
         verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 

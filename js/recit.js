@@ -398,7 +398,10 @@ export function initRecit() {
     piles.forEach(el => { el.style.opacity = '1'; });
     if (defiler) defiler.style.opacity = '0';
     if (titre) titre.style.opacity = '1';
-    if (nav) nav.style.opacity = '1';
+    /* Visible seulement si l'on est entre : avant le clic, ces cinq
+       boutons sont derriere le cache d'ouverture, et ils y recevaient le
+       focus sans que rien n'apparaisse. */
+    if (nav) { nav.style.opacity = '1'; nav.style.visibility = entre ? 'visible' : 'hidden'; }
     if (chrono) chrono.style.opacity = '1';
     /* Les deux dessins entiers, l'un au-dessus de l'autre : le CSS des replis
        défait la case partagée pour qu'ils ne se superposent pas. La
@@ -469,6 +472,7 @@ export function initRecit() {
       /* Le repli du bloc change la hauteur des piles, donc la taille que le
          script donne aux dessins. Sans ce recalcul ils gardent la taille
          plancher mesurée quand le bouton occupait encore sa place. */
+      if (nav) nav.style.visibility = 'visible';
       mesurer();
       H1 = hauteurParcours();
       poserVue(cle, H1);
@@ -809,6 +813,25 @@ export function initRecit() {
       else if (mouvementReduit()) gsap.set(nav, { opacity: avecBoutons ? 1 : 0 });
       else gsap.to(nav, { opacity: avecBoutons ? 1 : 0, duration: 0.6, overwrite: 'auto' });
       nav.style.pointerEvents = avecBoutons ? 'auto' : 'none';
+      /* ET LA VISIBILITE, qui n'est pas un doublon de l'opacite.
+
+         Les cinq boutons du parcours restaient TABULABLES tant qu'ils
+         n'etaient pas encore arrives, c'est a dire pendant tout l'ecran
+         d'ouverture. Quatre tabulations et Entree depuis la page neuve
+         envoyaient le defilement a 7586 px alors que le verrou
+         `overflow: hidden` etait toujours pose : plus rien ne bougeait
+         ensuite, et le bouton d'ouverture etant sorti de l'ecran, le site
+         entier devenait inatteignable. Un piege reserve au visiteur au
+         clavier, la souris etant deja ecartee par pointer-events.
+         Trouve par le chantier D de l'audit technique.
+
+         On MONTRE avant le fondu et on CACHE apres, sinon l'apparition se
+         jouerait sur un element deja retire. */
+      if (avecBoutons) nav.style.visibility = 'visible';
+      else if (typeof gsap === 'undefined' || mouvementReduit()) nav.style.visibility = 'hidden';
+      else gsap.delayedCall(0.6, () => {
+        if (!VUES[cle].boutons) nav.style.visibility = 'hidden';
+      });
     }
 
     if (!memeVue) {
@@ -989,6 +1012,8 @@ export function initRecit() {
   gsap.set(temps, { opacity: 0, y: 16 });
   gsap.set(tempsParcours, { opacity: 0, y: 16 });
   gsap.set([titre, nav, porte, porteSil, chrono].filter(Boolean), { opacity: 0 });
+  /* Posee a zero, donc hors de la tabulation des le premier rendu. */
+  if (nav) nav.style.visibility = 'hidden';
   gsap.set([...traitsCourbe, ...traitsNeurone, ...traitTrajet], { drawSVG: '0% 0%' });
   gsap.set(boutsNeurone, { scale: 0, transformOrigin: 'center' });
   poserVue('ensemble', H0);

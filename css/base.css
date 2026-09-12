@@ -736,11 +736,28 @@ html.js:not(.entre) .porte-entree {
   pointer-events: auto;
 }
 
-/* Une fois clique, il disparait et laisse la place a la suite. */
+/* Une fois clique, il disparait et laisse la place a la suite.
+
+   `visibility: hidden` n'est pas un doublon d'`opacity: 0`, et la
+   difference se mesure : sans elle le bouton reste ATTEIGNABLE. Il etait
+   le troisieme arret de tabulation d'un site ou il n'existe plus, un
+   lecteur d'ecran continuait d'annoncer le titre du site et la consigne
+   « Clique sur ce bouton. », et Entree dessus ne faisait rien puisque le
+   gestionnaire sort aussitot sur `if (entre) return`. Constate par les
+   chantiers D et G de l'audit technique.
+
+   Le retard de transition sur `visibility` est ce qui permet de garder le
+   fondu : la propriete ne bascule qu'une fois l'opacite arrivee a zero.
+   En mouvement reduit, toutes les durees valent 0,01 ms, donc elle
+   bascule tout de suite, ce qui est exactement ce qu'on veut. */
 html.entre .porte-entree {
   max-height: 0;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+  transition: max-height var(--dur-slow) var(--ease),
+              opacity var(--dur-base) var(--ease),
+              visibility 0s linear var(--dur-base);
 }
 
 /* --- Les deux visuels, dans la MEME case --------------------------------
@@ -826,6 +843,30 @@ html.reduce-motion .porte-silhouette { margin-bottom: var(--sp-4); }
    echoue, la classe `entre` n'est jamais absente puisqu'elle n'est jamais
    ajoutee... donc on retire le verrou des que le script est absent. */
 html.js:not(.entre) { overflow: hidden; }
+
+/* ET RIEN DERRIERE LE CACHE NE SE LAISSE TABULER.
+
+   Le verrou ci-dessus empeche la page de defiler, mais il n'empeche pas le
+   clavier d'atteindre ce qui est dessous. Mesure avant correction : quatre
+   tabulations depuis la page neuve tombaient sur << Vue entiere >>, et
+   Entree envoyait le defilement a 7586 px, au milieu du recit, SANS que la
+   classe `entre` soit posee. Le verrou tenait toujours, donc plus rien ne
+   defilait ensuite : le visiteur au clavier etait fige au milieu du site,
+   sans rien a l'ecran pour lui indiquer la sortie. Retirer les seuls
+   boutons du parcours ne reglait rien, le piege se deplacait sur le bouton
+   de la fin, puis sur le quiz.
+
+   `visibility: hidden` retire de la tabulation ET de l'arbre
+   d'accessibilite, et il est compris partout, ce que `inert` n'est pas sur
+   les navigateurs que le projet vise. Il garde aussi la mise en page, donc
+   les mesures de hauteur faites au chargement restent justes, ce que
+   `display: none` aurait fausse.
+
+   Rien ne change a l'oeil : tout ceci est deja derriere un cache opaque en
+   plein ecran. Trouve par le chantier D de l'audit technique. */
+html.js:not(.entre) .parcours-textes,
+html.js:not(.entre) .recit .alt-text,
+html.js:not(.entre) #quiz { visibility: hidden; }
 
 
 /* ==========================================================================
