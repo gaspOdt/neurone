@@ -182,6 +182,15 @@ export function initRecit() {
   let corpsSilVisible = null;
   let sceneActive = null;
   let minuteur = null;
+  /* Quels temps du parcours sont à l'écran. Déclaré ICI, avec le reste de
+     l'état, et non près de la fonction qui l'écrit : majCamera() le lit, et
+     majCamera() est appelée par le retour anticipé du mouvement réduit.
+     Déclaré plus bas, il levait une ReferenceError sur le seul bloc qui
+     porte un `data-cadrage`, celui des terminaisons, et le gros plan sur la
+     synapse n'avait jamais lieu pour ces visiteurs. Cinquième fois que ce
+     piège se paie. */
+  const etatParcours = new WeakMap();
+
   /* Les flèches du signal afférent sont-elles à l'écran ? Mémo de
      poserAfferents(), déclaré ici pour précéder tout retour anticipé. */
   let afferentsVisibles = false;
@@ -419,9 +428,52 @@ export function initRecit() {
   if (typeof gsap === 'undefined' || mouvementReduit()) {
     H1 = hauteurParcours();
     toutMontrer();
+    brancherEntreeSimple();
     brancherBoutons();
     brancherCamera();
+    brancherRejouer();
     return;
+  }
+
+  /* L'ENTRÉE EN MOUVEMENT RÉDUIT, OU SANS GSAP.
+
+     Le défilement de la page est verrouillé par le CSS tant que la classe
+     `entre` n'est pas posée, html.js:not(.entre) { overflow: hidden }, et
+     seul le clic sur le bouton d'ouverture la pose. Or brancherEntree()
+     n'était appelée que sur le chemin animé : le visiteur qui a demandé
+     moins d'animation, ou dont l'appareil a été jugé lent, cliquait sur un
+     bouton mort devant une page qui ne défilait pas. Tout le site lui était
+     fermé, du récit au quiz.
+
+     Le défaut a survécu à la batterie parce que les contrôles ouvrent la
+     page avec window.scrollTo, qui ignore `overflow: hidden`. On mesurait
+     un chemin qu'aucun visiteur n'emprunte. C'est la faute documentée dans
+     04-ARCHITECTURE.md, vérifier ce qu'on a soi-même posé, sous une autre
+     forme : vérifier par un geste que le visiteur ne fait pas.
+
+     Pourquoi une fonction à part, et pas brancherEntree(). Celle-là appelle
+     majEtat(), qui rend l'affichage au défilement. Dans ce mode, rien n'est
+     commandé par le défilement : tout est déjà à son état d'arrivée, posé
+     par toutMontrer(). Le clic n'a qu'une chose à faire, ouvrir.
+
+     Aucun saut de défilement non plus. Le bloc du bouton se replie, donc ce
+     qui suit remonte tout seul sous les yeux du visiteur : il n'a rien à
+     faire pour voir la suite. */
+  function brancherEntreeSimple() {
+    const bouton = section.querySelector('[data-entree]');
+    if (!bouton) { entre = true; document.documentElement.classList.add('entre'); return; }
+    bouton.addEventListener('click', () => {
+      if (entre) return;
+      entre = true;
+      document.documentElement.classList.add('entre');
+      /* Le repli du bloc change la hauteur des piles, donc la taille que le
+         script donne aux dessins. Sans ce recalcul ils gardent la taille
+         plancher mesurée quand le bouton occupait encore sa place. */
+      mesurer();
+      H1 = hauteurParcours();
+      poserVue(cle, H1);
+      poserSilhouette();
+    });
   }
 
   mesurer();
@@ -659,8 +711,6 @@ export function initRecit() {
      seuil de la caméra, il n'apparaissait qu'au moment de disparaître sous
      le dessin, et la capture ne montrait qu'un fragment de phrase. */
   const SEUIL_LECTURE = 0.93;
-
-  const etatParcours = new WeakMap();
 
   function majTempsParcours(immediat) {
     const h = window.innerHeight || 800;

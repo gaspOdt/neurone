@@ -719,7 +719,50 @@ def lancer(url="http://127.0.0.1:8000", montrer=False):
         vue = nav.evaluer("return window.__parcours.vueActuelle()")
         verifier("le bouton de la fin ramene a la silhouette", vue == "clic", "vue " + str(vue))
 
-        print("\n13. Erreurs de console")
+        print("\n13. Entrer dans le site, au geste, dans les deux modes")
+        # LE CONTROLE QUI MANQUAIT. Le defilement est verrouille par le CSS
+        # tant que la classe `entre` n'est pas posee, et seul le clic sur le
+        # bouton d'ouverture la pose. En mouvement reduit, ce bouton n'etait
+        # branche par personne : le visiteur restait enferme sur le premier
+        # ecran, tout le site lui etait ferme.
+        #
+        # Trente controles n'y ont rien vu, et la raison merite d'etre dite :
+        # ils ouvrent la page avec nav.aller_a(), donc window.scrollTo, qui
+        # ignore `overflow: hidden`, et ils cliquent avec .click() de script,
+        # qui n'a pas besoin qu'un gestionnaire existe pour ne rien signaler.
+        # On mesurait un chemin qu'aucun visiteur n'emprunte.
+        #
+        # Ici, rien que des gestes : un vrai bouton de souris a la position
+        # du bouton, puis de vrais crans de molette.
+        for reduit in (False, True):
+            mode = "mouvement reduit" if reduit else "mode normal"
+            n2 = Navigateur(largeur=390, hauteur=844, reduire_mouvement=reduit)
+            try:
+                n2.ouvrir(url)
+                q = n2.evaluer(
+                    "var b=document.querySelector('[data-entree]');"
+                    "var r=b.getBoundingClientRect();"
+                    "return [Math.round(r.x+r.width/2), Math.round(r.y+r.height/2)]")
+                for typ in ("mousePressed", "mouseReleased"):
+                    n2.commande("Input.dispatchMouseEvent", {
+                        "type": typ, "x": q[0], "y": q[1],
+                        "button": "left", "clickCount": 1})
+                time.sleep(1.5)
+                for _ in range(8):
+                    n2.molette(400, pause=0.12)
+                time.sleep(0.5)
+                etat = n2.evaluer(
+                    "return {y: Math.round(window.scrollY),"
+                    " classe: document.documentElement.className,"
+                    " err: (window.__erreurs||[]).length}")
+            finally:
+                n2.fermer()
+            verifier("on peut entrer et defiler au geste seul, " + mode,
+                     "entre" in etat["classe"] and etat["y"] > 1000 and etat["err"] == 0,
+                     "classe %r, scrollY %d, %d erreur(s)"
+                     % (etat["classe"], etat["y"], etat["err"]))
+
+        print("\n14. Erreurs de console")
         erreurs = nav.evaluer("return (window.__erreurs || []).slice(0, 10)") or []
         verifier("aucune erreur", not erreurs, " | ".join(erreurs))
 
