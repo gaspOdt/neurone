@@ -180,6 +180,30 @@ mené. Dans l'ordre :
 
 ## Historique des sessions
 
+### 14 septembre 2026 : le texte du site part en relecture
+
+**Demande de l'utilisateur.** « You give me the text in a document, i correct
+it and you implement the changes. »
+
+**Fait.** Tout le texte du site relevé dans `docs/texte-du-site/texte-du-site.docx` :
+136 blocs dans l'ordre de lecture, de l'ouverture au quiz, puis les petits
+textes d'interface et ce que lisent les lecteurs d'écran. Chaque bloc porte un
+repère, et `original.json` garde le texte d'origine et l'endroit du code d'où
+il vient. La procédure de retour est dans `docs/texte-du-site/LISEZMOI.md`.
+
+**Vérifié.** Le relevé couvre tous les blocs de texte de `index.html`, sans
+exception ; les chaînes des scripts ont été relues dans le code, ce qui a
+corrigé une erreur du relevé (« Six segments sur six » alors que le site dit
+« 6 segments sur six »). Relu depuis le `.docx` : 136 blocs sur 136 identiques
+à l'original, les neuf mots-clés magenta à leur place. Rendu regardé avec
+Quick Look sur quatre extraits.
+
+**Écrit sans Node, LibreOffice ni pandoc**, absents de cette machine : le
+`.docx` est produit avec la seule bibliothèque standard de Python.
+
+**En attente :** le document corrigé.
+
+
 ### 11 septembre 2026, soir : une seule mise en page
 
 **Ce qui a été décidé.** Plus de version grand écran. L'utilisateur a tranché

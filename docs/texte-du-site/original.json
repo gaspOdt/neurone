@@ -1,0 +1,4244 @@
+[
+ {
+  "type": "h1",
+  "texte": "Acte 0 · L'ouverture"
+ },
+ {
+  "type": "note",
+  "texte": "Premier écran : le titre, la consigne et le bouton, seuls."
+ },
+ {
+  "type": "bloc",
+  "id": "001",
+  "runs": [
+   {
+    "t": "Comment un neurone transmet l'information",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du site",
+  "sources": [],
+  "bonne": false,
+  "remarque": "provisoire, le nom du site n'est pas choisi",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 63,
+   "balise": "h1",
+   "classe": "titre-site"
+  },
+  "original": "Comment un neurone transmet l'information"
+ },
+ {
+  "type": "bloc",
+  "id": "002",
+  "runs": [
+   {
+    "t": "Clique sur ce bouton.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 64,
+   "balise": "p",
+   "classe": "lead"
+  },
+  "original": "Clique sur ce bouton."
+ },
+ {
+  "type": "bloc",
+  "id": "003",
+  "runs": [
+   {
+    "t": "Clique",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 65,
+   "balise": "button",
+   "classe": "bouton-entree"
+  },
+  "original": "Clique"
+ },
+ {
+  "type": "note",
+  "texte": "Après le clic. La silhouette apparaît."
+ },
+ {
+  "type": "bloc",
+  "id": "004",
+  "runs": [
+   {
+    "t": "Ton cerveau vient de commander le mouvement de ton doigt.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 73,
+   "balise": "p",
+   "classe": "temps lead t-corps"
+  },
+  "original": "Ton cerveau vient de commander le mouvement de ton doigt."
+ },
+ {
+  "type": "note",
+  "texte": "Un trait bleu se trace de la tête jusqu'au doigt."
+ },
+ {
+  "type": "bloc",
+  "id": "005",
+  "runs": [
+   {
+    "t": "Un message est parti de là-haut, et il est descendu jusqu'à lui.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 340,
+   "balise": "p",
+   "classe": "temps lead t-trajet"
+  },
+  "original": "Un message est parti de là-haut, et il est descendu jusqu'à lui."
+ },
+ {
+  "type": "note",
+  "texte": "Le temps s'inscrit en petit à côté du dessin."
+ },
+ {
+  "type": "bloc",
+  "id": "006",
+  "runs": [
+   {
+    "t": "Ça a pris deux centièmes de seconde.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S1"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 344,
+   "balise": "p",
+   "classe": "temps lead t-duree"
+  },
+  "original": "Ça a pris deux centièmes de seconde."
+ },
+ {
+  "type": "bloc",
+  "id": "007",
+  "runs": [
+   {
+    "t": "0,02 s",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "étiquette du dessin",
+  "sources": [
+   "S1"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 182,
+   "balise": "p",
+   "classe": "chrono caption"
+  },
+  "original": "0,02 s"
+ },
+ {
+  "type": "note",
+  "texte": "Le corps s'efface, seul le trait reste."
+ },
+ {
+  "type": "bloc",
+  "id": "008",
+  "runs": [
+   {
+    "t": "Sais-tu comment ?",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 348,
+   "balise": "p",
+   "classe": "temps question t-question"
+  },
+  "original": "Sais-tu comment ?"
+ },
+ {
+  "type": "bloc",
+  "id": "009",
+  "runs": [
+   {
+    "t": "Continue à défiler",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "indication en bas d'écran",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 352,
+   "balise": "p",
+   "classe": "defiler caption"
+  },
+  "original": "Continue à défiler"
+ },
+ {
+  "type": "h1",
+  "texte": "La plongée dans le trait"
+ },
+ {
+  "type": "note",
+  "texte": "La caméra plonge dans le trait, qui devient une chaîne de cellules."
+ },
+ {
+  "type": "bloc",
+  "id": "010",
+  "runs": [
+   {
+    "t": "Ce chemin n'est pas un fil. C'est une chaîne de cellules, mises bout à bout.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 373,
+   "balise": "p",
+   "classe": "temps-parcours lead"
+  },
+  "original": "Ce chemin n'est pas un fil. C'est une chaîne de cellules, mises bout à bout."
+ },
+ {
+  "type": "note",
+  "texte": "Une cellule reste, et le neurone se dessine à sa place."
+ },
+ {
+  "type": "bloc",
+  "id": "011",
+  "runs": [
+   {
+    "t": "En voici une. On l'appelle un ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "neurone",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ".",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 380,
+   "balise": "p",
+   "classe": "temps-parcours lead"
+  },
+  "original": "En voici une. On l'appelle un neurone."
+ },
+ {
+  "type": "h1",
+  "texte": "Acte 1 · Le neurone, partie par partie"
+ },
+ {
+  "type": "note",
+  "texte": "Les boutons du parcours arrivent. Chaque partie a un titre gras et un sous-titre."
+ },
+ {
+  "type": "h2",
+  "texte": "Le neurone"
+ },
+ {
+  "type": "bloc",
+  "id": "012",
+  "runs": [
+   {
+    "t": "Le neurone",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 387,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "titre"
+  },
+  "original": "Le neurone"
+ },
+ {
+  "type": "bloc",
+  "id": "013",
+  "runs": [
+   {
+    "t": "La cellule qui fait voyager le message",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "sous-titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 387,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "sous-titre"
+  },
+  "original": "La cellule qui fait voyager le message"
+ },
+ {
+  "type": "bloc",
+  "id": "014",
+  "runs": [
+   {
+    "t": "Il est très fort pour une chose : faire passer un message d'un bout à l'autre. Suivons ce message, dans l'ordre.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 388,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Il est très fort pour une chose : faire passer un message d'un bout à l'autre. Suivons ce message, dans l'ordre."
+ },
+ {
+  "type": "h2",
+  "texte": "Les dendrites"
+ },
+ {
+  "type": "note",
+  "texte": "La caméra se pose sur les dendrites. De petites flèches bleues arrivent aux bouts des branches."
+ },
+ {
+  "type": "bloc",
+  "id": "015",
+  "runs": [
+   {
+    "t": "Les dendrites",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 395,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "titre"
+  },
+  "original": "Les dendrites"
+ },
+ {
+  "type": "bloc",
+  "id": "016",
+  "runs": [
+   {
+    "t": "Là où les messages arrivent",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "sous-titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 395,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "sous-titre"
+  },
+  "original": "Là où les messages arrivent"
+ },
+ {
+  "type": "bloc",
+  "id": "017",
+  "runs": [
+   {
+    "t": "Le message arrive par le haut, dans ces branches fines. On les appelle les ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "dendrites",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ".",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 396,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Le message arrive par le haut, dans ces branches fines. On les appelle les dendrites."
+ },
+ {
+  "type": "bloc",
+  "id": "018",
+  "runs": [
+   {
+    "t": "Elles collectent, et elles collectent beaucoup. Ce n'est pas une simple chaîne : ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "des milliers d'autres neurones",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " parlent à celui-ci.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S2"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 398,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Elles collectent, et elles collectent beaucoup. Ce n'est pas une simple chaîne : des milliers d'autres neurones parlent à celui-ci."
+ },
+ {
+  "type": "h2",
+  "texte": "Le corps cellulaire"
+ },
+ {
+  "type": "note",
+  "texte": "La caméra se pose sur le corps cellulaire."
+ },
+ {
+  "type": "bloc",
+  "id": "019",
+  "runs": [
+   {
+    "t": "Le corps cellulaire",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 406,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "titre"
+  },
+  "original": "Le corps cellulaire"
+ },
+ {
+  "type": "bloc",
+  "id": "020",
+  "runs": [
+   {
+    "t": "Là où le neurone décide de transmettre",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "sous-titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 406,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "sous-titre"
+  },
+  "original": "Là où le neurone décide de transmettre"
+ },
+ {
+  "type": "bloc",
+  "id": "021",
+  "runs": [
+   {
+    "t": "Tout ce que les dendrites ont récolté converge ici, dans le ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "corps cellulaire",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ".",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 407,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Tout ce que les dendrites ont récolté converge ici, dans le corps cellulaire."
+ },
+ {
+  "type": "note",
+  "texte": "Trois messages arrivent l'un après l'autre : le corps monte un peu, puis redescend."
+ },
+ {
+  "type": "bloc",
+  "id": "022",
+  "runs": [
+   {
+    "t": "Chaque message qui arrive le fait monter un peu. Un seul ne suffit jamais.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 409,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Chaque message qui arrive le fait monter un peu. Un seul ne suffit jamais."
+ },
+ {
+  "type": "note",
+  "texte": "Premier moment interactif : le curseur du seuil."
+ },
+ {
+  "type": "bloc",
+  "id": "023",
+  "runs": [
+   {
+    "t": "Essaie. Fais monter le nombre de messages qui arrivent.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "consigne",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 412,
+   "balise": "p",
+   "classe": ""
+  },
+  "original": "Essaie. Fais monter le nombre de messages qui arrivent."
+ },
+ {
+  "type": "bloc",
+  "id": "024",
+  "runs": [
+   {
+    "t": "Moins",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 414,
+   "balise": "button",
+   "classe": "curseur-bouton"
+  },
+  "original": "Moins"
+ },
+ {
+  "type": "bloc",
+  "id": "025",
+  "runs": [
+   {
+    "t": "Plus",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 419,
+   "balise": "button",
+   "classe": "curseur-bouton"
+  },
+  "original": "Plus"
+ },
+ {
+  "type": "bloc",
+  "id": "026",
+  "runs": [
+   {
+    "t": "La même impulsion, vue comme une courbe.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "légende de la courbe",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 443,
+   "balise": "figcaption",
+   "classe": "caption"
+  },
+  "original": "La même impulsion, vue comme une courbe."
+ },
+ {
+  "type": "bloc",
+  "id": "027",
+  "runs": [
+   {
+    "t": "Il y a un niveau à atteindre. On l'appelle le ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "seuil",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ". En dessous, il ne se passe rien. Au-dessus, quelque chose part vers le bas : une ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "impulsion",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ". Et elle part ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "toujours pareil",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ", pas plus fort si tu pousses plus.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S6"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 446,
+   "balise": "p",
+   "classe": "temps-parcours t-seuil"
+  },
+  "original": "Il y a un niveau à atteindre. On l'appelle le seuil. En dessous, il ne se passe rien. Au-dessus, quelque chose part vers le bas : une impulsion. Et elle part toujours pareil, pas plus fort si tu pousses plus."
+ },
+ {
+  "type": "bloc",
+  "id": "028",
+  "runs": [
+   {
+    "t": "Comme un interrupteur : tu peux appuyer doucement autant que tu veux, la lumière reste éteinte. Passé le déclic, elle s'allume. Et toujours à la même intensité.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 452,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Comme un interrupteur : tu peux appuyer doucement autant que tu veux, la lumière reste éteinte. Passé le déclic, elle s'allume. Et toujours à la même intensité."
+ },
+ {
+  "type": "bloc",
+  "id": "029",
+  "runs": [
+   {
+    "t": "Sauf que le neurone, lui, se rallume aussitôt. Prêt pour le message suivant.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 455,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Sauf que le neurone, lui, se rallume aussitôt. Prêt pour le message suivant."
+ },
+ {
+  "type": "h2",
+  "texte": "L'axone"
+ },
+ {
+  "type": "note",
+  "texte": "La caméra montre l'axone entier."
+ },
+ {
+  "type": "bloc",
+  "id": "030",
+  "runs": [
+   {
+    "t": "L'axone",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 462,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "titre"
+  },
+  "original": "L'axone"
+ },
+ {
+  "type": "bloc",
+  "id": "031",
+  "runs": [
+   {
+    "t": "Le long câble qui emporte l'impulsion",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "sous-titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 462,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "sous-titre"
+  },
+  "original": "Le long câble qui emporte l'impulsion"
+ },
+ {
+  "type": "bloc",
+  "id": "032",
+  "runs": [
+   {
+    "t": "Une fois partie, l'impulsion descend le long de l'",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "axone",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ". Un neurone a des milliers d'entrées, mais ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "un seul axone",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ".",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S2"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 463,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Une fois partie, l'impulsion descend le long de l'axone. Un neurone a des milliers d'entrées, mais un seul axone."
+ },
+ {
+  "type": "bloc",
+  "id": "033",
+  "runs": [
+   {
+    "t": "Cette impulsion est bien un signal ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "électrique",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ". Mais pas comme dans un câble : c'est un basculement qui se propage, de proche en proche.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 466,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Cette impulsion est bien un signal électrique. Mais pas comme dans un câble : c'est un basculement qui se propage, de proche en proche."
+ },
+ {
+  "type": "note",
+  "texte": "Une impulsion lente descend l'axone nu."
+ },
+ {
+  "type": "bloc",
+  "id": "034",
+  "runs": [
+   {
+    "t": "Sur un axone nu, c'est lent. Beaucoup trop lent pour tes deux centièmes de seconde.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S3"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 470,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Sur un axone nu, c'est lent. Beaucoup trop lent pour tes deux centièmes de seconde."
+ },
+ {
+  "type": "bloc",
+  "id": "035",
+  "runs": [
+   {
+    "t": "D'où ceci : une gaine, posée par morceaux le long de l'axone. On l'appelle la ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "myéline",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ".",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 472,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "D'où ceci : une gaine, posée par morceaux le long de l'axone. On l'appelle la myéline."
+ },
+ {
+  "type": "note",
+  "texte": "Second moment interactif : le défi du chronomètre. Le chronomètre affiche un temps qui change tout seul (0,51 s au départ), il n'est pas dans cette liste."
+ },
+ {
+  "type": "bloc",
+  "id": "036",
+  "runs": [
+   {
+    "t": "À toi. Ajoute de la myéline jusqu'à ce que le message arrive à temps.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "consigne",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 475,
+   "balise": "p",
+   "classe": ""
+  },
+  "original": "À toi. Ajoute de la myéline jusqu'à ce que le message arrive à temps."
+ },
+ {
+  "type": "bloc",
+  "id": "037",
+  "runs": [
+   {
+    "t": " Objectif : ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "0,02 s",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ", le chiffre du premier écran.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "sous le chronomètre",
+  "sources": [
+   "S1"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 477,
+   "balise": "p",
+   "classe": "chrono-defi"
+  },
+  "original": " Objectif : 0,02 s, le chiffre du premier écran."
+ },
+ {
+  "type": "bloc",
+  "id": "038",
+  "runs": [
+   {
+    "t": "Retirer",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 484,
+   "balise": "button",
+   "classe": "curseur-bouton"
+  },
+  "original": "Retirer"
+ },
+ {
+  "type": "bloc",
+  "id": "039",
+  "runs": [
+   {
+    "t": "Ajouter",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 489,
+   "balise": "button",
+   "classe": "curseur-bouton"
+  },
+  "original": "Ajouter"
+ },
+ {
+  "type": "bloc",
+  "id": "040",
+  "runs": [
+   {
+    "t": "Tu as vu ? Tant qu'il reste un bout à découvert, le message y perd tout son temps. Il faut la gaine ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "partout",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ". Alors le signal saute d'un morceau au suivant au lieu de ramper : jusqu'à ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "cinquante fois plus vite",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ".",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S3"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 494,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Tu as vu ? Tant qu'il reste un bout à découvert, le message y perd tout son temps. Il faut la gaine partout. Alors le signal saute d'un morceau au suivant au lieu de ramper : jusqu'à cinquante fois plus vite."
+ },
+ {
+  "type": "bloc",
+  "id": "041",
+  "runs": [
+   {
+    "t": "Voilà pourquoi ça va si vite.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S1",
+   "S3"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 498,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Voilà pourquoi ça va si vite."
+ },
+ {
+  "type": "h2",
+  "texte": "Les terminaisons"
+ },
+ {
+  "type": "bloc",
+  "id": "042",
+  "runs": [
+   {
+    "t": "Les terminaisons",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 504,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "titre"
+  },
+  "original": "Les terminaisons"
+ },
+ {
+  "type": "bloc",
+  "id": "043",
+  "runs": [
+   {
+    "t": "Là où le message passe à la cellule suivante",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "sous-titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 504,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "sous-titre"
+  },
+  "original": "Là où le message passe à la cellule suivante"
+ },
+ {
+  "type": "bloc",
+  "id": "044",
+  "runs": [
+   {
+    "t": "Tout en bas, l'axone se divise en petites branches, chacune finie par un renflement.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 505,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Tout en bas, l'axone se divise en petites branches, chacune finie par un renflement."
+ },
+ {
+  "type": "note",
+  "texte": "La caméra plonge sur un renflement et la cellule d'en face."
+ },
+ {
+  "type": "bloc",
+  "id": "045",
+  "runs": [
+   {
+    "t": "Et là, surprise : la cellule suivante n'est pas collée. Il reste un vide.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S9"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 507,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Et là, surprise : la cellule suivante n'est pas collée. Il reste un vide."
+ },
+ {
+  "type": "note",
+  "texte": "Des messagers orange traversent le vide, la cellule d'en face s'illumine en bleu."
+ },
+ {
+  "type": "bloc",
+  "id": "046",
+  "runs": [
+   {
+    "t": "Alors le message change de forme : il devient chimique. Le renflement libère des ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "messagers",
+    "gras": true,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " qui traversent le vide et vont toucher la cellule d'en face.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 509,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Alors le message change de forme : il devient chimique. Le renflement libère des messagers qui traversent le vide et vont toucher la cellule d'en face."
+ },
+ {
+  "type": "bloc",
+  "id": "047",
+  "runs": [
+   {
+    "t": "Et de l'autre côté, tout recommence.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 513,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Et de l'autre côté, tout recommence."
+ },
+ {
+  "type": "h1",
+  "texte": "Acte 2 · Le retour au corps"
+ },
+ {
+  "type": "note",
+  "texte": "La caméra recule, la chaîne de cellules réapparaît."
+ },
+ {
+  "type": "bloc",
+  "id": "048",
+  "runs": [
+   {
+    "t": "Le dernier maillon de la chaîne ne parle pas à un neurone. Il parle à un muscle.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 520,
+   "balise": "p",
+   "classe": "temps-parcours lead"
+  },
+  "original": "Le dernier maillon de la chaîne ne parle pas à un neurone. Il parle à un muscle."
+ },
+ {
+  "type": "note",
+  "texte": "La silhouette entière revient, avec son trajet."
+ },
+ {
+  "type": "bloc",
+  "id": "049",
+  "runs": [
+   {
+    "t": "Ton doigt",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 527,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "titre"
+  },
+  "original": "Ton doigt"
+ },
+ {
+  "type": "bloc",
+  "id": "050",
+  "runs": [
+   {
+    "t": "Là où le message arrive, et où tout a commencé",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "sous-titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 527,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "sous-titre"
+  },
+  "original": "Là où le message arrive, et où tout a commencé"
+ },
+ {
+  "type": "bloc",
+  "id": "051",
+  "runs": [
+   {
+    "t": "Le muscle se contracte. Ton doigt appuie.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 528,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Le muscle se contracte. Ton doigt appuie."
+ },
+ {
+  "type": "note",
+  "texte": "Le trait se démultiplie en faisceau."
+ },
+ {
+  "type": "bloc",
+  "id": "052",
+  "runs": [
+   {
+    "t": "Une dernière chose. On a suivi ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "un",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " neurone. Mais pour un seul geste, ton corps en a mobilisé ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "des centaines",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": ", qui ont envoyé des centaines d'impulsions, ensemble.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [
+   "S4"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 534,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "original": "Une dernière chose. On a suivi un neurone. Mais pour un seul geste, ton corps en a mobilisé des centaines, qui ont envoyé des centaines d'impulsions, ensemble."
+ },
+ {
+  "type": "note",
+  "texte": "Le bouton magenta du premier écran revient et rejoue l'impulsion."
+ },
+ {
+  "type": "bloc",
+  "id": "053",
+  "runs": [
+   {
+    "t": "Tout ça, pour un clic. Pas mal, non ?",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 543,
+   "balise": "p",
+   "classe": "temps-parcours lead"
+  },
+  "original": "Tout ça, pour un clic. Pas mal, non ?"
+ },
+ {
+  "type": "bloc",
+  "id": "054",
+  "runs": [
+   {
+    "t": "Clique",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 545,
+   "balise": "button",
+   "classe": "bouton-entree"
+  },
+  "original": "Clique"
+ },
+ {
+  "type": "h1",
+  "texte": "Acte 3 · Le quiz"
+ },
+ {
+  "type": "bloc",
+  "id": "055",
+  "runs": [
+   {
+    "t": "Cinq questions",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 585,
+   "balise": "h2",
+   "classe": ""
+  },
+  "original": "Cinq questions"
+ },
+ {
+  "type": "bloc",
+  "id": "056",
+  "runs": [
+   {
+    "t": "Pas de note, pas de chrono. Tu peux te tromper autant que tu veux : à chaque réponse, une explication.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 586,
+   "balise": "p",
+   "classe": "quiz-intro"
+  },
+  "original": "Pas de note, pas de chrono. Tu peux te tromper autant que tu veux : à chaque réponse, une explication."
+ },
+ {
+  "type": "note",
+  "texte": "Chaque question a trois réponses. Après un choix, bon ou non, une explication s'affiche. Le mot « Réponse. » en gris devant n'apparaît que si JavaScript est coupé."
+ },
+ {
+  "type": "h2",
+  "texte": "Question 1"
+ },
+ {
+  "type": "bloc",
+  "id": "057",
+  "runs": [
+   {
+    "t": " Dans un neurone, le message circule dans quel sens ?",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "question",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 590,
+   "balise": "legend",
+   "classe": ""
+  },
+  "original": " Dans un neurone, le message circule dans quel sens ?"
+ },
+ {
+  "type": "bloc",
+  "id": "058",
+  "runs": [
+   {
+    "t": "Des dendrites vers l'axone",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": true,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 592,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Des dendrites vers l'axone"
+ },
+ {
+  "type": "bloc",
+  "id": "059",
+  "runs": [
+   {
+    "t": "De l'axone vers les dendrites",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 596,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "De l'axone vers les dendrites"
+ },
+ {
+  "type": "bloc",
+  "id": "060",
+  "runs": [
+   {
+    "t": "Dans les deux sens, ça dépend",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 600,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Dans les deux sens, ça dépend"
+ },
+ {
+  "type": "bloc",
+  "id": "061",
+  "runs": [
+   {
+    "t": "Réponse. ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": true,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "Des dendrites vers l'axone.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " Toujours dans ce sens, jamais l'inverse. C'est pour ça que le neurone est dessiné à la verticale sur ce site : il descend, comme le message.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "explication",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 607,
+   "balise": "p",
+   "classe": "explication"
+  },
+  "original": "Réponse. Des dendrites vers l'axone. Toujours dans ce sens, jamais l'inverse. C'est pour ça que le neurone est dessiné à la verticale sur ce site : il descend, comme le message."
+ },
+ {
+  "type": "h2",
+  "texte": "Question 2"
+ },
+ {
+  "type": "bloc",
+  "id": "062",
+  "runs": [
+   {
+    "t": " Deux neurones dépassent leur seuil. Le premier le dépasse tout juste, le second le dépasse très largement. Que se passe-t-il ?",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "question",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 612,
+   "balise": "legend",
+   "classe": ""
+  },
+  "original": " Deux neurones dépassent leur seuil. Le premier le dépasse tout juste, le second le dépasse très largement. Que se passe-t-il ?"
+ },
+ {
+  "type": "bloc",
+  "id": "063",
+  "runs": [
+   {
+    "t": "Le second envoie une impulsion plus forte",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 614,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Le second envoie une impulsion plus forte"
+ },
+ {
+  "type": "bloc",
+  "id": "064",
+  "runs": [
+   {
+    "t": "Les deux envoient exactement la même impulsion",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": true,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 618,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Les deux envoient exactement la même impulsion"
+ },
+ {
+  "type": "bloc",
+  "id": "065",
+  "runs": [
+   {
+    "t": "Le second envoie une impulsion plus longue",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 622,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Le second envoie une impulsion plus longue"
+ },
+ {
+  "type": "bloc",
+  "id": "066",
+  "runs": [
+   {
+    "t": "Réponse. ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": true,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "Les deux envoient exactement la même impulsion.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " C'est la loi du tout ou rien. Comme un interrupteur : appuyer plus fort n'allume pas la lumière plus fort. Ce qu'un neurone fait varier, ce n'est pas la force de son impulsion, c'est le ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "nombre",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " d'impulsions qu'il envoie.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "explication",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 629,
+   "balise": "p",
+   "classe": "explication"
+  },
+  "original": "Réponse. Les deux envoient exactement la même impulsion. C'est la loi du tout ou rien. Comme un interrupteur : appuyer plus fort n'allume pas la lumière plus fort. Ce qu'un neurone fait varier, ce n'est pas la force de son impulsion, c'est le nombre d'impulsions qu'il envoie."
+ },
+ {
+  "type": "h2",
+  "texte": "Question 3"
+ },
+ {
+  "type": "bloc",
+  "id": "067",
+  "runs": [
+   {
+    "t": " À quoi sert la myéline ?",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "question",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 634,
+   "balise": "legend",
+   "classe": ""
+  },
+  "original": " À quoi sert la myéline ?"
+ },
+ {
+  "type": "bloc",
+  "id": "068",
+  "runs": [
+   {
+    "t": "À faire voyager le message beaucoup plus vite",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": true,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 636,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "À faire voyager le message beaucoup plus vite"
+ },
+ {
+  "type": "bloc",
+  "id": "069",
+  "runs": [
+   {
+    "t": "À protéger l'axone des chocs",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 640,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "À protéger l'axone des chocs"
+ },
+ {
+  "type": "bloc",
+  "id": "070",
+  "runs": [
+   {
+    "t": "À fabriquer l'impulsion",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 644,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "À fabriquer l'impulsion"
+ },
+ {
+  "type": "bloc",
+  "id": "071",
+  "runs": [
+   {
+    "t": "Réponse. ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": true,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "À faire voyager le message beaucoup plus vite.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " Avec elle, le signal saute d'un morceau au suivant au lieu de ramper. Jusqu'à cinquante fois plus vite. Et il en faut sur ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "tout",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " le trajet : s'il reste un bout à découvert, le message y perd presque tout son temps.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "explication",
+  "sources": [
+   "S3"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 651,
+   "balise": "p",
+   "classe": "explication"
+  },
+  "original": "Réponse. À faire voyager le message beaucoup plus vite. Avec elle, le signal saute d'un morceau au suivant au lieu de ramper. Jusqu'à cinquante fois plus vite. Et il en faut sur tout le trajet : s'il reste un bout à découvert, le message y perd presque tout son temps."
+ },
+ {
+  "type": "h2",
+  "texte": "Question 4"
+ },
+ {
+  "type": "bloc",
+  "id": "072",
+  "runs": [
+   {
+    "t": " Entre deux neurones, qu'est-ce qui franchit le vide qui les sépare ?",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "question",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 656,
+   "balise": "legend",
+   "classe": ""
+  },
+  "original": " Entre deux neurones, qu'est-ce qui franchit le vide qui les sépare ?"
+ },
+ {
+  "type": "bloc",
+  "id": "073",
+  "runs": [
+   {
+    "t": "Une étincelle électrique",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 658,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Une étincelle électrique"
+ },
+ {
+  "type": "bloc",
+  "id": "074",
+  "runs": [
+   {
+    "t": "Des messagers chimiques",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": true,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 662,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Des messagers chimiques"
+ },
+ {
+  "type": "bloc",
+  "id": "075",
+  "runs": [
+   {
+    "t": "Rien, les deux neurones se touchent",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 666,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Rien, les deux neurones se touchent"
+ },
+ {
+  "type": "bloc",
+  "id": "076",
+  "runs": [
+   {
+    "t": "Réponse. ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": true,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "Des messagers chimiques.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " Le message change de forme en route. Électrique à l'intérieur du neurone, chimique pour passer d'un neurone au suivant.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "explication",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 673,
+   "balise": "p",
+   "classe": "explication"
+  },
+  "original": "Réponse. Des messagers chimiques. Le message change de forme en route. Électrique à l'intérieur du neurone, chimique pour passer d'un neurone au suivant."
+ },
+ {
+  "type": "h2",
+  "texte": "Question 5"
+ },
+ {
+  "type": "bloc",
+  "id": "077",
+  "runs": [
+   {
+    "t": " Pour que ton doigt appuie sur l'écran, combien de neurones ont travaillé ?",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "question",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 678,
+   "balise": "legend",
+   "classe": ""
+  },
+  "original": " Pour que ton doigt appuie sur l'écran, combien de neurones ont travaillé ?"
+ },
+ {
+  "type": "bloc",
+  "id": "078",
+  "runs": [
+   {
+    "t": "Un seul, celui qu'on a suivi",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 680,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Un seul, celui qu'on a suivi"
+ },
+ {
+  "type": "bloc",
+  "id": "079",
+  "runs": [
+   {
+    "t": "Deux, un pour partir et un pour arriver",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 684,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Deux, un pour partir et un pour arriver"
+ },
+ {
+  "type": "bloc",
+  "id": "080",
+  "runs": [
+   {
+    "t": "Des centaines",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "réponse",
+  "sources": [],
+  "bonne": true,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 688,
+   "balise": "label",
+   "classe": "choix-item"
+  },
+  "original": "Des centaines"
+ },
+ {
+  "type": "bloc",
+  "id": "081",
+  "runs": [
+   {
+    "t": "Réponse. ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": true,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "Des centaines.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " On en a suivi ",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": "un",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " pour comprendre comment ça marche. Mais ton corps en a mobilisé des centaines, en même temps, chacun envoyant sa propre série d'impulsions.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "explication",
+  "sources": [
+   "S4"
+  ],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 695,
+   "balise": "p",
+   "classe": "explication"
+  },
+  "original": "Réponse. Des centaines. On en a suivi un pour comprendre comment ça marche. Mais ton corps en a mobilisé des centaines, en même temps, chacun envoyant sa propre série d'impulsions."
+ },
+ {
+  "type": "h2",
+  "texte": "Après chaque réponse"
+ },
+ {
+  "type": "note",
+  "texte": "Le verdict, au-dessus de l'explication, avec une coche ou une croix."
+ },
+ {
+  "type": "bloc",
+  "id": "082",
+  "runs": [
+   {
+    "t": "Bonne réponse",
+    "gras": false,
+    "mot": true,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "verdict",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/quiz.js",
+   "ligne": 79
+  },
+  "original": "Bonne réponse"
+ },
+ {
+  "type": "bloc",
+  "id": "083",
+  "runs": [
+   {
+    "t": "Pas tout à fait",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "verdict",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/quiz.js",
+   "ligne": 80
+  },
+  "original": "Pas tout à fait"
+ },
+ {
+  "type": "h2",
+  "texte": "La fin"
+ },
+ {
+  "type": "bloc",
+  "id": "084",
+  "runs": [
+   {
+    "t": "Voilà. Tu sais maintenant ce qui s'est passé entre ta tête et ton doigt quand tu as cliqué sur ce bouton, tout au début.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 703,
+   "balise": "p",
+   "classe": "lead"
+  },
+  "original": "Voilà. Tu sais maintenant ce qui s'est passé entre ta tête et ton doigt quand tu as cliqué sur ce bouton, tout au début."
+ },
+ {
+  "type": "bloc",
+  "id": "085",
+  "runs": [
+   {
+    "t": "Clique",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 707,
+   "balise": "button",
+   "classe": "bouton-entree"
+  },
+  "original": "Clique"
+ },
+ {
+  "type": "h1",
+  "texte": "Le pied de page"
+ },
+ {
+  "type": "bloc",
+  "id": "086",
+  "runs": [
+   {
+    "t": "Projet personnel de vulgarisation scientifique. Les sources seront listées ici.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "index.html",
+   "ligne_index_html": 717,
+   "balise": "p",
+   "classe": "caption"
+  },
+  "original": "Projet personnel de vulgarisation scientifique. Les sources seront listées ici."
+ },
+ {
+  "type": "h1",
+  "texte": "Les petits textes de l'interface"
+ },
+ {
+  "type": "note",
+  "texte": "Visibles à l'écran, mais en dehors du récit."
+ },
+ {
+  "type": "bloc",
+  "id": "087",
+  "runs": [
+   {
+    "t": "Comment un neurone transmet l'information",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "onglet du navigateur",
+  "sources": [],
+  "bonne": false,
+  "remarque": "provisoire",
+  "source": {
+   "fichier": "index.html",
+   "ligne_index_html": 6,
+   "balise": "title",
+   "classe": ""
+  },
+  "original": "Comment un neurone transmet l'information"
+ },
+ {
+  "type": "bloc",
+  "id": "088",
+  "runs": [
+   {
+    "t": "Aller au contenu",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "lien",
+  "sources": [],
+  "bonne": false,
+  "remarque": "visible seulement quand on navigue au clavier",
+  "source": {
+   "fichier": "index.html",
+   "ligne_index_html": 25,
+   "balise": "a",
+   "classe": "skip-link"
+  },
+  "original": "Aller au contenu"
+ },
+ {
+  "type": "bloc",
+  "id": "089",
+  "runs": [
+   {
+    "t": "Réduire les animations",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton en haut à droite",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "index.html",
+   "ligne_index_html": 28,
+   "balise": "button",
+   "classe": ""
+  },
+  "original": "Réduire les animations"
+ },
+ {
+  "type": "bloc",
+  "id": "090",
+  "runs": [
+   {
+    "t": "Animations réduites",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "le même bouton, une fois activé",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/a11y.js",
+   "ligne": 58
+  },
+  "original": "Animations réduites"
+ },
+ {
+  "type": "h2",
+  "texte": "Les boutons du parcours"
+ },
+ {
+  "type": "bloc",
+  "id": "091",
+  "runs": [
+   {
+    "t": "Vue entière",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 321,
+   "balise": "button",
+   "classe": ""
+  },
+  "original": "Vue entière"
+ },
+ {
+  "type": "bloc",
+  "id": "092",
+  "runs": [
+   {
+    "t": "1. Dendrites",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 322,
+   "balise": "button",
+   "classe": ""
+  },
+  "original": "1. Dendrites"
+ },
+ {
+  "type": "bloc",
+  "id": "093",
+  "runs": [
+   {
+    "t": "2. Corps",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 323,
+   "balise": "button",
+   "classe": ""
+  },
+  "original": "2. Corps"
+ },
+ {
+  "type": "bloc",
+  "id": "094",
+  "runs": [
+   {
+    "t": "3. Axone",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 324,
+   "balise": "button",
+   "classe": ""
+  },
+  "original": "3. Axone"
+ },
+ {
+  "type": "bloc",
+  "id": "095",
+  "runs": [
+   {
+    "t": "4. Terminaisons",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 325,
+   "balise": "button",
+   "classe": ""
+  },
+  "original": "4. Terminaisons"
+ },
+ {
+  "type": "h2",
+  "texte": "Le titre au-dessus du dessin"
+ },
+ {
+  "type": "note",
+  "texte": "Il change avec la partie montrée. Le site met lui-même la majuscule."
+ },
+ {
+  "type": "bloc",
+  "id": "096",
+  "runs": [
+   {
+    "t": "Le messager",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre de départ",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 186,
+   "balise": "p",
+   "classe": "figure-titre"
+  },
+  "original": "Le messager"
+ },
+ {
+  "type": "bloc",
+  "id": "097",
+  "runs": [
+   {
+    "t": "une chaîne de cellules",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 53,
+   "vue": "chaine"
+  },
+  "original": "une chaîne de cellules"
+ },
+ {
+  "type": "bloc",
+  "id": "098",
+  "runs": [
+   {
+    "t": "un neurone",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 54,
+   "vue": "cellule"
+  },
+  "original": "un neurone"
+ },
+ {
+  "type": "bloc",
+  "id": "099",
+  "runs": [
+   {
+    "t": "le neurone entier",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 55,
+   "vue": "plan"
+  },
+  "original": "le neurone entier"
+ },
+ {
+  "type": "bloc",
+  "id": "100",
+  "runs": [
+   {
+    "t": "les dendrites",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 57,
+   "vue": "dendrites"
+  },
+  "original": "les dendrites"
+ },
+ {
+  "type": "bloc",
+  "id": "101",
+  "runs": [
+   {
+    "t": "le corps cellulaire",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 58,
+   "vue": "soma"
+  },
+  "original": "le corps cellulaire"
+ },
+ {
+  "type": "bloc",
+  "id": "102",
+  "runs": [
+   {
+    "t": "l'axone",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 62,
+   "vue": "axone"
+  },
+  "original": "l'axone"
+ },
+ {
+  "type": "bloc",
+  "id": "103",
+  "runs": [
+   {
+    "t": "les terminaisons",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 63,
+   "vue": "terminaisons"
+  },
+  "original": "les terminaisons"
+ },
+ {
+  "type": "bloc",
+  "id": "104",
+  "runs": [
+   {
+    "t": "la synapse",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 69,
+   "vue": "synapse"
+  },
+  "original": "la synapse"
+ },
+ {
+  "type": "bloc",
+  "id": "105",
+  "runs": [
+   {
+    "t": "la chaîne de cellules",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 74,
+   "vue": "muscle"
+  },
+  "original": "la chaîne de cellules"
+ },
+ {
+  "type": "bloc",
+  "id": "106",
+  "runs": [
+   {
+    "t": "ton doigt",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 75,
+   "vue": "doigt"
+  },
+  "original": "ton doigt"
+ },
+ {
+  "type": "bloc",
+  "id": "107",
+  "runs": [
+   {
+    "t": "des centaines de neurones",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 76,
+   "vue": "faisceau"
+  },
+  "original": "des centaines de neurones"
+ },
+ {
+  "type": "bloc",
+  "id": "108",
+  "runs": [
+   {
+    "t": "tout ça, pour un clic",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du dessin",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 77,
+   "vue": "clic"
+  },
+  "original": "tout ça, pour un clic"
+ },
+ {
+  "type": "h2",
+  "texte": "Le défi du chronomètre"
+ },
+ {
+  "type": "bloc",
+  "id": "109",
+  "runs": [
+   {
+    "t": "Objectif atteint.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "quand les six segments sont posés",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/myeline.js",
+   "ligne": 131
+  },
+  "original": "Objectif atteint."
+ },
+ {
+  "type": "h2",
+  "texte": "La description du dessin en texte"
+ },
+ {
+  "type": "note",
+  "texte": "Un bloc dépliable sous le récit, pour qui préfère lire que regarder."
+ },
+ {
+  "type": "bloc",
+  "id": "110",
+  "runs": [
+   {
+    "t": "Lire la description complète en texte",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton pour déplier",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 554,
+   "balise": "summary",
+   "classe": ""
+  },
+  "original": "Lire la description complète en texte"
+ },
+ {
+  "type": "bloc",
+  "id": "111",
+  "runs": [
+   {
+    "t": "Les dendrites.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " Les branches fines, en haut, qui partent dans toutes les directions. C'est par là que le message arrive. Des milliers d'autres neurones parlent à celui-ci.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 556,
+   "balise": "li",
+   "classe": ""
+  },
+  "original": "Les dendrites. Les branches fines, en haut, qui partent dans toutes les directions. C'est par là que le message arrive. Des milliers d'autres neurones parlent à celui-ci."
+ },
+ {
+  "type": "bloc",
+  "id": "112",
+  "runs": [
+   {
+    "t": "Le corps cellulaire.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " Le rond où convergent les branches. Chaque message qui arrive le fait monter un peu. Passé un niveau, le seuil, une impulsion part vers le bas, toujours pareille. En dessous, rien ne part.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 559,
+   "balise": "li",
+   "classe": ""
+  },
+  "original": "Le corps cellulaire. Le rond où convergent les branches. Chaque message qui arrive le fait monter un peu. Passé un niveau, le seuil, une impulsion part vers le bas, toujours pareille. En dessous, rien ne part."
+ },
+ {
+  "type": "bloc",
+  "id": "113",
+  "runs": [
+   {
+    "t": "L'axone.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " Le fil unique qui descend du corps cellulaire. L'impulsion y descend : c'est un signal électrique, mais pas comme dans un câble. Sur un axone nu c'est lent ; une gaine posée par morceaux, la myéline, le rend rapide.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 563,
+   "balise": "li",
+   "classe": ""
+  },
+  "original": "L'axone. Le fil unique qui descend du corps cellulaire. L'impulsion y descend : c'est un signal électrique, mais pas comme dans un câble. Sur un axone nu c'est lent ; une gaine posée par morceaux, la myéline, le rend rapide."
+ },
+ {
+  "type": "bloc",
+  "id": "114",
+  "runs": [
+   {
+    "t": "Les terminaisons.",
+    "gras": true,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   },
+   {
+    "t": " Tout en bas, l'axone se divise en petites branches finies par un renflement. La cellule suivante n'est pas collée : des messagers chimiques traversent le vide, et de l'autre côté tout recommence.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 567,
+   "balise": "li",
+   "classe": ""
+  },
+  "original": "Les terminaisons. Tout en bas, l'axone se divise en petites branches finies par un renflement. La cellule suivante n'est pas collée : des messagers chimiques traversent le vide, et de l'autre côté tout recommence."
+ },
+ {
+  "type": "h1",
+  "texte": "Ce que lisent les lecteurs d'écran"
+ },
+ {
+  "type": "note",
+  "texte": "Invisible à l'écran. Lu à voix haute par les logiciels des personnes aveugles ou malvoyantes. Si tu changes le récit, ces textes doivent rester cohérents avec lui. Les crochets [nombre] sont remplacés par le site."
+ },
+ {
+  "type": "bloc",
+  "id": "115",
+  "runs": [
+   {
+    "t": "Le neurone, et par où passe le message",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre caché de la section",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 47,
+   "balise": "h2",
+   "classe": "sr-only"
+  },
+  "original": "Le neurone, et par où passe le message"
+ },
+ {
+  "type": "h2",
+  "texte": "Les descriptions des dessins"
+ },
+ {
+  "type": "bloc",
+  "id": "116",
+  "runs": [
+   {
+    "t": "Une silhouette humaine, et le trajet du message",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre de la silhouette",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 107,
+   "balise": "title",
+   "classe": ""
+  },
+  "original": "Une silhouette humaine, et le trajet du message"
+ },
+ {
+  "type": "bloc",
+  "id": "117",
+  "runs": [
+   {
+    "t": "Pictogramme d'une personne vue de face, comme sur un panneau, dessine au trait epais : une tete ronde detachee au-dessus d'un corps aux bras le long du corps. Un trait bleu part de la tete, descend au centre du corps, bifurque vers le bras droit et s'arrete au bout de la main.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "description de la silhouette",
+  "sources": [],
+  "bonne": false,
+  "remarque": "écrite sans accents, ce que l'audit a relevé",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 108,
+   "balise": "desc",
+   "classe": ""
+  },
+  "original": "Pictogramme d'une personne vue de face, comme sur un panneau, dessine au trait epais : une tete ronde detachee au-dessus d'un corps aux bras le long du corps. Un trait bleu part de la tete, descend au centre du corps, bifurque vers le bras droit et s'arrete au bout de la main."
+ },
+ {
+  "type": "bloc",
+  "id": "118",
+  "runs": [
+   {
+    "t": "Un neurone, dessiné au trait",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre du neurone",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 191,
+   "balise": "title",
+   "classe": ""
+  },
+  "original": "Un neurone, dessiné au trait"
+ },
+ {
+  "type": "bloc",
+  "id": "119",
+  "runs": [
+   {
+    "t": "Dessin à l'encre noire sur fond blanc, orienté de haut en bas. En haut, quatre branches fines partent dans des directions différentes et se divisent chacune en deux : les dendrites. Elles convergent vers un rond : le corps cellulaire. De ce rond descend un fil unique et très long, qui traverse toute la hauteur de l'image : l'axone. Il se termine tout en bas par trois petites branches, chacune finie par un point plein.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "description du neurone",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 192,
+   "balise": "desc",
+   "classe": ""
+  },
+  "original": "Dessin à l'encre noire sur fond blanc, orienté de haut en bas. En haut, quatre branches fines partent dans des directions différentes et se divisent chacune en deux : les dendrites. Elles convergent vers un rond : le corps cellulaire. De ce rond descend un fil unique et très long, qui traverse toute la hauteur de l'image : l'axone. Il se termine tout en bas par trois petites branches, chacune finie par un point plein."
+ },
+ {
+  "type": "bloc",
+  "id": "120",
+  "runs": [
+   {
+    "t": "La forme d'une impulsion nerveuse",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "titre de la courbe",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 428,
+   "balise": "title",
+   "classe": ""
+  },
+  "original": "La forme d'une impulsion nerveuse"
+ },
+ {
+  "type": "bloc",
+  "id": "121",
+  "runs": [
+   {
+    "t": "Une ligne horizontale et calme, qui monte brutalement en une pointe étroite, redescend en dessous de son niveau de départ, puis revient tranquillement à l'horizontale.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "description de la courbe",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 429,
+   "balise": "desc",
+   "classe": ""
+  },
+  "original": "Une ligne horizontale et calme, qui monte brutalement en une pointe étroite, redescend en dessous de son niveau de départ, puis revient tranquillement à l'horizontale."
+ },
+ {
+  "type": "h2",
+  "texte": "Les noms des commandes"
+ },
+ {
+  "type": "bloc",
+  "id": "122",
+  "runs": [
+   {
+    "t": "Aller à une partie du neurone",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "barre des boutons du parcours",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 320,
+   "attribut": "aria-label"
+  },
+  "original": "Aller à une partie du neurone"
+ },
+ {
+  "type": "bloc",
+  "id": "123",
+  "runs": [
+   {
+    "t": "Moins de messages",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton Moins",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 415,
+   "attribut": "aria-label"
+  },
+  "original": "Moins de messages"
+ },
+ {
+  "type": "bloc",
+  "id": "124",
+  "runs": [
+   {
+    "t": "Nombre de messages qui arrivent",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "curseur du seuil",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 417,
+   "attribut": "aria-label"
+  },
+  "original": "Nombre de messages qui arrivent"
+ },
+ {
+  "type": "bloc",
+  "id": "125",
+  "runs": [
+   {
+    "t": "Plus de messages",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton Plus",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 420,
+   "attribut": "aria-label"
+  },
+  "original": "Plus de messages"
+ },
+ {
+  "type": "bloc",
+  "id": "126",
+  "runs": [
+   {
+    "t": "Retirer un segment de gaine",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton Retirer",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 485,
+   "attribut": "aria-label"
+  },
+  "original": "Retirer un segment de gaine"
+ },
+ {
+  "type": "bloc",
+  "id": "127",
+  "runs": [
+   {
+    "t": "Segments de gaine posés, sur six",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "curseur de la myéline",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 487,
+   "attribut": "aria-label"
+  },
+  "original": "Segments de gaine posés, sur six"
+ },
+ {
+  "type": "bloc",
+  "id": "128",
+  "runs": [
+   {
+    "t": "Ajouter un segment de gaine",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "bouton Ajouter",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 490,
+   "attribut": "aria-label"
+  },
+  "original": "Ajouter un segment de gaine"
+ },
+ {
+  "type": "h2",
+  "texte": "Les annonces du curseur du seuil"
+ },
+ {
+  "type": "bloc",
+  "id": "129",
+  "runs": [
+   {
+    "t": "Aucun message. Le corps est au repos.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "curseur à zéro",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/seuil.js",
+   "ligne": 241
+  },
+  "original": "Aucun message. Le corps est au repos."
+ },
+ {
+  "type": "bloc",
+  "id": "130",
+  "runs": [
+   {
+    "t": "[nombre] messages. Le seuil est atteint : une impulsion part vers le bas, toujours la même.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "seuil atteint",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/seuil.js",
+   "ligne": 248
+  },
+  "original": "[nombre] messages. Le seuil est atteint : une impulsion part vers le bas, toujours la même."
+ },
+ {
+  "type": "bloc",
+  "id": "131",
+  "runs": [
+   {
+    "t": "[nombre] messages. Le niveau monte, puis redescend. Pas assez pour partir.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "sous le seuil",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/seuil.js",
+   "ligne": 250
+  },
+  "original": "[nombre] messages. Le niveau monte, puis redescend. Pas assez pour partir."
+ },
+ {
+  "type": "bloc",
+  "id": "132",
+  "runs": [
+   {
+    "t": "aucun message / un message / [nombre] messages",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "valeur lue du curseur",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/seuil.js",
+   "ligne": 229
+  },
+  "original": "aucun message / un message / [nombre] messages"
+ },
+ {
+  "type": "h2",
+  "texte": "Les annonces du défi du chronomètre"
+ },
+ {
+  "type": "bloc",
+  "id": "133",
+  "runs": [
+   {
+    "t": "[nombre] segments sur six. Le message met [temps] seconde. Objectif : 0,02 seconde.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "à chaque segment",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/myeline.js",
+   "ligne": 182
+  },
+  "original": "[nombre] segments sur six. Le message met [temps] seconde. Objectif : 0,02 seconde."
+ },
+ {
+  "type": "bloc",
+  "id": "134",
+  "runs": [
+   {
+    "t": "6 segments sur six. Le message met 0,02 seconde. Objectif : 0,02 seconde, atteint.",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "objectif atteint",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/myeline.js",
+   "ligne": 184
+  },
+  "original": "6 segments sur six. Le message met 0,02 seconde. Objectif : 0,02 seconde, atteint."
+ },
+ {
+  "type": "bloc",
+  "id": "135",
+  "runs": [
+   {
+    "t": "aucun segment sur six / un segment sur six / [nombre] segments sur six",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "valeur lue du curseur",
+  "sources": [],
+  "bonne": false,
+  "remarque": "au début d'une annonce, le site met la majuscule",
+  "source": {
+   "fichier": "js/myeline.js",
+   "ligne": 121
+  },
+  "original": "aucun segment sur six / un segment sur six / [nombre] segments sur six"
+ },
+ {
+  "type": "h2",
+  "texte": "L'annonce du parcours"
+ },
+ {
+  "type": "bloc",
+  "id": "136",
+  "runs": [
+   {
+    "t": "Vue sur [titre du dessin].",
+    "gras": false,
+    "mot": false,
+    "sous": false,
+    "sansjs": false,
+    "numero": false,
+    "valeur": false
+   }
+  ],
+  "role": "quand la caméra change de partie",
+  "sources": [],
+  "bonne": false,
+  "remarque": "",
+  "source": {
+   "fichier": "js/recit.js",
+   "ligne": 865
+  },
+  "original": "Vue sur [titre du dessin]."
+ }
+]
