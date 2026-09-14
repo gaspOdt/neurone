@@ -1,0 +1,218 @@
+[
+ {
+  "id": "001",
+  "role": "titre du site",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 63,
+   "balise": "h1",
+   "classe": "titre-site"
+  },
+  "avant": "Comment un neurone transmet l'information",
+  "apres": "Comment un neurone transmet l'information du mouvement ?"
+ },
+ {
+  "id": "010",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 373,
+   "balise": "p",
+   "classe": "temps-parcours lead"
+  },
+  "avant": "Ce chemin n'est pas un fil. C'est une chaîne de cellules, mises bout à bout.",
+  "apres": "Ce chemin est une chaîne de cellules, mises bout à bout."
+ },
+ {
+  "id": "013",
+  "role": "sous-titre",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 387,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "sous-titre"
+  },
+  "avant": "La cellule qui fait voyager le message",
+  "apres": "La cellule qui fait voyager le message du mouvement"
+ },
+ {
+  "id": "014",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 388,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Il est très fort pour une chose : faire passer un message d'un bout à l'autre. Suivons ce message, dans l'ordre.",
+  "apres": "Il est très fort pour une chose : faire passer un message d'un bout à l'autre de la chaine. Suivons ce message, dans l'ordre."
+ },
+ {
+  "id": "018",
+  "role": "",
+  "sources": [
+   "S2"
+  ],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 398,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Elles collectent, et elles collectent beaucoup. Ce n'est pas une simple chaîne : **des milliers d'autres neurones** parlent à celui-ci.",
+  "apres": "Elles collectent les messages, et elles en collectent beaucoup. Ce n'est pas une simple chaîne : **des milliers d'autres neurones** parlent à celui-ci."
+ },
+ {
+  "id": "020",
+  "role": "sous-titre",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 406,
+   "balise": "h3",
+   "classe": "temps-parcours partie-titre",
+   "partie": "sous-titre"
+  },
+  "avant": "Là où le neurone décide de transmettre",
+  "apres": "Là où le neurone décide de transmettre l’information"
+ },
+ {
+  "id": "022",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 409,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Chaque message qui arrive le fait monter un peu. Un seul ne suffit jamais.",
+  "apres": "Chaque message reçu est additionné"
+ },
+ {
+  "id": "027",
+  "role": "",
+  "sources": [
+   "S6"
+  ],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 446,
+   "balise": "p",
+   "classe": "temps-parcours t-seuil"
+  },
+  "avant": "Il y a un niveau à atteindre. On l'appelle le [[seuil]]. En dessous, il ne se passe rien. Au-dessus, quelque chose part vers le bas : une [[impulsion]]. Et elle part **toujours pareil**, pas plus fort si tu pousses plus.",
+  "apres": "Il y a un niveau à atteindre. On l'appelle le [[seuil]]. En dessous, il ne se passe rien. Au-dessus, quelque chose part vers le bas : une [[impulsion]]. Et elle part **toujours pareil**, peu importe le nombre de messages reçus dans les dendrites."
+ },
+ {
+  "id": "028",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 452,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Comme un interrupteur : tu peux appuyer doucement autant que tu veux, la lumière reste éteinte. Passé le déclic, elle s'allume. Et toujours à la même intensité.",
+  "apres": "C’est comme un interrupteur : tu peux appuyer doucement autant que tu veux, la lumière reste éteinte. Si tu appuies fort, l’interrupteur bascule, la lumière s'allume, toujours à la même puissance."
+ },
+ {
+  "id": "029",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 455,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Sauf que le neurone, lui, se rallume aussitôt. Prêt pour le message suivant.",
+  "apres": "Une fois le message transmis, le neurone est tout de suite prêt à transmettre de nouveau."
+ },
+ {
+  "id": "033",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 466,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Cette impulsion est bien un signal [[électrique]]. Mais pas comme dans un câble : c'est un basculement qui se propage, de proche en proche.",
+  "apres": "Cette impulsion est un signal [[électrique]], qui se propage à une vitesse donnée."
+ },
+ {
+  "id": "035",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 472,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "D'où ceci : une gaine, posée par morceaux le long de l'axone. On l'appelle la [[myéline]].",
+  "apres": "Pour que le message aille plus vite, le neurone possède une gaine, posée par morceaux le long de l'axone. On l'appelle la [[myéline]]."
+ },
+ {
+  "id": "040",
+  "role": "",
+  "sources": [
+   "S3"
+  ],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 494,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Tu as vu ? Tant qu'il reste un bout à découvert, le message y perd tout son temps. Il faut la gaine **partout**. Alors le signal saute d'un morceau au suivant au lieu de ramper : jusqu'à **cinquante fois plus vite**.",
+  "apres": "Tu as vu ? Tant qu'il reste un bout à découvert, le message ralentit à cet endroit. Il faut de la myéline **partout**. Grâce à ça, le signal saute d'un morceau au suivant : jusqu'à **cinquante fois plus vite** que s’il n’y avait pas de myéline."
+ },
+ {
+  "id": "046",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 509,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Alors le message change de forme : il devient chimique. Le renflement libère des [[messagers]] qui traversent le vide et vont toucher la cellule d'en face.",
+  "apres": "Alors le message change de forme : il devient chimique. Le renflement libère des [[messagers]] qui traversent le vide et vont toucher la cellule d'en face, ce qui l’active."
+ },
+ {
+  "id": "047",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 513,
+   "balise": "p",
+   "classe": "temps-parcours"
+  },
+  "avant": "Et de l'autre côté, tout recommence.",
+  "apres": "L’information est transmise, le neurone suivant s’active, et tout recommence !"
+ },
+ {
+  "id": "048",
+  "role": "",
+  "sources": [],
+  "source": {
+   "fichier": "outils-dessin-neurone.py",
+   "ligne_index_html": 520,
+   "balise": "p",
+   "classe": "temps-parcours lead"
+  },
+  "avant": "Le dernier maillon de la chaîne ne parle pas à un neurone. Il parle à un muscle.",
+  "apres": "Le dernier neurone de la chaîne ne parle pas à un neurone. Il parle à un muscle."
+ }
+]

@@ -201,7 +201,14 @@ Quick Look sur quatre extraits.
 **Écrit sans Node, LibreOffice ni pandoc**, absents de cette machine : le
 `.docx` est produit avec la seule bibliothèque standard de Python.
 
-**En attente :** le document corrigé.
+**Document corrigé reçu**, rangé dans `docs/texte-du-site/texte-du-site-corrige.docx`.
+136 repères intacts, aucune mise en forme touchée, **16 blocs modifiés**, listés
+avec leur avant et après dans `docs/texte-du-site/changements.json`. Dix
+s'appliquent tels quels ; six sont soumis à l'utilisateur parce qu'ils
+touchent un choix documenté dans `02-CONTENU.md` : 014, 022, 033 (le
+garde-fou « pas comme dans un câble »), 035, 046 et 047.
+
+**En attente :** ses arbitrages sur ces six blocs. Rien n'est encore appliqué au site.
 
 
 ### 11 septembre 2026, soir : une seule mise en page
