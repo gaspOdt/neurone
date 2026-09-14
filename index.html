@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Comment un neurone transmet l'information</title>
+<title>Comment un neurone transmet l'information du mouvement ?</title>
 <meta name="description" content="Un site interactif pour comprendre comment un neurone transmet l'information, et ce qu'est un potentiel d'action.">
 <meta name="color-scheme" content="light">
 
-<link rel="stylesheet" href="css/tokens.css?v=c1a2e0d5">
-<link rel="stylesheet" href="css/base.css?v=c1a2e0d5">
+<link rel="stylesheet" href="css/tokens.css?v=7d0d5100">
+<link rel="stylesheet" href="css/base.css?v=7d0d5100">
 
 <link rel="preload" href="assets/fonts/inter-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -60,7 +60,7 @@
                Demande de l'utilisateur. Il disparaît avec le bouton, au clic.
                Le nom du site n'est PAS encore choisi (README) : ce titre est
                PROVISOIRE, repris de la balise title. -->
-          <h1 class="titre-site">Comment un neurone transmet l'information</h1>
+          <h1 class="titre-site">Comment un neurone transmet l'information du mouvement&nbsp;?</h1>
           <p class="lead">Clique sur ce bouton.</p>
           <button type="button" class="bouton-entree" data-entree>Clique</button>
         </div>
@@ -106,7 +106,7 @@
                  role="img" aria-labelledby="sil-titre sil-desc">
               <title id="sil-titre">Une silhouette humaine, et le trajet du message</title>
               <desc id="sil-desc">Pictogramme d'une personne vue de face, comme
-                sur un panneau, dessine au trait epais : une tete ronde detachee
+                sur un panneau, dessine au trait epais&nbsp;: une tete ronde detachee
                 au-dessus d'un corps aux bras le long du corps. Un trait bleu part de la
                 tete, descend au centre du corps, bifurque vers le bras droit et
                 s'arrete au bout de la main.</desc>
@@ -191,10 +191,10 @@
               <title id="n-titre">Un neurone, dessiné au trait</title>
               <desc id="n-desc">Dessin à l'encre noire sur fond blanc, orienté
                 de haut en bas. En haut, quatre branches fines partent dans des
-                directions différentes et se divisent chacune en deux : les
-                dendrites. Elles convergent vers un rond : le corps cellulaire.
+                directions différentes et se divisent chacune en deux&nbsp;: les
+                dendrites. Elles convergent vers un rond&nbsp;: le corps cellulaire.
                 De ce rond descend un fil unique et très long, qui traverse
-                toute la hauteur de l'image : l'axone. Il se termine tout en
+                toute la hauteur de l'image&nbsp;: l'axone. Il se termine tout en
                 bas par trois petites branches, chacune finie par un point
                 plein.</desc>
 
@@ -370,8 +370,8 @@
     <div class="wrap parcours-textes">
       <div class="etape-texte" id="etape-chaine" data-vue="chaine">
         <div class="etape-contenu">
-          <p class="temps-parcours lead">Ce chemin n'est pas un fil. C'est une chaîne de
-           cellules, mises bout à bout.</p>
+          <p class="temps-parcours lead">Ce chemin est une chaîne de cellules, mises bout à
+           bout.</p>
         </div>
       </div>
 
@@ -384,9 +384,10 @@
 
       <div class="etape-texte" id="etape-plan" data-vue="plan">
         <div class="etape-contenu">
-          <h3 class="temps-parcours partie-titre">Le neurone<span class="sous-titre">La cellule qui fait voyager le message</span></h3>
-          <p class="temps-parcours">Il est très fort pour une chose : faire passer un message d'un
-           bout à l'autre. Suivons ce message, dans l'ordre.</p>
+          <h3 class="temps-parcours partie-titre">Le neurone<span class="sous-titre">La cellule qui fait voyager le message du mouvement</span></h3>
+          <p class="temps-parcours">Il est très fort pour une chose&nbsp;: faire passer un message d'un
+           bout à l'autre, puis au suivant de la chaîne. Suivons ce message,
+           dans l'ordre.</p>
         </div>
       </div>
 
@@ -395,19 +396,19 @@
           <h3 class="temps-parcours partie-titre">Les dendrites<span class="sous-titre">Là où les messages arrivent</span></h3>
           <p class="temps-parcours">Le message arrive par le haut, dans ces branches fines. On les
            appelle les <strong class="mot">dendrites</strong>.</p>
-          <p class="temps-parcours">Elles collectent, et elles collectent beaucoup. Ce n'est pas une
-           simple chaîne : <strong>des milliers d'autres neurones</strong>
-           parlent à celui-ci.</p>
+          <p class="temps-parcours">Elles collectent les messages, et elles en collectent beaucoup.
+           Ce n'est pas une simple chaîne&nbsp;: <strong>des milliers d'autres
+           neurones</strong> parlent à celui-ci.</p>
         </div>
       </div>
 
       <div class="etape-texte" id="etape-soma" data-vue="soma">
         <div class="etape-contenu">
-          <h3 class="temps-parcours partie-titre">Le corps cellulaire<span class="sous-titre">Là où le neurone décide de transmettre</span></h3>
+          <h3 class="temps-parcours partie-titre">Le corps cellulaire<span class="sous-titre">Là où le neurone décide de transmettre l'information</span></h3>
           <p class="temps-parcours">Tout ce que les dendrites ont récolté converge ici, dans le
            <strong class="mot">corps cellulaire</strong>.</p>
-          <p class="temps-parcours" data-demo="messages">Chaque message qui arrive le fait monter
-           un peu. Un seul ne suffit jamais.</p>
+          <p class="temps-parcours" data-demo="messages">Les messages reçus s'additionnent&nbsp;: chacun
+           fait monter le corps un peu, puis ça redescend.</p>
           <div class="temps-parcours interaction" data-interaction="seuil">
           <p>Essaie. Fais monter le nombre de messages qui arrivent.</p>
           <div class="curseur">
@@ -444,16 +445,17 @@
             courbe.</figcaption>
         </figure>
           <p class="temps-parcours t-seuil">Il y a un niveau à atteindre. On l'appelle le
-           <strong class="mot">seuil</strong>. En dessous, il ne se passe
-           rien. Au-dessus, quelque chose part vers le bas : une
+           <strong class="mot">seuil</strong>. En dessous, il ne se passe rien.
+           Au-dessus, quelque chose part vers le bas&nbsp;: une
            <strong class="mot">impulsion</strong>. Et elle part
-           <strong>toujours pareil</strong>, pas plus fort si tu pousses
-           plus.</p>
-          <p class="temps-parcours">Comme un interrupteur : tu peux appuyer doucement autant que tu
-           veux, la lumière reste éteinte. Passé le déclic, elle s'allume. Et
-           toujours à la même intensité.</p>
-          <p class="temps-parcours">Sauf que le neurone, lui, se rallume aussitôt. Prêt pour le
-           message suivant.</p>
+           <strong>toujours pareil</strong>, peu importe le nombre de messages
+           reçus dans les dendrites.</p>
+          <p class="temps-parcours">C'est comme un interrupteur&nbsp;: tu peux appuyer doucement autant
+           que tu veux, la lumière reste éteinte. Si tu appuies fort,
+           l'interrupteur bascule, la lumière s'allume, toujours à la même
+           puissance.</p>
+          <p class="temps-parcours">Une fois le message transmis, le neurone est tout de suite prêt à
+           transmettre de nouveau.</p>
         </div>
       </div>
 
@@ -463,20 +465,20 @@
           <p class="temps-parcours">Une fois partie, l'impulsion descend le long de
            l'<strong class="mot">axone</strong>. Un neurone a des milliers
            d'entrées, mais <strong>un seul axone</strong>.</p>
-          <p class="temps-parcours">Cette impulsion est bien un signal
+          <p class="temps-parcours">Cette impulsion est un signal
            <strong class="mot">électrique</strong>. Mais pas comme dans un
-           câble : c'est un basculement qui se propage, de proche en
-           proche.</p>
+           câble&nbsp;: elle se propage de proche en proche.</p>
           <p class="temps-parcours" data-demo="lent">Sur un axone nu, c'est lent. Beaucoup trop lent
            pour tes deux centièmes de seconde.</p>
-          <p class="temps-parcours">D'où ceci : une gaine, posée par morceaux le long de l'axone. On
-           l'appelle la <strong class="mot">myéline</strong>.</p>
+          <p class="temps-parcours">Mais le neurone a une astuce&nbsp;: une gaine, posée par morceaux le
+           long de l'axone. On l'appelle la
+           <strong class="mot">myéline</strong>.</p>
           <div class="temps-parcours interaction" data-interaction="myeline">
           <p>À toi. Ajoute de la myéline jusqu'à ce que le message arrive à
              temps.</p>
           <p class="chrono-defi">
             <span class="chrono-valeur" data-chrono-valeur>0,51 s</span>
-            <span class="chrono-cible caption">Objectif : <strong>0,02 s</strong>,
+            <span class="chrono-cible caption">Objectif&nbsp;: <strong>0,02 s</strong>,
               le chiffre du premier écran.
               <span data-chrono-etat></span></span>
           </p>
@@ -491,10 +493,11 @@
           </div>
           <p class="sr-only" aria-live="polite" data-annonce-myeline></p>
         </div>
-          <p class="temps-parcours">Tu as vu ? Tant qu'il reste un bout à découvert, le message y
-           perd tout son temps. Il faut la gaine <strong>partout</strong>.
-           Alors le signal saute d'un morceau au suivant au lieu de ramper :
-           jusqu'à <strong>cinquante fois plus vite</strong>.</p>
+          <p class="temps-parcours">Tu as vu&nbsp;? Tant qu'il reste un bout à découvert, le message
+           ralentit à cet endroit. Il faut de la myéline
+           <strong>partout</strong>. Grâce à ça, le signal saute d'un morceau
+           au suivant&nbsp;: jusqu'à <strong>cinquante fois plus vite</strong> que
+           s'il n'y avait pas de myéline.</p>
           <p class="temps-parcours">Voilà pourquoi ça va si vite.</p>
         </div>
       </div>
@@ -504,20 +507,21 @@
           <h3 class="temps-parcours partie-titre">Les terminaisons<span class="sous-titre">Là où le message passe à la cellule suivante</span></h3>
           <p class="temps-parcours">Tout en bas, l'axone se divise en petites branches, chacune finie
            par un renflement.</p>
-          <p class="temps-parcours" data-cadrage="synapse">Et là, surprise : la cellule suivante
+          <p class="temps-parcours" data-cadrage="synapse">Et là, surprise&nbsp;: la cellule suivante
            n'est pas collée. Il reste un vide.</p>
-          <p class="temps-parcours" data-synapse="messagers">Alors le message change de forme : il
+          <p class="temps-parcours" data-synapse="messagers">Alors le message change de forme&nbsp;: il
            devient chimique. Le renflement libère des
            <strong class="mot">messagers</strong> qui traversent le vide et
            vont toucher la cellule d'en face.</p>
-          <p class="temps-parcours" data-synapse="suivante" data-cadrage="terminaisons">Et de
-           l'autre côté, tout recommence.</p>
+          <p class="temps-parcours" data-synapse="suivante" data-cadrage="terminaisons">L'information
+           est transmise, le neurone suivant s'active, et tout
+           recommence&nbsp;!</p>
         </div>
       </div>
 
       <div class="etape-texte" id="etape-muscle" data-vue="muscle">
         <div class="etape-contenu">
-          <p class="temps-parcours lead">Le dernier maillon de la chaîne ne parle pas à un
+          <p class="temps-parcours lead">Le dernier neurone de la chaîne ne parle pas à un
            neurone. Il parle à un muscle.</p>
         </div>
       </div>
@@ -540,7 +544,7 @@
 
       <div class="etape-texte" id="etape-clic" data-vue="clic">
         <div class="etape-contenu">
-          <p class="temps-parcours lead">Tout ça, pour un clic. Pas mal, non ?</p>
+          <p class="temps-parcours lead">Tout ça, pour un clic. Pas mal, non&nbsp;?</p>
           <div class="temps-parcours fin">
           <button type="button" class="bouton-entree" data-rejouer>Clique</button>
         </div>
@@ -557,16 +561,16 @@
             partent dans toutes les directions. C'est par là que le message
             arrive. Des milliers d'autres neurones parlent à celui-ci.</li>
           <li><strong>Le corps cellulaire.</strong> Le rond où convergent les
-            branches. Chaque message qui arrive le fait monter un peu. Passé
-            un niveau, le seuil, une impulsion part vers le bas, toujours
-            pareille. En dessous, rien ne part.</li>
+            branches. Les messages reçus s'additionnent&nbsp;: chacun le fait monter
+            un peu, puis ça redescend. Passé un niveau, le seuil, une impulsion
+            part vers le bas, toujours pareille. En dessous, rien ne part.</li>
           <li><strong>L'axone.</strong> Le fil unique qui descend du corps
-            cellulaire. L'impulsion y descend : c'est un signal électrique,
-            mais pas comme dans un câble. Sur un axone nu c'est lent ; une
+            cellulaire. L'impulsion y descend&nbsp;: c'est un signal électrique,
+            mais pas comme dans un câble. Sur un axone nu c'est lent&nbsp;; une
             gaine posée par morceaux, la myéline, le rend rapide.</li>
           <li><strong>Les terminaisons.</strong> Tout en bas, l'axone se divise
             en petites branches finies par un renflement. La cellule suivante
-            n'est pas collée : des messagers chimiques traversent le vide, et
+            n'est pas collée&nbsp;: des messagers chimiques traversent le vide, et
             de l'autre côté tout recommence.</li>
         </ol>
       </details>
@@ -584,10 +588,10 @@
     <div class="wrap">
       <h2 id="quiz-titre">Cinq questions</h2>
       <p class="quiz-intro">Pas de note, pas de chrono. Tu peux te tromper
-        autant que tu veux : à chaque réponse, une explication.</p>
+        autant que tu veux&nbsp;: à chaque réponse, une explication.</p>
 
         <fieldset class="quiz-question" id="question-sens" data-bonne="a">
-          <legend><span class="numero">1.</span> Dans un neurone, le message circule dans quel sens ?</legend>
+          <legend><span class="numero">1.</span> Dans un neurone, le message circule dans quel sens&nbsp;?</legend>
           <div class="choix">
             <label class="choix-item">
               <input type="radio" name="q-sens" value="a">
@@ -604,12 +608,12 @@
           </div>
           <div class="reponse" aria-live="polite">
             <p class="verdict" hidden></p>
-            <p class="explication"><span class="sans-js">Réponse. </span><strong>Des dendrites vers l'axone.</strong> Toujours dans ce sens, jamais l'inverse. C'est pour ça que le neurone est dessiné à la verticale sur ce site : il descend, comme le message.</p>
+            <p class="explication"><span class="sans-js">Réponse. </span><strong>Des dendrites vers l'axone.</strong> Toujours dans ce sens, jamais l'inverse. C'est pour ça que le neurone est dessiné à la verticale sur ce site&nbsp;: il descend, comme le message.</p>
           </div>
         </fieldset>
 
         <fieldset class="quiz-question" id="question-seuil" data-bonne="b">
-          <legend><span class="numero">2.</span> Deux neurones dépassent leur seuil. Le premier le dépasse tout juste, le second le dépasse très largement. Que se passe-t-il ?</legend>
+          <legend><span class="numero">2.</span> Deux neurones dépassent leur seuil. Le premier le dépasse tout juste, le second le dépasse très largement. Que se passe-t-il&nbsp;?</legend>
           <div class="choix">
             <label class="choix-item">
               <input type="radio" name="q-seuil" value="a">
@@ -626,12 +630,12 @@
           </div>
           <div class="reponse" aria-live="polite">
             <p class="verdict" hidden></p>
-            <p class="explication"><span class="sans-js">Réponse. </span><strong>Les deux envoient exactement la même impulsion.</strong> C'est la loi du tout ou rien. Comme un interrupteur : appuyer plus fort n'allume pas la lumière plus fort. Ce qu'un neurone fait varier, ce n'est pas la force de son impulsion, c'est le <strong>nombre</strong> d'impulsions qu'il envoie.</p>
+            <p class="explication"><span class="sans-js">Réponse. </span><strong>Les deux envoient exactement la même impulsion.</strong> C'est la loi du tout ou rien. Comme un interrupteur&nbsp;: appuyer plus fort n'allume pas la lumière plus fort. Ce qu'un neurone fait varier, ce n'est pas la force de son impulsion, c'est le <strong>nombre</strong> d'impulsions qu'il envoie.</p>
           </div>
         </fieldset>
 
         <fieldset class="quiz-question" id="question-myeline" data-bonne="a">
-          <legend><span class="numero">3.</span> À quoi sert la myéline ?</legend>
+          <legend><span class="numero">3.</span> À quoi sert la myéline&nbsp;?</legend>
           <div class="choix">
             <label class="choix-item">
               <input type="radio" name="q-myeline" value="a">
@@ -648,12 +652,12 @@
           </div>
           <div class="reponse" aria-live="polite">
             <p class="verdict" hidden></p>
-            <p class="explication"><span class="sans-js">Réponse. </span><strong>À faire voyager le message beaucoup plus vite.</strong> Avec elle, le signal saute d'un morceau au suivant au lieu de ramper. Jusqu'à cinquante fois plus vite. Et il en faut sur <strong>tout</strong> le trajet : s'il reste un bout à découvert, le message y perd presque tout son temps.</p>
+            <p class="explication"><span class="sans-js">Réponse. </span><strong>À faire voyager le message beaucoup plus vite.</strong> Avec elle, le signal saute d'un morceau au suivant. Jusqu'à cinquante fois plus vite. Et il en faut sur <strong>tout</strong> le trajet&nbsp;: s'il reste un bout à découvert, le message ralentit à cet endroit.</p>
           </div>
         </fieldset>
 
         <fieldset class="quiz-question" id="question-synapse" data-bonne="b">
-          <legend><span class="numero">4.</span> Entre deux neurones, qu'est-ce qui franchit le vide qui les sépare ?</legend>
+          <legend><span class="numero">4.</span> Entre deux neurones, qu'est-ce qui franchit le vide qui les sépare&nbsp;?</legend>
           <div class="choix">
             <label class="choix-item">
               <input type="radio" name="q-synapse" value="a">
@@ -675,7 +679,7 @@
         </fieldset>
 
         <fieldset class="quiz-question" id="question-centaines" data-bonne="c">
-          <legend><span class="numero">5.</span> Pour que ton doigt appuie sur l'écran, combien de neurones ont travaillé ?</legend>
+          <legend><span class="numero">5.</span> Pour que ton doigt appuie sur l'écran, combien de neurones ont travaillé&nbsp;?</legend>
           <div class="choix">
             <label class="choix-item">
               <input type="radio" name="q-centaines" value="a">
@@ -727,7 +731,7 @@
      attendant leur apparition animée. Si ce module ne se charge pas, 404 ou
      erreur de syntaxe, personne ne les révélerait jamais. On retire donc la
      classe, et la page redevient celle du visiteur sans JavaScript. -->
-<script type="module" src="js/main.js?v=c1a2e0d5"
+<script type="module" src="js/main.js?v=7d0d5100"
         onerror="document.documentElement.className='no-js'"></script>
 
 </body>

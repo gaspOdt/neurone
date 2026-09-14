@@ -28,7 +28,7 @@
    s'arrête tout seul.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=c1a2e0d5';
+import { mouvementReduit } from './a11y.js?v=7d0d5100';
 
 /* Combien de messages, arrivés assez vite, font atteindre le seuil. Choisi
    pour que le curseur laisse une vraie marge en dessous (on voit monter et
@@ -141,15 +141,15 @@ export function initSeuil() {
       gsap.fromTo(traitsCourbe, { drawSVG: '0% 0%' },
         { drawSVG: '0% 100%', duration: 0.9, ease: 'power1.inOut', overwrite: 'auto' });
     }
-    /* Le corps se vide juste après le départ : il se rallume aussitôt,
-       prêt pour le message suivant (temps 11). */
+    /* Le corps se vide juste après le départ : le neurone est tout de suite
+       prêt à transmettre de nouveau (temps 11). */
     vider(0.5);
   }
 
   /** Un message arrive : il monte le niveau d'un cran, jusqu'au plafond.
       Le plafond vaut 1 pour le curseur, et reste SOUS le seuil pour la
-      démonstration du temps 7 : « un seul ne suffit jamais », et trois non
-      plus. Sans plafond, deux démonstrations rejouées coup sur coup au
+      démonstration du temps 7 : trois messages ne suffisent pas à partir.
+      Sans plafond, deux démonstrations rejouées coup sur coup au
       défilement s'additionnaient et faisaient partir une impulsion sans
       aucun geste du visiteur, ce que la phrase dément. */
   /* Juste après un départ, les arrivées ne comptent pas pendant un court
@@ -256,8 +256,8 @@ export function initSeuil() {
   if (plus)  plus.addEventListener('click',  () => appliquer(Number(curseur.value) + 1));
 
   /* --- La démonstration du temps 7 ---------------------------------------
-     Quand la phrase « chaque message qui arrive le fait monter un peu »
-     apparaît, trois messages arrivent l'un après l'autre : le corps monte
+     Quand la phrase « les messages reçus s'additionnent » apparaît, trois
+     messages arrivent l'un après l'autre : le corps monte
      un peu, puis se vide. Déclenché par l'arrivée du temps au défilement,
      jamais par un délai. Remonter au dessus de la phrase remet le corps au
      repos. */

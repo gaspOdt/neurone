@@ -30,7 +30,7 @@
    la seule couleur : la cible affiche aussi le mot « atteint ».
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=c1a2e0d5';
+import { mouvementReduit } from './a11y.js?v=7d0d5100';
 
 const SEGMENTS = 6;
 const LONGUEUR_M = 1;          /* non affichée au visiteur */

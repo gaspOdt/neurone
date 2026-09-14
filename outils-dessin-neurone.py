@@ -7,7 +7,7 @@ l'écran pendant que le texte défile, la caméra se déplaçant sur chaque part
 Lancer :  python3 outils-dessin-neurone.py     (macOS, Linux)
           python outils-dessin-neurone.py      (Windows)
 """
-import io, os, sys
+import io, os, re, sys
 
 # Windows : imposer l'UTF-8 sur la sortie.
 #
@@ -459,7 +459,7 @@ RECIT_DEBUT = '''  <!-- ========================================================
                Demande de l'utilisateur. Il disparaît avec le bouton, au clic.
                Le nom du site n'est PAS encore choisi (README) : ce titre est
                PROVISOIRE, repris de la balise title. -->
-          <h1 class="titre-site">Comment un neurone transmet l'information</h1>
+          <h1 class="titre-site">Comment un neurone transmet l'information du mouvement&nbsp;?</h1>
           <p class="lead">Clique sur ce bouton.</p>
           <button type="button" class="bouton-entree" data-entree>Clique</button>
         </div>
@@ -571,35 +571,36 @@ RECIT_DEBUT = '''  <!-- ========================================================
 
 ETAPES = [
     ('chaine', None, None, [
-        '''<p class="lead">Ce chemin n'est pas un fil. C'est une chaîne de
-           cellules, mises bout à bout.</p>''']),
+        '''<p class="lead">Ce chemin est une chaîne de cellules, mises bout à
+           bout.</p>''']),
 
     ('cellule', None, None, [
         '''<p class="lead">En voici une. On l'appelle un
            <strong class="mot">neurone</strong>.</p>''']),
 
-    ('plan', 'Le neurone', 'La cellule qui fait voyager le message', [
+    ('plan', 'Le neurone', 'La cellule qui fait voyager le message du mouvement', [
         '''<p>Il est très fort pour une chose : faire passer un message d'un
-           bout à l'autre. Suivons ce message, dans l'ordre.</p>''']),
+           bout à l'autre, puis au suivant de la chaîne. Suivons ce message,
+           dans l'ordre.</p>''']),
 
     ('dendrites', 'Les dendrites', 'Là où les messages arrivent', [
         '''<p>Le message arrive par le haut, dans ces branches fines. On les
            appelle les <strong class="mot">dendrites</strong>.</p>''',
         # [S2]. Surtout pas « des milliers de messages en même temps », qui
         # confondrait le nombre de connexions et le nombre de messages.
-        '''<p>Elles collectent, et elles collectent beaucoup. Ce n'est pas une
-           simple chaîne : <strong>des milliers d'autres neurones</strong>
-           parlent à celui-ci.</p>''']),
+        '''<p>Elles collectent les messages, et elles en collectent beaucoup.
+           Ce n'est pas une simple chaîne : <strong>des milliers d'autres
+           neurones</strong> parlent à celui-ci.</p>''']),
 
-    ('soma', 'Le corps cellulaire', 'Là où le neurone décide de transmettre', [
+    ('soma', 'Le corps cellulaire', "Là où le neurone décide de transmettre l'information", [
         '''<p>Tout ce que les dendrites ont récolté converge ici, dans le
            <strong class="mot">corps cellulaire</strong>.</p>''',
         # Quand cette phrase apparaît, trois messages arrivent l'un après
         # l'autre : le corps monte un peu à chacun, puis se vide. C'est la
         # sommation, et le retour au repos évite de faire croire à une
         # accumulation permanente. Joué par js/seuil.js.
-        '''<p data-demo="messages">Chaque message qui arrive le fait monter
-           un peu. Un seul ne suffit jamais.</p>''',
+        '''<p data-demo="messages">Les messages reçus s'additionnent : chacun
+           fait monter le corps un peu, puis ça redescend.</p>''',
         # LE PREMIER MOMENT INTERACTIF, 1B temps 8. Un curseur natif, donc
         # pilotable aux flèches du clavier, PLUS deux boutons : aucune
         # dépendance au glissement (WCAG 2.5.7). Valeur annoncée en aria-live.
@@ -630,16 +631,17 @@ ETAPES = [
         # long de l'axone » : l'axone n'est nommé qu'en 1C. Aucune valeur de
         # seuil affichée, [S6] : ce n'est pas une constante.
         '''<p class="t-seuil">Il y a un niveau à atteindre. On l'appelle le
-           <strong class="mot">seuil</strong>. En dessous, il ne se passe
-           rien. Au-dessus, quelque chose part vers le bas : une
+           <strong class="mot">seuil</strong>. En dessous, il ne se passe rien.
+           Au-dessus, quelque chose part vers le bas : une
            <strong class="mot">impulsion</strong>. Et elle part
-           <strong>toujours pareil</strong>, pas plus fort si tu pousses
-           plus.</p>''',
-        '''<p>Comme un interrupteur : tu peux appuyer doucement autant que tu
-           veux, la lumière reste éteinte. Passé le déclic, elle s'allume. Et
-           toujours à la même intensité.</p>''',
-        '''<p>Sauf que le neurone, lui, se rallume aussitôt. Prêt pour le
-           message suivant.</p>''']),
+           <strong>toujours pareil</strong>, peu importe le nombre de messages
+           reçus dans les dendrites.</p>''',
+        '''<p>C'est comme un interrupteur : tu peux appuyer doucement autant
+           que tu veux, la lumière reste éteinte. Si tu appuies fort,
+           l'interrupteur bascule, la lumière s'allume, toujours à la même
+           puissance.</p>''',
+        '''<p>Une fois le message transmis, le neurone est tout de suite prêt à
+           transmettre de nouveau.</p>''']),
 
     ('axone', "L'axone", "Le long câble qui emporte l'impulsion", [
         # « Un seul axone » : vérifié. Surtout pas « des centaines de
@@ -650,17 +652,17 @@ ETAPES = [
         # Seul endroit du site où le signal est dit électrique. Affirmer
         # d'abord, corriger ensuite : nier une idée que le visiteur n'a pas
         # encore reviendrait à la lui souffler.
-        '''<p>Cette impulsion est bien un signal
+        '''<p>Cette impulsion est un signal
            <strong class="mot">électrique</strong>. Mais pas comme dans un
-           câble : c'est un basculement qui se propage, de proche en
-           proche.</p>''',
+           câble : elle se propage de proche en proche.</p>''',
         # [S3], 0,5 à 3 m/s sans myéline. Quand la phrase apparaît, une
         # impulsion descend l'axone nu, lentement : js/myeline.js.
         '''<p data-demo="lent">Sur un axone nu, c'est lent. Beaucoup trop lent
            pour tes deux centièmes de seconde.</p>''',
         # Premier endroit du site où le mot apparaît.
-        '''<p>D'où ceci : une gaine, posée par morceaux le long de l'axone. On
-           l'appelle la <strong class="mot">myéline</strong>.</p>''',
+        '''<p>Mais le neurone a une astuce : une gaine, posée par morceaux le
+           long de l'axone. On l'appelle la
+           <strong class="mot">myéline</strong>.</p>''',
         # LE SECOND MOMENT INTERACTIF, 1C temps 16. Six segments à ajouter un
         # par un ; à chaque ajout l'impulsion repart du haut et le chronomètre
         # affiche le temps du modèle. La cible est le chiffre du premier
@@ -689,10 +691,11 @@ ETAPES = [
         </div>''',
         # Temps 17 : la leçon que le visiteur vient de découvrir en
         # manipulant, énoncée après et non avant. [S3] pour le rapport de 50.
-        '''<p>Tu as vu ? Tant qu'il reste un bout à découvert, le message y
-           perd tout son temps. Il faut la gaine <strong>partout</strong>.
-           Alors le signal saute d'un morceau au suivant au lieu de ramper :
-           jusqu'à <strong>cinquante fois plus vite</strong>.</p>''',
+        '''<p>Tu as vu ? Tant qu'il reste un bout à découvert, le message
+           ralentit à cet endroit. Il faut de la myéline
+           <strong>partout</strong>. Grâce à ça, le signal saute d'un morceau
+           au suivant : jusqu'à <strong>cinquante fois plus vite</strong> que
+           s'il n'y avait pas de myéline.</p>''',
         '''<p>Voilà pourquoi ça va si vite.</p>''']),
 
     ('terminaisons', 'Les terminaisons', 'Là où le message passe à la cellule suivante', [
@@ -708,13 +711,14 @@ ETAPES = [
            <strong class="mot">messagers</strong> qui traversent le vide et
            vont toucher la cellule d'en face.</p>''',
         # La cellule suivante s'illumine en bleu, et le regard s'élargit.
-        '''<p data-synapse="suivante" data-cadrage="terminaisons">Et de
-           l'autre côté, tout recommence.</p>''']),
+        '''<p data-synapse="suivante" data-cadrage="terminaisons">L'information
+           est transmise, le neurone suivant s'active, et tout
+           recommence&nbsp;!</p>''']),
 
     # ACTE 2, le retour au corps. Referme la boucle, et répare la
     # simplification « un neurone, une impulsion » avant qu'elle ne reste.
     ('muscle', None, None, [
-        '''<p class="lead">Le dernier maillon de la chaîne ne parle pas à un
+        '''<p class="lead">Le dernier neurone de la chaîne ne parle pas à un
            neurone. Il parle à un muscle.</p>''']),
 
     ('doigt', 'Ton doigt', 'Là où le message arrive, et où tout a commencé', [
@@ -797,9 +801,9 @@ RECIT_FIN = '''
             partent dans toutes les directions. C'est par là que le message
             arrive. Des milliers d'autres neurones parlent à celui-ci.</li>
           <li><strong>Le corps cellulaire.</strong> Le rond où convergent les
-            branches. Chaque message qui arrive le fait monter un peu. Passé
-            un niveau, le seuil, une impulsion part vers le bas, toujours
-            pareille. En dessous, rien ne part.</li>
+            branches. Les messages reçus s'additionnent : chacun le fait monter
+            un peu, puis ça redescend. Passé un niveau, le seuil, une impulsion
+            part vers le bas, toujours pareille. En dessous, rien ne part.</li>
           <li><strong>L'axone.</strong> Le fil unique qui descend du corps
             cellulaire. L'impulsion y descend : c'est un signal électrique,
             mais pas comme dans un câble. Sur un axone nu c'est lent ; une
@@ -866,10 +870,9 @@ QUESTIONS = [
       "À protéger l'axone des chocs",
       "À fabriquer l'impulsion"], 0,
      '''<strong>À faire voyager le message beaucoup plus vite.</strong> Avec
-        elle, le signal saute d'un morceau au suivant au lieu de ramper.
-        Jusqu'à cinquante fois plus vite. Et il en faut sur
-        <strong>tout</strong> le trajet : s'il reste un bout à découvert, le
-        message y perd presque tout son temps.'''),
+        elle, le signal saute d'un morceau au suivant. Jusqu'à cinquante fois
+        plus vite. Et il en faut sur <strong>tout</strong> le trajet : s'il
+        reste un bout à découvert, le message ralentit à cet endroit.'''),
 
     ('synapse', "Entre deux neurones, qu'est-ce qui franchit le vide qui les "
                 "sépare ?",
@@ -957,6 +960,29 @@ QUIZ = '''  <!-- ===============================================================
 
 # ---------------------------------------------------------------------------
 
+def insecables(html):
+    """Une espace insécable devant : ; ? et !, dans le TEXTE seulement.
+
+    La typographie française met une espace avant ces signes, et le code du
+    récit l'écrit comme une espace ordinaire. Le navigateur a donc le droit
+    de couper la ligne juste avant le signe, et il le fait : sur téléphone,
+    « s'additionnent » finissait une ligne et la suivante commençait par
+    « : chacun ». Vu sur la capture du 14 septembre 2026, invisible dans
+    toutes les mesures.
+
+    On traite ici, à la génération, plutôt que dans chaque phrase : le
+    défaut ne dépend que de la largeur de l'écran, donc toute phrase peut le
+    produire sur un téléphone qu'on n'a pas essayé, y compris une phrase
+    écrite plus tard. Les balises, leurs attributs, les scripts et les
+    styles ne sont pas touchés ; les blancs d'un retour à la ligne du code
+    source, juste avant le signe, sont remplacés avec le reste.
+    """
+    morceaux = re.split(r"(<script\b.*?</script>|<style\b.*?</style>|<[^>]+>)",
+                        html, flags=re.S)
+    return "".join(m if m.startswith("<") else re.sub(r"[ \t\n]+([:;?!])", r"&nbsp;\1", m)
+                   for m in morceaux)
+
+
 def regenerer():
     chemin = os.path.join(RACINE, "index.html")
     with io.open(chemin, encoding="utf-8") as f:
@@ -964,7 +990,7 @@ def regenerer():
 
     debut = s.index('<main id="contenu">') + len('<main id="contenu">')
     fin = s.index('</main>')
-    s = s[:debut] + "\n\n" + RECIT + "\n" + QUIZ + "\n" + s[fin:]
+    s = s[:debut] + "\n\n" + insecables(RECIT + "\n" + QUIZ) + "\n" + s[fin:]
 
     # newline="\n" est OBLIGATOIRE, ce n'est pas un détail de style.
     # Sans lui, Python traduit chaque saut de ligne en CRLF sur Windows. Le

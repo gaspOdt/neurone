@@ -208,7 +208,41 @@ s'appliquent tels quels ; six sont soumis à l'utilisateur parce qu'ils
 touchent un choix documenté dans `02-CONTENU.md` : 014, 022, 033 (le
 garde-fou « pas comme dans un câble »), 035, 046 et 047.
 
-**En attente :** ses arbitrages sur ces six blocs. Rien n'est encore appliqué au site.
+**Arbitrages de l'utilisateur :** « aligne sur le nouveau titre. ok pour 14, 22 ok,
+33 ok, 35 ok, 46 47 ok ok pour tout ». Donc ses dix corrections telles quelles,
+les six propositions retenues (033 garde le garde-fou « pas comme dans un
+câble », 046 garde sa fin d'origine), le titre de l'onglet aligné sur le
+nouveau titre, et trois textes mis en cohérence : la description en texte du
+corps cellulaire, l'explication de la question 3, et `02-CONTENU.md`.
+
+**Appliqué et vérifié.** Relu dans la page régénérée : les 18 blocs changés
+comme approuvé, l'ancien texte absent, tous les autres blocs intacts, les neuf
+mots-clés magenta, aucun tiret long. Batterie : 37 sur 37. Captures regardées
+aux phrases changées.
+
+**Deux défauts trouvés en vérifiant, corrigés :**
+
+1. **Le bouton « Clique » ne répondait plus à un vrai clic** (contrôles 13 et
+   14 en échec). Le titre plus long d'une ligne a fait descendre le bouton de
+   19 px, et son centre est tombé sous la pile du bas, qui passait devant tout
+   le cache d'ouverture sans se voir. Le défaut était latent : la moitié basse
+   du bouton était déjà morte avant. Corrigé en remontant la pile du haut tant
+   qu'on n'est pas entré. Vérifié sur toute la surface du bouton, aux tailles
+   320 × 568, 360 × 640, 390 × 844, 1440 × 722 et 1280 × 620, dans les deux
+   modes, avec un vrai clic.
+2. **Une ligne commençait par « : chacun ».** Espace ordinaire devant le deux
+   points. `insecables()` pose désormais l'espace insécable à la génération,
+   devant `: ; ? !`, sur tout le récit : 30 espaces concernées. Aucune ligne ne
+   commence plus par l'un de ces signes, mesuré à 390 et 320 px.
+
+**Au passage :** le numéro de version des CSS et JS n'avait pas été mis à jour
+depuis le 11 septembre malgré tous les changements de l'autre machine ; il est
+recalculé sur tous les fichiers, en ignorant les numéros eux-mêmes.
+
+**Vu, pas corrigé, déjà connu :** à 320 × 568, le dessin et les trois rangs de
+boutons laissent environ deux lignes de lecture, et le bas du paragraphe
+précédent reste visible, coupé, sous les boutons pendant qu'il glisse derrière
+le dessin. C'est le constat bloquant n° 1 de l'audit, sous une autre taille.
 
 
 ### 11 septembre 2026, soir : une seule mise en page

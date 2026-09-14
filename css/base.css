@@ -736,6 +736,24 @@ html.js:not(.entre) .porte-entree {
   pointer-events: auto;
 }
 
+/* LE CACHE D'OUVERTURE DOIT ETRE AU-DESSUS DE TOUT LE RECIT, Y COMPRIS AU CLIC.
+
+   Son z-index de 5 ne suffit pas : il se compte A L'INTERIEUR de la pile du
+   haut, qui forme son propre empilement au niveau 1. La pile du bas, au meme
+   niveau et plus loin dans le document, se peignait donc par-dessus le cache
+   entier. Rien ne se voyait, ses textes etant encore a opacite nulle, mais
+   elle interceptait les clics : un vrai clic de souris au centre du bouton
+   « Clique » tombait sur elle, et le site ne s'ouvrait jamais.
+
+   Le defaut etait latent. Avec l'ancien titre, la moitie basse du bouton
+   etait deja morte ; le titre plus long du 14 septembre 2026, une ligne de
+   plus, a fait descendre le bouton de 19 px et mis son centre dans la zone
+   morte. Trouve par le controle 13, qui clique avec un vrai bouton de souris.
+
+   Remonter la pile du haut tant qu'on n'est pas entre rend vraie la promesse
+   du commentaire ci-dessus : aucun element du recit ne passe devant le cache. */
+html.js:not(.entre) .recit-scene .pile-haut { z-index: 2; }
+
 /* Une fois clique, il disparait et laisse la place a la suite.
 
    `visibility: hidden` n'est pas un doublon d'`opacity: 0`, et la

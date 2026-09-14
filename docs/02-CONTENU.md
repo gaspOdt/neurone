@@ -181,9 +181,9 @@ fait par la taille, la graisse et le blanc.
 
 | Titre | Sous-titre |
 |---|---|
-| **Le neurone** | La cellule qui fait voyager le message |
+| **Le neurone** | La cellule qui fait voyager le message du mouvement |
 | **Les dendrites** | Là où les messages arrivent |
-| **Le corps cellulaire** | Là où le neurone décide de transmettre |
+| **Le corps cellulaire** | Là où le neurone décide de transmettre l'information |
 | **L'axone** | Le long câble qui emporte l'impulsion |
 | **Les terminaisons** | Là où le message passe à la cellule suivante |
 | **Ton doigt** | Là où le message arrive, et où tout a commencé |
@@ -331,9 +331,9 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | Ce chemin n'est pas un fil. C'est une chaîne de cellules, mises bout à bout. |
+| **Texte** | Ce chemin est une chaîne de cellules, mises bout à bout. |
 | **Graphique** | Le trait, devenu large, se révèle composé de plusieurs formes alignées. |
-| **Science** | **Vérifié.** Corrige d'avance l'erreur spontanée la plus fréquente chez les enfants : le câble continu. |
+| **Science** | **Vérifié.** Affirme la chaîne dès le départ. La version précédente la posait contre l'image d'un fil (« ce chemin n'est pas un fil ») ; l'utilisateur a retiré cette négation à sa relecture du 14 septembre 2026. L'idée fausse du courant continu reste traitée à l'acte 1C, temps 13. |
 
 ### Temps 2 — la cellule
 
@@ -347,7 +347,7 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | Il est très fort pour une chose : faire passer un message d'un bout à l'autre. Suivons ce message, dans l'ordre. |
+| **Texte** | Il est très fort pour une chose : faire passer un message d'un bout à l'autre, puis au suivant de la chaîne. Suivons ce message, dans l'ordre. |
 | **Graphique** | **Les boutons du parcours apparaissent ici, et pas avant.** |
 | **Science** | **Simplification assumée.** Un neurone fait aussi autre chose. Rien à désapprendre. **Formulation surveillée** : on décrit une performance, jamais une intention. Écrire « il est bâti pour » sous-entendrait un concepteur, ce que le site ne dit nulle part. |
 
@@ -367,7 +367,7 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | Elles collectent, et elles collectent beaucoup. Ce n'est pas une simple chaîne : **des milliers d'autres neurones** parlent à celui-ci. |
+| **Texte** | Elles collectent les messages, et elles en collectent beaucoup. Ce n'est pas une simple chaîne : **des milliers d'autres neurones** parlent à celui-ci. |
 | **Graphique** | Des points **bleus** arrivent aux extrémités des dendrites, sporadiquement, et convergent vers le corps. |
 | **Science** | **Vérifié, [S2].** 20 000 à 30 000 épines dendritiques sur un neurone pyramidal humain. **Formulation surveillée** : « des milliers d'autres neurones lui parlent », et surtout **pas** « il reçoit des milliers de messages en même temps », qui confondrait le nombre de connexions avec le nombre de messages simultanés. **La phrase « ce n'est pas une simple chaîne » est indispensable** : l'acte 1 temps 1 vient d'installer l'image d'une file de cellules, et ce temps la corrige explicitement au lieu de la contredire en silence. |
 
@@ -394,7 +394,7 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | Chaque message qui arrive le fait monter un peu. Un seul ne suffit jamais. |
+| **Texte** | Les messages reçus s'additionnent : chacun fait monter le corps un peu, puis ça redescend. |
 | **Graphique** | Les points **bleus** arrivent, et à chaque arrivée **le corps se remplit un peu de bleu, par le bas, puis se vide**. Le remplissage rend visible ce qui « monte » : sans lui, le verbe n'aurait aucun référent à l'écran. |
 | **Science** | **Vérifié.** Sommation. Le retour à l'état initial entre deux messages est important : il évite de faire croire à une accumulation permanente. |
 
@@ -411,7 +411,7 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | Il y a un niveau à atteindre. On l'appelle le **seuil**. En dessous, il ne se passe rien. Au-dessus, quelque chose part vers le bas : une **impulsion**. Et elle part **toujours pareil**, pas plus fort si tu pousses plus. |
+| **Texte** | Il y a un niveau à atteindre. On l'appelle le **seuil**. En dessous, il ne se passe rien. Au-dessus, quelque chose part vers le bas : une **impulsion**. Et elle part **toujours pareil**, peu importe le nombre de messages reçus dans les dendrites. |
 | **Graphique** | La courbe reste affichée. Le curseur poussé plus haut redéclenche une impulsion **identique**, ce qui rend l'idée évidente sans l'expliquer. |
 | **Science** | **Vérifié.** Loi du tout ou rien. **Ce temps introduit deux mots**, « seuil » et « impulsion », chacun accompagné de sa définition dans la phrase même. Aucun des deux ne doit apparaître avant. |
 
@@ -419,7 +419,7 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | Comme un interrupteur : tu peux appuyer doucement autant que tu veux, la lumière reste éteinte. Passé le déclic, elle s'allume. Et toujours à la même intensité. |
+| **Texte** | C'est comme un interrupteur : tu peux appuyer doucement autant que tu veux, la lumière reste éteinte. Si tu appuies fort, l'interrupteur bascule, la lumière s'allume, toujours à la même puissance. |
 | **Graphique** | Aucun nouvel élément. Le texte s'ajoute sous les précédents. |
 | **Science** | Analogie, demandée par l'utilisateur. **Limite à surveiller** : un interrupteur reste allumé, pas le neurone. Le temps 11 la corrige. |
 
@@ -427,7 +427,7 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | Sauf que le neurone, lui, se rallume aussitôt. Prêt pour le message suivant. |
+| **Texte** | Une fois le message transmis, le neurone est tout de suite prêt à transmettre de nouveau. |
 | **Graphique** | Le corps cellulaire revient à son état de repos. |
 | **Science** | **Simplification assumée.** Escamote la période réfractaire, mais ne fait rien croire de faux. |
 
@@ -447,7 +447,7 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | Cette impulsion est bien un signal **électrique**. Mais pas comme dans un câble : c'est un basculement qui se propage, de proche en proche. |
+| **Texte** | Cette impulsion est un signal **électrique**. Mais pas comme dans un câble : elle se propage de proche en proche. |
 | **Graphique** | L'impulsion **bleue** avance par étapes visibles plutôt qu'en glissant. |
 | **Science** | **Garde-fou indispensable**, et **seul endroit où le site dit que le signal est électrique**. La formulation affirme d'abord, puis corrige : nier une idée que le visiteur n'a jamais eue reviendrait à la lui souffler. Le site ne détaille pas les ions, faute de temps, et cette phrase suffit à empêcher l'idée fausse du courant dans un câble. Elle prépare aussi le passage au chimique en 1D temps 21, qui n'aurait aucun relief sans elle. |
 
@@ -463,7 +463,7 @@ notion qui lui correspond.**
 
 | | |
 |---|---|
-| **Texte** | D'où ceci : une gaine, posée par morceaux le long de l'axone. On l'appelle la **myéline**. |
+| **Texte** | Mais le neurone a une astuce : une gaine, posée par morceaux le long de l'axone. On l'appelle la **myéline**. |
 | **Graphique** | La gaine se pose sur l'axone, en **vert**, par segments espacés. Premier vert du site. Le mot « myéline » en magenta dans le texte. |
 | **Science** | **Vérifié.** **Premier endroit du site où le mot apparaît**, conformément à la règle : aucune notion avant la section qui l'explique. |
 
@@ -584,7 +584,7 @@ verra quelqu'un manipuler quelque chose.
 
 | | |
 |---|---|
-| **Texte** | Tu as vu ? Tant qu'il reste un bout à découvert, le message y perd tout son temps. Il faut la gaine **partout**. Alors le signal saute d'un morceau au suivant au lieu de ramper : jusqu'à **cinquante fois plus vite**. |
+| **Texte** | Tu as vu ? Tant qu'il reste un bout à découvert, le message ralentit à cet endroit. Il faut de la myéline **partout**. Grâce à ça, le signal saute d'un morceau au suivant : jusqu'à **cinquante fois plus vite** que s'il n'y avait pas de myéline. |
 | **Graphique** | Comparaison côte à côte : l'axone nu du temps 14, en fantôme à l'**encre**, et celui que le visiteur vient d'équiper, en **vert**. Départ simultané. |
 | **Science** | **Vérifié, [S3].** Conduction saltatoire. Le rapport de 50 est l'ordre de grandeur entre 120 m/s et 2 à 3 m/s, présenté comme un « jusqu'à ». **Ce temps énonce la leçon que le visiteur vient de découvrir en manipulant**, plutôt que de l'affirmer avant. |
 
@@ -628,7 +628,7 @@ verra quelqu'un manipuler quelque chose.
 
 | | |
 |---|---|
-| **Texte** | Et de l'autre côté, tout recommence. |
+| **Texte** | L'information est transmise, le neurone suivant s'active, et tout recommence ! |
 | **Graphique** | La cellule suivante s'illumine en **bleu** à son tour, et le regard s'élargit sur la chaîne. |
 | **Science** | **Vérifié.** Reboucle sur le temps 1 de l'acte, la chaîne de cellules. |
 
@@ -643,7 +643,7 @@ devienne une idée fausse.**
 
 | | |
 |---|---|
-| **Texte** | Le dernier maillon de la chaîne ne parle pas à un neurone. Il parle à un muscle. |
+| **Texte** | Le dernier neurone de la chaîne ne parle pas à un neurone. Il parle à un muscle. |
 | **Graphique** | La caméra recule, la chaîne réapparaît, puis la silhouette de l'acte 0, à l'**encre**. |
 | **Science** | **Vérifié.** Jonction neuromusculaire. |
 
@@ -772,9 +772,9 @@ envoie.
 
 **Bonne réponse : à faire voyager le message beaucoup plus vite.**
 
-**Explication :** avec elle, le signal saute d'un morceau au suivant au lieu de
-ramper. Jusqu'à cinquante fois plus vite. Et il en faut sur **tout** le trajet :
-s'il reste un bout à découvert, le message y perd presque tout son temps.
+**Explication :** avec elle, le signal saute d'un morceau au suivant. Jusqu'à
+cinquante fois plus vite. Et il en faut sur **tout** le trajet : s'il reste un
+bout à découvert, le message ralentit à cet endroit.
 
 *Renvoie au défi du chronomètre, acte 1C. Vérifiée en [S3].*
 

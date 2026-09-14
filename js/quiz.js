@@ -21,7 +21,7 @@
    HTML ni le CSS seuls.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=c1a2e0d5';
+import { mouvementReduit } from './a11y.js?v=7d0d5100';
 
 /* Deux icônes de formes différentes, une coche et une croix, à l'encre.
    Un daltonien, une capture en noir et blanc ou un lecteur d'écran, qui lit

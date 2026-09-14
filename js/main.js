@@ -10,12 +10,12 @@
         reste entier et lisible.
    ========================================================================== */
 
-import { initA11y } from './a11y.js?v=c1a2e0d5';
-import { initRecit } from './recit.js?v=c1a2e0d5';
-import { initSeuil } from './seuil.js?v=c1a2e0d5';
-import { initMyeline } from './myeline.js?v=c1a2e0d5';
-import { initSynapse } from './synapse.js?v=c1a2e0d5';
-import { initQuiz } from './quiz.js?v=c1a2e0d5';
+import { initA11y } from './a11y.js?v=7d0d5100';
+import { initRecit } from './recit.js?v=7d0d5100';
+import { initSeuil } from './seuil.js?v=7d0d5100';
+import { initMyeline } from './myeline.js?v=7d0d5100';
+import { initSynapse } from './synapse.js?v=7d0d5100';
+import { initQuiz } from './quiz.js?v=7d0d5100';
 
 initA11y();
 

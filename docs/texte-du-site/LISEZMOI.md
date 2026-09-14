@@ -1,5 +1,14 @@
 # Le texte du site, en relecture
 
+> **État au 14 septembre 2026 : la relecture est appliquée.** Le document
+> corrigé est `texte-du-site-corrige.docx`, ses 16 changements dans
+> `changements.json`, et les arbitrages dans `docs/05-JOURNAL.md`.
+> **`original.json` ne correspond plus au site** : pour une nouvelle
+> relecture, refaire un relevé à partir de `index.html` avant d'envoyer un
+> document. Le relevé repère les blocs par numéro de ligne d'`index.html`,
+> ce qui casse dès que la page est régénérée : c'est arrivé une fois, et la
+> vérification a comparé l'ancien texte sans le dire. Repérer par le contenu.
+
 L'utilisateur corrige le texte du site dans un document Word, puis on reporte
 ses corrections dans le code. Ce dossier contient les deux pièces de cet
 aller-retour.

@@ -20,7 +20,7 @@
    Remonter les efface : rien ne reste d'un temps qu'on a quitté.
    ========================================================================== */
 
-import { mouvementReduit } from './a11y.js?v=c1a2e0d5';
+import { mouvementReduit } from './a11y.js?v=7d0d5100';
 
 /* Le renflement du milieu et le bord de la cellule d'en face, en coordonnées
    du dessin. Voir outils-dessin-neurone.py. */
